@@ -18,10 +18,6 @@ For setting up dependencies, follow the steps:
 - [`index.js`](index.js) - The server or the main entry point of the web application.
 
 ---
-If you have read this regardless of the role, **please** enter the JavaScript version you prefer to use in our group chat: <br>
-a. ES5 <br>
-b. ES6 <br>
-
-This is for me to confirm lang　(～￣▽￣)～ (Aaron)
+(●'◡'●) hi gois （￣︶￣）↗　
 
  
