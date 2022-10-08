@@ -17,7 +17,5 @@ For setting up dependencies, follow the steps:
 - [`views`](views) - This folder contains all hbs files to be rendered when requested from the server.
 - [`index.js`](index.js) - The server or the main entry point of the web application.
 
----
-(●'◡'●) hi gois （￣︶￣）↗　
 
  
