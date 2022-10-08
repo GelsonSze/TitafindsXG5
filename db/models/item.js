@@ -61,7 +61,9 @@ const itemSchema = new mongoose.Schema({
     },
 
     prodBarcodes:{
-
+        //Finalize with the client whether the data type for barcode should be string or not.
+        type: String,
+        required: true,
     }
 });
 
