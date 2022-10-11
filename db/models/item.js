@@ -4,66 +4,76 @@ const itemSchema = new mongoose.Schema({
     /*
         Database schema for the items of the user.
     */
-    prodID:{
+    id:{
         type: Number,
         required: true,
         unique: true,
     },
 
-    productName:{
+    image:{
+        type: String,
+    },
+    
+    name:{
         type: String,
         required: true,
     },
 
-    prodClassification:{
+    type:{
+        type: String,
+        required: true,
+    },
+
+    brand:{
+        type: String,
+    },
+
+    classification:{
         type: String, 
+    },
+
+    design:{
+        type: String,
+    },
+
+    size:{
+        type: Number,
+    },
+
+    weight:{
+        type: Number,
         required: true,
     },
 
-    prodDesign:{
+    quantity:{
+        type: Number,
+        required: true,
+    },
+
+    sellingType:{
         type: String,
         required: true,
     },
 
-    prodSize:{
+    purchasePrice:{
         type: Number,
-        required: true,
-    },
-
-    prodWeight:{
-        type: Number,
-        required: true,
-    },
-
-    prodQuantity:{
-        type: Number,
-        required: true,
-    },
-
-    initialPrice:{
-        type: Number,
-        required: true,
     },
 
     sellingPrice:{
         type: Number,
-        required: true,
     },
 
-    prodProfit:{
+    status:{
         type: Number,
         required: true,
     },
 
-    prodStatus:{
-        type: Number,
-        required: true,
-    },
-
-    prodBarcodes:{
-        //Finalize with the client whether the data type for barcode should be string or not.
+    productCode:{
         type: String,
-        required: true,
+    },
+
+    isAdmin:{
+        type: boolean,
     }
 });
 
