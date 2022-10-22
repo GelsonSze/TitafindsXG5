@@ -73,7 +73,7 @@ const itemSchema = new mongoose.Schema({
     },
 
     isAdmin:{
-        type: boolean,
+        type: Boolean,
     }
 });
 
