@@ -70,10 +70,7 @@ const itemSchema = new mongoose.Schema({
 
     productCode:{
         type: String,
-    },
-
-    isAdmin:{
-        type: Boolean,
+        required: true,
     }
 });
 
