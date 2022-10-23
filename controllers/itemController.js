@@ -1,7 +1,6 @@
 //Controller for items
 import mongoose from 'mongoose';
 import Item from '../model/schemas/item.js';
-
 const itemController = {
 
     getIndex: function(req, res){
