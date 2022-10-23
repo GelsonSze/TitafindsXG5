@@ -1,6 +1,6 @@
 //Controller for items
 import mongoose from 'mongoose';
-import itemModel from '../db/models/item.js';
+import Item from '../db/models/item.js';
 
 const itemController = {
 
@@ -10,10 +10,10 @@ const itemController = {
 
     // Adds item passed in a post request into the database
     addItem: async function(req, res){
-        var addedItem = new itemModel(req.body.addedItem);
+        var addedItem = new Item(req.body.addedItem);
         try{
-            var item = await addedItem.save();
-            console.log("Added item: " + item);
+            var newItem = await addedItem.save();
+            console.log("Added item: " + newItem);
         }catch(error){
             console.log(error);
         }

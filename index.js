@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 
 //Database module
 import mongoose from 'mongoose';
-import { connectDB } from './db/models/db.js';
+import { connectDB } from './db/db.js';
 
 //Import directory path and url
 import { fileURLToPath } from 'url';
