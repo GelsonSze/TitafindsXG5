@@ -1,6 +1,6 @@
 //Controller for items
 import mongoose from 'mongoose';
-import Item from '../db/models/item.js';
+import Item from '../model/schemas/item.js';
 
 const itemController = {
 

@@ -1,17 +1,13 @@
 import mongoose from "mongoose";
 
 const itemSchema = new mongoose.Schema({
-    /*
-        Database schema for the items of the user.
-    */
-    id:{
-        type: Number,
-        required: true,
-        unique: true,
-    },
-
     image:{
         type: String,
+    },
+    
+    code:{
+        type: String,
+        required: true,
     },
     
     name:{
@@ -67,11 +63,8 @@ const itemSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-
-    productCode:{
-        type: String,
-        required: true,
-    }
+    
+    mixed: mongoose.Schema.Types.Mixed,
 });
 
 export default mongoose.model("Item", itemSchema);
