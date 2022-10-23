@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="shortcut icon" href="/images/icon/porum.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/base.css">
+    {{#each styles}}
+        <link rel="stylesheet" href="/css/{{this}}">
+    {{/each}}
+
+    <script src="https://kit.fontawesome.com/e5cabd2361.js" crossorigin="anonymous"></script>
+    <script src="/js/utils.js"></script>
+    <script src="/js/base.js"></script>    
+    {{#each scripts}}
+        <script src="/js/{{this}}"></script>
+    {{/each}}
+    <title>{{title}} - Porum</title>
+</head>
+<body>
+    {{{body}}}
+</body>
+</html>
