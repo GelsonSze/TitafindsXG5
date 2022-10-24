@@ -63,6 +63,20 @@ const itemSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+
+    dateAdded:{
+        type: String,
+        required: true
+    },
+    
+    dateUpdated:{
+        type: String
+    },
+
+    addedBy:{
+        type: String,
+        required:  true
+    },
     
     mixed: mongoose.Schema.Types.Mixed,
 });
