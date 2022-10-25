@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 
 //Database module
 import mongoose from 'mongoose';
-import { connectDB } from './db/db.js';
+import { connectDB } from './model/db.js';
 
 //Import directory path and url
 import { fileURLToPath } from 'url';
@@ -30,7 +30,6 @@ app.use(express.static(__dirname + "/public"));
 app.engine("hbs", 
     expresshbs.engine({
         extname: 'hbs',
-        defaultLayout: false
     })
 );
 
