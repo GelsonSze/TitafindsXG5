@@ -30,6 +30,7 @@ app.use(express.static(__dirname + "/public"));
 app.engine("hbs", 
     expresshbs.engine({
         extname: 'hbs',
+        defaultLayout: 'main'
     })
 );
 
