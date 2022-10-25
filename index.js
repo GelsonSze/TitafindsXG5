@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 
 //Database module
 import mongoose from 'mongoose';
-import { connectDB } from './model/db.js';
+import db from './model/db.js';
 
 //Import directory path and url
 import { fileURLToPath } from 'url';
@@ -43,7 +43,7 @@ app.set('views', __dirname + '/views');
 app.use('/', routes);
 
 //connect to MongoDB
-connectDB();
+db.connectDB();
 
 app.listen(port, function () {
     console.log('Server is running at port: ' + port);
