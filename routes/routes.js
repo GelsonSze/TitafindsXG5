@@ -4,5 +4,4 @@ const app = express();
 
 app.get('/', itemController.getIndex);
 app.post('/addItem', itemController.addItem);
-app.get('/showTable',itemController.showTable);
 export default app;
