@@ -20,6 +20,15 @@ const itemController = {
         }catch(error){
             console.log(error);
         }
+    },
+
+    //Gets the data from the database and shows it in a scrolling form
+    showTable: function(req, res){
+        res.render('index', {
+            title: 'Inventory Page',
+            styles: ['index.css'],
+            scripts: ['index.js'],
+        });
     }
 }
 
