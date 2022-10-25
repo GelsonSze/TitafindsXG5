@@ -1,0 +1,40 @@
+.popup_content {
+  margin: 5%;
+  padding: 2%;
+  border: 2px solid #444;
+  background: white;
+}
+
+.itemFirst{
+  float: left;
+  clear: left;
+  margin: 10px;
+}
+
+.item{
+  float: left;
+  margin: 10px;
+}
+
+button{
+  border-radius: 8px;
+  border-color: transparent;
+  color: white;
+  background: #716f6f;
+  margin: 10px;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+.popup_close{
+  border-radius: 50%;
+  float: right;
+}
+
+.command{
+  clear: left;
+  display: flex;
+  justify-content: center;
+}
