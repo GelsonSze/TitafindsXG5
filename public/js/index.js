@@ -1,7 +1,6 @@
-import w2ui from 'w2ui';
-const { w2grid } = w2ui;
-$(document).ready(function () {    
-    $('#submit').click(function (){
+$(function () {   
+
+    $('#submit').trigger("click",function (){
 
         //will add try catch after the ui has been finalized
         //assume all inputs are valid
