@@ -6,8 +6,8 @@ const itemController = {
     getIndex: function(req, res){
         res.render('index', {
             title: 'index',
-            styles: ['index.css','w2ui-overrides.css'],
-            scripts: ['index.js']
+            styles: ['index.css','w2ui-overrides.css', 'popup.css'],
+            scripts: ['index.js', 'popup.js']
         });
     },
 
