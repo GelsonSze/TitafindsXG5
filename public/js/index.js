@@ -50,5 +50,6 @@ $(function () {
             { field: 'purchasePrice', text: 'Purchase Price', size: '5%', sortable: true},
             { field: 'status', text: 'Status', size: '10%', sortable: true},
         ],
+        
     });
 });
