@@ -1,9 +1,136 @@
 <main>
   <section>
   {{!--place code for the add item button and form here --}}
-  <p>test</p>
+
+    <div id="add">
+        <button class = "popup_open">Add Item</button>
+    </div>
+
+    <section id="popup">
+        <button class = "popup_close">X</button>
+        <center><h3>Add New Item</h3></center>
+        
+        <form>
+
+            <div class = "itemFirst">
+                <label>Product Name</label><br>
+                <input type="text" id="productName"><br>
+            </div>
+
+            <div class = "item">
+                <label>Product Image</label><br>
+                <input type="file" id="productImage"><br>       <!-- add to db --> 
+            </div> <br>
+
+            <div class = "itemFirst">
+                <label>Type</label><br>                         <!-- change in db --> 
+                <select id = "productType">
+                    <option value = "" disabled selected>Select</option>
+                    <option value = "Anklet">Anklet</option>
+                    <option value = "Bracelet">Bracelet</option>
+                    <option value = "Watch">Watch</option>
+                </select> <br>
+            </div>
+
+            <div class = "item">
+                <label>Classification</label><br>
+                <select id = "prodClassification">
+                    <option value = "" disabled selected>Select</option>
+                    <option value = "Gold">Gold</option>
+                    <option value = "Silver">Silver</option>
+                    <option value = "Bronze">Bronze</option>
+                </select> <br>
+            </div>
+
+            <div class = "item">
+                <label>Brand</label><br>
+                <select id = "productBrand">
+                    <option value = "" disabled selected>Select</option>
+                    <option value = "Cartier">Cartier</option>
+                    <option value = "Swarovski">Swarovski</option>
+                    <option value = "Tiffany">Tiffany</option>
+                </select> <br>
+            </div>
+
+            <div class = "itemFirst">
+                <label>Design</label><br>
+                <select id = "prodDesign">
+                    <option value = "" disabled selected>Select</option>
+                    <option value = "Simple">Simple</option>
+                    <option value = "Complex">Complex</option>
+                    <option value = "Intricate">Intricate</option>
+                </select> <br>
+            </div>
+
+            <div class = "item">
+                <label>Selling Type</label><br>
+                <select id = "sellingtype">
+                    <option value = "" disabled selected>Select</option>
+                    <option value = "VIP">VIP</option>
+                    <option value = "Expensive">Expensive</option>
+                    <option value = "Special">Special</option>
+                </select> <br>
+            </div>
+
+            <div class = "item">
+                <label>Item Status</label><br>
+                <select id = "itemStatus">                              <!-- change in db -->
+                    <option value = "" disabled selected>Select</option>
+                    <option value = "Sold Out">Sold Out</option>
+                    <option value = "Available">Available</option>
+                    <option value = "Low Stock">Low Stock</option>
+                </select> <br>
+            </div>
+
+            <div class = "itemFirst">
+                <label>Length</label><br>                               <!-- add to db --> 
+                <input type="text" id="prodLength">
+                <select id = "prodLength">                              <!-- change in db -->
+                    <option value = "cm">cm</option>
+                    <option value = "inch">inch</option>
+                    <option value = "feet">feet</option>
+                </select> <br>
+            </div>
+
+            <div class = "item">
+                <label>Size</label><br>
+                <input type="text" id="prodSize">
+                <select id = "prodSize">                              <!-- change in db -->
+                    <option value = "cm">cm</option>
+                    <option value = "inch">inch</option>
+                    <option value = "feet">feet</option>
+                </select> <br>
+            </div>
+
+            <div class = "itemFirst">
+                <label>Weight</label><br>
+                <input type="text" id="prodWeight"><br>
+            </div>
+
+            <div class = "item">
+                <label>Stock Quantity</label><br>
+                <input type="text" id="prodQuantity"><br>
+            </div>
+
+            <div class = "item">
+                <label>Selling Price</label><br>
+                <input type="text" id="sellingPrice"><br>
+            </div>
+
+            <div class = "item">
+                <label>Purchase Price</label><br>
+                <input type="text" id="purchasePrice"><br>
+            </div>
+
+            <div class = "command">                   
+                <button type="sumbit">Create Item</button>
+                <button type="reset">Discard</button>
+            </div>
+        </form>
+    </section>
   
   </section>
+
   <section>
   {{!--place code for the w2ui table here --}}
     <div id="itemGrid" style="height: 450px"></div>
