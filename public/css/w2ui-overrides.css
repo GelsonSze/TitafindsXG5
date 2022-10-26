@@ -1,3 +1,15 @@
+
+/*  */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-columns, .w2ui-grid .w2ui-grid-body .w2ui-grid-fcolumns {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    box-shadow: none;
+    height: auto;
+}
+
 .w2ui-grid .w2ui-grid-body table .w2ui-head {
     margin: 0;
     padding: 0;
