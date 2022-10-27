@@ -1,7 +1,7 @@
 // Database model
 import mongoose from 'mongoose';
 
-const url = 'mongodb://localhost:27017/TitafindsXG5'; //process.env.MONGODB_URI || 'mongodb://localhost:27017/TitafindsXG5';
+const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/TitafindsXG5';
 
 const options = {
     useUnifiedTopology: true,
@@ -87,5 +87,15 @@ const db = {
         });
     }
 }
+
+function signalHandler(){
+    console.log("Closing MongoDB connection...");
+    mongoose.connection.close();
+    process.exit();
+}
+
+process.on('SIGINT', signalHandler);
+process.on('SIGTERM', signalHandler);
+process.on('SIGQUIT', signalHandler);
 
 export default db;
