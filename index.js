@@ -9,6 +9,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import { expressCspHeader } from 'express-csp-header';
 import session from 'express-session';
+import mongoSanitize from 'express-mongo-sanitize';
 
 // Database module
 import mongoose from 'mongoose';
@@ -67,6 +68,9 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
 }));
+
+// Use express-mongo-sanitize to sanitize data
+app.use(mongoSanitize());
 
 // Assign routes 
 app.use('/', routes);
