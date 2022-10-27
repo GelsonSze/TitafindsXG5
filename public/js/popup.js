@@ -1,4 +1,4 @@
 $(document).ready(function() {
     $('#popup').popup({});
-    print("here");
+    /* pop-up must be only closed with X button, not by clicking outside */
 });
