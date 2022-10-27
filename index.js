@@ -49,8 +49,8 @@ app.set('view engine', 'hbs');
 // Set the directory for the views
 app.set('views', __dirname + '/views');
 
-// Use helmet to secure Express headers
-app.use(helmet());
+// Use helmet to secure Express headers 
+app.use(helmet({ crossOriginEmbedderPolicy: false, }));
 
 // Use morgan to log HTTP requests
 app.use(morgan('combined'));
@@ -59,7 +59,11 @@ app.use(morgan('combined'));
 app.use(expressCspHeader({
     policies: {
         'default-src': ["'self'"],
-        'script-src': ["'self'", "https://kit.fontawesome.com/e5cabd2361.js"],    }
+        'script-src': [
+            "'self'", 
+            "https://kit.fontawesome.com/e5cabd2361.js",
+        ],
+    }
 }));
 
 // Use express-session to manage sessions
