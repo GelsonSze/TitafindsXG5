@@ -9,6 +9,7 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import { expressCspHeader } from 'express-csp-header';
 import session from 'express-session';
+import passport from 'passport';
 import mongoSanitize from 'express-mongo-sanitize';
 
 // Database module
@@ -72,6 +73,10 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
 }));
+
+// Use passport to manage authentication
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Use express-mongo-sanitize to sanitize data
 app.use(mongoSanitize());

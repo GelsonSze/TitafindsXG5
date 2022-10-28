@@ -1,0 +1,68 @@
+/* need to finalize */
+body{
+    background-color: var(--clr-white);
+}
+
+header{
+    background-color: var(--clr-white);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
+    padding: 10px 30px;
+}
+
+nav{
+    justify-content: space-between;
+}
+
+#icon-logo{
+    width: 35px;
+    height: 35px;
+}
+
+header ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+header ul li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+header ul li a {
+    color: var(--clr-txt-primary);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+header ul li a:hover {
+    color: var(--clr-gold);
+    cursor: pointer;
+}
+header ul li a:active {
+    color: var(--clr-gold-500);
+}
+
+
+main{
+    display:block;
+    padding: 1rem 2rem 2rem;
+
+}   
+
+#main-control {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    font-size: 1.5rem;
+}
+
+#popup input[type=text]{
+    padding: 5px;
+}
+

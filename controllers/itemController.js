@@ -1,14 +1,20 @@
 //Controller for items
-import mongoose from 'mongoose';
 import Item from '../model/schemas/item.js';
+
 const itemController = {
 
-    getIndex: function(req, res){
+    // The dashboard or inventory page
+    home: function(req, res){
         res.render('index', {
             title: 'index',
             styles: ['index.css','w2ui-overrides.css', 'popup.css'],
             scripts: ['index.js', 'popup.js']
         });
+    },
+
+    // Redirects to home page
+    homeRedirect: function(req, res){
+        res.redirect('/');
     },
 
     // Adds item passed in a post request into the database

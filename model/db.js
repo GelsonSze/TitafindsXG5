@@ -1,7 +1,7 @@
 // Database model
 import mongoose from 'mongoose';
 
-const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/TitafindsXG5';
+const url = process.env.MONGODB_URI + process.env.DB || 'mongodb://localhost:27017/TitafindsXG5';
 
 const options = {
     useUnifiedTopology: true,
