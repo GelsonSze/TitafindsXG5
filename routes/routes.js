@@ -7,7 +7,7 @@ const app = express();
 
 // The dashboard or inventory page
 app.get('/', checkAuth, itemController.home);
-app.get('/home', itemController.homeRedirect);
+app.get('/home', checkAuth, itemController.homeRedirect);
 app.post('/addItem', itemController.addItem);
 
 // The login page
