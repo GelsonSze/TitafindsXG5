@@ -24,11 +24,11 @@
         <button class = "popup_close">X</button>
         <center><h3>Add New Item</h3></center>
         
-        <form>
+        <form id="form" enctype="multipart/form-data">
 
             <div class = "itemFirst">
                 <label>Product Name</label><br>
-                <input type="text" id="productName"><br>
+                <input type="text" id="productName" name = "name"><br>
             </div>
 
             <div class = "item">
@@ -38,7 +38,7 @@
 
             <div class = "itemFirst">
                 <label>Type</label><br>                         <!-- change in db --> 
-                <select id = "productType">
+                <select id = "productType" name = "type">
                     <option value = "" disabled selected>Select</option>
                     <option value = "Anklet">Anklet</option>
                     <option value = "Bracelet">Bracelet</option>
@@ -48,7 +48,7 @@
 
             <div class = "item">
                 <label>Classification</label><br>
-                <select id = "prodClassification">
+                <select id = "prodClassification" name = "classification">
                     <option value = "" disabled selected>Select</option>
                     <option value = "Gold">Gold</option>
                     <option value = "Silver">Silver</option>
@@ -58,7 +58,7 @@
 
             <div class = "item">
                 <label>Brand</label><br>
-                <select id = "productBrand">
+                <select id = "productBrand" name = "brand">
                     <option value = "" disabled selected>Select</option>
                     <option value = "Cartier">Cartier</option>
                     <option value = "Swarovski">Swarovski</option>
@@ -68,7 +68,7 @@
 
             <div class = "itemFirst">
                 <label>Design</label><br>
-                <select id = "prodDesign">
+                <select id = "prodDesign" name = "design">
                     <option value = "" disabled selected>Select</option>
                     <option value = "Simple">Simple</option>
                     <option value = "Complex">Complex</option>
@@ -78,7 +78,7 @@
 
             <div class = "item">
                 <label>Selling Type</label><br>
-                <select id = "sellingtype">
+                <select id = "sellingtype" name = "sellingType">
                     <option value = "" disabled selected>Select</option>
                     <option value = "VIP">VIP</option>
                     <option value = "Expensive">Expensive</option>
@@ -88,7 +88,7 @@
 
             <div class = "item">
                 <label>Item Status</label><br>
-                <select id = "itemStatus">                              <!-- change in db -->
+                <select id = "itemStatus" name = "status">                              <!-- change in db -->
                     <option value = "" disabled selected>Select</option>
                     <option value = "Sold Out">Sold Out</option>
                     <option value = "Available">Available</option>
@@ -98,8 +98,8 @@
 
             <div class = "itemFirst">
                 <label>Length</label><br>                               <!-- add to db --> 
-                <input type="text" id="prodLength">
-                <select id = "prodLength">                              <!-- change in db -->
+                <input type="text" id="prodLength" name = "length">
+                <select id = "prodLength" name = "length-unit">                              <!-- change in db -->
                     <option value = "cm">cm</option>
                     <option value = "inch">inch</option>
                     <option value = "feet">feet</option>
@@ -108,8 +108,8 @@
 
             <div class = "item">
                 <label>Size</label><br>
-                <input type="text" id="prodSize">
-                <select id = "prodSize">                              <!-- change in db -->
+                <input type="text" id="prodSize" name = "size">
+                <select id = "prodSize" name = "size-unit">                              <!-- change in db -->
                     <option value = "cm">cm</option>
                     <option value = "inch">inch</option>
                     <option value = "feet">feet</option>
@@ -118,26 +118,26 @@
 
             <div class = "itemFirst">
                 <label>Weight</label><br>
-                <input type="text" id="prodWeight"><br>
+                <input type="text" id="prodWeight" name = "weight"><br>
             </div>
 
             <div class = "item">
                 <label>Stock Quantity</label><br>
-                <input type="text" id="prodQuantity"><br>
+                <input type="text" id="prodQuantity" name = "quantity"><br>
             </div>
 
             <div class = "item">
                 <label>Selling Price</label><br>
-                <input type="text" id="sellingPrice"><br>
+                <input type="text" id="sellingPrice" name = "sellingPrice"><br>
             </div>
 
             <div class = "item">
                 <label>Purchase Price</label><br>
-                <input type="text" id="purchasePrice"><br>
+                <input type="text" id="purchasePrice" name = "purchasePrice"><br>
             </div>
 
             <div class = "command">                   
-                <button type="sumbit">Create Item</button>
+                <button type="sumbit" id="create">Create Item</button>
                 <button type="reset">Discard</button>
             </div>
         </form>

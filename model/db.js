@@ -26,11 +26,21 @@ const db = {
     },
 
     insertOne: function(model, doc, callback) {
-        model.create(doc, function(error, result) {
-            if(error) return callback(false);
-            console.log('Added ' + result);
-            return callback(true);
+
+        const newDoc = new model(doc);
+        newDoc.save(function(err, doc) {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            callback(doc);
         });
+        
+        // model.create(doc, function(error, result) {
+        //     if(error) return callback(false);
+        //     console.log('Added ' + result);
+        //     return callback(true);
+        // });
     },
 
     insertMany: function(model, docs, callback) {

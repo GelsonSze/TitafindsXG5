@@ -60,7 +60,7 @@ const itemSchema = new mongoose.Schema({
     },
 
     status:{
-        type: Number,
+        type: String,
         required: true,
     },
 

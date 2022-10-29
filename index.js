@@ -30,7 +30,7 @@ const port = process.env.PORT || 3000;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // Set static folder
@@ -54,7 +54,7 @@ app.set('views', __dirname + '/views');
 app.use(helmet({ crossOriginEmbedderPolicy: false, }));
 
 // Use morgan to log HTTP requests
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 
 // Use express-csp-header to secure Express headers
 app.use(expressCspHeader({
@@ -79,7 +79,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Use express-mongo-sanitize to sanitize data
-app.use(mongoSanitize());
+//app.use(mongoSanitize());
 
 // Assign routes 
 app.use('/', routes);

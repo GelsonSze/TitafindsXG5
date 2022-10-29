@@ -6,4 +6,9 @@ const specSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+
+    dataType:{
+        type: String,
+        required: true,
+    }
 });
