@@ -1,5 +1,7 @@
 $(document).ready(function() {
-    $('#popup').popup({});
+    $('#popup').popup({
+        blur: false
+    });
     /* pop-up must be only closed with X button, not by clicking outside */
 
     $('#popup form .command :submit').on("click",function (e){

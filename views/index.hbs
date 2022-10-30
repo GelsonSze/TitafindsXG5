@@ -40,8 +40,12 @@
                 <label>Type</label><br>                         <!-- change in db --> 
                 <select id = "productType" name = "type">
                     <option value = "" disabled selected>Select</option>
-                    <option value = "Anklet">Anklet</option>
                     <option value = "Bracelet">Bracelet</option>
+                    <option value = "Chain">Chain</option>
+                    <option value = "Earrings">Earrings</option>
+                    <option value = "Necklace">Necklace</option>
+                    <option value = "Pendant">Pendant</option>
+                    <option value = "Ring">Ring</option>
                     <option value = "Watch">Watch</option>
                 </select> <br>
             </div>
@@ -50,9 +54,12 @@
                 <label>Classification</label><br>
                 <select id = "prodClassification" name = "classification">
                     <option value = "" disabled selected>Select</option>
-                    <option value = "Gold">Gold</option>
-                    <option value = "Silver">Silver</option>
-                    <option value = "Bronze">Bronze</option>
+                    <option value = "10 karat">10 karat</option>
+                    <option value = "14 karat">14 karat</option>
+                    <option value = "18 karat">18 karat</option>
+                    <option value = "21 karat">21 karat</option>
+                    <option value = "22 karat">22 karat</option>
+                    <option value = "24 karat">24 karat</option>
                 </select> <br>
             </div>
 
@@ -70,9 +77,11 @@
                 <label>Design</label><br>
                 <select id = "prodDesign" name = "design">
                     <option value = "" disabled selected>Select</option>
-                    <option value = "Simple">Simple</option>
-                    <option value = "Complex">Complex</option>
-                    <option value = "Intricate">Intricate</option>
+                    <option value = "Regular">Regular</option>
+                    <option value = "Special">Special</option>
+                    <option value = "Very Special">Very Special</option>
+                    <option value = "Very Very Special">Very Very Special</option>
+                    <option value = "Very Very Very Special">Very Very Very Special</option>
                 </select> <br>
             </div>
 
@@ -80,19 +89,17 @@
                 <label>Selling Type</label><br>
                 <select id = "sellingtype" name = "sellingType">
                     <option value = "" disabled selected>Select</option>
-                    <option value = "VIP">VIP</option>
-                    <option value = "Expensive">Expensive</option>
-                    <option value = "Special">Special</option>
+                    <option value = "per design">per design</option>
+                    <option value = "per gram">per gram</option>
                 </select> <br>
             </div>
 
             <div class = "item">
                 <label>Item Status</label><br>
                 <select id = "itemStatus" name = "status">                              <!-- change in db -->
-                    <option value = "" disabled selected>Select</option>
-                    <option value = "Sold Out">Sold Out</option>
                     <option value = "Available">Available</option>
-                    <option value = "Low Stock">Low Stock</option>
+                    <option value = "Damaged">Damaged</option>
+                    <option value = "Sold Out">Sold Out</option>
                 </select> <br>
             </div>
 
@@ -101,8 +108,8 @@
                 <input type="text" id="prodLength" name = "length">
                 <select id = "prodLength" name = "length-unit">                              <!-- change in db -->
                     <option value = "cm">cm</option>
+                    <option value = "mm">mm</option>
                     <option value = "inch">inch</option>
-                    <option value = "feet">feet</option>
                 </select> <br>
             </div>
 
@@ -111,8 +118,8 @@
                 <input type="text" id="prodSize" name = "size">
                 <select id = "prodSize" name = "size-unit">                              <!-- change in db -->
                     <option value = "cm">cm</option>
+                    <option value = "mm">mm</option>
                     <option value = "inch">inch</option>
-                    <option value = "feet">feet</option>
                 </select> <br>
             </div>
 
