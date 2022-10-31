@@ -1,9 +1,9 @@
 window.addEventListener("load", function (e) {
-    const email = this.document.querySelector("#email");
+    const username = this.document.querySelector("#username");
     const password = this.document.querySelector("#password");
     const login = this.document.querySelector("#login");
     const error = this.document.querySelector(".text-error");
-    let fields = [email, password];
+    let fields = [username, password];
 
     login.addEventListener("click", (e) => {
         e.preventDefault();
@@ -15,12 +15,12 @@ window.addEventListener("load", function (e) {
             }
         }
 
-        if (isEmptyOrSpaces(email.value) || isEmptyOrSpaces(password.value)) {
+        if (isEmptyOrSpaces(username.value) || isEmptyOrSpaces(password.value)) {
             showError(error, "Please fill out all fields.", emptyFields);
             return;
         }
-        if (!email.value.match(emailRegex)) {
-            showError(error, "Please enter a valid email.", [email]);
+        if (!username.value.match(usernameRegex)) {
+            showError(error, "Please enter a valid username.", [username]);
             return;
         }
 
@@ -30,13 +30,13 @@ window.addEventListener("load", function (e) {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                email: email.value,
+                username: username.value,
                 password: password.value,
             }),
         })
             .then((res) => {
                 if (res.status >= 400) {
-                    showError(error, "Invalid email or password.", fields);
+                    showError(error, "Invalid username or password.", fields);
                     return;
                 }
                 if (res.status == 200) this.window.location.href = window.location.origin + "/home";

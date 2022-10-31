@@ -16,7 +16,7 @@ const userController = {
     loginUser: async function (req, res) {
         try {
             //Find the user
-            const user = await User.findOne({ email: req.body.email });
+            const user = await User.findOne({ username: req.body.username });
             if (!user) {
                 res.status(404).json("User not found.");
                 return;
