@@ -138,8 +138,8 @@ $(function () {
     });
     //hover on image
     $(document).on("mouseover", "#itemImage", function (e) {
-        console.log("hover")
-        $("hoveredImg").attr("src",e.target.src);
+        console.log(e.target.src)
+        $("#hoveredImg").attr("src",e.target.src);
         $("#hoveredImg").css("display", "block");
     });
     //leave hover on image
