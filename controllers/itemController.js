@@ -50,6 +50,11 @@ const itemController = {
             res.status(200).json(data);
         });
     },
+
+    //TO BE REMOVED:
+    addItemSamples: async function(data){
+        await Item.insertMany(data);
+    }
 };
 
 export default itemController;
