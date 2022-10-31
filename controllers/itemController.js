@@ -1,7 +1,6 @@
 //Controller for items
 import Item from "../model/schemas/item.js";
 import db from "../model/db.js";
-import { generateItemCode } from "../utils/helper.js";
 
 const itemController = {
     // The dashboard or inventory page
@@ -22,7 +21,7 @@ const itemController = {
     addItem: async function (req, res) {
         var addedItem = {
             image: req.body.image ?? "test.png",
-            code: generateItemCode(req.body.type),
+            code: "1234",
             name: req.body.name,
             type: req.body.type,
             brand: req.body.brand,
@@ -45,6 +44,11 @@ const itemController = {
             res.send(flag);
         });
     },
+    getItem: function(req, res){
+        db.findMany(Item, {}, null, function(data){
+            res.status(200).json(data);
+        });
+    }
 };
 
 export default itemController;
