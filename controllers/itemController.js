@@ -35,9 +35,9 @@ const itemController = {
             purchasePrice: req.body.purchasePrice,
             sellingPrice: req.body.sellingPrice,
             status: req.body.status,
-            dateAdded: "10/29/2022",
-            dateUpdated: "10/29/2022",
-            addedBy: "admin",
+            dateAdded: req.body.dateAdded,
+            dateUpdated: req.body.dateUpdated,
+            addedBy: req.session.user.username,
         };
         console.log(addedItem);
 
