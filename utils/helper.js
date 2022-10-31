@@ -185,7 +185,7 @@ function generateRandomInt(itemCode) {
     // get a random number from 0 to 10 ^ number of desired digits
     var number = Math.floor(Math.random() * (9 * Math.pow(10, digits)));
     // pad 0s at the start of the number if the number of digits is below desired digits
-    number.padStart(digits + 1, "0");
+    number.toString().padStart(digits + 1, "0");
 
     return itemCode + number;
 }
