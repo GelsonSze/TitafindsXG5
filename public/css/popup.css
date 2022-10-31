@@ -23,7 +23,11 @@
   color: black;
 }
 
-#popup h1 { color: black;}
+#popup h1 {
+	text-align: center;
+	color: black;
+}
+
 #popup label { 
 	font-family: 'Inter Medium';
 	text-transform: none; 
@@ -148,7 +152,8 @@ button:hover{
 }
 
 .command{
-	margin: auto auto;
+  display: flex;
+  justify-content: center;
 }
 
 .command button {
