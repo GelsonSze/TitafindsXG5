@@ -118,23 +118,28 @@
                     {{!-- Length / Size --}}
                     <div class="popup-row-wrapper">
                         <div class = "item-wrapper">
-                            <label>Length</label><br>                               <!-- add to db --> 
-                            <input type="text" id="prodLength" name = "length">
-                            <select id = "prodLength" name = "length-unit">                              <!-- change in db -->
-                                <option value = "cm">cm</option>
-                                <option value = "mm">mm</option>
-                                <option value = "inch">inch</option>
-                            </select> <br>
+                            <label>Length</label><br> 
+                            <div class = "item-wrapper-wrapper">
+                                <input type="text" id="prodLength" name = "length"><!-- add to db --> 
+                                <select id = "prodLength" name = "length-unit">                              <!-- change in db -->
+                                    <option value = "cm">cm</option>
+                                    <option value = "mm">mm</option>
+                                    <option value = "inch">inch</option>
+                                </select>
+                            </div>                              
                         </div>
 
                         <div class = "item-wrapper">
                             <label>Size</label><br>
-                            <input type="text" id="size" name = "size">
-                            <select id = "prodSize" name = "size-unit">                              <!-- change in db -->
-                                <option value = "cm">cm</option>
-                                <option value = "mm">mm</option>
-                                <option value = "inch">inch</option>
-                            </select> <br>
+                            <div class = "item-wrapper-wrapper">
+                                <input type="text" id="size" name = "size">
+                                <select id = "prodSize" name = "size-unit">                              <!-- change in db -->
+                                    <option value = "cm">cm</option>
+                                    <option value = "mm">mm</option>
+                                    <option value = "inch">inch</option>
+                                </select>
+                            </div>
+                            
                         </div>
                     </div>
 
@@ -148,7 +153,11 @@
 
                         <div class = "item-wrapper">
                             <label>Stock Quantity</label><br>
-                            <input type="text" id="quantity" name = "quantity"><br>
+                            <div class="qty-wrapper-wrapper">
+                                <button id="stock-subtract">-</button>
+                                <input type="text" id="quantity" name = "quantity"><br>
+                                <button id="stock-add">+</button>
+                            </div>
                         </div>
 
                         <div class = "item-wrapper">
