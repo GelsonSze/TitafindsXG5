@@ -12,7 +12,7 @@ export async function checkAuth(req, res, next) {
 
 export function checkNoAuth(req, res, next) {
     if (req.session.user) {
-        return res.redirect("/home");
+        return res.redirect("/");
     }
     next();
 }

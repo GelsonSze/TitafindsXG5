@@ -1,5 +1,8 @@
-$(function () {
-    var Items = [];
+var Items = [];
+
+getAllItems();
+
+function getAllItems(refreshGrid=false) {
     $.ajax({
         url: "/getItem",
         type: "GET",
@@ -8,30 +11,50 @@ $(function () {
         headers: {
             "Content-Type": "application/json",
         },
-        success: function (data) {
-            let items = JSON.parse(data);
-            for (var item of items) {
-                Items.push(new item(item.name, item.type, item.brand, item.classification, item.design, item.size, item.weight, item.quantity, item.sellingType, item.purchasePrice, item.sellingPrice, item.status));
+        success: function (items) {
+            for (var product of items) {
+                Items.push(new item(
+                    product.image, 
+                    product.name, 
+                    product.code, 
+                    product.type, 
+                    product.classification, 
+                    product.size, 
+                    product.weight, 
+                    product.quantity, 
+                    product.sellingPrice,
+                    product.purchasePrice,
+                    product.status
+                    
+                    ));
+            }
+            if (refreshGrid) {                
+                w2ui['itemGrid'].records= Items;
+                w2ui['itemGrid'].refresh();
             }
         },
     });
+}
 
-    function item(name, type, brand, classification, design, size, weight, quantity, sellingType, purchasePrice, sellingPrice, status) {
-        return {
-            name: name,
-            type: type,
-            brand: brand,
-            classification: classification,
-            design: design,
-            size: size,
-            weight: weight,
-            quantity: quantity,
-            sellingType: sellingType,
-            purchasePrice: purchasePrice,
-            sellingPrice: sellingPrice,
-            status: status,
-        };
-    }
+function item(image, name, code, type, classification, length, size, weight, quantity, sellingType, purchasePrice, sellingPrice, status) {
+    return {
+        recid: Items.length + 1,
+        image: image,
+        name: name,
+        code: code,
+        type: type,
+        classification: classification,
+        size: size,
+        weight: weight,
+        quantity: quantity,
+        purchasePrice: purchasePrice,
+        sellingPrice: sellingPrice,
+        status: status,
+    };
+}
+
+$(function () {
+   
     $("#itemGrid").w2grid({
         name: "itemGrid",
         show: {
@@ -41,9 +64,16 @@ $(function () {
         },
         method: "GET",
         limit: 50,
+        recordHeight: 120,
         columns: [
-            { field: "code", text: "Product Code", size: "5%", sortable: true },
-            { field: "name", text: "Product Name", size: "5%", sortable: true },
+            { field: "image", text: "Image", size: "7%",
+                render: function (record, extra) {
+                    var html = '<img src="img/'+ record.image + '" alt="' + record.image + '" style="height: 100px">';
+                    return html;
+                },
+                sortable: true },
+            { field: "name", text: "Name", size: "5%", sortable: true },
+            { field: "code", text: "Code", size: "5%", sortable: true },
             { field: "type", text: "Type", size: "5%", sortable: true },
             { field: "classification", text: "Classifications", size: "15%", sortable: true },
             { field: "size", text: "Size", size: "5%", sortable: true },
@@ -95,9 +125,13 @@ $(function () {
                 "Content-Type": "application/json",
             },
 
-            success: function (flag) {
+            success: async function (flag) {
                 if (flag) {
                     console.log("success");
+                    Items=[];
+                    getAllItems(true);
+                    console.log("reloaded")
+                    $("#popup").popup("hide");
                 }
             },
         });
