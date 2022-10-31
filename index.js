@@ -4,7 +4,6 @@ import "dotenv/config";
 // Express modules
 import express from "express";
 import expresshbs from "express-handlebars";
-import bodyParser from "body-parser";
 import morgan from "morgan";
 import helmet from "helmet";
 import { expressCspHeader } from "express-csp-header";
