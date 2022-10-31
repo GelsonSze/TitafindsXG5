@@ -3,16 +3,16 @@ $(document).ready(function() {
         blur: false
     });
     /* pop-up must be only closed with X button, not by clicking outside */
-
+    
     $('#popup form .command :submit').on("click",function (e){
         e.preventDefault();
         
         const data = new FormData($('#form')[0]);
-
+        
         for (var pair of data.entries()){
             console.log(pair[0] + ':' + pair[1]);
         }
-
+        
         $.ajax({
             url: '/addItem',
             data: JSON.stringify({
@@ -35,7 +35,7 @@ $(document).ready(function() {
             headers: {
                 "Content-Type": "application/json"
             },
-
+            
             success: function(flag){
                 if(flag){
                     console.log("success");
