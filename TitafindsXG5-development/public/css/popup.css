@@ -1,0 +1,103 @@
+.popup_content {
+  margin: 5%;
+  padding: 2%;
+  border: 2px solid #444;
+  background: white;
+}
+
+.itemFirst{
+  float: left;
+  clear: left;
+  margin: 10px;
+}
+
+.item{
+  float: left;
+  margin: 10px;
+}
+
+#popup {
+  border-radius: 8px;
+  border-color: transparent;
+  font-family: 'Inter Bold';
+  color: black;
+}
+
+#popup h1 { color: black;}
+#popup label { 
+	text-transform: none; 
+	color: black;
+}
+
+#popup button{
+  border-radius: 8px;
+  border-color: transparent;
+  color: white;
+  background: #716f6f;
+  margin: 10px;
+}
+
+#add {
+  margin: 10px;
+}
+
+#add button{
+  border-radius: 8px;
+  border-color: transparent;
+  color: #4b4b4b;
+  font-family: 'Inter Bold';
+  background: #d9d9d9;
+  margin: 0;
+}
+
+#popup-form-wrapper {
+  display:flex;
+	flex-direction: row;
+}
+
+#popup-left-wrapper {
+	display:flex;
+	flex-direction: column;
+}
+
+.popup-row-wrapper {
+	display: flex;
+	flex-direction: row;
+}
+.item-wrapper {
+	color:black;
+	margin-right: 10px;
+}
+
+.item-wrapper input {
+	height: 12px;
+}
+
+.item-wrapper select {
+	height: 12px;
+	
+	font-family: 'Inter Regular';
+	font-weight: normal;
+	color:#a8a8a8;
+}
+
+.item-wrapper span {
+	font-family: 'Inter Bold';
+	font-size: 10px;
+	color:#a8a8a8;
+}
+
+button:hover{
+  cursor: pointer;
+}
+
+.popup_close{
+  border-radius: 50%;
+  float: right;
+}
+
+.command{
+  clear: left;
+  display: flex;
+  justify-content: center;
+}
