@@ -1,6 +1,6 @@
 
 .w2ui-reset table tr td, .w2ui-reset table tr th {
-    /* font-family: var(--font-type3); */
+    font-family: 'Inter Regular';
     font-size: 11px;
 }
 
