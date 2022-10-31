@@ -1,4 +1,9 @@
 
+.w2ui-reset table tr td, .w2ui-reset table tr th {
+    /* font-family: var(--font-type3); */
+    font-size: 11px;
+}
+
 /*  */
 .w2ui-grid .w2ui-grid-body .w2ui-grid-columns, .w2ui-grid .w2ui-grid-body .w2ui-grid-fcolumns {
     overflow: hidden;
@@ -10,18 +15,53 @@
     height: auto;
 }
 
+/* Column Headers */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-columns table, .w2ui-grid .w2ui-grid-body .w2ui-grid-fcolumns table {
+    height: 40px;
+    /* font-family: var(--font-type3); */
+}
+
 .w2ui-grid .w2ui-grid-body table .w2ui-head {
     margin: 0;
     padding: 0;
-    border-right: 1px solid #c5c5c5;
-    border-bottom: 1px solid #c5c5c5;
-    color: #000;
+
+    background-color: #484848;
+    color: white;
+
+    border-right: none;
+    border-bottom: none;
+    
     background-image: none;
     background-image: none;
     background-image: none;
     background-image: none;
     background-image: none;
 }
+
+.w2ui-grid .w2ui-grid-body table td {
+    /* Removes the border on the right in the body */
+    border-right: none;
+    border-bottom: 0 solid #d6d5d7;
+    cursor: default;
+    overflow: hidden;
+}
+
+/*--  Rows -- */
+
+/* ODD */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd, .w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-odd {
+    color: inherit;
+    background-color: #fff;
+}
+
+/* Even  */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-even, .w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-even {
+    color: inherit;
+    background-color: #fff;
+}
+
+
+
 .w2ui-grid-data{
     /*This is for the css of the data of each column(Ex: Weight: 5kg [so it modifies the box containing the 5kg])*/
 }
