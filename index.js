@@ -12,7 +12,6 @@ import passport from "passport";
 import mongoSanitize from "express-mongo-sanitize";
 
 // Database module
-import mongoose from "mongoose";
 import db from "./model/db.js";
 
 // Import directory path and url

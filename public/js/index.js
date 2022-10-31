@@ -68,7 +68,7 @@ $(function () {
         columns: [
             { field: "image", text: "Image", size: "7%",
                 render: function (record, extra) {
-                    var html = '<img src="img/'+ record.image + '" alt="' + record.image + '" style="height: 100px">';
+                    var html = '<img id="itemImage" src="img/'+ record.image + '" alt="' + record.image + '" style="height: 100px">';
                     return html;
                 },
                 sortable: true },
@@ -136,5 +136,18 @@ $(function () {
             },
         });
     });
+    //hover on image
+    $(document).on("mouseover", "#itemImage", function (e) {
+        console.log("hover")
+        $("hoveredImg").attr("src",e.target.src);
+        $("#hoveredImg").css("display", "block");
+    });
+    //leave hover on image
+    $(document).on("mouseleave", "#itemImage", function (e) {
+        console.log("leave")
+        $("#hoveredImg").css("display", "none");
+
+    });
+
 });
 
