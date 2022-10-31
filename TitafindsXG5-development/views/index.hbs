@@ -23,7 +23,7 @@
 
     <section id="popup">
         <button class = "popup_close">X</button>
-        <h1>Add New Item</h1>
+        <center><h1>Add New Item</h1></center>
         
         <form id="form" enctype="multipart/form-data">
             <div id="popup-form-wrapper">
@@ -118,28 +118,23 @@
                     {{!-- Length / Size --}}
                     <div class="popup-row-wrapper">
                         <div class = "item-wrapper">
-                            <label>Length</label><br> 
-                            <div class = "item-wrapper-wrapper">
-                                <input type="text" id="prodLength" name = "length"><!-- add to db --> 
-                                <select id = "prodLength" name = "length-unit">                              <!-- change in db -->
-                                    <option value = "cm">cm</option>
-                                    <option value = "mm">mm</option>
-                                    <option value = "inch">inch</option>
-                                </select>
-                            </div>                              
+                            <label>Length</label><br>                               <!-- add to db --> 
+                            <input type="text" id="prodLength" name = "length">
+                            <select id = "prodLength" name = "length-unit">                              <!-- change in db -->
+                                <option value = "cm">cm</option>
+                                <option value = "mm">mm</option>
+                                <option value = "inch">inch</option>
+                            </select> <br>
                         </div>
 
                         <div class = "item-wrapper">
                             <label>Size</label><br>
-                            <div class = "item-wrapper-wrapper">
-                                <input type="text" id="size" name = "size">
-                                <select id = "prodSize" name = "size-unit">                              <!-- change in db -->
-                                    <option value = "cm">cm</option>
-                                    <option value = "mm">mm</option>
-                                    <option value = "inch">inch</option>
-                                </select>
-                            </div>
-                            
+                            <input type="text" id="size" name = "size">
+                            <select id = "prodSize" name = "size-unit">                              <!-- change in db -->
+                                <option value = "cm">cm</option>
+                                <option value = "mm">mm</option>
+                                <option value = "inch">inch</option>
+                            </select> <br>
                         </div>
                     </div>
 
@@ -153,11 +148,7 @@
 
                         <div class = "item-wrapper">
                             <label>Stock Quantity</label><br>
-                            <div class="qty-wrapper-wrapper">
-                                <button type="button" id="stock-subtract">-</button>
-                                <input type="text" id="quantity" name = "quantity"><br>
-                                <button type="button" id="stock-add">+</button>
-                            </div>
+                            <input type="text" id="quantity" name = "quantity"><br>
                         </div>
 
                         <div class = "item-wrapper">
@@ -192,6 +183,6 @@
   {{!--place code for the w2ui table here --}}
     <div id="itemGrid" style="height: 450px"></div>
 
-    <img id="hoveredImg" src="img/test.png">
+
   </section>
 </main>
