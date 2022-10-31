@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
 const configTypeSchema = new mongoose.Schema({
-    name:{
+    name: {
         type: String,
         required: true,
         unique: true,
     },
 
-    specifications:{
+    specifications: {
         type: Array,
         required: true,
     },
-}); 
+});

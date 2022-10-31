@@ -1,20 +1,20 @@
-$(document).ready(function() {
-    $('#popup').popup({
-        blur: false
+$(document).ready(function () {
+    $("#popup").popup({
+        blur: false,
     });
     /* pop-up must be only closed with X button, not by clicking outside */
-    
-    $('#popup form .command :submit').on("click",function (e){
+
+    $("#popup form .command :submit").on("click", function (e) {
         e.preventDefault();
-        
-        const data = new FormData($('#form')[0]);
-        
-        for (var pair of data.entries()){
-            console.log(pair[0] + ':' + pair[1]);
+
+        const data = new FormData($("#form")[0]);
+
+        for (var pair of data.entries()) {
+            console.log(pair[0] + ":" + pair[1]);
         }
-        
+
         $.ajax({
-            url: '/addItem',
+            url: "/addItem",
             data: JSON.stringify({
                 name: $("#name").val(),
                 type: $("#type").val(),
@@ -29,18 +29,18 @@ $(document).ready(function() {
                 sellingPrice: $("#sellingPrice").val(),
                 status: $("#status").val(),
             }),
-            type: 'POST',
+            type: "POST",
             processData: false,
             contentType: false,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
-            
-            success: function(flag){
-                if(flag){
+
+            success: function (flag) {
+                if (flag) {
                     console.log("success");
                 }
-            }
+            },
         });
         // window.fetch("/auth/login", {
         //     method: "POST",
@@ -49,7 +49,7 @@ $(document).ready(function() {
         //     },
         //     body: data
         // })
-    })
+    });
 });
 
 // $(document).ready(function() {

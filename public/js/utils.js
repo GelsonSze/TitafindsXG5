@@ -2,7 +2,7 @@
  * Returns true if str is empty or has spaces
  * @param  {string} str
  */
- function isEmptyOrSpaces(str){
+function isEmptyOrSpaces(str) {
     return str === null || str.match(/^ *$/) !== null;
 }
 
@@ -14,13 +14,13 @@
  * @param  {int} n
  * @param  {boolean} useWordBoundary=1
  */
-function truncate( str, n, useWordBoundary = 1 ){
-    if (str.length <= n) { return str; }
-    const subString = str.substr(0, n-1); // the original check
-    return (useWordBoundary 
-      ? subString.substr(0, subString.lastIndexOf(" ")) 
-      : subString) + "&hellip;";
-};
+function truncate(str, n, useWordBoundary = 1) {
+    if (str.length <= n) {
+        return str;
+    }
+    const subString = str.substr(0, n - 1); // the original check
+    return (useWordBoundary ? subString.substr(0, subString.lastIndexOf(" ")) : subString) + "&hellip;";
+}
 
 /**
  * Shows the error message and highlights all the
@@ -29,24 +29,23 @@ function truncate( str, n, useWordBoundary = 1 ){
  * @param  {string} message
  * @param  {element[]} elements
  */
-function showError(error, message, elements){
+function showError(error, message, elements) {
     clearTimeout(errorTimeout);
-    for(const oldInput of tempFields){
+    for (const oldInput of tempFields) {
         oldInput.classList.remove("error");
     }
     tempFields = elements.slice();
 
-    if(error){
+    if (error) {
         error.innerHTML = message;
         error.classList.add("active");
     }
-    for(const input of elements){
+    for (const input of elements) {
         input.classList.add("error");
     }
-    errorTimeout = setTimeout(() => { 
-        if(error)
-            error.classList.remove("active");
-        for(const input of elements){
+    errorTimeout = setTimeout(() => {
+        if (error) error.classList.remove("active");
+        for (const input of elements) {
             input.classList.remove("error");
         }
     }, 5000);
@@ -54,35 +53,33 @@ function showError(error, message, elements){
 
 /**
  * Shows the success message for 5 seconds.
- * @param {element} success 
- * @param {string} message 
+ * @param {element} success
+ * @param {string} message
  */
 
-function showSuccess(success, message){
+function showSuccess(success, message) {
     clearTimeout(successTimeout);
-    if(success){
+    if (success) {
         success.innerHTML = message;
         success.classList.add("active");
     }
     successTimeout = setTimeout(() => {
-        if(success)
-            success.classList.remove("active");
-    }
-    , 5000);
+        if (success) success.classList.remove("active");
+    }, 5000);
 }
 
 /**
  * Clears content/innerHTML of the given element
  * @param  {element} element
  */
-function clear(element){
+function clear(element) {
     element.innerHTML = "";
 }
 
 /**
  * Toggles element's visibility if display is not defined,
  * otherwise toggles the display style.
- * 
+ *
  * Note that if the element has a transition property,
  * Visibility property allows transition
  * Display property doesnt allow transition
@@ -90,22 +87,19 @@ function clear(element){
  * @param  {boolean} [show=undefined] - if 1, show the element; else, hide the element
  * @param  {boolean} [display=undefined] - if 1, uses display property; else, uses visibility property
  */
-function toggle(element, show=undefined, display=undefined){
-    if(display === undefined){
+function toggle(element, show = undefined, display = undefined) {
+    if (display === undefined) {
         element.style.transition = "all 0.3s ease";
-        if(show === undefined){
-            element.style.visibility = (element.style.visibility == "visible" || !element.style.visibility) ? "hidden" : "visible";
-            element.style.opacity = (element.style.opacity == "1" || !element.style.opacity) ? "0" : "1";
+        if (show === undefined) {
+            element.style.visibility = element.style.visibility == "visible" || !element.style.visibility ? "hidden" : "visible";
+            element.style.opacity = element.style.opacity == "1" || !element.style.opacity ? "0" : "1";
+        } else {
+            element.style.visibility = !show ? "hidden" : "visible";
+            element.style.opacity = !show ? "0" : "1";
         }
-        else {
-            element.style.visibility = (!show) ? "hidden" : "visible";
-            element.style.opacity = (!show) ? "0" : "1";
-        }
-    }
-    else{
-        if(show === undefined)
-            element.style.display = (element.style.display != "none" || !element.style.display) ? "none" : "block";
-        else element.style.display = (!show) ? "none" : "block";
+    } else {
+        if (show === undefined) element.style.display = element.style.display != "none" || !element.style.display ? "none" : "block";
+        else element.style.display = !show ? "none" : "block";
     }
 }
 
@@ -113,9 +107,9 @@ function toggle(element, show=undefined, display=undefined){
  * This calculates the time difference between the actual date posted and today
  * @param  {Date} datePosted
  */
-function calcDate(datePosted){
+function calcDate(datePosted) {
     const dateToday = new Date();
-    const year = dateToday.getFullYear() - datePosted.getFullYear()
+    const year = dateToday.getFullYear() - datePosted.getFullYear();
     const month = monthDiff(datePosted, dateToday);
     const day = dayDiff(datePosted, dateToday);
     const hour = hourDiff(datePosted, dateToday);
@@ -123,19 +117,13 @@ function calcDate(datePosted){
     const second = secondDiff(datePosted, dateToday);
     //console.log(`${dateToday.toISOString().slice(0, 10)} - ${datePosted.toISOString().slice(0, 10)}:\n ${year} ${month} ${day} ${hour} ${minute} ${second} `);
 
+    if (year != 0) return `${year} year${year > 1 ? "s" : ""} ago`;
+    if (month != 0) return `${month} month${month > 1 ? "s" : ""} ago`;
+    if (day != 0) return `${day} day${day > 1 ? "s" : ""} ago`;
+    if (hour != 0) return `${hour} hour${hour > 1 ? "s" : ""} ago`;
+    if (minute != 0) return `${minute} minute${minute > 1 ? "s" : ""} ago`;
 
-    if(year != 0)
-        return `${year} year${year > 1 ? 's': ''} ago`;
-    if(month != 0)
-        return `${month} month${month > 1 ? 's': ''} ago`;
-    if(day != 0)
-        return `${day} day${day > 1 ? 's': ''} ago`;
-    if(hour != 0)
-        return `${hour} hour${hour > 1 ? 's': ''} ago`;
-    if(minute != 0)
-        return `${minute} minute${minute > 1 ? 's': ''} ago`;
-    
-    return `${second} second${year > 1 ? 's': ''} ago`;
+    return `${second} second${year > 1 ? "s" : ""} ago`;
 }
 /**
  * Returns the month difference
@@ -190,15 +178,14 @@ function secondDiff(date1, date2) {
     return Math.floor(diffInMs / 1000);
 }
 
-
 /**
  * Returns formatted date 'Day Mon dd yyyy, hh:mm {am|pm}'
  * @param  {Date} d - the date to be formatted
  */
- function formatDate(d){
-    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-    days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-    return days[d.getDay()]+' '+months[d.getMonth()]+' '+d.getDate()+' '+d.getFullYear()+', '+formatAMPM(d);
+function formatDate(d) {
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    return days[d.getDay()] + " " + months[d.getMonth()] + " " + d.getDate() + " " + d.getFullYear() + ", " + formatAMPM(d);
 }
 
 /**
@@ -208,11 +195,11 @@ function secondDiff(date1, date2) {
 function formatAMPM(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
-    var ampm = hours >= 12 ? 'pm' : 'am';
+    var ampm = hours >= 12 ? "pm" : "am";
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
-    minutes = minutes < 10 ? '0'+minutes : minutes;
-    var strTime = hours + ':' + minutes + ' ' + ampm;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    var strTime = hours + ":" + minutes + " " + ampm;
     return strTime;
 }
 
@@ -220,10 +207,10 @@ function formatAMPM(date) {
  * Returns formatted date 'yyyy-MM-dd'
  * @param  {Date} d - the date to be formatted
  */
-function birthdayInput(d){
+function birthdayInput(d) {
     d = new Date(d);
     let MM = d.getMonth() + 1;
-    MM = (MM < 10) ? '0' + MM : MM;
+    MM = MM < 10 ? "0" + MM : MM;
     return `${d.getFullYear()}-${MM}-${d.getDate()}`;
 }
 
@@ -231,6 +218,6 @@ function birthdayInput(d){
  * Returns a clean string replacing newlines with spaces
  * @returns {string} - the string with newlines replaced with spaces
  */
-String.prototype.removeNewlinesAndTags = function(){
+String.prototype.removeNewlinesAndTags = function () {
     return this.replace(/(\r\n|\n|\r)/gm, "").replace(/(<([^>]+)>)/gi, "");
-}
+};

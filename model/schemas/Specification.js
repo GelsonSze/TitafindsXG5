@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
 const specSchema = new mongoose.Schema({
-    name:{
+    name: {
         type: String,
         required: true,
         unique: true,
     },
 
-    dataType:{
+    dataType: {
         type: String,
         required: true,
-    }
+    },
 });

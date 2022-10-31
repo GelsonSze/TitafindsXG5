@@ -1,83 +1,83 @@
 import mongoose from "mongoose";
 
 const itemSchema = new mongoose.Schema({
-    image:{
+    image: {
         type: String,
     },
-    
-    code:{
-        type: String,
-        required: true,
-    },
-    
-    name:{
+
+    code: {
         type: String,
         required: true,
     },
 
-    type:{
+    name: {
         type: String,
         required: true,
     },
 
-    brand:{
+    type: {
+        type: String,
+        required: true,
+    },
+
+    brand: {
         type: String,
     },
 
-    classification:{
-        type: String, 
-    },
-
-    design:{
+    classification: {
         type: String,
     },
 
-    size:{
+    design: {
+        type: String,
+    },
+
+    size: {
         type: Number,
     },
 
-    weight:{
-        type: Number,
-        required: true,
-    },
-
-    quantity:{
+    weight: {
         type: Number,
         required: true,
     },
 
-    sellingType:{
+    quantity: {
+        type: Number,
+        required: true,
+    },
+
+    sellingType: {
         type: String,
         required: true,
     },
 
-    purchasePrice:{
+    purchasePrice: {
         type: Number,
     },
 
-    sellingPrice:{
+    sellingPrice: {
         type: Number,
     },
 
-    status:{
+    status: {
         type: String,
         required: true,
     },
 
-    dateAdded:{
+    dateAdded: {
         type: String,
-        required: true
-    },
-    
-    dateUpdated:{
-        type: String
+        required: true,
     },
 
-    addedBy:{
+    dateUpdated: {
         type: String,
-        required:  true
     },
-    
+
+    addedBy: {
+        type: String,
+        required: true,
+    },
+
     mixed: mongoose.Schema.Types.Mixed,
 });
 

@@ -6,13 +6,14 @@
   "type": "module",
   "prettier": {
     "tabWidth": 4,
+    "singleQuote": true,
     "trailingComma": "es5",
     "printWidth": 9999
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "format": "prettier --write\" **/*.js\""
+    "format": "prettier --write \"**/*.js\""
   },
   "repository": {
     "type": "git",

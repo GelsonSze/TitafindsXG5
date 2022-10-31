@@ -1,19 +1,18 @@
-import User from '../model/schemas/user.js';
-import { isEqual } from '../utils/helper.js';
+import User from "../model/schemas/user.js";
+import { isEqual } from "../utils/helper.js";
 
-export async function checkAuth(req, res, next){
-    if(req.session.user){
+export async function checkAuth(req, res, next) {
+    if (req.session.user) {
         const user = await User.findById(req.session.user._id).lean();
-        if(!isEqual(user, req.session.user))
-            req.session.user = user;
+        if (!isEqual(user, req.session.user)) req.session.user = user;
         return next();
     }
-    res.redirect('/login');
+    res.redirect("/login");
 }
 
-export function checkNoAuth(req, res, next){
-    if(req.session.user){
-        return res.redirect('/home');
+export function checkNoAuth(req, res, next) {
+    if (req.session.user) {
+        return res.redirect("/home");
     }
-    next();    
+    next();
 }
