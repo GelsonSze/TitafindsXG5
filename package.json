@@ -6,7 +6,6 @@
   "type": "module",
   "prettier": {
     "tabWidth": 4,
-    "singleQuote": true,
     "trailingComma": "es5",
     "printWidth": 9999
   },
