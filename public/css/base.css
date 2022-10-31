@@ -11,6 +11,26 @@
     src: url('font/Omnes Medium.otf') format('opentype');
 }
 
+@font-face {
+    font-family: 'Inter Regular';
+    src: url('font/Inter-Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter Thin';
+    src: url('font/Inter-Thin.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter Medium';
+    src: url('font/Inter-Medium.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Inter Bold';
+    src: url('font/Inter-Bold.ttf') format('truetype');
+}
+
 :root{
     --clr-white: white;
     --clr-red: hsl(354, 71%, 54%);
