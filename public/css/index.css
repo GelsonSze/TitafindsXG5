@@ -59,6 +59,8 @@ main{
 }
 
 h1 {
+    font-family: 'Inter Bold';
+    color: #484848;
     font-size: 1.5rem;
 }
 

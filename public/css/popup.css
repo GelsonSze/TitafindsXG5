@@ -16,12 +16,34 @@
   margin: 10px;
 }
 
-button{
+#popup {
+  border-radius: 8px;
+  border-color: transparent;
+  font-family: 'Inter Bold';
+  color: black;
+}
+
+#popup h1 { color: black;}
+
+#popup button{
   border-radius: 8px;
   border-color: transparent;
   color: white;
   background: #716f6f;
   margin: 10px;
+}
+
+#add {
+  margin: 10px;
+}
+
+#add button{
+  border-radius: 8px;
+  border-color: transparent;
+  color: #4b4b4b;
+  font-family: 'Inter Bold';
+  background: #d9d9d9;
+  margin: 0;
 }
 
 button:hover{
