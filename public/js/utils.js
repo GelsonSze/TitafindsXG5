@@ -221,3 +221,65 @@ function birthdayInput(d) {
 String.prototype.removeNewlinesAndTags = function () {
     return this.replace(/(\r\n|\n|\r)/gm, "").replace(/(<([^>]+)>)/gi, "");
 };
+
+/**
+ * This generates a random integer and concatenates it with the itemCode that was passed to the function.
+ * This function guarantees that the total length of the itemCode + randomly generated integer string is 9.
+ *
+ * Returns the item code concatenated with the randomly generated number (integer)
+ * @param {string} itemCode - the string code for the specific item type
+ * @returns {string} - the string with the item code concatenated with the randomly generated number (integer)
+ */
+function generateRandomInt(itemCode) {
+    // get desired number of digits given the item code
+    var digits = 8 - itemCode.length;
+    // get a random number from 0 to 10 ^ number of desired digits
+    var number = Math.floor(Math.random() * (9 * Math.pow(10, digits)));
+    // pad 0s at the start of the number if the number of digits is below desired digits
+    number.padStart(digits + 1, "0");
+
+    return itemCode + number;
+}
+
+/**
+ * This function generates the item code based on the specific item type that was passed in the parameters.
+ *
+ * Returns the item code concatenated with the randomly generated number (integer)
+ * @param {string} type - the string for the item's type
+ * @returns {string} - the string with the item code concatenated with the randomly generated number (integer)
+ */
+function generateItemCode(type) {
+    var itemCode;
+
+    switch (type) {
+        case "Bracelet":
+            itemCode = "B";
+            break;
+        case "Chain":
+            itemCode = "C";
+            break;
+        case "Earrings":
+            itemCode = "ER";
+            break;
+        case "Necklace":
+            itemCode = "NL";
+            break;
+        case "Pendant":
+            itemCode = "P";
+            break;
+        case "Ring":
+            itemCode = "R";
+            break;
+        case "Watch":
+            itemCode = "W";
+            break;
+        default:
+            itemCode = "NULL";
+    }
+    if (itemCode === "NULL") return itemCode;
+    else {
+        itemCode = generateRandomInt(itemCode);
+    }
+
+    return itemCode;
+}
