@@ -9,6 +9,7 @@ const app = express();
 app.get("/", checkAuth, itemController.home);
 app.get("/home", checkAuth, itemController.homeRedirect);
 app.post("/addItem", itemController.addItem);
+app.get("/getItem", itemController.getItem);
 
 // The login page
 app.get("/login", checkNoAuth, userController.login);
