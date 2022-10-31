@@ -1,6 +1,7 @@
 //Controller for items
 import Item from "../model/schemas/item.js";
 import db from "../model/db.js";
+import { generateItemCode } from "../utils/helper.js";
 
 const itemController = {
     // The dashboard or inventory page
@@ -8,7 +9,7 @@ const itemController = {
         res.render("index", {
             title: "index",
             styles: ["index.css", "w2ui-overrides.css", "popup.css"],
-            scripts: ["index.js", "popup.js"],
+            scripts: ["index.js"],
         });
     },
 
@@ -49,6 +50,11 @@ const itemController = {
             res.status(200).json(data);
         });
     },
+
+    //TO BE REMOVED:
+    addItemSamples: async function(data){
+        await Item.insertMany(data);
+    }
 };
 
 export default itemController;
