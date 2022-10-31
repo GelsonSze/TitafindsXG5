@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
     var Items = [];
     $.ajax({
         url: "/getItem",
@@ -55,5 +55,52 @@ $(document).ready(function () {
         ],
         records: Items,
     });
-    res.redirect("/");
+
+    $("#popup").popup({
+        blur: false,
+    });
+    /* pop-up must be only closed with X button, not by clicking outside */
+
+    $("#popup form .command :submit").on("click", function (e) {
+        e.preventDefault();
+
+        const data = new FormData($("#form")[0]);
+
+        for (var pair of data.entries()) {
+            console.log(pair[0] + ":" + pair[1]);
+        }
+
+        $.ajax({
+            url: "/addItem",
+            data: JSON.stringify({
+                name: $("#name").val(),
+                type: $("#type").val(),
+                brand: $("#brand").val(),
+                classification: $("#classification").val(),
+                design: $("#design").val(),
+                size: $("#size").val(),
+                weight: $("#weight").val(),
+                quantity: $("#quantity").val(),
+                sellingType: $("#sellingType").val(),
+                purchasePrice: $("#purchasePrice").val(),
+                sellingPrice: $("#sellingPrice").val(),
+                status: $("#status").val(),
+                dateAdded: new Date(),
+                dateUpdated: new Date()
+            }),
+            type: "POST",
+            processData: false,
+            contentType: false,
+            headers: {
+                "Content-Type": "application/json",
+            },
+
+            success: function (flag) {
+                if (flag) {
+                    console.log("success");
+                }
+            },
+        });
+    });
 });
+

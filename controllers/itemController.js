@@ -21,7 +21,7 @@ const itemController = {
     addItem: async function (req, res) {
         var addedItem = {
             image: req.body.image ?? "test.png",
-            code: "1234",
+            code: generateItemCode(req.body.type),
             name: req.body.name,
             type: req.body.type,
             brand: req.body.brand,
@@ -44,11 +44,11 @@ const itemController = {
             res.send(flag);
         });
     },
-    getItem: function(req, res){
-        db.findMany(Item, {}, null, function(data){
+    getItem: function (req, res) {
+        db.findMany(Item, {}, null, function (data) {
             res.status(200).json(data);
         });
-    }
+    },
 };
 
 export default itemController;
