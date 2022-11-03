@@ -12,7 +12,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "format": "prettier --write \"**/*.js\""
+    "format": "prettier --write \"**/*.{js,hbs}\""
   },
   "repository": {
     "type": "git",
@@ -47,10 +47,10 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npx lint-staged"
     }
   },
   "lint-staged": {
-    "*.js": ["prettier --write", "git add"]
+    "*.{js,hbs}": ["prettier --write", "git add"]
   }
 }

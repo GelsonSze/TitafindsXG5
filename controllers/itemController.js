@@ -52,9 +52,9 @@ const itemController = {
     },
 
     //TO BE REMOVED:
-    addItemSamples: async function(data){
+    addItemSamples: async function (data) {
         await Item.insertMany(data);
-    }
+    },
 };
 
 export default itemController;

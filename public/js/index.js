@@ -2,7 +2,7 @@ var Items = [];
 
 getAllItems();
 
-function getAllItems(refreshGrid=false) {
+function getAllItems(refreshGrid = false) {
     $.ajax({
         url: "/getItem",
         type: "GET",
@@ -13,24 +13,11 @@ function getAllItems(refreshGrid=false) {
         },
         success: function (items) {
             for (var product of items) {
-                Items.push(new item(
-                    product.image, 
-                    product.name, 
-                    product.code, 
-                    product.type, 
-                    product.classification, 
-                    product.size, 
-                    product.weight, 
-                    product.quantity, 
-                    product.sellingPrice,
-                    product.purchasePrice,
-                    product.status
-                    
-                    ));
+                Items.push(new item(product.image, product.name, product.code, product.type, product.classification, product.size, product.weight, product.quantity, product.sellingPrice, product.purchasePrice, product.status));
             }
-            if (refreshGrid) {                
-                w2ui['itemGrid'].records= Items;
-                w2ui['itemGrid'].refresh();
+            if (refreshGrid) {
+                w2ui["itemGrid"].records = Items;
+                w2ui["itemGrid"].refresh();
             }
         },
     });
@@ -54,7 +41,6 @@ function item(image, name, code, type, classification, length, size, weight, qua
 }
 
 $(function () {
-   
     $("#itemGrid").w2grid({
         name: "itemGrid",
         show: {
@@ -66,12 +52,16 @@ $(function () {
         limit: 50,
         recordHeight: 120,
         columns: [
-            { field: "image", text: "Image", size: "7%",
+            {
+                field: "image",
+                text: "Image",
+                size: "7%",
                 render: function (record, extra) {
-                    var html = '<img id="itemImage" src="img/'+ record.image + '" alt="' + record.image + '" style="height: 100px">';
+                    var html = '<img id="itemImage" src="img/' + record.image + '" alt="' + record.image + '" style="height: 100px">';
                     return html;
                 },
-                sortable: true },
+                sortable: true,
+            },
             { field: "name", text: "Name", size: "5%", sortable: true },
             { field: "code", text: "Code", size: "5%", sortable: true },
             { field: "type", text: "Type", size: "5%", sortable: true },
@@ -116,7 +106,7 @@ $(function () {
                 sellingPrice: $("#sellingPrice").val(),
                 status: $("#status").val(),
                 dateAdded: new Date(),
-                dateUpdated: new Date()
+                dateUpdated: new Date(),
             }),
             type: "POST",
             processData: false,
@@ -128,9 +118,9 @@ $(function () {
             success: async function (flag) {
                 if (flag) {
                     console.log("success");
-                    Items=[];
+                    Items = [];
                     getAllItems(true);
-                    console.log("reloaded")
+                    console.log("reloaded");
                     $("#popup").popup("hide");
                 }
             },
@@ -138,16 +128,13 @@ $(function () {
     });
     //hover on image
     $(document).on("mouseover", "#itemImage", function (e) {
-        console.log(e.target.src)
-        $("#hoveredImg").attr("src",e.target.src);
+        console.log(e.target.src);
+        $("#hoveredImg").attr("src", e.target.src);
         $("#hoveredImg").css("display", "block");
     });
     //leave hover on image
     $(document).on("mouseleave", "#itemImage", function (e) {
-        console.log("leave")
+        console.log("leave");
         $("#hoveredImg").css("display", "none");
-
     });
-
 });
-
