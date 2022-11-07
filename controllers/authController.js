@@ -1,4 +1,4 @@
-import User from "../model/schemas/user.js";
+import User from "../model/schemas/User.js";
 import { isEqual } from "../utils/helper.js";
 
 export async function checkAuth(req, res, next) {

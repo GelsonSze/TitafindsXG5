@@ -1,5 +1,5 @@
 //Controller for items
-import Item from "../model/schemas/item.js";
+import Item from "../model/schemas/Item.js";
 import db from "../model/db.js";
 import { generateItemCode } from "../utils/helper.js";
 
