@@ -17,6 +17,10 @@ app.post("/auth/addUser", userController.addUser);
 app.post("/auth/login", userController.loginUser);
 app.delete("/auth/logout", userController.logoutUser);
 
+// The Item Page
+app.get("/item/:code", checkNoAuth, itemController.itemDetails);
+
+
 // TO BE REMOVED
 if (process.env.NODE_ENV === "development") {
     //Add admin user to database

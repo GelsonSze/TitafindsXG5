@@ -14,8 +14,16 @@ const itemController = {
     },
 
     // Redirects to home page
-    homeRedirect: function (req, res) {
+    homeRedirect: async function (req, res) {
         res.redirect("/");
+    },
+
+    itemDetails: function (req, res) {
+        res.render("item", {
+            code: req.body.code,
+            styles: ["item.css"],
+            scripts: ["item.js"],
+        });
     },
 
     // Adds item passed in a post request into the database
