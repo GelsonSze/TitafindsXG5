@@ -4,7 +4,7 @@ getAllItems();
 
 function getAllItems(refreshGrid = false) {
     $.ajax({
-        url: "/getItem",
+        url: "/getItems",
         type: "GET",
         processData: false,
         contentType: false,

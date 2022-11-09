@@ -20,6 +20,7 @@ const itemController = {
 
     itemDetails: function (req, res) {
         res.render("item", {
+            title: "Product",
             code: req.body.code,
             styles: ["item.css"],
             scripts: ["item.js"],
@@ -54,10 +55,18 @@ const itemController = {
             res.send(flag);
         });
     },
-    getItem: function (req, res) {
+    getItems: function (req, res) {
         db.findMany(Item, {}, null, function (data) {
             res.status(200).json(data);
         });
+    },
+
+    getItem: function (req, res) {
+        db.findOne(Item, {code:req.query.code}, {}, async function(data) {
+            console.log(req.query)
+            res.status(200).json(await data);
+        })
+
     },
 
     //TO BE REMOVED:

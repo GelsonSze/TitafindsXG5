@@ -9,7 +9,7 @@ const app = express();
 // The dashboard or inventory page
 app.get("/", checkAuth, itemController.home);
 app.post("/addItem", itemController.addItem);
-app.get("/getItem", itemController.getItem);
+app.get("/getItems", itemController.getItems);
 
 // The login page
 app.get("/login", checkNoAuth, userController.login);
@@ -19,6 +19,7 @@ app.delete("/auth/logout", userController.logoutUser);
 
 // The Item Page
 app.get("/item/:code", checkNoAuth, itemController.itemDetails);
+app.get("/getItem", itemController.getItem);
 
 
 // TO BE REMOVED
