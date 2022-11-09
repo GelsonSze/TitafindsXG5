@@ -44,6 +44,12 @@
   margin: 10px;
 }
 
+#popup textarea{
+	resize: horizontal;
+	padding: 5px;
+	height: 30px;
+}
+
 #add {
   margin: 10px;
 }
