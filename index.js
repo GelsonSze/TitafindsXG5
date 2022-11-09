@@ -49,7 +49,9 @@ app.set("view engine", "hbs");
 app.set("views", __dirname + "/views");
 
 // Use helmet to secure Express headers
-app.use(helmet({ crossOriginEmbedderPolicy: false }));
+app.use(helmet.crossOriginEmbedderPolicy({ policy: "credentialless" }));
+app.use(helmet.crossOriginOpenerPolicy({ policy: "same-origin" }));
+app.use(helmet.crossOriginResourcePolicy({ policy: "same-origin" }));
 
 // Use morgan to log HTTP requests
 app.use(morgan("dev"));

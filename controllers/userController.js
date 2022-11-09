@@ -1,5 +1,5 @@
 //Controller for user
-import User from "../model/schemas/user.js";
+import User from "../model/schemas/User.js";
 import bcrypt from "bcrypt";
 
 const userController = {
