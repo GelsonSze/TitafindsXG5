@@ -45,7 +45,6 @@ $(function () {
         name: "itemGrid",
         show: {
             footer: true,
-            toolbar: true,
             lineNumbers: true,
         },
         method: "GET",
@@ -72,6 +71,14 @@ $(function () {
             { field: "sellingPrice", text: "Selling Price", size: "5%", sortable: true },
             { field: "purchasePrice", text: "Purchase Price", size: "5%", sortable: true },
             { field: "status", text: "Status", size: "10%", sortable: true },
+            { 
+                field: "edit", 
+                size: "5%",
+                render: function(record, extra) {
+                    var html = '<button type="button" class="table-edit-btn" id="rec-'+record.code+'">Edit</button>' ;
+                    return html;
+                }
+            },
         ],
         records: Items,
     });
