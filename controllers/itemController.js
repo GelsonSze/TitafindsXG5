@@ -22,8 +22,9 @@ const itemController = {
     addItem: async function (req, res) {
         var addedItem = {
             image: req.body.image ?? "test.png",
-            code: generateItemCode(req.body.type),
+            code: req.body.code,
             name: req.body.name,
+            description: req.body.description,
             type: req.body.type,
             brand: req.body.brand,
             classification: req.body.classification,

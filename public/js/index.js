@@ -76,10 +76,16 @@ $(function () {
         records: Items,
     });
 
+    /* pop-up must be only closed with X button, not by clicking outside */
     $("#popup").popup({
         blur: false,
     });
-    /* pop-up must be only closed with X button, not by clicking outside */
+
+    /* WILL RENAME SELECTORS ONCE RENAMING OF THE FORM IDS ARE FINISHED*/
+    /* clicking on the X button of the popup clears the form */
+    $("#popup .popup_close").on("click", function(){
+        $("#popup #form")[0].reset();
+    })
 
     $("#popup form .command :submit").on("click", function (e) {
         e.preventDefault();
@@ -94,6 +100,8 @@ $(function () {
             url: "/addItem",
             data: JSON.stringify({
                 name: $("#name").val(),
+                code: $("#code").val(),
+                description: $("#description").val(),
                 type: $("#type").val(),
                 brand: $("#brand").val(),
                 classification: $("#classification").val(),
