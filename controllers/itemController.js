@@ -52,10 +52,10 @@ const itemController = {
         });
     },
 
-    //TO BE REMOVED:
-    addItemSamples: async function (data) {
-        await Item.insertMany(data);
-    },
+    // //TO BE REMOVED:
+    // addItemSamples: async function (data) {
+    //     await Item.insertMany(data);
+    // },
 };
 
 export default itemController;

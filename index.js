@@ -91,3 +91,11 @@ db.connectDB();
 app.listen(port, function () {
     console.log("Server is running at port: " + port);
 });
+
+// Get samples
+
+import sample from "./sample/samples.js";
+
+if (process.env.NODE_ENV === "development") {
+    sample.initializeSamples();
+}

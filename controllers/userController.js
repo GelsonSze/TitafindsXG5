@@ -76,36 +76,36 @@ const userController = {
         }
     },
 
-    // TO BE REMOVED: Add admin user to database
-    addAdmin: async function () {
-        try {
-            //Check if the user already exists
-            const user = await User.findOne({ username: "admin" });
-            if (user) {
-                console.log("Admin already exists.");
-                return;
-            }
+    // // TO BE REMOVED: Add admin user to database
+    // addAdmin: async function () {
+    //     try {
+    //         //Check if the user already exists
+    //         const user = await User.findOne({ username: "admin" });
+    //         if (user) {
+    //             console.log("Admin already exists.");
+    //             return;
+    //         }
 
-            //Create a new user
-            const admin = new User({
-                username: "admin",
-                password: "admin",
-                email: "admin@gmail.com",
-                firstName: "admin",
-                lastName: "admin",
-                isAdmin: true,
-            });
+    //         //Create a new user
+    //         const admin = new User({
+    //             username: "admin",
+    //             password: "admin",
+    //             email: "admin@gmail.com",
+    //             firstName: "admin",
+    //             lastName: "admin",
+    //             isAdmin: true,
+    //         });
 
-            //Hash the password
-            const salt = await bcrypt.genSalt(10);
-            admin.password = await bcrypt.hash(admin.password, salt);
+    //         //Hash the password
+    //         const salt = await bcrypt.genSalt(10);
+    //         admin.password = await bcrypt.hash(admin.password, salt);
 
-            //Save the user
-            await admin.save();
-        } catch (error) {
-            console.log(error);
-        }
-    },
+    //         //Save the user
+    //         await admin.save();
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // },
 };
 
 export default userController;
