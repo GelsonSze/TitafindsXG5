@@ -1,6 +1,7 @@
 /* need to finalize */
 body{
     background-color: var(--clr-white);
+    position: relative;
 }
 
 header{
@@ -267,11 +268,16 @@ h1 {
 }
 
 /* HOVER FOR ITEM IMAGE */
+
+#itemImage{
+    height: 100px;
+}
+
 #hoveredImg {
     display: none;
     position: absolute;
-    left: 40%;
-    top: 30%;
-    width: 300px;
+    inset: 0;
+    margin: auto;
+    width: 40vw;
     border: 5px solid black;
 }

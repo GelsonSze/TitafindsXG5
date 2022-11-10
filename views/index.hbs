@@ -1,4 +1,4 @@
-<header>
+{{!-- <header>
     <nav>
         {{! <ul>
             <li><a href="/">Home</a></li>
@@ -9,7 +9,7 @@
             <img src="/img/Titafinds/icon.png" id="icon-logo" />
         </div>
     </nav>
-</header>
+</header> --}}
 
 <main>
     <section>
@@ -19,11 +19,11 @@
             <div id="table-actions-wrapper">
                 <div id="table-filters-wrapper">
 
-                    {{!-- Search --}}
+                    {{! Search }}
                     <i class="fa fa-search" aria-hidden="true"></i>
-                    <input class="input-field" type="text" placeholder="Search" id="filter-search">
+                    <input class="input-field" type="text" placeholder="Search" id="filter-search" />
 
-                    {{!-- Type --}}
+                    {{! Type }}
                     <div class="dropdown-select-wrapper">
                         <select disabled>
                             <option disabled selected value>Type</option>
@@ -40,7 +40,7 @@
                         </div>
                     </div>
 
-                    {{!-- <select>
+                    {{! <select>
                         <option disabled selected value>Type</option>
                         <option>Chain</option>
                         <option>Braceclet</option>
@@ -50,9 +50,9 @@
                         <option>Ring</option>
                         <option>Set</option>
                         <option>Watch</option>
-                    </select> --}}
+                    </select> }}
 
-                    {{!-- Classification --}}
+                    {{! Classification }}
                     <div class="dropdown-select-wrapper">
                         <select disabled>
                             <option disabled selected value>Classification</option>
@@ -67,14 +67,14 @@
                         </div>
                     </div>
 
-                    {{!-- <select>
+                    {{! <select>
                         <option disabled selected value>Classification</option>
                         <option>10 karat</option>
                         <option>14 karat</option>
                         <option>18 karat</option>
-                    </select> --}}
+                    </select> }}
 
-                    {{!-- Status --}}
+                    {{! Status }}
                     <div class="dropdown-select-wrapper">
                         <select disabled>
                             <option disabled selected value>Status</option>
@@ -84,12 +84,12 @@
                             <button type="button">No Stock</button>
                         </div>
                     </div>
-                    
-                    {{!-- <select>
-                        <option disabled selected value>Status</option>
-                    </select> --}}
 
-                    {{!-- Weight --}}
+                    {{! <select>
+                        <option disabled selected value>Status</option>
+                    </select> }}
+
+                    {{! Weight }}
                     <div class="dropdown-btn">
                         <select disabled>
                             <option disabled selected value>Weight</option>
@@ -98,12 +98,12 @@
                             <span>WEIGHT RANGE</span>
                             <div class="range-wrapper">
                                 <div class="gram-wrapper">
-                                    <input type="text" class="input-field" size="2">
+                                    <input type="text" class="input-field" size="2" />
                                     <span>GRAMS</span>
                                 </div>
                                 <span>to</span>
                                 <div class="gram-wrapper">
-                                    <input type="text" class="input-field" size="2">
+                                    <input type="text" class="input-field" size="2" />
                                     <span>GRAMS</span>
                                 </div>
 
@@ -111,7 +111,7 @@
                         </div>
                     </div>
 
-                    {{!-- Size --}}
+                    {{! Size }}
                     <div class="dropdown-btn">
                         <select disabled>
                             <option disabled selected value>Size</option>
@@ -119,19 +119,19 @@
                         <div class="dropdown-content">
                             <span>SIZE RANGE</span>
                             <div class="range-wrapper">
-                                <input type="text" class="input-field" size="2">
+                                <input type="text" class="input-field" size="2" />
                                 <span>to</span>
-                                <input type="text" class="input-field" size="2">
+                                <input type="text" class="input-field" size="2" />
                             </div>
                             <select>
                                 <option selected>cm</option>
                                 <option>inches</option>
                             </select>
                         </div>
-                        
+
                     </div>
 
-                    {{!-- Apply Button --}}
+                    {{! Apply Button }}
                     <button type="button" id="table-filter-apply">Apply Filter</button>
 
                 </div>
@@ -142,7 +142,6 @@
                 </div>
             </div>
 
-            
         </section>
 
         <section id="popup">
@@ -175,7 +174,7 @@
                         <div class="popup-row-wrapper">
                             <div class="item-wrapper">
                                 <label>Product Description</label><br />
-                                <textarea id="description" name="description" /></textarea><br />
+                                <textarea id="description" name="description"></textarea><br />
                             </div>
                         </div>
 
@@ -332,10 +331,10 @@
 
     </section>
 
-    <section>
+    <section id="main-body">
         {{!place code for the w2ui table here }}
         <div id="itemGrid" style="height: 450px"></div>
-
-        <img id="hoveredImg" src="img/test.png" />
     </section>
 </main>
+
+<img id="hoveredImg" src="img/test.png" />

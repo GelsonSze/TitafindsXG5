@@ -1,7 +1,5 @@
 var Items = [];
 
-getAllItems();
-
 function getAllItems(refreshGrid = false) {
     $.ajax({
         url: "/getItem",
@@ -23,7 +21,7 @@ function getAllItems(refreshGrid = false) {
     });
 }
 
-function item(image, name, code, type, classification, length, size, weight, quantity, sellingType, purchasePrice, sellingPrice, status) {
+function item(image, name, code, type, classification, size, weight, quantity, sellingPrice, purchasePrice, status) {
     return {
         recid: Items.length + 1,
         image: image,
@@ -41,6 +39,8 @@ function item(image, name, code, type, classification, length, size, weight, qua
 }
 
 $(function () {
+    getAllItems(true);
+
     $("#itemGrid").w2grid({
         name: "itemGrid",
         show: {
@@ -56,7 +56,7 @@ $(function () {
                 text: "Image",
                 size: "7%",
                 render: function (record, extra) {
-                    var html = '<img id="itemImage" src="img/' + record.image + '" alt="' + record.image + '" style="height: 100px">';
+                    var html = '<img id="itemImage" src="img/' + record.image + '" alt="' + record.image + '">';
                     return html;
                 },
                 sortable: true,
@@ -71,13 +71,13 @@ $(function () {
             { field: "sellingPrice", text: "Selling Price", size: "5%", sortable: true },
             { field: "purchasePrice", text: "Purchase Price", size: "5%", sortable: true },
             { field: "status", text: "Status", size: "10%", sortable: true },
-            { 
-                field: "edit", 
+            {
+                field: "edit",
                 size: "5%",
-                render: function(record, extra) {
-                    var html = '<button type="button" class="table-edit-btn" id="rec-'+record.code+'">Edit</button>' ;
+                render: function (record, extra) {
+                    var html = '<button type="button" class="table-edit-btn" id="rec-' + record.code + '">Edit</button>';
                     return html;
-                }
+                },
             },
         ],
         records: Items,
@@ -90,9 +90,9 @@ $(function () {
 
     /* WILL RENAME SELECTORS ONCE RENAMING OF THE FORM IDS ARE FINISHED*/
     /* clicking on the X button of the popup clears the form */
-    $("#popup .popup_close").on("click", function(){
+    $("#popup .popup_close").on("click", function () {
         $("#popup #form")[0].reset();
-    })
+    });
 
     $("#popup form .command :submit").on("click", function (e) {
         e.preventDefault();
