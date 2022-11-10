@@ -33,6 +33,7 @@
     "express-handlebars": "^6.0.6",
     "express-mongo-sanitize": "^2.2.0",
     "express-session": "^1.17.3",
+    "git-removed-branches": "^2.0.1",
     "helmet": "^6.0.0",
     "mongodb": "^4.10.0",
     "mongoose": "^6.6.5",
@@ -51,6 +52,8 @@
     }
   },
   "lint-staged": {
-    "*.{js,hbs}": ["prettier --write"]
+    "*.{js,hbs}": [
+      "prettier --write"
+    ]
   }
 }
