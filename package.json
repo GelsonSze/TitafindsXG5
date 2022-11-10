@@ -51,6 +51,6 @@
     }
   },
   "lint-staged": {
-    "*.{js,hbs}": ["prettier --write", "git add"]
+    "*.{js,hbs}": ["prettier --write"]
   }
 }
