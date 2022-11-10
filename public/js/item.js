@@ -1,6 +1,6 @@
 var page_item = null;
 
-function item(image, name, code, type, classification, length, size, weight, quantity, sellingType, purchasePrice, sellingPrice, status) {
+function Item(image, name, code, type, classification, length, size, weight, quantity, sellingType, purchasePrice, sellingPrice, status) {
     return {
         image: image,
         name: name,
@@ -20,9 +20,8 @@ function item(image, name, code, type, classification, length, size, weight, qua
 
 function getItem() {
     var item_code = window.location.pathname.split("/").pop();
-    console.log(item_code)
     $.ajax({
-        url:"/getItem",
+        url:"/getItem?code="+item_code,
         type:"GET",
         processData: false,
         contentType: false,
@@ -31,12 +30,12 @@ function getItem() {
             "Content-Type": "application/json",
         },
         success: function (item) {
-            console.log(item)
-            page_item = new item(   item.image, item.name, item.code, item.type, item.classification, "", 
-                                    item.size, item.weight, item.quantity,"", item.purchasePrice, 
+            // Note from Erik: length is undefined ata sa database hence it being an outlier with system colors
+            page_item = new Item(   item.image, item.name, item.code, item.type, item.classification, item.length, 
+                                    item.size, item.weight, item.quantity, item.sellingType, item.purchasePrice, 
                                     item.sellingPrice,  item.status
                                 );
-            
+            //console.log(page_item)
         },
     });
 }
@@ -62,8 +61,5 @@ $(document).ready(function(){
 
     // Loads item for the page.
     getItem();
-
-    console.log("hello")
-    console.log(page_item)
 
 })
