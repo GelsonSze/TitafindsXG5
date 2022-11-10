@@ -35,25 +35,36 @@ function getItem() {
                                     item.size, item.weight, item.quantity, item.sellingType, item.purchasePrice, 
                                     item.sellingPrice,  item.status
                                 );
-            //console.log(page_item)
+
+            var num_keys = Object.keys(page_item).length
+
+            var fields = $.map(page_item, function(value, key) {return key;})
+            var values = $.map(page_item, function(value, key) {return value;})
+
+            // Appends a field into the #fields-table
+            for (var i = 0; i < num_keys; i++) 
+            {
+                $('#fields-table').append(item_desc(fields[i], values[i]))
+            }
+
         },
     });
 }
 
 function item_desc(field, desc) { 
+
+    const html = `
+    <div class="item-desc-wrapper">
+        <div class="field">
+            ${field}
+        </div>
+        <div class="desc">
+            ${desc}
+        </div>
+    </div>
     
-    var html = 
-    '<div class="item-desc-wrapper">'+
-        '<div class="field">'+
-            field
-        '</div>'+
-
-        '<div class="desc">'+
-            desc
-        '</div>'+
-
-    '</div>';
-
+    `
+    
     return html;
 }
 
