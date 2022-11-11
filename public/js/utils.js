@@ -22,30 +22,34 @@ function truncate(str, n, useWordBoundary = 1) {
     return (useWordBoundary ? subString.substr(0, subString.lastIndexOf(" ")) : subString) + "&hellip;";
 }
 
+var successTimeout,
+    errorTimeout,
+    tempFields = [];
+    
 /**
  * Shows the error message and highlights all the
  * inputs in elements array for 5 seconds.
- * @param  {element} error
- * @param  {string} message
- * @param  {element[]} elements
+ * @param  {element} error - the element to display the error message
+ * @param  {string} message - the error message
+ * @param  {element[]} inputs - the fields to display red border 
  */
-function showError(error, message, elements) {
+function showError(error, message, inputs) {
     clearTimeout(errorTimeout);
     for (const oldInput of tempFields) {
         oldInput.classList.remove("error");
     }
-    tempFields = elements.slice();
+    tempFields = inputs.slice();
 
     if (error) {
         error.innerHTML = message;
         error.classList.add("active");
     }
-    for (const input of elements) {
+    for (const input of inputs) {
         input.classList.add("error");
     }
     errorTimeout = setTimeout(() => {
         if (error) error.classList.remove("active");
-        for (const input of elements) {
+        for (const input of inputs) {
             input.classList.remove("error");
         }
     }, 5000);

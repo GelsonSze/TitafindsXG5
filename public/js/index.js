@@ -100,40 +100,21 @@ $(function () {
 
     $("#popup form .command :submit").on("click", function (e) {
         e.preventDefault();
-
+        
         const data = new FormData($("#form")[0]);
+        data.append("dateAdded", new Date());
+        data.append("dateUpdated", new Date());
 
+        //TO BE REMOVED
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
-
         $.ajax({
             url: "/addItem",
-            data: JSON.stringify({
-                image: $("image").files[0],
-                name: $("#name").val(),
-                code: $("#code").val(),
-                description: $("#description").val(),
-                type: $("#type").val(),
-                brand: $("#brand").val(),
-                classification: $("#classification").val(),
-                design: $("#design").val(),
-                size: $("#size").val(),
-                weight: $("#weight").val(),
-                quantity: $("#quantity").val(),
-                sellingType: $("#sellingType").val(),
-                purchasePrice: $("#purchasePrice").val(),
-                sellingPrice: $("#sellingPrice").val(),
-                status: $("#status").val(),
-                dateAdded: new Date(),
-                dateUpdated: new Date(),
-            }),
+            data: data,
             type: "POST",
             processData: false,
             contentType: false,
-            headers: {
-                "Content-Type": "application/json",
-            },
 
             success: async function (flag) {
                 if (flag) {

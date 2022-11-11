@@ -21,14 +21,20 @@ const itemController = {
 
     // Adds item passed in a post request into the database
     addItem: async function (req, res) {
-        var image = "test.png"
+        console.log(">>FILE<<");
+        console.log(req.file);
+        console.log(">>BODY<<");
+        console.log(req.body);
+
+        var image = "test.png";
+
         if(req.file){
             image = req.file;
-            image = image.destination.replaceAll('./public/', '') + image.filename;
+            image = image.destination.replaceAll('./public/img/', '') + image.filename;
         }
 
         var addedItem = {
-            image: req.destination.image ?? "test.png",
+            image: image ?? "test.png",
             code: req.body.code,
             name: req.body.name,
             description: req.body.description,

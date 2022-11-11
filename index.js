@@ -95,7 +95,6 @@ app.listen(port, function () {
 });
 
 // Get samples
-
 import sample from "./sample/samples.js";
 
 if (process.env.NODE_ENV === "development") {
