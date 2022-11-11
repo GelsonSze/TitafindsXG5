@@ -110,6 +110,7 @@ $(function () {
         $.ajax({
             url: "/addItem",
             data: JSON.stringify({
+                image: $("image").files[0],
                 name: $("#name").val(),
                 code: $("#code").val(),
                 description: $("#description").val(),
@@ -145,6 +146,26 @@ $(function () {
             },
         });
     });
+    //on change of image
+    $("#image").on("change", function () {
+        try{
+            if(this.files[0].type.match(/image.*/)){
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $("#product-image-preview").attr("src", e.target.result);
+                };
+                reader.readAsDataURL(this.files[0]);
+            }
+            else
+            {
+                showError($(".text-error")[0], "Please select an image file", [$("#product-image-preview")[0]]);
+            }
+        }
+        catch(err){
+            console.log(err);
+        }
+    });
+
     //hover on image
     $(document).on("mouseover", "#itemImage", function (e) {
         console.log(e.target.src);
@@ -156,4 +177,5 @@ $(function () {
         console.log("leave");
         $("#hoveredImg").css("display", "none");
     });
+    
 });

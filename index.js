@@ -88,6 +88,8 @@ app.use("/", routes);
 // Connect to MongoDB
 db.connectDB();
 
+//setup for image upload and indicates where image should be saved
+
 app.listen(port, function () {
     console.log("Server is running at port: " + port);
 });
