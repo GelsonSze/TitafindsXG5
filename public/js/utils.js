@@ -19,33 +19,39 @@ function truncate(str, n, useWordBoundary = 1) {
         return str;
     }
     const subString = str.substr(0, n - 1); // the original check
-    return (useWordBoundary ? subString.substr(0, subString.lastIndexOf(" ")) : subString) + "&hellip;";
+    return (
+        (useWordBoundary ? subString.substr(0, subString.lastIndexOf(" ")) : subString) + "&hellip;"
+    );
 }
+
+var successTimeout,
+    errorTimeout,
+    tempFields = [];
 
 /**
  * Shows the error message and highlights all the
  * inputs in elements array for 5 seconds.
- * @param  {element} error
- * @param  {string} message
- * @param  {element[]} elements
+ * @param  {HTMLElement} error - the element to display the error message
+ * @param  {string} message - the error message
+ * @param  {HTMLElement[]} inputs - the fields to display red border
  */
-function showError(error, message, elements) {
+function showError(error, message, inputs) {
     clearTimeout(errorTimeout);
     for (const oldInput of tempFields) {
         oldInput.classList.remove("error");
     }
-    tempFields = elements.slice();
+    tempFields = inputs.slice();
 
     if (error) {
         error.innerHTML = message;
         error.classList.add("active");
     }
-    for (const input of elements) {
+    for (const input of inputs) {
         input.classList.add("error");
     }
     errorTimeout = setTimeout(() => {
         if (error) error.classList.remove("active");
-        for (const input of elements) {
+        for (const input of inputs) {
             input.classList.remove("error");
         }
     }, 5000);
@@ -53,7 +59,7 @@ function showError(error, message, elements) {
 
 /**
  * Shows the success message for 5 seconds.
- * @param {element} success
+ * @param {HTMLElement} success
  * @param {string} message
  */
 
@@ -70,7 +76,7 @@ function showSuccess(success, message) {
 
 /**
  * Clears content/innerHTML of the given element
- * @param  {element} element
+ * @param  {HTMLElement} element
  */
 function clear(element) {
     element.innerHTML = "";
@@ -83,7 +89,7 @@ function clear(element) {
  * Note that if the element has a transition property,
  * Visibility property allows transition
  * Display property doesnt allow transition
- * @param  {element} element
+ * @param  {HTMLElement} element
  * @param  {boolean} [show=undefined] - if 1, show the element; else, hide the element
  * @param  {boolean} [display=undefined] - if 1, uses display property; else, uses visibility property
  */
@@ -91,14 +97,20 @@ function toggle(element, show = undefined, display = undefined) {
     if (display === undefined) {
         element.style.transition = "all 0.3s ease";
         if (show === undefined) {
-            element.style.visibility = element.style.visibility == "visible" || !element.style.visibility ? "hidden" : "visible";
-            element.style.opacity = element.style.opacity == "1" || !element.style.opacity ? "0" : "1";
+            element.style.visibility =
+                element.style.visibility == "visible" || !element.style.visibility
+                    ? "hidden"
+                    : "visible";
+            element.style.opacity =
+                element.style.opacity == "1" || !element.style.opacity ? "0" : "1";
         } else {
             element.style.visibility = !show ? "hidden" : "visible";
             element.style.opacity = !show ? "0" : "1";
         }
     } else {
-        if (show === undefined) element.style.display = element.style.display != "none" || !element.style.display ? "none" : "block";
+        if (show === undefined)
+            element.style.display =
+                element.style.display != "none" || !element.style.display ? "none" : "block";
         else element.style.display = !show ? "none" : "block";
     }
 }
@@ -183,9 +195,32 @@ function secondDiff(date1, date2) {
  * @param  {Date} d - the date to be formatted
  */
 function formatDate(d) {
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    var months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ],
         days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    return days[d.getDay()] + " " + months[d.getMonth()] + " " + d.getDate() + " " + d.getFullYear() + ", " + formatAMPM(d);
+    return (
+        days[d.getDay()] +
+        " " +
+        months[d.getMonth()] +
+        " " +
+        d.getDate() +
+        " " +
+        d.getFullYear() +
+        ", " +
+        formatAMPM(d)
+    );
 }
 
 /**

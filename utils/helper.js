@@ -38,7 +38,10 @@ export function truncate(str, n = 170, useWordBoundary = 1) {
         return str;
     }
     const subString = str.substring(0, n - 1); // the original check
-    return (useWordBoundary ? subString.substring(0, subString.lastIndexOf(" ")) : subString) + "&hellip;";
+    return (
+        (useWordBoundary ? subString.substring(0, subString.lastIndexOf(" ")) : subString) +
+        "&hellip;"
+    );
 }
 
 /**
@@ -121,9 +124,32 @@ function secondDiff(date1, date2) {
  * @param  {Date} d - the date to be formatted
  */
 export function formatDate(d) {
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    var months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ],
         days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    return days[d.getDay()] + " " + months[d.getMonth()] + " " + d.getDate() + " " + d.getFullYear() + ", " + formatAMPM(d);
+    return (
+        days[d.getDay()] +
+        " " +
+        months[d.getMonth()] +
+        " " +
+        d.getDate() +
+        " " +
+        d.getFullYear() +
+        ", " +
+        formatAMPM(d)
+    );
 }
 
 /**
@@ -147,7 +173,20 @@ function formatAMPM(date) {
  */
 export function birthday(d) {
     d = new Date(d);
-    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var months = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
+    ];
     return months[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
 }
 

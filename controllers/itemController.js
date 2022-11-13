@@ -2,6 +2,7 @@
 import Item from "../model/schemas/Item.js";
 import db from "../model/db.js";
 import { generateItemCode } from "../utils/helper.js";
+import { upload } from "../utils/multer.js";
 
 const itemController = {
     // The dashboard or inventory page
@@ -20,8 +21,20 @@ const itemController = {
 
     // Adds item passed in a post request into the database
     addItem: async function (req, res) {
+        console.log(">>FILE<<");
+        console.log(req.file);
+        console.log(">>BODY<<");
+        console.log(req.body);
+
+        var image = "test.png";
+
+        if (req.file) {
+            image = req.file;
+            image = image.destination.replaceAll("./public/img/", "") + image.filename;
+        }
+
         var addedItem = {
-            image: req.body.image ?? "test.png",
+            image: image ?? "test.png",
             code: req.body.code,
             name: req.body.name,
             description: req.body.description,
@@ -40,6 +53,7 @@ const itemController = {
             dateUpdated: req.body.dateUpdated,
             addedBy: req.session.user.username,
         };
+
         console.log(addedItem);
 
         db.insertOne(Item, addedItem, function (flag) {

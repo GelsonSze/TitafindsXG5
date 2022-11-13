@@ -1,11 +1,12 @@
-
-.w2ui-reset table tr td, .w2ui-reset table tr th {
-    font-family: 'Inter Regular';
+.w2ui-reset table tr td,
+.w2ui-reset table tr th {
+    font-family: "Inter Regular";
     font-size: 11px;
 }
 
 /*  */
-.w2ui-grid .w2ui-grid-body .w2ui-grid-columns, .w2ui-grid .w2ui-grid-body .w2ui-grid-fcolumns {
+.w2ui-grid .w2ui-grid-body .w2ui-grid-columns,
+.w2ui-grid .w2ui-grid-body .w2ui-grid-fcolumns {
     overflow: hidden;
     position: absolute;
     left: 0;
@@ -16,7 +17,8 @@
 }
 
 /* Column Headers */
-.w2ui-grid .w2ui-grid-body .w2ui-grid-columns table, .w2ui-grid .w2ui-grid-body .w2ui-grid-fcolumns table {
+.w2ui-grid .w2ui-grid-body .w2ui-grid-columns table,
+.w2ui-grid .w2ui-grid-body .w2ui-grid-fcolumns table {
     height: 40px;
     /* font-family: var(--font-type3); */
 }
@@ -30,7 +32,7 @@
 
     border-right: none;
     border-bottom: none;
-    
+
     background-image: none;
     background-image: none;
     background-image: none;
@@ -49,42 +51,40 @@
 /*--  Rows -- */
 
 /* ODD */
-.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd, .w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-odd {
+.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd,
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-odd {
     color: inherit;
     background-color: #fff;
 }
 
 /* Even  */
-.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-even, .w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-even {
+.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-even,
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-even {
     color: inherit;
     background-color: #fff;
 }
 
-
-
-.w2ui-grid-data{
+.w2ui-grid-data {
     /*This is for the css of the data of each column(Ex: Weight: 5kg [so it modifies the box containing the 5kg])*/
 }
-.w2ui-col-header{
+.w2ui-col-header {
     /*This is for the css div of the column names itself and modifies the design of it (Ex: Classification)*/
 }
-#grid_itemGrid_toolbar .w2ui-grid-toolbar .w2ui-reset .w2ui-toolbar{
+#grid_itemGrid_toolbar .w2ui-grid-toolbar .w2ui-reset .w2ui-toolbar {
     /*This is for the css of the toolbar with the search button and reload button*/
 }
-#grid_itemGrid_footer .w2ui-grid-footer{
+#grid_itemGrid_footer .w2ui-grid-footer {
     /*This is for the css of the footer of the grid (The most bottom part of the grid)*/
 }
-.w2ui-col-number{
+.w2ui-col-number {
     /*This is for the css of the column number of the grid or the number that tells you what item it is*/
 }
-#grid_itemGrid_search_all .w2ui-search-all .w2field .w2ui-input{
+#grid_itemGrid_search_all .w2ui-search-all .w2field .w2ui-input {
     /*This is for the css of the search bar in the grid*/
 }
-#tb_itemGrid_toolbar_right{
+#tb_itemGrid_toolbar_right {
     /*This is for the css of the empty space beside the search bar(deleting this would shift the items on the left to the right)*/
 }
-.w2ui-sort-down{
+.w2ui-sort-down {
     /*Modifies the sort button (arrow) of the columns*/
 }
-
-

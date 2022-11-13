@@ -3,12 +3,13 @@ import itemController from "../controllers/itemController.js";
 import userController from "../controllers/userController.js";
 import { checkAuth, checkNoAuth } from "../controllers/authController.js";
 import { generateItemCode } from "../utils/helper.js";
+import { upload } from "../utils/multer.js";
 
 const app = express();
 
 // The dashboard or inventory page
 app.get("/", checkAuth, itemController.home);
-app.post("/addItem", itemController.addItem);
+app.post("/addItem", upload.single("image"), itemController.addItem);
 app.get("/getItem", itemController.getItem);
 
 // The login page
