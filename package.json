@@ -7,12 +7,27 @@
   "prettier": {
     "tabWidth": 4,
     "trailingComma": "es5",
-    "printWidth": 9999
+    "printWidth": 100,
+    "overrides": [
+      {
+        "files": "*.hbs",
+        "options": {
+          "parser": "html"
+        }
+      },
+      {
+        "files": "*.css",
+        "options": {
+          "printWidth": 80
+        }
+      } 
+    ]
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "format": "prettier --write \"**/*.{js,hbs}\""
+    "format": "prettier --write \"**/*.{js,hbs,css}\"",
+    "clean-local": "npx git-removed-branches --prune"
   },
   "repository": {
     "type": "git",

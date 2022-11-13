@@ -32,9 +32,9 @@ const itemController = {
 
         var codeExists = await Item.findOne({code: req.body.code});
 
-        if(req.file){
+        if (req.file) {
             image = req.file;
-            image = image.destination.replaceAll('./public/img/', '') + image.filename;
+            image = image.destination.replaceAll("./public/img/", "") + image.filename;
         }
 
         var addedItem = {

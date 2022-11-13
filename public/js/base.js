@@ -15,7 +15,6 @@ const tags = [
     { name: "Jobs", color: "brown" },
 ];
 
-
 // var arrowDown,
 //     profileActive = 0,
 //     profileDropdown;
