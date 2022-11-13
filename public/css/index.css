@@ -48,9 +48,11 @@ header ul li a:active {
 
 
 main{
+    --padding-t: 1rem;
+    --padding-rbl: 2rem;
     display:block;
-    padding: 1rem 2rem 2rem;
-
+    padding: var(--padding-t) var(--padding-rbl) var(--padding-rbl);
+    height: calc(100% - (var(--padding-t) + var(--padding-rbl)));
 }   
 
 #main-control {
@@ -267,17 +269,21 @@ h1 {
     padding: 5px;
 }
 
-/* HOVER FOR ITEM IMAGE */
-
-#itemImage{
+/* HOVER FOR IMAGE IN W2UI */
+#w2ui-image{
     height: 100px;
 }
 
-#hoveredImg {
+#w2ui-enlarged-image {
+    --size: 40;
+    --height: calc(1vh * var(--size));
+    --width: calc(1vw * var(--size));
     display: none;
-    position: absolute;
-    inset: 0;
+    position: fixed;
+    top: calc(48vh - var(--height));
+    left: calc(50% - (var(--width) / 2));
     margin: auto;
-    width: 40vw;
-    border: 5px solid black;
+    width: var(--width);
+    object-fit: contain;
+    border: 0.5vh solid black;
 }

@@ -29,9 +29,9 @@ var successTimeout,
 /**
  * Shows the error message and highlights all the
  * inputs in elements array for 5 seconds.
- * @param  {element} error - the element to display the error message
+ * @param  {HTMLElement} error - the element to display the error message
  * @param  {string} message - the error message
- * @param  {element[]} inputs - the fields to display red border 
+ * @param  {HTMLElement[]} inputs - the fields to display red border 
  */
 function showError(error, message, inputs) {
     clearTimeout(errorTimeout);
@@ -57,7 +57,7 @@ function showError(error, message, inputs) {
 
 /**
  * Shows the success message for 5 seconds.
- * @param {element} success
+ * @param {HTMLElement} success
  * @param {string} message
  */
 
@@ -74,7 +74,7 @@ function showSuccess(success, message) {
 
 /**
  * Clears content/innerHTML of the given element
- * @param  {element} element
+ * @param  {HTMLElement} element
  */
 function clear(element) {
     element.innerHTML = "";
@@ -87,7 +87,7 @@ function clear(element) {
  * Note that if the element has a transition property,
  * Visibility property allows transition
  * Display property doesnt allow transition
- * @param  {element} element
+ * @param  {HTMLElement} element
  * @param  {boolean} [show=undefined] - if 1, show the element; else, hide the element
  * @param  {boolean} [display=undefined] - if 1, uses display property; else, uses visibility property
  */

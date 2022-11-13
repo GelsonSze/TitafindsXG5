@@ -64,8 +64,9 @@
 }
 
 #popup-form-wrapper {
-  display:flex;
+  	display:flex;
 	flex-direction: row;
+	gap: 10px;
 }
 
 #popup-left-wrapper {

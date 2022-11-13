@@ -1,5 +1,10 @@
 var Items = [];
 
+/**
+ * Request data from the server and if refreshGrid is true,
+ * render it in the grid.
+ * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
+ */
 function getAllItems(refreshGrid = false) {
     $.ajax({
         url: "/getItem",
@@ -38,6 +43,7 @@ function item(image, name, code, type, classification, size, weight, quantity, s
     };
 }
 
+// On document ready
 $(function () {
     getAllItems(true);
 
@@ -56,21 +62,30 @@ $(function () {
                 text: "Image",
                 size: "7%",
                 render: function (record, extra) {
-                    var html = '<img id="itemImage" src="img/' + record.image + '" alt="' + record.image + '">';
+                    var html = '<img id="w2ui-image" src="img/' + record.image + '" alt="' + record.image + '">';
                     return html;
                 },
                 sortable: true,
             },
-            { field: "name", text: "Name", size: "5%", sortable: true },
+            { 
+                field: "name", 
+                text: "Name",
+                size: "10%",
+                render: function (record, extra) {
+                    var html = '<p style="white-space: normal; word-wrap: break-word">' + record.name + '</p>';
+                    // var html = '<p>' + record.name + '</p>';
+                    return html;
+                },
+                sortable: true },
             { field: "code", text: "Code", size: "5%", sortable: true },
             { field: "type", text: "Type", size: "5%", sortable: true },
-            { field: "classification", text: "Classifications", size: "15%", sortable: true },
-            { field: "size", text: "Size", size: "5%", sortable: true },
-            { field: "weight", text: "Weight", size: "5%", sortable: true },
-            { field: "quantity", text: "Quantity", size: "5%", sortable: true },
+            { field: "classification", text: "Classifications", size: "5%", sortable: true },
+            { field: "size", text: "Size", size: "3%", sortable: true },
+            { field: "weight", text: "Weight", size: "3%", sortable: true },
+            { field: "quantity", text: "Quantity", size: "3%", sortable: true },
             { field: "sellingPrice", text: "Selling Price", size: "5%", sortable: true },
-            { field: "purchasePrice", text: "Purchase Price", size: "5%", sortable: true },
-            { field: "status", text: "Status", size: "10%", sortable: true },
+            { field: "purchasePrice", text: "Purchase Price", size: "6%", sortable: true },
+            { field: "status", text: "Status", size: "7%", sortable: true },
             {
                 field: "edit",
                 size: "5%",
@@ -130,16 +145,16 @@ $(function () {
     //on change of image
     $("#image").on("change", function () {
         try{
-            if(this.files[0].type.match(/image.*/)){
+            if(this.files[0].type.match(/image.{jpg|jpeg|png}/)){
                 var reader = new FileReader();
                 reader.onload = function (e) {
-                    $("#product-image-preview").attr("src", e.target.result);
+                    $("#image-preview").attr("src", e.target.result);
                 };
                 reader.readAsDataURL(this.files[0]);
             }
             else
             {
-                showError($(".text-error")[0], "Please select an image file", [$("#product-image-preview")[0]]);
+                showError($(".text-error")[0], "Please select an image file", [$("#image-preview")[0]]);
             }
         }
         catch(err){
@@ -148,15 +163,20 @@ $(function () {
     });
 
     //hover on image
-    $(document).on("mouseover", "#itemImage", function (e) {
+    $(document).on("mouseover", "#w2ui-image", function (e) {
         console.log(e.target.src);
-        $("#hoveredImg").attr("src", e.target.src);
-        $("#hoveredImg").css("display", "block");
+        $("#w2ui-enlarged-image").attr("src", e.target.src);
+        $("#w2ui-enlarged-image").css("display", "block");
     });
     //leave hover on image
-    $(document).on("mouseleave", "#itemImage", function (e) {
+    $(document).on("mouseleave", "#w2ui-image", function (e) {
         console.log("leave");
-        $("#hoveredImg").css("display", "none");
+        $("#w2ui-enlarged-image").css("display", "none");
     });
     
+});
+
+$(window).resize(function() { 
+    console.log("refresh/resize");
+    w2ui["itemGrid"].refresh();
 });
