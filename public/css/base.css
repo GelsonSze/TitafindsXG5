@@ -498,6 +498,7 @@ main {
     visibility: visible;
 }
 
+select.error,
 input.error, 
 textarea.error, 
 .button-secondary.error{

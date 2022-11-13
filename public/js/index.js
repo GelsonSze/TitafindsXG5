@@ -88,7 +88,6 @@ $(function () {
         blur: false,
     });
 
-    /* WILL RENAME SELECTORS ONCE RENAMING OF THE FORM IDS ARE FINISHED*/
     /* clicking on the X button of the popup clears the form */
     $("#popup .popup_close").on("click", function () {
         $("#popup #form")[0].reset();
@@ -100,7 +99,37 @@ $(function () {
 
     $("#popup form .command :submit").on("click", function (e) {
         e.preventDefault();
+
+        var name = $("#name")[0];
+        var code = $("#code")[0];
+        var type = $("#type")[0];
+        var sellingType = $("#selling-type")[0];
+        var weight = $("#weight")[0]; // required if selling type is per gram
+        var quantity = $("#quantity")[0];
+        var error = $(".text-error")[0];
+
+        let fields = [name, code, type, sellingType, quantity];
+
+        let emptyFields = [];
         
+        fields.forEach(async function(field){
+            if(isEmptyOrSpaces(field.value)){
+                emptyFields.push(field);
+            }
+        });
+
+        // If selling type is per gram, weight is required
+        if(sellingType.value == "per gram"){
+            if(isEmptyOrSpaces(weight.value)){
+                emptyFields.push(weight);
+            }
+        }
+
+        if(emptyFields.length > 0){
+            showError(error, "Please fill out all the fields.", emptyFields);
+            return;
+        }
+
         const data = new FormData($("#form")[0]);
         data.append("dateAdded", new Date());
         data.append("dateUpdated", new Date());
@@ -109,6 +138,7 @@ $(function () {
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
+
         $.ajax({
             url: "/addItem",
             data: data,
@@ -116,15 +146,31 @@ $(function () {
             processData: false,
             contentType: false,
 
-            success: async function (flag) {
+            success: async function (flag, status) {
                 if (flag) {
                     console.log("success");
                     Items = [];
                     getAllItems(true);
                     console.log("reloaded");
                     $("#popup").popup("hide");
+
+                    // Reset form after successful submit
+                    $("#popup #form")[0].reset();
                 }
             },
+
+            error: async function (jqXHR, textStatus, errorThrown){
+                message = jqXHR.responseJSON.message;
+                fields = jqXHR.responseJSON.fields;
+                console.log(fields);
+
+                fields.forEach(async function (field){
+                    emptyFields.push($(`#${field}`)[0]);
+                });
+
+                showError(error, message, emptyFields);
+            }
+
         });
     });
     //on change of image
