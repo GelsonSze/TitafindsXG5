@@ -16,7 +16,21 @@ function getAllItems(refreshGrid = false) {
         },
         success: function (items) {
             for (var product of items) {
-                Items.push(new item(product.image, product.name, product.code, product.type, product.classification, product.size, product.weight, product.quantity, product.sellingPrice, product.purchasePrice, product.status));
+                Items.push(
+                    new item(
+                        product.image,
+                        product.name,
+                        product.code,
+                        product.type,
+                        product.classification,
+                        product.size,
+                        product.weight,
+                        product.quantity,
+                        product.sellingPrice,
+                        product.purchasePrice,
+                        product.status
+                    )
+                );
             }
             if (refreshGrid) {
                 w2ui["itemGrid"].records = Items;
@@ -26,7 +40,19 @@ function getAllItems(refreshGrid = false) {
     });
 }
 
-function item(image, name, code, type, classification, size, weight, quantity, sellingPrice, purchasePrice, status) {
+function item(
+    image,
+    name,
+    code,
+    type,
+    classification,
+    size,
+    weight,
+    quantity,
+    sellingPrice,
+    purchasePrice,
+    status
+) {
     return {
         recid: Items.length + 1,
         image: image,
@@ -62,35 +88,62 @@ $(function () {
                 text: "Image",
                 size: "7%",
                 render: function (record, extra) {
-                    var html = '<img id="w2ui-image" src="img/' + record.image + '" alt="' + record.image + '">';
+                    var html =
+                        '<img id="w2ui-image" src="img/' +
+                        record.image +
+                        '" alt="' +
+                        record.image +
+                        '">';
                     return html;
                 },
                 sortable: true,
             },
-            { 
-                field: "name", 
+            {
+                field: "name",
                 text: "Name",
                 size: "10%",
                 render: function (record, extra) {
-                    var html = '<p style="white-space: normal; word-wrap: break-word">' + record.name + '</p>';
+                    var html =
+                        '<p style="white-space: normal; word-wrap: break-word">' +
+                        record.name +
+                        "</p>";
                     // var html = '<p>' + record.name + '</p>';
                     return html;
                 },
-                sortable: true },
+                sortable: true,
+            },
             { field: "code", text: "Code", size: "5%", sortable: true },
             { field: "type", text: "Type", size: "5%", sortable: true },
-            { field: "classification", text: "Classifications", size: "5%", sortable: true },
+            {
+                field: "classification",
+                text: "Classifications",
+                size: "5%",
+                sortable: true,
+            },
             { field: "size", text: "Size", size: "3%", sortable: true },
             { field: "weight", text: "Weight", size: "3%", sortable: true },
             { field: "quantity", text: "Quantity", size: "3%", sortable: true },
-            { field: "sellingPrice", text: "Selling Price", size: "5%", sortable: true },
-            { field: "purchasePrice", text: "Purchase Price", size: "6%", sortable: true },
+            {
+                field: "sellingPrice",
+                text: "Selling Price",
+                size: "5%",
+                sortable: true,
+            },
+            {
+                field: "purchasePrice",
+                text: "Purchase Price",
+                size: "6%",
+                sortable: true,
+            },
             { field: "status", text: "Status", size: "7%", sortable: true },
             {
                 field: "edit",
                 size: "5%",
                 render: function (record, extra) {
-                    var html = '<button type="button" class="table-edit-btn" id="rec-' + record.code + '">Edit</button>';
+                    var html =
+                        '<button type="button" class="table-edit-btn" id="rec-' +
+                        record.code +
+                        '">Edit</button>';
                     return html;
                 },
             },
@@ -110,12 +163,12 @@ $(function () {
     });
 
     $("#popup form .command :reset").on("click", function (e) {
-        $("#popup").popup('hide');
+        $("#popup").popup("hide");
     });
 
     $("#popup form .command :submit").on("click", function (e) {
         e.preventDefault();
-        
+
         const data = new FormData($("#form")[0]);
         data.append("dateAdded", new Date());
         data.append("dateUpdated", new Date());
@@ -144,20 +197,19 @@ $(function () {
     });
     //on change of image
     $("#image").on("change", function () {
-        try{
-            if(this.files[0].type.match(/image.{jpg|jpeg|png}/)){
+        try {
+            if (this.files[0].type.match(/image.{jpg|jpeg|png}/)) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $("#image-preview").attr("src", e.target.result);
                 };
                 reader.readAsDataURL(this.files[0]);
+            } else {
+                showError($(".text-error")[0], "Please select an image file", [
+                    $("#image-preview")[0],
+                ]);
             }
-            else
-            {
-                showError($(".text-error")[0], "Please select an image file", [$("#image-preview")[0]]);
-            }
-        }
-        catch(err){
+        } catch (err) {
             console.log(err);
         }
     });
@@ -173,10 +225,9 @@ $(function () {
         console.log("leave");
         $("#w2ui-enlarged-image").css("display", "none");
     });
-    
 });
 
-$(window).resize(function() { 
+$(window).resize(function () {
     console.log("refresh/resize");
     w2ui["itemGrid"].refresh();
 });

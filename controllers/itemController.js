@@ -28,9 +28,9 @@ const itemController = {
 
         var image = "test.png";
 
-        if(req.file){
+        if (req.file) {
             image = req.file;
-            image = image.destination.replaceAll('./public/img/', '') + image.filename;
+            image = image.destination.replaceAll("./public/img/", "") + image.filename;
         }
 
         var addedItem = {
@@ -55,7 +55,6 @@ const itemController = {
         };
 
         console.log(addedItem);
-        
 
         db.insertOne(Item, addedItem, function (flag) {
             res.send(flag);

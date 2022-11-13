@@ -19,19 +19,21 @@ function truncate(str, n, useWordBoundary = 1) {
         return str;
     }
     const subString = str.substr(0, n - 1); // the original check
-    return (useWordBoundary ? subString.substr(0, subString.lastIndexOf(" ")) : subString) + "&hellip;";
+    return (
+        (useWordBoundary ? subString.substr(0, subString.lastIndexOf(" ")) : subString) + "&hellip;"
+    );
 }
 
 var successTimeout,
     errorTimeout,
     tempFields = [];
-    
+
 /**
  * Shows the error message and highlights all the
  * inputs in elements array for 5 seconds.
  * @param  {HTMLElement} error - the element to display the error message
  * @param  {string} message - the error message
- * @param  {HTMLElement[]} inputs - the fields to display red border 
+ * @param  {HTMLElement[]} inputs - the fields to display red border
  */
 function showError(error, message, inputs) {
     clearTimeout(errorTimeout);
@@ -95,14 +97,20 @@ function toggle(element, show = undefined, display = undefined) {
     if (display === undefined) {
         element.style.transition = "all 0.3s ease";
         if (show === undefined) {
-            element.style.visibility = element.style.visibility == "visible" || !element.style.visibility ? "hidden" : "visible";
-            element.style.opacity = element.style.opacity == "1" || !element.style.opacity ? "0" : "1";
+            element.style.visibility =
+                element.style.visibility == "visible" || !element.style.visibility
+                    ? "hidden"
+                    : "visible";
+            element.style.opacity =
+                element.style.opacity == "1" || !element.style.opacity ? "0" : "1";
         } else {
             element.style.visibility = !show ? "hidden" : "visible";
             element.style.opacity = !show ? "0" : "1";
         }
     } else {
-        if (show === undefined) element.style.display = element.style.display != "none" || !element.style.display ? "none" : "block";
+        if (show === undefined)
+            element.style.display =
+                element.style.display != "none" || !element.style.display ? "none" : "block";
         else element.style.display = !show ? "none" : "block";
     }
 }
@@ -187,9 +195,32 @@ function secondDiff(date1, date2) {
  * @param  {Date} d - the date to be formatted
  */
 function formatDate(d) {
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+    var months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ],
         days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    return days[d.getDay()] + " " + months[d.getMonth()] + " " + d.getDate() + " " + d.getFullYear() + ", " + formatAMPM(d);
+    return (
+        days[d.getDay()] +
+        " " +
+        months[d.getMonth()] +
+        " " +
+        d.getDate() +
+        " " +
+        d.getFullYear() +
+        ", " +
+        formatAMPM(d)
+    );
 }
 
 /**
