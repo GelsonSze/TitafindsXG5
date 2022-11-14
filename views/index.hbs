@@ -1,15 +1,19 @@
+{{!--
 <header>
     <nav>
-        {{! <ul>
+        {{!
+        <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/contact">Contact</a></li>
-        </ul> }}
+        </ul>
+        }}
         <div id="main-logo">
             <img src="/img/Titafinds/icon.png" id="icon-logo" />
         </div>
     </nav>
 </header>
+--}}
 
 <main>
     <section>
@@ -18,12 +22,16 @@
 
             <div id="table-actions-wrapper">
                 <div id="table-filters-wrapper">
-
-                    {{!-- Search --}}
+                    {{! Search }}
                     <i class="fa fa-search" aria-hidden="true"></i>
-                    <input class="input-field" type="text" placeholder="Search" id="filter-search">
+                    <input
+                        class="input-field"
+                        type="text"
+                        placeholder="Search"
+                        id="filter-search"
+                    />
 
-                    {{!-- Type --}}
+                    {{! Type }}
                     <div class="dropdown-select-wrapper">
                         <select disabled>
                             <option disabled selected value>Type</option>
@@ -40,7 +48,8 @@
                         </div>
                     </div>
 
-                    {{!-- <select>
+                    {{!
+                    <select>
                         <option disabled selected value>Type</option>
                         <option>Chain</option>
                         <option>Braceclet</option>
@@ -50,9 +59,8 @@
                         <option>Ring</option>
                         <option>Set</option>
                         <option>Watch</option>
-                    </select> --}}
-
-                    {{!-- Classification --}}
+                    </select>
+                    }} {{! Classification }}
                     <div class="dropdown-select-wrapper">
                         <select disabled>
                             <option disabled selected value>Classification</option>
@@ -67,14 +75,14 @@
                         </div>
                     </div>
 
-                    {{!-- <select>
+                    {{!
+                    <select>
                         <option disabled selected value>Classification</option>
                         <option>10 karat</option>
                         <option>14 karat</option>
                         <option>18 karat</option>
-                    </select> --}}
-
-                    {{!-- Status --}}
+                    </select>
+                    }} {{! Status }}
                     <div class="dropdown-select-wrapper">
                         <select disabled>
                             <option disabled selected value>Status</option>
@@ -84,12 +92,12 @@
                             <button type="button">No Stock</button>
                         </div>
                     </div>
-                    
-                    {{!-- <select>
-                        <option disabled selected value>Status</option>
-                    </select> --}}
 
-                    {{!-- Weight --}}
+                    {{!
+                    <select>
+                        <option disabled selected value>Status</option>
+                    </select>
+                    }} {{! Weight }}
                     <div class="dropdown-btn">
                         <select disabled>
                             <option disabled selected value>Weight</option>
@@ -98,20 +106,19 @@
                             <span>WEIGHT RANGE</span>
                             <div class="range-wrapper">
                                 <div class="gram-wrapper">
-                                    <input type="text" class="input-field" size="2">
+                                    <input type="text" class="input-field" size="2" />
                                     <span>GRAMS</span>
                                 </div>
                                 <span>to</span>
                                 <div class="gram-wrapper">
-                                    <input type="text" class="input-field" size="2">
+                                    <input type="text" class="input-field" size="2" />
                                     <span>GRAMS</span>
                                 </div>
-
                             </div>
                         </div>
                     </div>
 
-                    {{!-- Size --}}
+                    {{! Size }}
                     <div class="dropdown-btn">
                         <select disabled>
                             <option disabled selected value>Size</option>
@@ -119,21 +126,19 @@
                         <div class="dropdown-content">
                             <span>SIZE RANGE</span>
                             <div class="range-wrapper">
-                                <input type="text" class="input-field" size="2">
+                                <input type="text" class="input-field" size="2" />
                                 <span>to</span>
-                                <input type="text" class="input-field" size="2">
+                                <input type="text" class="input-field" size="2" />
                             </div>
                             <select>
                                 <option selected>cm</option>
                                 <option>inches</option>
                             </select>
                         </div>
-                        
                     </div>
 
-                    {{!-- Apply Button --}}
+                    {{! Apply Button }}
                     <button type="button" id="table-filter-apply">Apply Filter</button>
-
                 </div>
 
                 <div id="add">
@@ -141,8 +146,6 @@
                     <button class="export">+</button>
                 </div>
             </div>
-
-            
         </section>
 
         <section id="popup">
@@ -152,37 +155,31 @@
             <form id="form" enctype="multipart/form-data">
                 <div id="popup-form-wrapper">
                     <div id="popup-left-wrapper">
-
                         {{! Product Name / Product Code / Product Image }}
                         <div class="popup-row-wrapper">
                             <div class="item-wrapper">
-                                <label>Product Name</label><br />
+                                <label for="name">Product Name</label><br />
                                 <input type="text" id="name" name="name" /><br />
                             </div>
 
                             <div class="item-wrapper">
-                                <label>Product Code</label><br />
+                                <label for="code">Product Code</label><br />
                                 <input type="text" id="code" name="code" /><br />
-                            </div>
-
-                            <div class="item-wrapper">
-                                <label>Product Image</label><br />
-                                <input type="file" id="productImage" /><br />
                             </div>
                         </div>
 
                         {{! Product Description}}
                         <div class="popup-row-wrapper">
                             <div class="item-wrapper">
-                                <label>Product Description</label><br />
-                                <textarea id="description" name="description" /></textarea><br />
+                                <label for="description">Product Description</label><br />
+                                <textarea id="description" name="description"></textarea><br />
                             </div>
                         </div>
 
                         {{! Type / Classification / Brand }}
                         <div class="popup-row-wrapper">
                             <div class="item-wrapper">
-                                <label>Type</label><br />
+                                <label for="type">Type</label><br />
                                 <!-- change in db -->
                                 <select id="type" name="type">
                                     <option value="" disabled selected>Select</option>
@@ -198,7 +195,7 @@
                             </div>
 
                             <div class="item-wrapper">
-                                <label>Classification</label><br />
+                                <label for="classification">Classification</label><br />
                                 <select id="classification" name="classification">
                                     <option value="" disabled selected>Select</option>
                                     <option value="10 karat">10 karat</option>
@@ -212,7 +209,7 @@
                             </div>
 
                             <div class="item-wrapper">
-                                <label>Brand</label><br />
+                                <label for="brand">Brand</label><br />
                                 <select id="brand" name="brand">
                                     <option value="" disabled selected>Select</option>
                                     <option value="Branded">Branded</option>
@@ -225,20 +222,22 @@
                         {{! Design / Selling Type / Item Status }}
                         <div class="popup-row-wrapper">
                             <div class="item-wrapper">
-                                <label>Design</label><br />
+                                <label for="design">Design</label><br />
                                 <select id="design" name="design">
                                     <option value="" disabled selected>Select</option>
                                     <option value="Regular">Regular</option>
                                     <option value="Special">Special</option>
                                     <option value="Very Special">Very Special</option>
                                     <option value="Very Very Special">Very Very Special</option>
-                                    <option value="Very Very Very Special">Very Very Very Special</option>
+                                    <option value="Very Very Very Special">
+                                        Very Very Very Special
+                                    </option>
                                 </select>
                             </div>
 
                             <div class="item-wrapper">
-                                <label>Selling Type</label><br />
-                                <select id="sellingType" name="sellingType">
+                                <label for="selling-type">Selling Type</label><br />
+                                <select id="selling-type" name="sellingType">
                                     <option value="" disabled selected>Select</option>
                                     <option value="per design">per design</option>
                                     <option value="per gram">per gram</option>
@@ -247,7 +246,7 @@
                             </div>
 
                             <div class="item-wrapper">
-                                <label>Item Status</label><br />
+                                <label for="status">Item Status</label><br />
                                 <select id="status" name="status">
                                     <!-- change in db -->
                                     <option value="Available">Available</option>
@@ -261,9 +260,13 @@
                         {{! Length / Size }}
                         <div class="popup-row-wrapper">
                             <div class="item-wrapper">
-                                <label>Length</label><br />
+                                <label for="prod-length">Length</label><br />
                                 <div class="item-wrapper-wrapper">
-                                    <input type="text" id="prodLength" name="length" /><!-- add to db -->
+                                    <input
+                                        type="text"
+                                        id="prod-length"
+                                        name="length"
+                                    /><!-- add to db -->
                                     <select id="prodLength" name="length-unit">
                                         <!-- change in db -->
                                         <option value="cm">cm</option>
@@ -274,7 +277,7 @@
                             </div>
 
                             <div class="item-wrapper">
-                                <label>Size</label><br />
+                                <label for="size">Size</label><br />
                                 <div class="item-wrapper-wrapper">
                                     <input type="text" id="size" name="size" />
                                     <select id="prodSize" name="size-unit">
@@ -284,20 +287,19 @@
                                         <option value="inch">inch</option>
                                     </select>
                                 </div>
-
                             </div>
                         </div>
 
                         {{! Weight / Stock Qty / Selling Price / Purchase Price }}
                         <div class="popup-row-wrapper">
                             <div class="item-wrapper">
-                                <label>Weight</label><br />
+                                <label for="weight">Weight</label><br />
                                 <input type="text" id="weight" name="weight" /><br />
                                 <span>GRAMS</span>
                             </div>
 
                             <div class="item-wrapper">
-                                <label>Stock Quantity</label><br />
+                                <label for="stock-subtract">Stock Quantity</label><br />
                                 <div class="qty-wrapper-wrapper">
                                     <button type="button" id="stock-subtract">-</button>
                                     <input type="text" id="quantity" name="quantity" /><br />
@@ -306,21 +308,32 @@
                             </div>
 
                             <div class="item-wrapper">
-                                <label>Selling Price</label><br />
-                                <input type="text" id="sellingPrice" name="sellingPrice" /><br />
+                                <label for="selling-price">Selling Price</label><br />
+                                <input type="text" id="selling-price" name="sellingPrice" /><br />
                             </div>
 
                             <div class="item-wrapper">
-                                <label>Purchase Price</label><br />
-                                <input type="text" id="purchasePrice" name="purchasePrice" /><br />
+                                <label for="purchase-price">Purchase Price</label><br />
+                                <input type="text" id="purchase-price" name="purchasePrice" /><br />
                             </div>
                         </div>
-
                     </div>
+
                     <div id="popup-right-wrapper">
-
+                        <img id="image-preview" src="/img/test.png" />
+                        <label for="image">Product Image</label>
+                        <label for="image" class="button-secondary">
+                            Upload image
+                            <input
+                                type="file"
+                                id="image"
+                                accept=""
+                                accept=".png, .jpg, .jpeg"
+                                name="image"
+                            />
+                        </label>
+                        <p class="text-error"></p>
                     </div>
-
                 </div>
 
                 <div class="command">
@@ -329,13 +342,12 @@
                 </div>
             </form>
         </section>
-
     </section>
 
-    <section>
+    <section id="main-body">
         {{!place code for the w2ui table here }}
-        <div id="itemGrid" style="height: 450px"></div>
-
-        <img id="hoveredImg" src="img/test.png" />
+        <div id="itemGrid"></div>
     </section>
 </main>
+
+<img id="w2ui-enlarged-image" src="img/test.png" />

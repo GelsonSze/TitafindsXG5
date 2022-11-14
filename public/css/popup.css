@@ -1,169 +1,169 @@
 .popup_content {
-  margin: 5%;
-  padding: 2%;
-  border: 2px solid #444;
-  background: white;
+    margin: 5%;
+    padding: 2%;
+    border: 2px solid #444;
+    background: white;
 }
 
-.itemFirst{
-  float: left;
-  clear: left;
-  margin: 10px;
+.itemFirst {
+    float: left;
+    clear: left;
+    margin: 10px;
 }
 
-.item{
-  float: left;
-  margin: 10px;
+.item {
+    float: left;
+    margin: 10px;
 }
 
 #popup {
-  border-radius: 8px;
-  border-color: transparent;
-  font-family: 'Inter Bold';
-  color: black;
+    border-radius: 8px;
+    border-color: transparent;
+    font-family: "Inter Bold";
+    color: black;
 }
 
 #popup h1 {
-	text-align: center;
-	color: black;
+    text-align: center;
+    color: black;
 }
 
-#popup label { 
-	font-family: 'Inter Medium';
-	text-transform: none; 
-	font-size: 11px;
-	color: black;
-	margin-bottom: 4px;
+#popup label {
+    font-family: "Inter Medium";
+    text-transform: none;
+    font-size: 11px;
+    color: black;
+    margin-bottom: 4px;
 }
 
-#popup button{
-  border-radius: 8px;
-  border-color: transparent;
-  color: white;
-  background: #716f6f;
-  margin: 10px;
+#popup button {
+    border-radius: 8px;
+    border-color: transparent;
+    color: white;
+    background: #716f6f;
+    margin: 10px;
 }
 
-#popup textarea{
-	resize: horizontal;
-	padding: 5px;
-	height: 30px;
+#popup textarea {
+    resize: horizontal;
+    padding: 5px;
+    height: 30px;
 }
 
 #add {
-  margin: 10px;
+    margin: 10px;
 }
 
-#add button{
-  border-radius: 8px;
-  border-color: transparent;
-  color: #4b4b4b;
-  font-family: 'Inter Bold';
-  background: #d9d9d9;
-  margin: 0;
+#add button {
+    border-radius: 8px;
+    border-color: transparent;
+    color: #4b4b4b;
+    font-family: "Inter Bold";
+    background: #d9d9d9;
+    margin: 0;
 }
 
 #popup-form-wrapper {
-  display:flex;
-	flex-direction: row;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
 
 #popup-left-wrapper {
-	display:flex;
-	flex-direction: column;
-	width: 470px;
+    display: flex;
+    flex-direction: column;
+    width: 470px;
 }
 
 .popup-row-wrapper {
-	display: flex;
-	flex-direction: row;
-	gap: 8px;
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
 }
 .item-wrapper {
-	width: 100%;
-	color:black;
-	margin-right: 10px;
+    width: 100%;
+    color: black;
+    margin-right: 10px;
 }
 
 .item-wrapper input {
-	height: 18px;
-	width: 100%;
-	
-	font-family: 'Inter Regular';
-	font-size: 12px;
-	font-weight: normal;
+    height: 18px;
+    width: 100%;
 
-	padding: 5px;
-	flex-grow: 2;
+    font-family: "Inter Regular";
+    font-size: 12px;
+    font-weight: normal;
+
+    padding: 5px;
+    flex-grow: 2;
 }
 
 .item-wrapper select {
-	height: none;
-	width: 100%;
+    height: none;
+    width: 100%;
 
-	font-family: 'Inter Regular';
-	font-weight: normal;
-	font-size: 12px;
-	
-	color:#a8a8a8;
-	padding: 5px;
-	flex-shrink: 2;
+    font-family: "Inter Regular";
+    font-weight: normal;
+    font-size: 12px;
+
+    color: #a8a8a8;
+    padding: 5px;
+    flex-shrink: 2;
 }
 
 .item-wrapper span {
-	font-family: 'Inter Bold';
-	font-size: 10px;
-	color:#a8a8a8;
+    font-family: "Inter Bold";
+    font-size: 10px;
+    color: #a8a8a8;
 }
 
 .item-wrapper-wrapper {
-	display: flex;
-	flex-direction: row;
-	gap: 5px;
-	/* justify-content: space-between; */
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    /* justify-content: space-between; */
 }
 
 .qty-wrapper-wrapper {
-	display: flex;
-	flex-direction: row;
-	/* gap: 5px; */
-	justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    /* gap: 5px; */
+    justify-content: space-between;
 }
 
 #quantity {
-	width: 50px;
-	margin: 0 2px;
+    width: 50px;
+    margin: 0 2px;
 }
 
 .qty-wrapper-wrapper button {
-	font-family: 'Inter Bold';
-	border-radius: 6px !important;
-	margin: 0 !important;
+    font-family: "Inter Bold";
+    border-radius: 6px !important;
+    margin: 0 !important;
 }
 
 #popup-right-wrapper {
-	display: flex;
-	flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-	width: 200px;
+    width: 200px;
 }
 
-button:hover{
-  cursor: pointer;
+button:hover {
+    cursor: pointer;
 }
 
-.popup_close{
-  border-radius: 50%;
-  float: right;
+.popup_close {
+    border-radius: 50%;
+    float: right;
 }
 
-.command{
-  display: flex;
-  justify-content: center;
+.command {
+    display: flex;
+    justify-content: center;
 }
 
 .command button {
-	font-family: 'Inter Bold';
-	background-color: #9e9e9e;
-
+    font-family: "Inter Bold";
+    background-color: #9e9e9e;
 }
