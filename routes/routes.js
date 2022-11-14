@@ -18,7 +18,7 @@ app.post("/auth/login", userController.loginUser);
 app.delete("/auth/logout", userController.logoutUser);
 
 // The Item Page
-app.get("/item/:code", checkNoAuth, itemController.itemDetails);
+app.get("/item/:code", checkAuth, itemController.itemDetails);
 app.get("/getItem", itemController.getItem);
 
 
