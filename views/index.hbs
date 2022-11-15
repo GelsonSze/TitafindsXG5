@@ -17,11 +17,8 @@
 
 <main>
     <section>
-        <section id = "outer-sidebar">
-            <button id = "toggle-sidebar" onclick="showSidebar()">☰</button>
-        </section>
         <section id = "inner-sidebar">
-            <button onclick="hideSidebar()">  &times;</button>
+            <button id = "close-sidebar" onclick="hideSidebar()"> < </button>
             <a href="#" class = "sidebar-links">Management</a>
             <a href="#" class = "sidebar-links">Inventory List</a>
             <a href="#" class = "sidebar-links">Change Log</a>
@@ -29,6 +26,10 @@
             <a href="#" class = "sidebar-links">Settings</a>
             <a href="#" class = "sidebar-links">Configure Attributes</a>
             <a href="#" class = "sidebar-links">Manage Account</a>
+        </section>
+        <section id = "outer-sidebar">
+            {{!This is the section for the outer sidebar meaning it should display the icons and clicking the ☰ shows the inner sidebar }}
+            <button id = "toggle-sidebar" onclick="showSidebar()">☰</button>
         </section>
         <section id="main-control">
             

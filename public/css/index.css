@@ -287,34 +287,53 @@ h1 {
 }
 
 #inner-sidebar{
-    position:fixed;
+    position:absolute;
     top: 0;
     left: 0;
-    width:180px;
+    width:300px;
     height:100%;
-    background-color:#866a69;
+    background-color:#5d3937;
+    display: none;
 }
 
 #outer-sidebar{
-    position:fixed;
+    position:absolute;
     top: 0;
     left: 0;
     width:60px;
     height:100%;
-    background-color:#866a69;
+    background-color:#5d3937;
 }
 
 .sidebar-links{
+    /*
     color:white;
     font-size: 20px;
-    margin-top: 10px;
-    margin-left: 10px;
+    */
+    text-align-last: center;
+    color:white;
+    text-indent: 0.8em;
+    font-size: 20px;
 }
 
 #toggle-sidebar{
-    position: absolute;
+    position:fixed;
     top: 10px;
     left: 10px;
     width: 35px;
+    font-size: 30px;
+    background-color:#5d3937;
+    color: white;
+    background:none;
+    outline: none;
+    border:none;
+}
+
+#close-sidebar{
+    background-color:#815251;
+    border: #815251;
     font-size: 20px;
+    position: absolute;
+    top: 5px;
+    right: 7px;
 }

@@ -1,3 +1,4 @@
+
 var Items = [];
 
 /**
@@ -8,9 +9,11 @@ var Items = [];
 
 function showSidebar(){
     document.getElementById("inner-sidebar").style.display = "block";
+    document.getElementById("outer-sidebar").style.display = "none";
 }
 function hideSidebar(){
     document.getElementById("inner-sidebar").style.display = "none";
+    document.getElementById("outer-sidebar").style.display = "block";
 }
 function getAllItems(refreshGrid = false) {
     $.ajax({
