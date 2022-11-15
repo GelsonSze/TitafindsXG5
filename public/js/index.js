@@ -7,7 +7,7 @@ var Items = [];
  */
 function getAllItems(refreshGrid = false) {
     $.ajax({
-        url: "/getItem",
+        url: "/getItems",
         type: "GET",
         processData: false,
         contentType: false,
@@ -149,6 +149,14 @@ $(function () {
             },
         ],
         records: Items,
+        onDblClick: function(recid) {
+            // Redirects to item page
+
+            var record = w2ui["itemGrid"].get(recid.recid);
+            //console.log(record)
+
+            window.location.href = "/item/"+record.code;
+        },
     });
 
     /* pop-up must be only closed with X button, not by clicking outside */
