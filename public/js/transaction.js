@@ -1,6 +1,12 @@
 var Transactions = [];
 
 /**
+ * 
+ */
+
+
+
+/**
  * Request data from the server and if refreshGrid is true,
  * render it in the grid.
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
@@ -61,7 +67,7 @@ $(function () {
         },
         method: "GET",
         limit: 50,
-        recordHeight: 120,
+        recordHeight: 60,
         columns: [
             { field: "date",         text: "Date",          size: "7%", sortable: true },
             { field: "type",         text: "Type",          size: "5%", sortable: true },
