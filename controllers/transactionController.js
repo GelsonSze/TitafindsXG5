@@ -6,8 +6,8 @@ const transactionController = {
     // The transaction page
     transactions: function (req, res) {
         res.render("transactions", {
-            title: "index",
-            styles: ["index.css", "w2ui-overrides.css", "popup.css"],
+            title: "Transactions",
+            styles: ["index.css", "w2ui-overrides.css"],
             scripts: ["transaction.js"],
         });
     },
