@@ -294,6 +294,7 @@ h1 {
     height:100%;
     background-color:#5d3937;
     display: none;
+    z-index: 99;
 }
 
 #outer-sidebar{
@@ -306,14 +307,12 @@ h1 {
 }
 
 .sidebar-links{
-    /*
     color:white;
-    font-size: 20px;
-    */
-    text-align-last: center;
-    color:white;
+    float:left;
     text-indent: 0.8em;
     font-size: 20px;
+    margin-right: 10%;
+    margin-top: 20%;
 }
 
 #toggle-sidebar{
@@ -336,4 +335,8 @@ h1 {
     position: absolute;
     top: 5px;
     right: 7px;
+}
+
+a:visited{
+    color: white;
 }
