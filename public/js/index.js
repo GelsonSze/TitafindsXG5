@@ -5,6 +5,13 @@ var Items = [];
  * render it in the grid.
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
  */
+
+function showSidebar(){
+    document.getElementById("inner-sidebar").style.display = "block";
+}
+function hideSidebar(){
+    document.getElementById("inner-sidebar").style.display = "none";
+}
 function getAllItems(refreshGrid = false) {
     $.ajax({
         url: "/getItem",

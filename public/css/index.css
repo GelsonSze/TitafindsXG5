@@ -284,3 +284,36 @@ h1 {
     object-fit: contain;
     border: 0.5vh solid black;
 }
+
+#inner-sidebar{
+    position:fixed;
+    top: 0;
+    left: 0;
+    width:180px;
+    height:100%;
+    background-color:#866a69;
+}
+
+#outer-sidebar{
+    position:fixed;
+    top: 0;
+    left: 0;
+    width:60px;
+    height:100%;
+    background-color:#866a69;
+}
+
+.sidebar-links{
+    color:white;
+    font-size: 20px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+#toggle-sidebar{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 35px;
+    font-size: 20px;
+}
