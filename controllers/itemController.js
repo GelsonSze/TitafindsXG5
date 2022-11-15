@@ -15,7 +15,7 @@ const itemController = {
     },
 
     // Redirects to home page
-    homeRedirect: async function (req, res) {
+    homeRedirect: function (req, res) {
         res.redirect("/");
     },
 

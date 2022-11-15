@@ -1,5 +1,8 @@
 var page_item = null;
 
+/**
+ * Constructor for the item file
+ */
 function Item(image, name, code, type, classification, length, size, weight, quantity, sellingType, purchasePrice, sellingPrice, status) {
     return {
         image: image,
@@ -18,6 +21,10 @@ function Item(image, name, code, type, classification, length, size, weight, qua
     };
 }
 
+/**
+ * Requests item from database. Currently feeds it to the Item object so it's not dynamic yet.
+ * It will then append it to the fileds-table to display all the attributes.
+ */
 function getItem() {
     var item_code = window.location.pathname.split("/").pop();
     $.ajax({
@@ -44,14 +51,19 @@ function getItem() {
             // Appends a field into the #fields-table
             for (var i = 0; i < num_keys; i++) 
             {
-                $('#fields-table').append(item_desc(fields[i], values[i]))
+                $('#fields-table').append(itemDesc(fields[i], values[i]))
             }
 
         },
     });
 }
 
-function item_desc(field, desc) { 
+/**
+ * Creates the HTML wrapper for each item being added to fields-table.
+ * @param  {String} [field] - Is the field name for the table item
+ * @param  {String} [desc] - Is the field description for the table item
+ */
+function itemDesc(field, desc) { 
 
     const html = `
     <div class="item-desc-wrapper">
