@@ -337,6 +337,11 @@ a:hover{
     background-color: #815251;
 }
 
+#outer-icon:hover{
+    background-color: #260504;
+}
+
+
 #brand-img{
     margin-right: 10%;
     margin-left: 28%;
