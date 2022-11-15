@@ -18,20 +18,32 @@
 <main>
     <section>
         <section id = "inner-sidebar">
-            <button id = "close-sidebar" onclick="hideSidebar()"> < </button>
+            <button id = "close-sidebar" onclick="hideSidebar()">
+                <span class="material-symbols-outlined">arrow_back_ios</span>
+            </button>
             <img id = "brand-img" src="/img/Titafinds/icon.png" />
             <img id = "brand-title-img" src="/img/Titafinds/TitaFinds brand.png" />
-            <a href="#" class = "sidebar-links">Management</a>
+            <a href="#" class = "sidebar-links"><span class="material-symbols-outlined">table_view
+            </span> Management</a>
             <a href="#" class = "sidebar-links">Inventory List</a>
             <a href="#" class = "sidebar-links">Change Log</a>
-            <a href="#" class = "sidebar-links">Purchase History</a>
-            <a href="#" class = "sidebar-links">Settings</a>
+            <a href="#" class = "sidebar-links"><span class="material-symbols-outlined">receipt_long
+            </span> Purchase History</a>
+            <a href="#" class = "sidebar-links"><span class="material-symbols-outlined">settings
+            </span> Settings</a>
             <a href="#" class = "sidebar-links">Configure Attributes</a>
             <a href="#" class = "sidebar-links">Manage Account</a>
         </section>
         <section id = "outer-sidebar">
             {{!This is the section for the outer sidebar meaning it should display the icons and clicking the ☰ shows the inner sidebar }}
-            <button id = "toggle-sidebar" onclick="showSidebar()">☰</button>
+            <button id = "toggle-sidebar" onclick="showSidebar()">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <section id = "outer-sidebar-icons">
+                <span class="material-symbols-outlined">table_view</span>
+                <span class="material-symbols-outlined">receipt_long</span>
+                <span class="material-symbols-outlined">settings</span>
+            </section>
         </section>
         <section id="main-control">
             

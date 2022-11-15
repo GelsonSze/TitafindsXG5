@@ -352,3 +352,11 @@ a:hover{
     max-height: 60%;
     margin-bottom: 5%;
 }
+
+#outer-sidebar-icons{
+    position:relative;
+    top:40%;
+    color:white;
+    margin-right: 10%;
+    margin-left: 28%;
+}
