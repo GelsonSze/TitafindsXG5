@@ -306,15 +306,6 @@ h1 {
     background-color:#5d3937;
 }
 
-.sidebar-links{
-    color:white;
-    float:left;
-    text-indent: 0.8em;
-    font-size: 20px;
-    margin-right: 10%;
-    margin-top: 20%;
-}
-
 #toggle-sidebar{
     position:fixed;
     top: 10px;
@@ -335,8 +326,29 @@ h1 {
     position: absolute;
     top: 5px;
     right: 7px;
+    color: white;
 }
 
 a:visited{
     color: white;
+}
+
+a:hover{
+    background-color: #815251;
+}
+
+#brand-img{
+    margin-right: 10%;
+    margin-left: 28%;
+    margin-top: 12%;
+    max-width: 35%;
+    max-height: 45%;
+}
+
+#brand-title-img{
+    margin-right: 10%;
+    margin-left: 15%;
+    max-width: 60%;
+    max-height: 60%;
+    margin-bottom: 5%;
 }
