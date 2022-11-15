@@ -10,13 +10,18 @@ const app = express();
 // The dashboard or inventory page
 app.get("/", checkAuth, itemController.home);
 app.post("/addItem", upload.single("image"), itemController.addItem);
-app.get("/getItem", itemController.getItem);
+app.get("/getItems", itemController.getItems);
 
 // The login page
 app.get("/login", checkNoAuth, userController.login);
 app.post("/auth/addUser", userController.addUser);
 app.post("/auth/login", userController.loginUser);
 app.delete("/auth/logout", userController.logoutUser);
+
+// The Item Page
+app.get("/item/:code", checkAuth, itemController.itemDetails);
+app.get("/getItem", itemController.getItem);
+
 
 // TO BE REMOVED
 // if (process.env.NODE_ENV === "development") {
