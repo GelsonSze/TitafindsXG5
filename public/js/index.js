@@ -181,6 +181,15 @@ $(function () {
         data.append("dateAdded", new Date());
         data.append("dateUpdated", new Date());
 
+        const trans_data = {
+            date: new Date(),
+            type: "Restock",
+            desc: "Item added "+ $('#code').val(),
+             qty: parseInt($('#quantity').val()),
+            sellingPrice: parseInt($('#selling-price').val()),
+            transactedBy: "Someone"
+        }
+
         //TO BE REMOVED
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
@@ -195,6 +204,17 @@ $(function () {
             success: async function (flag) {
                 if (flag) {
                     console.log("success");
+
+                    // Adds record to transactions
+                    $.ajax({
+                        url: "/addTransaction",
+                        data: trans_data,
+                        type: "POST",
+                        success: async  function (flag) {
+                            console.log('New transaction added');
+                        }
+                    })
+
                     Items = [];
                     getAllItems(true);
                     console.log("reloaded");

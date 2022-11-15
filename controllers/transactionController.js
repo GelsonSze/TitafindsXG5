@@ -16,8 +16,8 @@ const transactionController = {
         var transItem = {
             date: req.body.date,
             type: req.body.type,
-            desc: req.body.desc,
-             qty: req.body.quantity,
+            description: req.body.desc,
+            quantity: req.body.qty,
             sellingPrice: req.body.sellingPrice,
             transactedBy: req.body.transactedBy
         }
