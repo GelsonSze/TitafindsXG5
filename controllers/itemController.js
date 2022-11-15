@@ -1,7 +1,7 @@
 //Controller for items
 import Item from "../model/schemas/Item.js";
 import db from "../model/db.js";
-import { generateItemCode } from "../utils/helper.js";
+import { generateItemCode, isEmptyOrSpaces } from "../utils/helper.js";
 import { upload } from "../utils/multer.js";
 
 const itemController = {
@@ -61,11 +61,11 @@ const itemController = {
         //console.log(addedItem); 
 
         // Selling price default to 0 if field is empty and selling type is per design
-        if(addedItem.sellingType == "per design" && addedItem.sellingPrice === "")
+        if(addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
             addedItem.sellingPrice = "0";
 
         // Purchase price is default to 0 if field is empty
-        if(addedItem.purchasePrice === "")
+        if(isEmptyOrSpaces(addedItem.purchasePrice))
             addedItem.purchasePrice = "0";
 
         console.log(addedItem);
