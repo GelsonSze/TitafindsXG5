@@ -88,3 +88,7 @@
 .w2ui-sort-down {
     /*Modifies the sort button (arrow) of the columns*/
 }
+
+.w2ui-reset .w2ui-grid .w2ui-inactive{
+    margin-left: 60px;
+}

@@ -599,6 +599,8 @@ textarea.error,
 
 #itemGrid {
     height: 100%;
+    margin-left: 60px;
+    margin-top: 7px;
 }
 
 #image-preview {
