@@ -89,6 +89,12 @@ $(function () {
         },
     });
 
+    $('.dropdown-type').click(function() {
+        var text = $(this).html();
+
+        $('#dropdown-selected').html(text)
+    })
+
 });
 
 $(window).resize(function () {
