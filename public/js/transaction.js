@@ -1,12 +1,6 @@
 var Transactions = [];
 
 /**
- * 
- */
-
-
-
-/**
  * Request data from the server and if refreshGrid is true,
  * render it in the grid.
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
@@ -21,6 +15,7 @@ function getAllTransactions(refreshGrid = false) {
             "Content-Type": "application/json",
         },
         success: function (items) {
+            Transactions = [];
             for (var trans of items) {
                 Transactions.push(
                     new transaction(
@@ -93,6 +88,57 @@ $(function () {
         var text = $(this).html();
 
         $('#dropdown-selected').html(text)
+    })
+
+    $('#table-filter-apply').click(function() {
+        var searchBar = $('#filter-search').val();
+        console.log(searchBar)
+        if (searchBar.length === 0) {
+            // do filter on type restock/added/sold
+            getAllTransactions(true);
+        }
+        else {
+            /* W2ui search is inapplicable due to product name
+            w2ui['itemGrid'].search(
+                [{field:'description',
+                value: searchBar,
+                operator: 'contains'
+                }])*/
+
+
+            // Perform search
+
+            
+            $.ajax({
+                url: "/searchTransactions",
+                type: "POST",
+                processData: false,
+                contentType: false,
+                data: JSON.stringify({"search": searchBar}),
+                headers: { "Content-Type": "application/json" },
+                success: function (items) 
+                {
+                    Transactions = [];
+                    console.log(items)
+                    for (var trans of items) 
+                    {
+                        Transactions.push(
+                            new transaction(
+                                trans.date,
+                                trans.type,
+                                trans.description,
+                                trans.quantity,
+                                trans.sellingPrice,
+                                trans.transactedBy
+                            )
+                        );
+                    }
+                        w2ui["itemGrid"].records = Transactions;
+                        w2ui["itemGrid"].refresh();
+                },
+            });
+            
+        }
     })
 
 });

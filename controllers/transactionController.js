@@ -46,6 +46,16 @@ const transactionController = {
 
     },
 
+    searchTransactions: function (req, res) {
+        var search = req.body.search
+        console.log(req)
+        db.findMany(Transaction, { description: {$regex: search, $options: 'i'} }, {}, function(data) {
+            //console.log(data)
+            res.status(200).json(data);
+        })
+    }
+
+
 };
 
 export default transactionController;

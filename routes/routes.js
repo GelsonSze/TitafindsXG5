@@ -28,6 +28,7 @@ app.get("/transactions", checkAuth, transactionController.transactions);
 app.get("/getTransactions", transactionController.getTransactions);
 app.post("/addTransaction", transactionController.addTransaction);
 app.get("/getTransaction", transactionController.getTransaction);
+app.post("/searchTransactions", upload.any(), transactionController.searchTransactions);
 
 // TO BE REMOVED
 // if (process.env.NODE_ENV === "development") {
