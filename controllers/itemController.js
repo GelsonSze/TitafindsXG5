@@ -74,6 +74,14 @@ const itemController = {
             error = "Item code already exists";
             errorFields = ["code"];
         }
+        else if(addedItem.code.length > 100){
+            error = "Item code exceeds maximum character limit";
+            errorFields = ["code"];
+        }
+        else if(addedItem.name.length > 255){
+            error = "Name exceeds maximum character limit";
+            errorFields = ["name"];
+        }
         else if(addedItem.size != null && isNaN(addedItem.size)){
             error = "Size inputted is not a number";
             errorFields = ["size"];
