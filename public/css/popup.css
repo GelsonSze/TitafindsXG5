@@ -16,19 +16,25 @@
     margin: 10px;
 }
 
-#popup {
+#add-popup, 
+#restock-popup,
+#sell-popup {
     border-radius: 8px;
     border-color: transparent;
     font-family: "Inter Bold";
     color: black;
 }
 
-#popup h1 {
+#add-popup h1,
+#restock-popup h1, 
+#sell-popup h1 {
     text-align: center;
     color: black;
 }
 
-#popup label {
+#add-popup label,
+#restock-popup label, 
+#sell-popup label {
     font-family: "Inter Medium";
     text-transform: none;
     font-size: 11px;
@@ -36,7 +42,9 @@
     margin-bottom: 4px;
 }
 
-#popup button {
+#add-popup button,
+#restock-popup button,
+#sell-popup button {
     border-radius: 8px;
     border-color: transparent;
     color: white;
@@ -44,7 +52,9 @@
     margin: 10px;
 }
 
-#popup textarea {
+#add-popup textarea,
+#restock-popup textarea, 
+#sell-popup textarea {
     resize: horizontal;
     padding: 5px;
     height: 30px;
@@ -153,7 +163,9 @@ button:hover {
     cursor: pointer;
 }
 
-.popup_close {
+.add-popup_close , 
+.restock-popup_close, 
+.sell-popup_close {
     border-radius: 50%;
     float: right;
 }

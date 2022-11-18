@@ -70,7 +70,7 @@ function item(
 }
 
 // On document ready
-$(function () {
+$(document).ready(function(){
     getAllItems(true);
 
     $("#itemGrid").w2grid({
@@ -159,25 +159,162 @@ $(function () {
         },
     });
 
+    $("#restock-popup").popup({
+        blur: false,    /* pop-up must be only closed with X button, not by clicking outside */
+    });
+
+    $("#restock-popup .restock-popup_close").on("click", async function () {
+        $("#restock-popup #restock-form")[0].reset();
+        $("#restock-popup .item-wrapper #error-message").html("");
+    });
+
+    $("#restock-popup form .command :reset").on("click", async function (e) {
+        $("#restock-popup #restock-form")[0].reset();
+        $("#restock-popup .item-wrapper #error-message").html("");
+    });
+
+    $("#restock-popup form .command :submit").on("click", function(e) {
+        e.preventDefault();
+
+        const data = new FormData($("#restock-form")[0]);
+        const code = $("#restock-popup #code").val();
+        var recID = w2ui["itemGrid"].find({ code:  code});
+        recID = recID[0];
+
+        $.ajax({
+            url: "/checkItem",
+            data: data,
+            type: "POST",
+            processData: false,
+            contentType: false,
+
+            success: async function (flag) {
+                if (flag) {
+                    $.ajax({
+                        url: "/restockItem",
+                        data: data,
+                        type: "POST",
+                        processData: false,
+                        contentType: false,
+
+                        success: async function (flag) {
+                            if (flag) {
+                                $.ajax({
+                                        url: "/checkItem",
+                                        data: data,
+                                        type: "POST",
+                                        processData: false,
+                                        contentType: false,
+
+                                        success: async function (flag) {
+                                            w2ui['itemGrid'].set(recID, {quantity: flag.quantity});
+                                        },
+                                    });
+                                $("#restock-popup #restock-form")[0].reset();
+                                $("#restock-popup").popup("hide");
+                            }
+                        },
+                    });
+                }
+                else {
+                    $("#restock-popup .item-wrapper #error-message").html("Invalid Product Code.");
+                }
+            },
+        });
+    });
+
+    $("#sell-popup").popup({
+        blur: false,
+    });
+
+    $("#sell-popup .sell-popup_close").on("click", function () {
+        $("#sell-popup #sell-form")[0].reset();
+        $("#sell-popup .item-wrapper #error-message").html("");
+    });
+
+    $("#sell-popup form .command :reset").on("click", function (e) {
+        $("#sell-popup #sell-form")[0].reset();
+        $("#sell-popup .item-wrapper #error-message").html("");
+    });
+
+    $("#sell-popup form .command :submit").on("click", function(e) {
+        e.preventDefault();
+
+        const quantity = $('#sell-popup #quantity').val();
+        const data = new FormData($("#sell-form")[0]);
+        const code = $("#sell-popup #code").val();
+        var recID = w2ui["itemGrid"].find({ code:  code});
+        recID = recID[0];
+
+        $.ajax({
+            url: "/checkItem",
+            data: data,
+            type: "POST",
+            processData: false,
+            contentType: false,
+
+            success: async function (flag) {
+                if (flag) {
+                    if (flag.quantity == 0) {
+                        $("#sell-popup .item-wrapper #error-message").html("No available stock.");
+                    }
+                    else if ( (flag.quantity - quantity) < 0 ) {
+                        $("#sell-popup .item-wrapper #error-message").html("Insufficient stock.");
+                    }
+                    else {
+                        $.ajax({
+                            url: "/sellItem",
+                            data: data,
+                            type: "POST",
+                            processData: false,
+                            contentType: false,
+
+                            success: async function (flag) {
+                                if (flag) {
+                                    $.ajax({
+                                        url: "/checkItem",
+                                        data: data,
+                                        type: "POST",
+                                        processData: false,
+                                        contentType: false,
+
+                                        success: async function (flag) {
+                                            w2ui['itemGrid'].set(recID, {quantity: flag.quantity});
+                                        },
+                                    });
+                                    $("#sell-popup #sell-form")[0].reset();
+                                    $("#sell-popup").popup("hide");
+                                }
+                            },
+                        });
+                    }
+                }
+                else {
+                    $("#sell-popup .item-wrapper #error-message").html("Invalid Product Code.");
+                }
+            },
+        });
+    });
+
     /* pop-up must be only closed with X button, not by clicking outside */
-    $("#popup").popup({
+    $("#add-popup").popup({
         blur: false,
     });
 
     /* WILL RENAME SELECTORS ONCE RENAMING OF THE FORM IDS ARE FINISHED*/
     /* clicking on the X button of the popup clears the form */
-    $("#popup .popup_close").on("click", function () {
-        $("#popup #form")[0].reset();
+     $("#add-popup .add-popup_close").on("click", function () {
+        $("#add-popup #add-form")[0].reset();
     });
 
-    $("#popup form .command :reset").on("click", function (e) {
-        $("#popup").popup("hide");
+    $("#add-popup form .command :reset").on("click", function (e) {
+        $("#add-popup #add-form")[0].reset();
     });
 
-    $("#popup form .command :submit").on("click", function (e) {
+    $("#add-popup form .command :submit").on("click", function (e) {
         e.preventDefault();
 
-        const data = new FormData($("#form")[0]);
+        const data = new FormData($("#add-form")[0]);
         data.append("dateAdded", new Date());
         data.append("dateUpdated", new Date());
 
@@ -185,6 +322,7 @@ $(function () {
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
+
         $.ajax({
             url: "/addItem",
             data: data,
@@ -198,7 +336,8 @@ $(function () {
                     Items = [];
                     getAllItems(true);
                     console.log("reloaded");
-                    $("#popup").popup("hide");
+                    $("#add-popup #add-form")[0].reset();
+                    $("#add-popup").popup("hide");
                 }
             },
         });

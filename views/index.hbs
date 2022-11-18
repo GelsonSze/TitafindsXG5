@@ -142,17 +142,79 @@
                 </div>
 
                 <div id="add">
-                    <button class="popup_open">Add Item</button>
-                    <button class="export">+</button>
+                    <button class="restock-popup_open">Restock Item</button>
+                    <button class="export restock-popup_open">+</button>
+                </div>
+
+                <div id="add">
+                    <button class="sell-popup_open">Sell Item</button>
+                    <button class="export sell-popup_open">-</button>
+                </div>
+
+                <div id="add">
+                    <button class="add-popup_open">Add Item</button>
+                    <button class="export add-popup_open">+</button>
                 </div>
             </div>
         </section>
 
-        <section id="popup">
-            <button class="popup_close">X</button>
+        <section id="restock-popup">
+            <button class="restock-popup_close">X</button>
+            <h1>Restock Item</h1>
+            
+            <form id="restock-form" enctype="multipart/form-data">
+                <div class="item-wrapper">
+                    <label for="code">Product Code</label><br />
+                    <input type="text" id="code" name="code" /><br />
+                </div>
+   
+                <div class="qty-wrapper-wrapper">
+                    <label for="quantity">Quantity</label><br />
+                    <input type="text" id="quantity" name="quantity" /><br />
+                </div>
+
+                <div class="item-wrapper">
+                    <p id="error-message"></p>
+                </div>
+
+                <div class="command">
+                    <button type="reset">Discard</button>
+                    <button type="sumbit" id="restock">Restock Item</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="sell-popup">
+            <button class="sell-popup_close">X</button>
+            <h1>Sell Item</h1>
+            
+            <form id="sell-form" enctype="multipart/form-data">
+                <div class="item-wrapper">
+                    <label for="code">Product Code</label><br />
+                    <input type="text" id="code" name="code" /><br />
+                </div>
+                
+                <div class="qty-wrapper-wrapper">
+                    <label for="quantity">Quantity</label><br />
+                    <input type="text" id="quantity" name="quantity" /><br />
+                </div>
+
+                <div class="item-wrapper">
+                    <p id="error-message"></p>
+                </div>
+            
+                <div class="command">
+                    <button type="reset">Discard</button>
+                    <button type="sumbit" id="sell">Sell Item</button>
+                </div>
+            </form>
+        </section>
+
+        <section id="add-popup">
+            <button class="add-popup_close">X</button>
             <h1>Add New Item</h1>
 
-            <form id="form" enctype="multipart/form-data">
+            <form id="add-form" enctype="multipart/form-data">
                 <div id="popup-form-wrapper">
                     <div id="popup-left-wrapper">
                         {{! Product Name / Product Code / Product Image }}
@@ -211,9 +273,8 @@
                             <div class="item-wrapper">
                                 <label for="brand">Brand</label><br />
                                 <select id="brand" name="brand">
-                                    <option value="" disabled selected>Select</option>
-                                    <option value="Branded">Branded</option>
                                     <option value="Unbranded">Unbranded</option>
+                                    <option value="Branded">Branded</option>
                                 </select>
                                 <br />
                             </div>
@@ -337,8 +398,8 @@
                 </div>
 
                 <div class="command">
-                    <button type="sumbit" id="create">Add</button>
                     <button type="reset">Cancel</button>
+                    <button type="sumbit" id="create">Add</button>
                 </div>
             </form>
         </section>
