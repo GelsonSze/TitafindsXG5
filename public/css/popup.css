@@ -25,6 +25,12 @@
     color: black;
 }
 
+#restock-popup,
+#sell-popup {
+    width: 20%;
+    height: 30%;
+}
+
 #add-popup h1,
 #restock-popup h1, 
 #sell-popup h1 {
@@ -163,7 +169,7 @@ button:hover {
     cursor: pointer;
 }
 
-.add-popup_close , 
+.add-popup_close, 
 .restock-popup_close, 
 .sell-popup_close {
     border-radius: 50%;
@@ -178,4 +184,8 @@ button:hover {
 .command button {
     font-family: "Inter Bold";
     background-color: #9e9e9e;
+}
+
+#error-message {
+
 }
