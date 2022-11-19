@@ -69,6 +69,64 @@ function item(
     };
 }
 
+function getSpecifiedItems(refreshGrid = false){
+    /*Records it as 0 if the user did not select a category*/
+    var Specified = []
+    if ($('#dropdown-type-select').text() == "Type")
+    {
+        var type = 0;
+    }
+    if ($('#dropdown-classification-select').text() == "Classification")
+    {
+        var classification = 0;
+    }
+    if ($('#dropdown-status-select').text() == "Status")
+    {
+        var status = 0;
+    }
+    
+    /*Process gets all items given a specific condition, which is if the item has the following category. The ==0 condition
+    is only for the instances where the category was not changed.*/
+    $.ajax({
+        url: "/getItems",
+        type: "GET",
+        processData: false,
+        contentType: false,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        success: function (items) {
+            for (var product of items) {
+                if ((product.type == $('#dropdown-type-select').text() || type == 0) &&
+                    (product.classification == $('#dropdown-classification-select').text() || classification == 0) &&
+                    (product.status == $('#dropdown-status-select').text() || status == 0))
+                {
+                    Specified.push(
+                        new item(
+                            product.image,
+                            product.name,
+                            product.code,
+                            product.type,
+                            product.classification,
+                            product.size,
+                            product.weight,
+                            product.quantity,
+                            product.sellingPrice,
+                            product.purchasePrice,
+                            product.status
+                        )
+                    );
+                }
+            }
+            if (refreshGrid) {
+                w2ui["itemGrid"].clear();
+                w2ui["itemGrid"].records = Specified;
+                w2ui["itemGrid"].refresh();
+            }
+        },
+    });
+
+}
 // On document ready
 $(function () {
     getAllItems(true);
@@ -240,6 +298,47 @@ $(function () {
         } catch (err) {
             console.log(err);
         }
+    });
+
+    $('.dropdown-type').click(function() {
+        var text = $(this).html();
+        $('#dropdown-type-select').html(text)
+    })
+
+    $('.dropdown-classification').click(function() {
+        var text = $(this).html();
+        $('#dropdown-classification-select').html(text)
+    })
+
+    $('.dropdown-status').click(function() {
+        var text = $(this).html();
+        console.log(text);
+        $('#dropdown-status-select').html(text)
+    })
+    
+    //How to get the values of the dropdown-weight and dropdown-size?
+    $('.dropdown-weight').click(function() {
+        var text = $(this).html();
+        console.log(text);
+        $('#dropdown-weight-select').html(text)
+    })
+
+    $('.dropdown-size').click(function() {
+        var text = $(this).html();
+        console.log(text);
+        $('#dropdown-size-select').html(text)
+    })
+
+    $('#table-filter-apply').click(function() {
+        getSpecifiedItems(true);
+    });
+
+    $('#table-filter-clear').click(function() {
+            /*Records it as 0 if the user did not select a category*/
+        $('#dropdown-type-select').html("Type")
+        $('#dropdown-classification-select').html("Classification")
+        $('#dropdown-status-select').html("Status")
+        getAllItems(true);
     });
 
     //hover on image

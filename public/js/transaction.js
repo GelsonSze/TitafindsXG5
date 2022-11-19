@@ -86,7 +86,7 @@ $(function () {
 
     $('.dropdown-type').click(function() {
         var text = $(this).html();
-
+        console.log(text);
         $('#dropdown-selected').html(text)
     })
 
