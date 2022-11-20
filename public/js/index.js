@@ -69,22 +69,10 @@ function item(
     };
 }
 
-function getSpecifiedItems(refreshGrid = false){
+function getSpecifiedItems(refreshGrid = false, classification, type, status, weight, size){
     /*Records it as 0 if the user did not select a category*/
     var Specified = []
-    if ($('#dropdown-type-select').text() == "Type")
-    {
-        var type = 0;
-    }
-    if ($('#dropdown-classification-select').text() == "Classification")
-    {
-        var classification = 0;
-    }
-    if ($('#dropdown-status-select').text() == "Status")
-    {
-        var status = 0;
-    }
-    
+   
     /*Process gets all items given a specific condition, which is if the item has the following category. The ==0 condition
     is only for the instances where the category was not changed.*/
     $.ajax({
@@ -99,7 +87,9 @@ function getSpecifiedItems(refreshGrid = false){
             for (var product of items) {
                 if ((product.type == $('#dropdown-type-select').text() || type == 0) &&
                     (product.classification == $('#dropdown-classification-select').text() || classification == 0) &&
-                    (product.status == $('#dropdown-status-select').text() || status == 0))
+                    (product.status == $('#dropdown-status-select').text() || status == 0) && 
+                    ((product.weight >= $('#weight-min').val() && (product.weight <= $('#weight-max').val()) || weight == 0)) &&
+                    ((product.size >= $('#size-min').val() && (product.size <= $('#size-max').val()) || size == 0)))
                 {
                     Specified.push(
                         new item(
@@ -316,21 +306,28 @@ $(function () {
         $('#dropdown-status-select').html(text)
     })
     
-    //How to get the values of the dropdown-weight and dropdown-size?
-    $('.dropdown-weight').click(function() {
-        var text = $(this).html();
-        console.log(text);
-        $('#dropdown-weight-select').html(text)
-    })
-
-    $('.dropdown-size').click(function() {
-        var text = $(this).html();
-        console.log(text);
-        $('#dropdown-size-select').html(text)
-    })
-
     $('#table-filter-apply').click(function() {
-        getSpecifiedItems(true);
+        if ($('#dropdown-type-select').text() == "Type")
+        {
+            var type = 0;
+        }
+        if ($('#dropdown-classification-select').text() == "Classification")
+        {
+            var classification = 0;
+        }
+        if ($('#dropdown-status-select').text() == "Status")
+        {
+            var status = 0;
+        }
+        if(($('#weight-min').val() == "" || $('#weight-min').val() == ""))
+        {
+            var weight = 0;
+        }
+        if($('#size-min').val() == "" || $('#size-max').val() == "")
+        {
+            var size = 0;
+        }
+        getSpecifiedItems(true, classification, type, status, weight, size);
     });
 
     $('#table-filter-clear').click(function() {
@@ -338,6 +335,10 @@ $(function () {
         $('#dropdown-type-select').html("Type")
         $('#dropdown-classification-select').html("Classification")
         $('#dropdown-status-select').html("Status")
+        $('#weight-min').val("")
+        $('#weight-max').val("")
+        $('#size-min').val("")
+        $('#size-min').val("")
         getAllItems(true);
     });
 

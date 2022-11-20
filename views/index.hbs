@@ -100,42 +100,32 @@
                     </select>
                     }} {{! Weight }}
                     <div class="dropdown-btn">
-                        <select disabled>
-                            <option id="dropdown-weight" disabled selected value>Weight</option>
-                        </select>
-                        <div class="dropdown-content">
                             <span>WEIGHT RANGE</span>
                             <div class="range-wrapper">
                                 <div class="gram-wrapper">
-                                    <input type="text" class="input-field-1" size="2" />
+                                    <input type="text" class="input-field" id = "weight-min" size="2" /> 
                                     <span>GRAMS</span>
                                 </div>
                                 <span>to</span>
                                 <div class="gram-wrapper">
-                                    <input type="text" class="input-field-2" size="2" />
+                                    <input type="text" class="input-field" id = "weight-max" size="2" /> 
                                     <span>GRAMS</span>
                                 </div>
                             </div>
-                        </div>
                     </div>
 
                     {{! Size }}
                     <div class="dropdown-btn">
-                        <select disabled>
-                            <option id="dropdown-size" disabled selected value>Size</option>
-                        </select>
-                        <div class="dropdown-content">
-                            <span>SIZE RANGE</span>
+                        <span>SIZE RANGE</span>
                             <div class="range-wrapper">
-                                <input type="text" class="input-field" size="2" />
+                                <input type="text" class="input-field" id = "size-min" size="2" />
                                 <span>to</span>
-                                <input type="text" class="input-field" size="2" />
+                                <input type="text" class="input-field" id = "size-max" size="2" />
                             </div>
                             <select>
                                 <option selected>cm</option>
                                 <option>inches</option>
-                            </select>
-                        </div>
+                            </select>   
                     </div>
 
                     {{! Apply Button }}
