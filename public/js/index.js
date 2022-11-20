@@ -119,6 +119,8 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
 }
 // On document ready
 $(function () {
+    $('#weight-min').val(0)
+    $('#size-min').val(0)
     getAllItems(true);
 
     $("#itemGrid").w2grid({
@@ -335,9 +337,9 @@ $(function () {
         $('#dropdown-type-select').html("Type")
         $('#dropdown-classification-select').html("Classification")
         $('#dropdown-status-select').html("Status")
-        $('#weight-min').val("")
+        $('#weight-min').val(0)
+        $('#size-min').val(0)
         $('#weight-max').val("")
-        $('#size-min').val("")
         $('#size-min').val("")
         getAllItems(true);
     });
