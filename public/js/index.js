@@ -234,6 +234,7 @@ $(function () {
         const trans_data = {
             date: new Date(),
             type: "Restock",
+            name: $('#name').val(),
             desc: "Item added "+ $('#code').val(),
              qty: parseInt($('#quantity').val()),
             sellingPrice: parseInt($('#selling-price').val()),
