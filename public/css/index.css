@@ -56,7 +56,6 @@ main {
 
 #main-control {
     display: flex;
-    margin-left: 60px;
     flex-direction: column;
     justify-content: space-between;
 }
@@ -286,41 +285,41 @@ h1 {
     border: 0.5vh solid black;
 }
 
-#inner-sidebar{
-    position:absolute;
+#inner-sidebar {
+    position: absolute;
     top: 0;
     left: 0;
-    width:300px;
-    height:100%;
-    background-color:#5d3937;
+    width: 300px;
+    height: 100%;
+    background-color: #5d3937;
     display: none;
     z-index: 99;
 }
 
-#outer-sidebar{
-    position:absolute;
+#outer-sidebar {
+    position: absolute;
     top: 0;
     left: 0;
-    width:60px;
-    height:100%;
-    background-color:#5d3937;
+    width: 60px;
+    height: 100%;
+    background-color: #5d3937;
 }
 
-#toggle-sidebar{
-    position:fixed;
+#toggle-sidebar {
+    position: fixed;
     top: 10px;
     left: 10px;
     width: 35px;
     font-size: 30px;
-    background-color:#5d3937;
+    background-color: #5d3937;
     color: white;
-    background:none;
+    background: none;
     outline: none;
-    border:none;
+    border: none;
 }
 
-#close-sidebar{
-    background-color:#815251;
+#close-sidebar {
+    background-color: #815251;
     border: #815251;
     font-size: 20px;
     position: absolute;
@@ -329,20 +328,19 @@ h1 {
     color: white;
 }
 
-a:visited{
+a:visited {
     color: white;
 }
 
-a:hover{
+a:hover {
     background-color: #815251;
 }
 
-#outer-icon:hover{
+#outer-icon:hover {
     background-color: #260504;
 }
 
-
-#brand-img{
+#brand-img {
     margin-right: 10%;
     margin-left: 28%;
     margin-top: 12%;
@@ -350,7 +348,7 @@ a:hover{
     max-height: 45%;
 }
 
-#brand-title-img{
+#brand-title-img {
     margin-right: 10%;
     margin-left: 15%;
     max-width: 60%;
@@ -358,10 +356,10 @@ a:hover{
     margin-bottom: 5%;
 }
 
-#outer-sidebar-icons{
-    position:relative;
-    top:40%;
-    color:white;
+#outer-sidebar-icons {
+    position: relative;
+    top: 40%;
+    color: white;
     margin-right: 10%;
     margin-left: 28%;
 }
