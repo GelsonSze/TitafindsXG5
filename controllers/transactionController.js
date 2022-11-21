@@ -49,18 +49,40 @@ const transactionController = {
     searchTransactions: function (req, res) {
         var search = req.body.search
         console.log(req)
-        db.findMany(Transaction, 
-            {$or: [
-                { description: {$regex: search, $options: 'i'} },
-                { name:        {$regex: search, $options: 'i'} }
-            ]}
 
-            , 
+        if (search.type == 'Type')
+        {
+            db.findMany(Transaction, 
+                {$or: [
+                    { description: {$regex: search.search, $options: 'i'} },
+                    { name:        {$regex: search.search, $options: 'i'} },
+                    
+                ]},
+            
+                {}, function(data) {
+                //console.log(data)
+                res.status(200).json(data);
+            })
+        }
+        else
+        {
+            db.findMany(Transaction, 
+                {$and: [
+                    {$or: [
+                        { description: {$regex: search.search, $options: 'i'} },
+                        { name:        {$regex: search.search, $options: 'i'} },
+                        
+                    ]},
         
-            {}, function(data) {
-            //console.log(data)
-            res.status(200).json(data);
-        })
+                    { type:        {$regex: search.type,   $options: 'i'}}
+                ]}, 
+            
+                {}, function(data) {
+                //console.log(data)
+                res.status(200).json(data);
+            })
+        }
+        
     }
 
 

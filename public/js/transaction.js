@@ -86,59 +86,56 @@ $(function () {
 
     $('.dropdown-type').click(function() {
         var text = $(this).html();
-        console.log(text);
-        $('#dropdown-selected').html(text)
+        if (text != 'Any') $('#dropdown-selected').html(text)
+        else $('#dropdown-selected').html('Type')
+    })
+
+    // Clears table filters
+    $('#table-filter-clear').click(function() {
+        $('#filter-search').val('');
+        $('#dropdown-selected').html('Type')
     })
 
     $('#table-filter-apply').click(function() {
         var searchBar = $('#filter-search').val();
+        var typeBar = $('#dropdown-selected').html();
+        console.log(typeBar)
+        var searchParams = {
+            search: searchBar,
+            type: typeBar
+        }
+
         console.log(searchBar)
-        if (searchBar.length === 0) {
-            // do filter on type restock/added/sold
-            getAllTransactions(true);
-        }
-        else {
-            /* W2ui search is inapplicable due to product name
-            w2ui['itemGrid'].search(
-                [{field:'description',
-                value: searchBar,
-                operator: 'contains'
-                }])*/
-
-
-            // Perform search
-
-            
-            $.ajax({
-                url: "/searchTransactions",
-                type: "POST",
-                processData: false,
-                contentType: false,
-                data: JSON.stringify({"search": searchBar}),
-                headers: { "Content-Type": "application/json" },
-                success: function (items) 
+        $.ajax({
+            url: "/searchTransactions",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            data: JSON.stringify({"search": searchParams}),
+            headers: { "Content-Type": "application/json" },
+            success: function (items) 
+            {
+                Transactions = [];
+                console.log(items)
+                for (var trans of items) 
                 {
-                    Transactions = [];
-                    console.log(items)
-                    for (var trans of items) 
-                    {
-                        Transactions.push(
-                            new transaction(
-                                trans.date,
-                                trans.type,
-                                trans.description,
-                                trans.quantity,
-                                trans.sellingPrice,
-                                trans.transactedBy
-                            )
-                        );
-                    }
-                        w2ui["itemGrid"].records = Transactions;
-                        w2ui["itemGrid"].refresh();
-                },
-            });
-            
-        }
+                    Transactions.push(
+                        new transaction(
+                            trans.date,
+                            trans.type,
+                            trans.description,
+                            trans.quantity,
+                            trans.sellingPrice,
+                            trans.transactedBy
+                        )
+                    );
+                }
+                    w2ui["itemGrid"].records = Transactions;
+                    w2ui["itemGrid"].refresh();
+            },
+        });
+        
+        
     })
 
 });
