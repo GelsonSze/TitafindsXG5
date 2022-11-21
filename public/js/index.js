@@ -149,13 +149,13 @@ $(function () {
             },
         ],
         records: Items,
-        onDblClick: function(recid) {
+        onDblClick: function (recid) {
             // Redirects to item page
 
             var record = w2ui["itemGrid"].get(recid.recid);
             //console.log(record)
 
-            window.location.href = "/item/"+record.code;
+            window.location.href = "/item/" + record.code;
         },
     });
 
@@ -189,21 +189,21 @@ $(function () {
         let fields = [name, code, type, sellingType, quantity];
 
         let emptyFields = [];
-        
-        fields.forEach(async function(field){
-            if(isEmptyOrSpaces(field.value)){
+
+        fields.forEach(async function (field) {
+            if (isEmptyOrSpaces(field.value)) {
                 emptyFields.push(field);
             }
         });
 
         // If selling type is per gram, weight is required
-        if(sellingType.value == "per gram"){
-            if(isEmptyOrSpaces(weight.value)){
+        if (sellingType.value == "per gram") {
+            if (isEmptyOrSpaces(weight.value)) {
                 emptyFields.push(weight);
             }
         }
 
-        if(emptyFields.length > 0){
+        if (emptyFields.length > 0) {
             showError(error, "Please fill out all the fields.", emptyFields);
             return;
         }
@@ -237,24 +237,23 @@ $(function () {
                 }
             },
 
-            error: async function (jqXHR, textStatus, errorThrown){
+            error: async function (jqXHR, textStatus, errorThrown) {
                 message = jqXHR.responseJSON.message;
                 fields = jqXHR.responseJSON.fields;
                 console.log(fields);
 
-                fields.forEach(async function (field){
+                fields.forEach(async function (field) {
                     emptyFields.push($(`#${field}`)[0]);
                 });
 
                 showError(error, message, emptyFields);
-            }
-
+            },
         });
     });
     //on change of image
     $("#image").on("change", function () {
         try {
-            if (this.files[0].type.match(/image.{jpg|jpeg|png}/)) {
+            if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $("#image-preview").attr("src", e.target.result);
