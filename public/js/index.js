@@ -7,7 +7,7 @@ var Items = [];
  */
 function getAllItems(refreshGrid = false) {
     $.ajax({
-        url: "/getItem",
+        url: "/getItems",
         type: "GET",
         processData: false,
         contentType: false,
@@ -149,6 +149,14 @@ $(function () {
             },
         ],
         records: Items,
+        onDblClick: function(recid) {
+            // Redirects to item page
+
+            var record = w2ui["itemGrid"].get(recid.recid);
+            //console.log(record)
+
+            window.location.href = "/item/"+record.code;
+        },
     });
 
     /* pop-up must be only closed with X button, not by clicking outside */
@@ -159,10 +167,12 @@ $(function () {
     /* clicking on the X button of the popup clears the form */
     $("#popup .popup_close").on("click", function () {
         $("#popup #form")[0].reset();
+        $("#image-preview").attr("src", "/img/test.png");
     });
 
     $("#popup form .command :reset").on("click", function (e) {
         $("#popup").popup("hide");
+        $("#image-preview").attr("src", "/img/test.png");
     });
 
     $("#popup form .command :submit").on("click", function (e) {
