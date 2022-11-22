@@ -236,7 +236,7 @@ $(function () {
             type: "Restock",
             name: $('#name').val(),
             desc: "Item added "+ $('#code').val(),
-             qty: parseInt($('#quantity').val()),
+            qty: parseInt($('#quantity').val()),
             sellingPrice: parseInt($('#selling-price').val()),
             transactedBy: "Someone"
         }
