@@ -183,7 +183,6 @@ $(function () {
 
         $.ajax({
             url: `/getItem=${code}`, 
-            data: data,
             type: "GET",
             processData: false,
             contentType: false,
@@ -201,7 +200,6 @@ $(function () {
                             if (flag) {
                                 $.ajax({
                                         url: `/getItem=${code}`,
-                                        data: data,
                                         type: "GET",
                                         processData: false,
                                         contentType: false,
@@ -248,7 +246,6 @@ $(function () {
 
         $.ajax({
             url: `/getItem=${code}`,
-            data: data,
             type: "GET",
             processData: false,
             contentType: false,
@@ -273,7 +270,6 @@ $(function () {
                                 if (flag) {
                                     $.ajax({
                                         url: `/getItem=${code}`,
-                                        data: data,
                                         type: "GET",
                                         processData: false,
                                         contentType: false,
