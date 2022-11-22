@@ -25,8 +25,8 @@ const transactionController = {
         console.log('Added transaction: ')
         console.log(transItem)
 
-        db.insertOne(Transaction, transItem, function (flag) {
-            res.send(flag);
+        db.insertOne(Transaction, transItem, function (data) {
+            res.send(data);
         });
     },
 

@@ -65,8 +65,8 @@ const itemController = {
 
         console.log(addedItem);
 
-        db.insertOne(Item, addedItem, function (flag) {
-            res.send(flag);
+        db.insertOne(Item, addedItem, function (data) {
+            res.send(data);
         });
     },
     getItems: function (req, res) {

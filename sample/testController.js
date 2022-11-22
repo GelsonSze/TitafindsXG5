@@ -39,8 +39,8 @@ const testController = {
         try {
             //Check if sample data already exists
             data.forEach(async function (sampleItem, index) {
-                var flag = await Item.findOne({ code: sampleItem.code });
-                if (flag) {
+                var data = await Item.findOne({ code: sampleItem.code });
+                if (data) {
                     console.log("Sample item already exists");
                 } else {
                     var newSampleItem = new Item(sampleItem);
