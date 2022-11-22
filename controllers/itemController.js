@@ -76,8 +76,8 @@ const itemController = {
     },
 
     getItem: function (req, res) {
-        db.findOne(Item, {code:req.query.code}, {}, async function(data) {
-            console.log(req.query)
+        db.findOne(Item, {code:req.params.code}, {}, async function(data) {
+            console.log(req.params)
             res.status(200).json(await data);
         })
 
