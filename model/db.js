@@ -49,6 +49,13 @@ const db = {
         });
     },
 
+    findById: function (model, id, projection, callback){
+        model.findById(id, projection, function(error, result){
+            if(error) return callback(false);
+            return callback(result);
+        })
+    },
+
     findOne: function (model, query, projection, callback) {
         model.findOne(query, projection, function (error, result) {
             if (error) return callback(false);
