@@ -187,8 +187,8 @@ $(function () {
             processData: false,
             contentType: false,
 
-            success: async function (flag) {
-                if (flag) {
+            success: async function (foundData) {
+                if (foundData) {
                     $.ajax({
                         url: "/restockItem",
                         data: data,
@@ -196,16 +196,16 @@ $(function () {
                         processData: false,
                         contentType: false,
 
-                        success: async function (flag) {
-                            if (flag) {
+                        success: async function (foundData) {
+                            if (foundData) {
                                 $.ajax({
                                         url: `/getItem=${code}`,
                                         type: "GET",
                                         processData: false,
                                         contentType: false,
 
-                                        success: async function (flag) {
-                                            w2ui['itemGrid'].set(recID, {quantity: flag.quantity});
+                                        success: async function (foundData) {
+                                            w2ui['itemGrid'].set(recID, {quantity: foundData.quantity});
                                         },
                                     });
                                 $("#restock-popup #restock-form")[0].reset();
@@ -250,12 +250,12 @@ $(function () {
             processData: false,
             contentType: false,
 
-            success: async function (flag) {
-                if (flag) {
-                    if (flag.quantity == 0) {
+            success: async function (foundData) {
+                if (foundData) {
+                    if (foundData.quantity == 0) {
                         $("#sell-popup .item-wrapper #error-message").html("No available stock.");
                     }
-                    else if ( (flag.quantity - quantity) < 0 ) {
+                    else if ( (foundData.quantity - quantity) < 0 ) {
                         $("#sell-popup .item-wrapper #error-message").html("Insufficient stock.");
                     }
                     else {
@@ -266,16 +266,16 @@ $(function () {
                             processData: false,
                             contentType: false,
 
-                            success: async function (flag) {
-                                if (flag) {
+                            success: async function (foundData) {
+                                if (foundData) {
                                     $.ajax({
                                         url: `/getItem=${code}`,
                                         type: "GET",
                                         processData: false,
                                         contentType: false,
 
-                                        success: async function (flag) {
-                                            w2ui['itemGrid'].set(recID, {quantity: flag.quantity});
+                                        success: async function (foundData) {
+                                            w2ui['itemGrid'].set(recID, {quantity: foundData.quantity});
                                         },
                                     });
                                     $("#sell-popup #sell-form")[0].reset();
@@ -329,8 +329,8 @@ $(function () {
             processData: false,
             contentType: false,
 
-            success: async function (flag) {
-                if (flag) {
+            success: async function (foundData) {
+                if (foundData) {
                     console.log("success");
                     Items = [];
                     getAllItems(true);
