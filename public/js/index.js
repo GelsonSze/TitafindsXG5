@@ -182,9 +182,9 @@ $(function () {
         recID = recID[0];
 
         $.ajax({
-            url: "/checkItem",
+            url: "/getItem",
             data: data,
-            type: "POST",
+            type: "GET",
             processData: false,
             contentType: false,
 
@@ -200,9 +200,9 @@ $(function () {
                         success: async function (flag) {
                             if (flag) {
                                 $.ajax({
-                                        url: "/checkItem",
+                                        url: "/getItem",
                                         data: data,
-                                        type: "POST",
+                                        type: "GET",
                                         processData: false,
                                         contentType: false,
 
@@ -247,9 +247,9 @@ $(function () {
         recID = recID[0];
 
         $.ajax({
-            url: "/checkItem",
+            url: "/getItem",
             data: data,
-            type: "POST",
+            type: "GET",
             processData: false,
             contentType: false,
 
@@ -272,9 +272,9 @@ $(function () {
                             success: async function (flag) {
                                 if (flag) {
                                     $.ajax({
-                                        url: "/checkItem",
+                                        url: "/getItem",
                                         data: data,
-                                        type: "POST",
+                                        type: "GET",
                                         processData: false,
                                         contentType: false,
 
