@@ -303,12 +303,15 @@ $(document).ready(function(){
 
     /* WILL RENAME SELECTORS ONCE RENAMING OF THE FORM IDS ARE FINISHED*/
     /* clicking on the X button of the popup clears the form */
+
      $("#add-popup .add-popup_close").on("click", function () {
         $("#add-popup #add-form")[0].reset();
+        $("#image-preview").attr("src", "/img/test.png");
     });
 
     $("#add-popup form .command :reset").on("click", function (e) {
         $("#add-popup #add-form")[0].reset();
+        $("#image-preview").attr("src", "/img/test.png");
     });
 
     $("#add-popup form .command :submit").on("click", function (e) {
