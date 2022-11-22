@@ -80,7 +80,7 @@ function itemDesc(field, desc) {
     return html;
 }
 
-$(document).ready(function(){
+$(function () {
 
     // Loads item for the page.
     getItem();

@@ -70,7 +70,7 @@ function item(
 }
 
 // On document ready
-$(document).ready(function(){
+$(function () {
     getAllItems(true);
 
     $("#itemGrid").w2grid({
