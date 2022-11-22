@@ -77,10 +77,13 @@ const itemController = {
 
     getItem: function (req, res) {
         db.findOne(Item, {code:req.params.code}, {}, async function(data) {
-            console.log(req.params)
-            res.status(200).json(await data);
-        })
-
+            if (data){
+                res.status(200).json(await data);
+            }
+            else {
+                res.status(400).json({message: "Invalid Product Code.", fields: ["code"]});
+            }
+        });
     },
 
     checkItem: async function (req, res) {
@@ -96,11 +99,24 @@ const itemController = {
     },
 
     sellItem: async function (req, res) {
-        var quantity = -Math.abs(req.body.quantity);
+        var error = "";        
+        var quantity = req.body.quantity;
+        var item = await Item.findOne({code: req.body.code});
 
-        db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: quantity}}, function (data) {
-            res.send(data);
-        });
+        if (item.quantity == 0){
+            error = "No available stock.";
+        }
+        else if ( (item.quantity - quantity) < 0) {
+            error = "Insufficient stock.";
+        }
+        else {
+            quantity = -Math.abs(req.body.quantity);
+            db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: quantity}}, function (data) {
+                res.status(200).json(data);
+            });
+            return;
+        }
+        res.status(400).json({message: error, fields: ["quantity"]});
     },
 
     // //TO BE REMOVED:
