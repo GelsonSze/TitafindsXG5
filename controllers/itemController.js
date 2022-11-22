@@ -103,6 +103,10 @@ const itemController = {
             error = "Quantity inputted is not a number";
             errorFields = ["quantity"];
         }
+        else if(!(isNaN(addedItem.quantity)) && addedItem.quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number";
+            errorFields = ["quantity"];
+        }
         else if(addedItem.sellingPrice != null && isNaN(addedItem.sellingPrice)){
             error = "Selling price inputted is not a number";
             errorFields = ["selling-price"];
