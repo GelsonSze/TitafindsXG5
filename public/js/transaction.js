@@ -99,19 +99,17 @@ $(function () {
     $('#table-filter-apply').click(function() {
         var searchBar = $('#filter-search').val();
         var typeBar = $('#dropdown-selected').html();
-        console.log(typeBar)
-        var searchParams = {
-            search: searchBar,
-            type: typeBar
+
+        // Cheats the empty search bar
+        if (!searchBar) {
+            searchBar = 'empty'
         }
 
-        console.log(searchBar)
         $.ajax({
-            url: "/searchTransactions",
-            type: "POST",
+            url: `/searchTransactions=${typeBar}&${searchBar}`,
+            type: "GET",
             processData: false,
             contentType: false,
-            data: JSON.stringify({"search": searchParams}),
             headers: { "Content-Type": "application/json" },
             success: function (items) 
             {
