@@ -22,8 +22,8 @@ const transactionController = {
             var transItem = {
                 date: req.body.date,
                 type: req.body.type,
-                description: req.body.desc,
-                quantity: req.body.qty,
+                description: req.body.description,
+                quantity: req.body.quantity,
                 sellingPrice: req.body.sellingPrice,
                 transactedBy: req.body.transactedBy,
             };
@@ -58,7 +58,7 @@ const transactionController = {
     },
 
     getXTransactions: function (req, res) {
-        try{
+        try {
             var code = req.params.code;
             var limit = req.params.limit;
             db.findLastX(
@@ -70,7 +70,7 @@ const transactionController = {
                     res.status(200).json(data);
                 }
             );
-        } catch(err){
+        } catch (err) {
             res.status(500).json({ message: "Server Error: Get Transactions", details: err });
             return;
         }

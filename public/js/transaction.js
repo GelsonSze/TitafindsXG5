@@ -17,28 +17,51 @@ function getAllTransactions(refreshGrid = false) {
         success: function (items) {
             Transactions = [];
             for (var trans of items) {
-                Transactions.push(
-                    new transaction(
-                        trans.date,
-                        trans.type,
-                        trans.description,
-                        trans.quantity,
-                        trans.sellingPrice,
-                        trans.transactedBy
-                    )
-                );
+                pushTransaction(trans);
             }
+        },
+        complete: function () {
             if (refreshGrid) {
-                w2ui["itemGrid"].records = Transactions.reverse();
-                w2ui["itemGrid"].refresh();
+                setTimeout(() => {
+                    w2ui["itemGrid"].records = Transactions.reverse();
+                    w2ui["itemGrid"].refresh();
+                }, 1500);
             }
         },
     });
 }
+/**
+ * This function pushes the transaction of the item in the transaction array
+ * @param {Object} trans - transaction object
+ */
+function pushTransaction(trans) {
+    $.ajax({
+        url: `/getItemById=${trans.description}`,
+        type: "GET",
+        processData: false,
+        contentType: false,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        success: function (item) {
+            // console.log("transactions inside");
+            // console.log(trans);
+            trans.date = formatDate(new Date(trans.date));
+            Transactions.push(
+                new transaction(
+                    trans.date,
+                    trans.type,
+                    `Item ${trans.type} - ${item.name} (${item.code})`,
+                    trans.quantity,
+                    trans.sellingPrice,
+                    trans.transactedBy
+                )
+            );
+        },
+    });
+}
 
-function transaction( date, type, desc,
-                    quantity, sellingPrice, transactedBy) 
-{
+function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
     return {
         recid: Transactions.length + 1,
         date: date,
@@ -46,7 +69,7 @@ function transaction( date, type, desc,
         description: desc,
         quantity: quantity,
         sellingPrice: sellingPrice,
-        transactedBy: transactedBy
+        transactedBy: transactedBy,
     };
 }
 
@@ -64,45 +87,52 @@ $(function () {
         limit: 50,
         recordHeight: 60,
         columns: [
-            { field: "date",         text: "Date",          size: "35%", sortable: true },
-            { field: "type",         text: "Type",          size: "5%", sortable: true },
-            { field: "description",  text: "Description",   size: "40%", sortable: true },
-            { field: "quantity",     text: "Quantity",      size: "3%", sortable: true },
-            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true},
+            { field: "date", text: "Date", size: "23%", sortable: true },
+            { field: "type", text: "Type", size: "7%", sortable: true },
+            { field: "description", text: "Description", size: "50%", sortable: true },
+            { field: "quantity", text: "Quantity", size: "5%", sortable: true },
+            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true },
             { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
         ],
         records: Transactions,
-        onDblClick: function(recid) {
+        onDblClick: function (recid) {
             // Redirects to item page
 
             var record = w2ui["itemGrid"].get(recid.recid);
-            
-            // Grabs the last string in description. This is the code.
-            var code = record.description.split(" ").pop()
 
-            window.location.href = "/item/"+code;
+            // Grabs the last string in description. This is the code.
+            // var code = record.description.split(" ").pop()
+
+            // window.location.href = "/item/"+code;
         },
     });
 
-    $('.dropdown-type').click(function() {
+    $(".refresh-button").click(function () {
+        getAllTransactions(true);
+        setTimeout(() => {
+            w2ui["itemGrid"].refresh();
+        }, 5000);
+    });
+
+    $(".dropdown-type").click(function () {
         var text = $(this).html();
-        if (text != 'Any') $('#dropdown-selected').html(text)
-        else $('#dropdown-selected').html('Type')
-    })
+        if (text != "Any") $("#dropdown-selected").html(text);
+        else $("#dropdown-selected").html("Type");
+    });
 
     // Clears table filters
-    $('#table-filter-clear').click(function() {
-        $('#filter-search').val('');
-        $('#dropdown-selected').html('Type')
-    })
+    $("#table-filter-clear").click(function () {
+        $("#filter-search").val("");
+        $("#dropdown-selected").html("Type");
+    });
 
-    $('#table-filter-apply').click(function() {
-        var searchBar = $('#filter-search').val();
-        var typeBar = $('#dropdown-selected').html();
+    $("#table-filter-apply").click(function () {
+        var searchBar = $("#filter-search").val();
+        var typeBar = $("#dropdown-selected").html();
 
         // Cheats the empty search bar
         if (!searchBar) {
-            searchBar = 'empty'
+            searchBar = "empty";
         }
 
         $.ajax({
@@ -111,12 +141,10 @@ $(function () {
             processData: false,
             contentType: false,
             headers: { "Content-Type": "application/json" },
-            success: function (items) 
-            {
+            success: function (items) {
                 Transactions = [];
-                console.log(items)
-                for (var trans of items) 
-                {
+                console.log(items);
+                for (var trans of items) {
                     Transactions.push(
                         new transaction(
                             trans.date,
@@ -128,17 +156,19 @@ $(function () {
                         )
                     );
                 }
-                    w2ui["itemGrid"].records = Transactions.reverse();
-                    w2ui["itemGrid"].refresh();
+                w2ui["itemGrid"].records = Transactions.reverse();
+                w2ui["itemGrid"].refresh();
             },
         });
-        
-        
-    })
+    });
 
+    $(window).resize(function () {
+        console.log("refresh/resize");
+        w2ui["itemGrid"].refresh();
+    });
 });
 
-$(window).resize(function () {
-    console.log("refresh/resize");
-    w2ui["itemGrid"].refresh();
-});
+// $(window).resize(function () {
+//     console.log("refresh/resize");
+//     w2ui["itemGrid"].refresh();
+// });

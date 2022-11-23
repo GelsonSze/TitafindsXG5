@@ -298,14 +298,14 @@ $(function () {
                     console.log("success");
 
                     // Adds record to transactions
-                    $.ajax({
-                        url: "/addTransaction",
-                        data: trans_data,
-                        type: "POST",
-                        success: async function (data) {
-                            console.log("New transaction added");
-                        },
-                    });
+                    // $.ajax({
+                    //     url: "/addTransaction",
+                    //     data: trans_data,
+                    //     type: "POST",
+                    //     success: async function (data) {
+                    //         console.log("New transaction added");
+                    //     },
+                    // });
 
                     Items = [];
                     getAllItems(true);
