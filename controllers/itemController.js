@@ -86,12 +86,6 @@ const itemController = {
         });
     },
 
-    checkItem: async function (req, res) {
-        db.findOne(Item, {code: req.body.code}, null, function(data) {
-            res.send(data);
-        });
-    },
-
     restockItem: async function (req, res) {
         db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: req.body.quantity}}, function (data) {
             res.send(data);
