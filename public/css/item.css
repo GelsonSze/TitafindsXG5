@@ -14,7 +14,7 @@
 #left-wrapper {
     display: flex;
     flex-direction: column;
-    width:50%;
+    width:30%;
 }
 
 #right-wrapper {
@@ -31,6 +31,5 @@
 }
 
 #bottom-wrapper {
-    display: flex;
-    flex-direction: column;
+    height: 370px;
 }
