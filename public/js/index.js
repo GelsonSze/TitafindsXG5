@@ -149,13 +149,13 @@ $(function () {
             },
         ],
         records: Items,
-        onDblClick: function(recid) {
+        onDblClick: function (recid) {
             // Redirects to item page
 
             var record = w2ui["itemGrid"].get(recid.recid);
             //console.log(record)
 
-            window.location.href = "/item/"+record.code;
+            window.location.href = "/item/" + record.code;
         },
     });
 
@@ -351,7 +351,6 @@ $(function () {
         blur: false,
     });
 
-    /* WILL RENAME SELECTORS ONCE RENAMING OF THE FORM IDS ARE FINISHED*/
     /* clicking on the X button of the popup clears the form */
 
      $("#add-popup .add-popup_close").on("click", function () {
@@ -367,6 +366,36 @@ $(function () {
     $("#add-popup form .command :submit").on("click", function (e) {
         e.preventDefault();
 
+        var name = $("#add-popup #name")[0];
+        var code = $("#add-popup #code")[0];
+        var type = $("#add-popup #type")[0];
+        var sellingType = $("#add-popup #selling-type")[0];
+        var weight = $("#add-popup #weight")[0]; // required if selling type is per gram
+        var quantity = $("#add-popup #quantity")[0];
+        var error = $("#add-popup .text-error")[0];
+
+        let fields = [name, code, type, sellingType, quantity];
+
+        let emptyFields = [];
+
+        fields.forEach(async function (field) {
+            if (isEmptyOrSpaces(field.value)) {
+                emptyFields.push(field);
+            }
+        });
+
+        // If selling type is per gram, weight is required
+        if (sellingType.value == "per gram") {
+            if (isEmptyOrSpaces(weight.value)) {
+                emptyFields.push(weight);
+            }
+        }
+
+        if (emptyFields.length > 0) {
+            showError(error, "Please fill out all the fields.", emptyFields);
+            return;
+        }
+
         const data = new FormData($("#add-form")[0]);
         data.append("dateAdded", new Date());
         data.append("dateUpdated", new Date());
@@ -375,7 +404,6 @@ $(function () {
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
-
         $.ajax({
             url: "/addItem",
             data: data,
@@ -384,21 +412,31 @@ $(function () {
             contentType: false,
 
             success: async function (foundData) {
-                if (foundData) {
-                    console.log("success");
-                    Items = [];
-                    getAllItems(true);
-                    console.log("reloaded");
-                    $("#add-popup #add-form")[0].reset();
-                    $("#add-popup").popup("hide");
-                }
+                console.log("success");
+                Items = [];
+                getAllItems(true);
+                console.log("reloaded");
+                $("#add-popup #add-form")[0].reset();
+                $("#add-popup").popup("hide");
+            },
+
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                fields = jqXHR.responseJSON.fields;
+                console.log(fields);
+
+                fields.forEach(async function (field) {
+                    emptyFields.push($(`#${field}`)[0]);
+                });
+
+                showError(error, message, emptyFields);
             },
         });
     });
     //on change of image
     $("#image").on("change", function () {
         try {
-            if (this.files[0].type.match(/image.{jpg|jpeg|png}/)) {
+            if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     $("#image-preview").attr("src", e.target.result);
