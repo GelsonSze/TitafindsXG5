@@ -87,9 +87,24 @@ const itemController = {
     },
 
     restockItem: async function (req, res) {
-        db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: req.body.quantity}}, function (data) {
-            res.send(data);
-        });
+        var error = "";        
+        var quantity = req.body.quantity;
+        var item = await Item.findOne({code: req.body.code});
+        console.log(quantity);
+
+        if (isNaN(item.quantity)) {
+            error = "Quantity inputted is not a number";
+        }
+        else if(!(isNaN(item.quantity)) && item.quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number";
+        }
+        else {
+            db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: req.body.quantity}}, function (data) {
+                res.status(200).json(data);
+            });
+            return;
+        }
+        res.status(400).json({message: error, fields: ["quantity"]});
     },
 
     sellItem: async function (req, res) {
@@ -97,7 +112,13 @@ const itemController = {
         var quantity = req.body.quantity;
         var item = await Item.findOne({code: req.body.code});
 
-        if (item.quantity == 0){
+        if (isNaN(item.quantity)) {
+            error = "Quantity inputted is not a number";
+        }
+        else if(!(isNaN(item.quantity)) && item.quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number";
+        }
+        else if (item.quantity == 0){
             error = "No available stock.";
         }
         else if ( (item.quantity - quantity) < 0) {

@@ -226,6 +226,17 @@ $(function () {
                         $("#restock-popup #restock-form")[0].reset();
                         $("#restock-popup").popup("hide");
                     },
+
+                    error: async function (jqXHR, textStatus, errorThrown) {
+                        message = jqXHR.responseJSON.message;
+                        fields = jqXHR.responseJSON.fields;
+
+                        fields.forEach(async function (field) {
+                            emptyFields.push($(`#${field}`)[0]);
+                        });
+
+                        showError(error, message, emptyFields);
+                    }
                 });
             },
 
