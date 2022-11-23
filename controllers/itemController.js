@@ -119,7 +119,7 @@ const itemController = {
             }
             res.status(400).json({ message: error, fields: errorFields });
         } catch (err) {
-            res.status(500).json(err);
+            res.status(500).json({ message: "Server Error: Add Item", details: err });
             return;
         }
     },
@@ -134,7 +134,7 @@ const itemController = {
                 res.status(200).json(data);
             });
         } catch (err) {
-            res.status(500).json(err);
+            res.status(500).json({ message: "Server Error: Get Items", details: err });
             return;
         }
     },
@@ -151,7 +151,7 @@ const itemController = {
                 res.status(200).json(await data);
             });
         } catch (err) {
-            res.status(500).json(err);
+            res.status(500).json({ message: "Server Error: Get Item", details: err });
             return;
         }
     },
