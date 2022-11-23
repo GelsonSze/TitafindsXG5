@@ -146,11 +146,14 @@ const itemController = {
         var item = await Item.findOne({code: req.body.code});
         console.log(quantity);
 
-        if (isNaN(item.quantity)) {
-            error = "Quantity inputted is not a number";
+        if (isNaN(quantity)) {
+            error = "Quantity inputted is not a number.";
         }
-        else if(!(isNaN(item.quantity)) && item.quantity % 1 != 0){
-            error = "Quantity inputted is not a whole number";
+        else if (!(isNaN(quantity)) && quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number.";
+        }
+        else if (quantity == 0){
+            error = "Quantity is 0.";
         }
         else {
             db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: req.body.quantity}}, function (data) {
@@ -166,11 +169,14 @@ const itemController = {
         var quantity = req.body.quantity;
         var item = await Item.findOne({code: req.body.code});
 
-        if (isNaN(item.quantity)) {
-            error = "Quantity inputted is not a number";
+        if (isNaN(quantity)) {
+            error = "Quantity inputted is not a number.";
         }
-        else if(!(isNaN(item.quantity)) && item.quantity % 1 != 0){
-            error = "Quantity inputted is not a whole number";
+        else if(!(isNaN(quantity)) && quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number.";
+        }
+        else if (quantity == 0) {
+            error = "Quantity is 0.";
         }
         else if (item.quantity == 0){
             error = "No available stock.";
