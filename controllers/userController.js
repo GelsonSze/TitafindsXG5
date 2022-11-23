@@ -7,7 +7,7 @@ const userController = {
     login: function (req, res) {
         res.render("login", {
             title: "Login",
-            styles: ["login.css"],
+            styles: ["pages/login.css"],
             scripts: ["login.js"],
         });
     },
