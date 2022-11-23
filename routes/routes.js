@@ -4,6 +4,7 @@ import userController from "../controllers/userController.js";
 import { checkAuth, checkNoAuth } from "../controllers/authController.js";
 import { generateItemCode } from "../utils/helper.js";
 import { upload } from "../utils/multer.js";
+import transactionController from "../controllers/transactionController.js";
 
 const app = express();
 
@@ -22,6 +23,13 @@ app.delete("/auth/logout", userController.logoutUser);
 app.get("/item/:code", checkAuth, itemController.itemDetails);
 app.get("/getItem", itemController.getItem);
 
+// The transactions page
+app.get("/transactions", checkAuth, transactionController.transactions);
+app.get("/getTransactions", transactionController.getTransactions);
+app.get("/getXTransactions=:code&:limit", transactionController.getXTransactions);
+app.post("/addTransaction", transactionController.addTransaction);
+app.get("/getTransaction", transactionController.getTransaction);
+app.get("/searchTransactions=:type&:search", transactionController.searchTransactions);
 
 // TO BE REMOVED
 // if (process.env.NODE_ENV === "development") {

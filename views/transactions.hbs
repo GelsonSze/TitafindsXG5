@@ -1,0 +1,61 @@
+{{!--
+<header>
+    <nav>
+        {{!
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
+        }}
+        <div id="main-logo">
+            <img src="/img/Titafinds/icon.png" id="icon-logo" />
+        </div>
+    </nav>
+</header>
+--}}
+
+<main>
+    <section>
+        <section id="main-control">
+            <h1>Transaction List</h1>
+
+            <div id="table-actions-wrapper">
+                <div id="table-filters-wrapper">
+                    {{! Search }}
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input
+                        class="input-field"
+                        type="text"
+                        placeholder="Search"
+                        id="filter-search"
+                    />
+
+                    {{! Type }}
+                    <div class="dropdown-select-wrapper">
+                        <select disabled>
+                            <option id="dropdown-selected" disabled selected value>Type</option>
+                        </select>
+                        <div class="dropdown-select-content">
+                            <button class="dropdown-type" type="button">Restock</button>
+                            <button class="dropdown-type" type="button">Added</button>
+                            <button class="dropdown-type" type="button">Sell</button>
+                            <button class="dropdown-type" type="button">Any</button>
+                        </div>
+                    </div>
+
+                    {{! Apply Button }}
+                    <button type="button" id="table-filter-apply">Apply Filter</button>
+                    <button type="button" id="table-filter-clear">Clear Filter</button>
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <section id="main-body">
+        {{!place code for the w2ui table here }}
+        <div id="itemGrid"></div>
+    </section>
+</main>
+
+<img id="w2ui-enlarged-image" src="img/test.png" />

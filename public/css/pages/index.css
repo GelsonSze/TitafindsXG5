@@ -127,7 +127,7 @@ main {
     cursor: pointer;
 }
 
-#table-filter-apply {
+#table-filter-apply, #table-filter-clear {
     background-color: #866a69;
 
     border: none;
@@ -144,6 +144,7 @@ main {
     padding: 4px 8px;
     text-decoration: none;
 }
+
 
 .dropdown-select-wrapper {
     display: inline-block;

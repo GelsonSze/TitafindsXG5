@@ -49,6 +49,13 @@ const db = {
         });
     },
 
+    findById: function (model, id, projection, callback){
+        model.findById(id, projection, function(error, result){
+            if(error) return callback(false);
+            return callback(result);
+        })
+    },
+
     findOne: function (model, query, projection, callback) {
         model.findOne(query, projection, function (error, result) {
             if (error) return callback(false);
@@ -61,6 +68,13 @@ const db = {
             if (error) return callback(false);
             return callback(result);
         });
+    },
+
+    findLastX: function(model, query, projection, limit, callback) {
+        model.find(query, projection, function(error, result) {
+            if (error) return callback(false);
+            return callback(result);
+        }).sort({_id:-1}).limit(limit)
     },
 
     updateOne: function (model, filter, update, callback) {
