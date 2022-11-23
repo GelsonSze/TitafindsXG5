@@ -26,6 +26,7 @@ app.get("/getItem", itemController.getItem);
 // The transactions page
 app.get("/transactions", checkAuth, transactionController.transactions);
 app.get("/getTransactions", transactionController.getTransactions);
+app.get("/getXTransactions=:code&:limit", transactionController.getXTransactions);
 app.post("/addTransaction", transactionController.addTransaction);
 app.get("/getTransaction", transactionController.getTransaction);
 app.get("/searchTransactions=:type&:search", transactionController.searchTransactions);
