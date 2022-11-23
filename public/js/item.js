@@ -107,6 +107,102 @@ $(document).ready(function(){
     // Loads item for the page.
     getItem();
 
-    
+    $("#edit-popup").popup({
+        blur: false,
+    });
+
+    $("#edit-popup .edit-popup_close").on("click", function (e) {
+    });
+
+    $("#edit-popup form .command :reset").on("click", function (e) {
+    });
+
+    $("#edit-popup form .command :submit").on("click", function (e) {
+        e.preventDefault();
+    });
+
+    /* clicking on the X button of the popup clears the form */
+/*
+    $("#edit-popup .edit-popup_close").on("click", function () {
+        $("#edit-popup #edit-form")[0].reset();
+        $("#image-preview").attr("src", "/img/test.png");
+    });
+
+    $("#edit-popup form .command :reset").on("click", function (e) {
+        $("#edit-popup #edit-form")[0].reset();
+        $("#image-preview").attr("src", "/img/test.png");
+        $("#edit-popup").popup("hide");
+    });
+
+    $("#edit-popup form .command :submit").on("click", function (e) {
+        e.preventDefault();
+
+        var name = $("#edit-popup #name")[0];
+        var code = $("#edit-popup #code")[0];
+        var type = $("#edit-popup #type")[0];
+        var sellingType = $("#edit-popup #selling-type")[0];
+        var weight = $("#edit-popup #weight")[0]; // required if selling type is per gram
+        var quantity = $("#edit-popup #quantity")[0];
+        var error = $("#edit-popup .text-error")[0];
+
+        let fields = [name, code, type, sellingType, quantity];
+
+        let emptyFields = [];
+
+        fields.forEach(async function (field) {
+            if (isEmptyOrSpaces(field.value)) {
+                emptyFields.push(field);
+            }
+        });
+
+        // If selling type is per gram, weight is required
+        if (sellingType.value == "per gram") {
+            if (isEmptyOrSpaces(weight.value)) {
+                emptyFields.push(weight);
+            }
+        }
+
+        if (emptyFields.length > 0) {
+            showError(error, "Please fill out all the fields.", emptyFields);
+            return;
+        }
+
+        const data = new FormData($("#edit-form")[0]);
+        data.append("dateAdded", new Date());
+        data.append("dateUpdated", new Date());
+
+        //TO BE REMOVED
+        for (var pair of data.entries()) {
+            console.log(pair[0] + ":" + pair[1]);
+        }
+        $.ajax({
+            url: "/addItem",
+            data: data,
+            type: "POST",
+            processData: false,
+            contentType: false,
+
+            success: async function (foundData) {
+                console.log("success");
+                Items = [];
+                getAllItems(true);
+                console.log("reloaded");
+                $("#add-popup #add-form")[0].reset();
+                $("#add-popup").popup("hide");
+            },
+
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                fields = jqXHR.responseJSON.fields;
+                console.log(fields);
+
+                fields.forEach(async function (field) {
+                    emptyFields.push($(`#${field}`)[0]);
+                });
+
+                showError(error, message, emptyFields);
+            },
+        });
+    }); */
 
 })
