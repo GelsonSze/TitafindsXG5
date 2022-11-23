@@ -7,7 +7,7 @@ const transactionController = {
     transactions: function (req, res) {
         res.render("transactions", {
             title: "Transactions",
-            styles: ["index.css", "w2ui-overrides.css"],
+            styles: ["pages/index.css", "general/w2ui-overrides.css"],
             scripts: ["transaction.js"],
         });
     },
