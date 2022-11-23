@@ -1,7 +1,7 @@
 //Controller for items
 import Item from "../model/schemas/Item.js";
 import db from "../model/db.js";
-import { generateItemCode } from "../utils/helper.js";
+import { generateItemCode, isEmptyOrSpaces } from "../utils/helper.js";
 import { upload } from "../utils/multer.js";
 
 const itemController = {
@@ -36,6 +36,10 @@ const itemController = {
         console.log(req.body);
 
         var image = "test.png";
+        var error = "";
+        var errorFields = [];
+
+        var codeExists = await Item.findOne({code: req.body.code});
 
         if (req.file) {
             image = req.file;
@@ -63,11 +67,61 @@ const itemController = {
             addedBy: req.session.user.username,
         };
 
-        console.log(addedItem);
+        //console.log(addedItem); 
 
-        db.insertOne(Item, addedItem, function (flag) {
-            res.send(flag);
-        });
+        // Selling price default to 0 if field is empty and selling type is per design
+        if(addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
+            addedItem.sellingPrice = "0";
+
+        // Purchase price is default to 0 if field is empty
+        if(isEmptyOrSpaces(addedItem.purchasePrice))
+            addedItem.purchasePrice = "0";
+
+        console.log(addedItem);
+        //  Errors
+        if(codeExists){
+            error = "Item code already exists";
+            errorFields = ["code"];
+        }
+        else if(addedItem.code.length > 100){
+            error = "Item code exceeds maximum character limit";
+            errorFields = ["code"];
+        }
+        else if(addedItem.name.length > 255){
+            error = "Name exceeds maximum character limit";
+            errorFields = ["name"];
+        }
+        else if(addedItem.size != null && isNaN(addedItem.size)){
+            error = "Size inputted is not a number";
+            errorFields = ["size"];
+        }
+        else if(addedItem.weight != null && isNaN(addedItem.weight)){
+            error = "Weight inputted is not a number";
+            errorFields = ["weight"];
+        }
+        else if(isNaN(addedItem.quantity)){
+            error = "Quantity inputted is not a number";
+            errorFields = ["quantity"];
+        }
+        else if(!(isNaN(addedItem.quantity)) && addedItem.quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number";
+            errorFields = ["quantity"];
+        }
+        else if(addedItem.sellingPrice != null && isNaN(addedItem.sellingPrice)){
+            error = "Selling price inputted is not a number";
+            errorFields = ["selling-price"];
+        }
+        else if(addedItem.purchasePrice != null && isNaN(addedItem.purchasePrice)){
+            error = "Purchase price inputted is not a number";
+            errorFields = ["purchase-price"];
+        }
+        else{
+            db.insertOne(Item, addedItem, function (flag) {
+                res.send(flag);
+            });
+            return;
+        }
+        res.status(400).json({message: error, fields: errorFields});
     },
     getItems: function (req, res) {
         db.findMany(Item, {}, null, function (data) {
