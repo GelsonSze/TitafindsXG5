@@ -29,7 +29,7 @@ const itemController = {
     },
 
     // Adds item passed in a post request into the database
-    addItem: async function (req, res) {
+    addItem: async function (req, res, next) {
         try {
             if (!req.session.user) {
                 res.status(400).json({ error: "User not logged in" });
@@ -41,6 +41,8 @@ const itemController = {
             console.log(">>BODY<<");
             console.log(req.body);
 
+            // Placeholder for price value in global config setting
+            var price = 1;
             var image = "test.png";
             var error = "";
             var errorFields = [];
@@ -78,6 +80,9 @@ const itemController = {
             // Selling price default to 0 if field is empty and selling type is per design
             if (addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
                 addedItem.sellingPrice = "0";
+            //Selling price defaults to price * item weight if field is empty and selling type is per gram
+            else if (addedItem.sellingType == "per gram" && isEmptyOrSpaces(addedItem.sellingPrice))
+                addedItem.sellingPrice = addedItem.weight * price;
 
             // Purchase price is default to 0 if field is empty
             if (isEmptyOrSpaces(addedItem.purchasePrice)) addedItem.purchasePrice = "0";
@@ -113,7 +118,17 @@ const itemController = {
                 errorFields = ["purchase-price"];
             } else {
                 db.insertOne(Item, addedItem, function (data) {
-                    res.send(data);
+                    if (data) {
+                        req.body = {
+                            date: req.body.dateAdded,
+                            type: "Added",
+                            description: data._id.toString(),
+                            quantity: data.quantity,
+                            sellingPrice: data.sellingPrice,
+                            transactedBy: data.addedBy,
+                        };
+                        next();
+                    }
                 });
                 return;
             }
@@ -146,12 +161,28 @@ const itemController = {
                 return;
             }
 
-            db.findOne(Item, { code: req.query.code }, {}, async function (data) {
+            db.findOne(Item, { code: req.params.code }, {}, async function (data) {
                 console.log(req.query);
                 res.status(200).json(await data);
             });
         } catch (err) {
             res.status(500).json({ message: "Server Error: Get Item", details: err });
+            return;
+        }
+    },
+
+    getItemById: function (req, res) {
+        try {
+            if (!req.session.user) {
+                res.status(400).json({ error: "User not logged in" });
+                return;
+            }
+            db.findById(Item, req.params.id, "name code", async function (data) {
+                console.log(data);
+                res.status(200).json(data);
+            });
+        } catch (err) {
+            res.status(500).json({ message: "Server Error: Get Item By Id", details: err });
             return;
         }
     },

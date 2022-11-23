@@ -10,7 +10,12 @@ const app = express();
 
 // The dashboard or inventory page
 app.get("/", checkAuth, itemController.home);
-app.post("/addItem", upload.single("image"), itemController.addItem);
+app.post(
+    "/addItem",
+    upload.single("image"),
+    itemController.addItem,
+    transactionController.addTransaction
+);
 app.get("/getItems", itemController.getItems);
 
 // The login page
@@ -21,7 +26,8 @@ app.delete("/auth/logout", userController.logoutUser);
 
 // The Item Page
 app.get("/item/:code", checkAuth, itemController.itemDetails);
-app.get("/getItem", itemController.getItem);
+app.get("/getItem=:code", itemController.getItem);
+app.get("/getItemById=:id", itemController.getItemById);
 
 // The transactions page
 app.get("/transactions", checkAuth, transactionController.transactions);

@@ -45,28 +45,9 @@ function transaction( date, type, desc,
  * render it in the grid.
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
  */
- function getLastFiveTransactions(refreshGrid = false) {
+function getLastFiveTransactions(refreshGrid = false) {
     var itemCode = window.location.pathname.split("/").pop()
 
-    $("#itemGrid").w2grid({
-        name: "itemGrid",
-        show: {
-            footer: true,
-            lineNumbers: true,
-        },
-        method: "GET",
-        limit: 50,
-        recordHeight: 60,
-        columns: [
-            { field: "date",         text: "Date",          size: "35%", sortable: true },
-            { field: "type",         text: "Type",          size: "5%", sortable: true },
-            { field: "description",  text: "Description",   size: "40%", sortable: true },
-            { field: "quantity",     text: "Quantity",      size: "3%", sortable: true },
-            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true},
-            { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
-        ],
-        records: Transactions,
-    });
 
 
 
@@ -81,20 +62,31 @@ function transaction( date, type, desc,
         success: function (items) {
             Transactions = [];
             for (var trans of items) {
-                Transactions.push(
-                    new transaction(
-                        trans.date,
-                        trans.type,
-                        trans.description,
-                        trans.quantity,
-                        trans.sellingPrice,
-                        trans.transactedBy
-                    )
-                );
+                pushTransaction(Transactions, trans);
             }
+            // for (var trans of items) {
+            //     Transactions.push(
+            //         new transaction(
+            //             trans.date,
+            //             trans.type,
+            //             trans.description,
+            //             trans.quantity,
+            //             trans.sellingPrice,
+            //             trans.transactedBy
+            //         )
+            //     );
+            // }
+            // if (refreshGrid) {
+            //     w2ui["itemGrid"].records = Transactions;
+            //     w2ui["itemGrid"].refresh();
+            // }
+        },
+        complete: function () {
             if (refreshGrid) {
-                w2ui["itemGrid"].records = Transactions;
-                w2ui["itemGrid"].refresh();
+                setTimeout(() => {
+                    w2ui["itemGrid"].records = Transactions;
+                    w2ui["itemGrid"].refresh();
+                }, 1500);
             }
         },
     });
@@ -107,7 +99,7 @@ function transaction( date, type, desc,
 function getItem() {
     var item_code = window.location.pathname.split("/").pop();
     $.ajax({
-        url:"/getItem?code="+item_code,
+        url:`/getItem=${item_code}`,
         type:"GET",
         processData: false,
         contentType: false,
@@ -186,6 +178,27 @@ $(document).ready(function(){
     // Loads item for the page.
     getItem();
     getLastFiveTransactions(true);
+    console.log(Transactions);
+
+    $("#itemGrid").w2grid({
+        name: "itemGrid",
+        show: {
+            footer: true,
+            lineNumbers: true,
+        },
+        method: "GET",
+        limit: 50,
+        recordHeight: 60,
+        columns: [
+            { field: "date",         text: "Date",          size: "35%", sortable: true },
+            { field: "type",         text: "Type",          size: "5%", sortable: true },
+            { field: "description",  text: "Description",   size: "40%", sortable: true },
+            { field: "quantity",     text: "Quantity",      size: "3%", sortable: true },
+            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true},
+            { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
+        ],
+        records: Transactions,
+    });
 
     $("#edit-popup").popup({
         blur: false,
