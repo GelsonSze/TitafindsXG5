@@ -47,6 +47,9 @@ function getItem() {
 
             var fields = $.map(page_item, function(value, key) {return key;})
             var values = $.map(page_item, function(value, key) {return value;})
+            
+            // Changes image source of img element into the item image
+            $("#left-wrapper img").attr("src",`../img/${item.image}`);
 
             // Appends a field into the #fields-table
             for (var i = 0; i < num_keys; i++) 
