@@ -43,7 +43,6 @@ const itemSchema = new mongoose.Schema({
 
     weight: {
         type: Number,
-        required: true,
     },
 
     quantity: {
