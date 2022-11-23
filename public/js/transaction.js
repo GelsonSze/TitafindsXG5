@@ -80,7 +80,7 @@ $(function () {
             // Grabs the last string in description. This is the code.
             var code = record.description.split(" ").pop()
 
-            window.location.href = "/item/"+code;
+            window.open(`/item/${code}`, '_blank');
         },
     });
 

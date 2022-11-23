@@ -66,16 +66,6 @@ function transaction( date, type, desc,
             { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
         ],
         records: Transactions,
-        onDblClick: function(recid) {
-            // Redirects to item page
-
-            var record = w2ui["itemGrid"].get(recid.recid);
-            
-            // Grabs the last string in description. This is the code.
-            var code = record.description.split(" ").pop()
-
-            window.location.href = "/item/"+code;
-        },
     });
 
 

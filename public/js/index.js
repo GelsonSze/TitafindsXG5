@@ -214,7 +214,7 @@ $(function () {
             var record = w2ui["itemGrid"].get(recid.recid);
             //console.log(record)
 
-            window.location.href = "/item/" + record.code;
+            window.open(`/item/${record.code}`, '_blank');
         },
     });
 
