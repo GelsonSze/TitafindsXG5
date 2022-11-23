@@ -30,57 +30,86 @@ const itemController = {
 
     // Adds item passed in a post request into the database
     addItem: async function (req, res) {
-        console.log(">>FILE<<");
-        console.log(req.file);
-        console.log(">>BODY<<");
-        console.log(req.body);
+        try {
+            if (!req.session.user) {
+                res.status(400).json({ error: "User not logged in" });
+                return;
+            }
 
-        var image = "test.png";
+            console.log(">>FILE<<");
+            console.log(req.file);
+            console.log(">>BODY<<");
+            console.log(req.body);
 
-        if (req.file) {
-            image = req.file;
-            image = image.destination.replaceAll("./public/img/", "") + image.filename;
+            var image = "test.png";
+
+            if (req.file) {
+                image = req.file;
+                image = image.destination.replaceAll("./public/img/", "") + image.filename;
+            }
+
+            var addedItem = {
+                image: image ?? "test.png",
+                code: req.body.code,
+                name: req.body.name,
+                description: req.body.description,
+                type: req.body.type,
+                brand: req.body.brand,
+                classification: req.body.classification,
+                design: req.body.design,
+                size: req.body.size,
+                weight: req.body.weight,
+                quantity: req.body.quantity,
+                sellingType: req.body.sellingType,
+                purchasePrice: req.body.purchasePrice,
+                sellingPrice: req.body.sellingPrice,
+                status: req.body.status,
+                dateAdded: req.body.dateAdded,
+                dateUpdated: req.body.dateUpdated,
+                addedBy: req.session.user.username,
+            };
+
+            console.log(addedItem);
+
+            db.insertOne(Item, addedItem, function (data) {
+                res.send(data);
+            });
+        } catch (err) {
+            res.status(500).json(err);
+            return;
         }
-
-        var addedItem = {
-            image: image ?? "test.png",
-            code: req.body.code,
-            name: req.body.name,
-            description: req.body.description,
-            type: req.body.type,
-            brand: req.body.brand,
-            classification: req.body.classification,
-            design: req.body.design,
-            size: req.body.size,
-            weight: req.body.weight,
-            quantity: req.body.quantity,
-            sellingType: req.body.sellingType,
-            purchasePrice: req.body.purchasePrice,
-            sellingPrice: req.body.sellingPrice,
-            status: req.body.status,
-            dateAdded: req.body.dateAdded,
-            dateUpdated: req.body.dateUpdated,
-            addedBy: req.session.user.username,
-        };
-
-        console.log(addedItem);
-
-        db.insertOne(Item, addedItem, function (data) {
-            res.send(data);
-        });
     },
     getItems: function (req, res) {
-        db.findMany(Item, {}, null, function (data) {
-            res.status(200).json(data);
-        });
+        try {
+            if (!req.session.user) {
+                res.status(400).json({ error: "User not logged in" });
+                return;
+            }
+
+            db.findMany(Item, {}, null, function (data) {
+                res.status(200).json(data);
+            });
+        } catch (err) {
+            res.status(500).json(err);
+            return;
+        }
     },
 
     getItem: function (req, res) {
-        db.findOne(Item, {code:req.query.code}, {}, async function(data) {
-            console.log(req.query)
-            res.status(200).json(await data);
-        })
+        try {
+            if (!req.session.user) {
+                res.status(400).json({ error: "User not logged in" });
+                return;
+            }
 
+            db.findOne(Item, { code: req.query.code }, {}, async function (data) {
+                console.log(req.query);
+                res.status(200).json(await data);
+            });
+        } catch (err) {
+            res.status(500).json(err);
+            return;
+        }
     },
 
     // //TO BE REMOVED:
