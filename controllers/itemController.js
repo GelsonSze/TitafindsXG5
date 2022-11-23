@@ -23,7 +23,7 @@ const itemController = {
         res.render("item", {
             title: "Product",
             code: req.body.code,
-            styles: ["item.css"],
+            styles: ["item.css", "w2ui-overrides.css"],
             scripts: ["item.js"],
         });
     },
