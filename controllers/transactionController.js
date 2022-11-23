@@ -58,17 +58,22 @@ const transactionController = {
     },
 
     getXTransactions: function (req, res) {
-        var code = req.params.code;
-        var limit = req.params.limit;
-        db.findLastX(
-            Transaction,
-            { description: { $regex: code, $options: "i" } },
-            {},
-            limit,
-            function (data) {
-                res.status(200).json({ message: "Server Error: Get X Transactions", details: err });
-            }
-        );
+        try{
+            var code = req.params.code;
+            var limit = req.params.limit;
+            db.findLastX(
+                Transaction,
+                { description: { $regex: code, $options: "i" } },
+                {},
+                limit,
+                function (data) {
+                    res.status(200).json(data);
+                }
+            );
+        } catch(err){
+            res.status(500).json({ message: "Server Error: Get Transactions", details: err });
+            return;
+        }
     },
 
     // UNTESTED
