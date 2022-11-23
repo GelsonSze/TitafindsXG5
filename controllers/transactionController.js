@@ -35,7 +35,7 @@ const transactionController = {
                 res.send(data);
             });
         } catch (err) {
-            res.status(500).json(err);
+            res.status(500).json({ message: "Server Error: Add Transaction", details: err });
             return;
         }
     },
@@ -52,18 +52,23 @@ const transactionController = {
                 res.status(200).json(data);
             });
         } catch (err) {
-            res.status(500).json(err);
+            res.status(500).json({ message: "Server Error: Get Transactions", details: err });
             return;
         }
     },
 
     getXTransactions: function (req, res) {
-        var code = req.params.code
-        var limit = req.params.limit
-        db.findLastX(Transaction, {description: {$regex:code, $options: 'i'}}, {}, limit, function(data) {
-            
-            res.status(200).json(data);
-        })
+        var code = req.params.code;
+        var limit = req.params.limit;
+        db.findLastX(
+            Transaction,
+            { description: { $regex: code, $options: "i" } },
+            {},
+            limit,
+            function (data) {
+                res.status(200).json({ message: "Server Error: Get X Transactions", details: err });
+            }
+        );
     },
 
     // UNTESTED
@@ -85,7 +90,7 @@ const transactionController = {
                 }
             );
         } catch (err) {
-            res.status(500).json(err);
+            res.status(500).json({ message: "Server Error: Get Transaction", details: err });
             return;
         }
     },
@@ -145,7 +150,7 @@ const transactionController = {
                 );
             }
         } catch (err) {
-            res.status(500).json(err);
+            res.status(500).json({ message: "Server Error: Search Transactions", details: err });
             return;
         }
     },
