@@ -29,7 +29,7 @@ function getAllTransactions(refreshGrid = false) {
                 );
             }
             if (refreshGrid) {
-                w2ui["itemGrid"].records = Transactions;
+                w2ui["itemGrid"].records = Transactions.reverse();
                 w2ui["itemGrid"].refresh();
             }
         },
@@ -64,7 +64,7 @@ $(function () {
         limit: 50,
         recordHeight: 60,
         columns: [
-            { field: "date",         text: "Date",          size: "7%", sortable: true },
+            { field: "date",         text: "Date",          size: "35%", sortable: true },
             { field: "type",         text: "Type",          size: "5%", sortable: true },
             { field: "description",  text: "Description",   size: "40%", sortable: true },
             { field: "quantity",     text: "Quantity",      size: "3%", sortable: true },
@@ -128,7 +128,7 @@ $(function () {
                         )
                     );
                 }
-                    w2ui["itemGrid"].records = Transactions;
+                    w2ui["itemGrid"].records = Transactions.reverse();
                     w2ui["itemGrid"].refresh();
             },
         });
