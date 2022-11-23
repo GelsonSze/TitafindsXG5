@@ -23,7 +23,7 @@ app.delete("/auth/logout", userController.logoutUser);
 
 // The Item Page
 app.get("/item/:code", checkAuth, itemController.itemDetails);
-app.get("/getItem/:code", itemController.getItem);
+app.get("/getItem=:code", itemController.getItem);
 
 
 // TO BE REMOVED
