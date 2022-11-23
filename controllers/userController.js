@@ -37,7 +37,6 @@ const userController = {
             return;
         }
     },
-
     // Logs out user
     logoutUser: function (req, res) {
         console.log("Logged out user");
@@ -75,7 +74,13 @@ const userController = {
             return;
         }
     },
-
+    checkAccSettings: function (req, res) {
+        res.render("account", {
+            title: "Account Settings",
+            styles: ["account.css", "index.css", "w2ui-overrides.css", "popup.css"],
+            scripts: ["account.js", "index.js"],
+        });
+    },
     // // TO BE REMOVED: Add admin user to database
     // addAdmin: async function () {
     //     try {

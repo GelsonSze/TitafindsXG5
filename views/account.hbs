@@ -1,0 +1,36 @@
+
+<main>
+    <section>
+        <section id="main-control">
+            <h1>Account Management</h1>
+
+            <div id="table-actions-wrapper">
+                <div id="table-filters-wrapper">
+                    {{! Search }}
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input
+                        class="input-field"
+                        type="text"
+                        placeholder="Search"
+                        id="search-user"
+                    />
+                    {{! Apply Button }}
+                    <button type="button" id="table-filter-apply">Apply Filter</button>
+                </div>
+
+                <div id="add">
+                    <button class="popup_open">Add User</button>
+                </div>
+            </div>
+        </section>
+
+        {{> userPopup}}
+    </section>
+
+    <section id="main-body">
+        {{!place code for the w2ui table here }}
+        <div id="user-grid"></div>
+    </section>
+</main>
+
+<img id="w2ui-enlarged-image" src="img/test.png" />
