@@ -1,8 +1,8 @@
-<section id="popup">
-    <button class="popup_close">X</button>
+<section id="add-popup">
+    <button class="add-popup_close">X</button>
     <h1>Add New Item</h1>
 
-    <form id="form" enctype="multipart/form-data">
+    <form id="add-form" enctype="multipart/form-data">
         <div id="popup-form-wrapper">
             <div id="popup-left-wrapper">
                 {{! Product Name / Product Code / Product Image }}
@@ -61,9 +61,8 @@
                     <div class="item-wrapper">
                         <label for="brand">Brand</label><br />
                         <select id="brand" name="brand">
-                            <option value="" disabled selected>Select</option>
-                            <option value="Branded">Branded</option>
                             <option value="Unbranded">Unbranded</option>
+                            <option value="Branded">Branded</option>
                         </select>
                         <br />
                     </div>
@@ -108,9 +107,9 @@
                 {{! Length / Size }}
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="length">Length</label><br />
+                        <label for="prod-length">Length</label><br />
                         <div class="item-wrapper-wrapper">
-                            <input type="text" id="length" name="length" /><!-- add to db -->
+                            <input type="text" id="prod-length" name="length" /><!-- add to db -->
                             <select id="prodLength" name="length-unit">
                                 <!-- change in db -->
                                 <option value="cm">cm</option>
@@ -181,8 +180,8 @@
         </div>
 
         <div class="command">
-            <button type="sumbit" id="create">Add</button>
             <button type="reset">Cancel</button>
+            <button type="sumbit" id="create">Add</button>
         </div>
     </form>
 </section>

@@ -1,0 +1,27 @@
+<section id="restock-popup">
+    <button class="restock-popup_close">X</button>
+    <h1>Restock Item</h1>
+
+    <form id="restock-form" enctype="multipart/form-data">
+        <div class="item-wrapper">
+            <label for="code">Product Code</label><br />
+            <input type="text" id="code" name="code" /><br />
+        </div>
+
+        <div class="item-wrapper">
+            <label for="quantity">Quantity</label><br />
+            <input type="text" id="quantity" name="quantity" /><br />
+        </div>
+
+        <div class="item-wrapper">
+            <p id="error-message"></p>
+        </div>
+
+        <p class="text-error"></p>
+
+        <div class="command">
+            <button type="reset">Cancel</button>
+            <button type="sumbit" id="restock">Restock Item</button>
+        </div>
+    </form>
+</section>
