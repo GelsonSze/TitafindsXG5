@@ -2,9 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 * {
     margin: 0;
-    padding: 0;
+    /* padding: 0; */
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+    /* font-family: "Poppins", sans-serif; */
 }
 body {
     overflow: hidden;
@@ -26,8 +26,35 @@ body {
     height: 60px;
     width: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
+    gap: 5px;
+    margin-bottom: 100px;
+    position: relative;
+    opacity: 1;
 }
+
+.sidebar .logo-details #sidebar-toggle {
+    text-align: right;
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    font-size: 23px;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+.sidebar.close .logo-details #sidebar-toggle {
+    text-align: center;
+    right: 0;
+}
+
+.sidebar.close .logo-details :not(:last-child) {
+    opacity: 0;
+    transition: 0.2s ease all;
+}
+
 .sidebar .logo-details i {
     font-size: 30px;
     color: #fff;
@@ -36,14 +63,27 @@ body {
     text-align: center;
     line-height: 50px;
 }
-.sidebar .logo-details .logo_name {
-    font-size: 22px;
-    color: #fff;
-    font-weight: 600;
-    transition: 0.3s ease;
+
+.sidebar .logo-details .logo-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    transition: 0.3s ease all;
     transition-delay: 0.1s;
 }
-.sidebar.close .logo-details .logo_name {
+
+.sidebar .logo-details .logo-icon {
+    height: 80px;
+}
+
+.sidebar .logo-details .logo-name {
+    font-size: 2rem;
+    color: #fff;
+    font-weight: 600;
+}
+.sidebar.close .logo-details .logo-name {
     transition-delay: 0s;
     opacity: 0;
     pointer-events: none;
@@ -67,12 +107,12 @@ body {
 .sidebar .nav-links li:hover {
     background: #1d1b31;
 }
-.sidebar .nav-links li .iocn-link {
+.sidebar .nav-links li .icon-link {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.sidebar.close .nav-links li .iocn-link {
+.sidebar.close .nav-links li .icon-link {
     display: block;
 }
 .sidebar .nav-links li i {
@@ -96,13 +136,13 @@ body {
     align-items: center;
     text-decoration: none;
 }
-.sidebar .nav-links li a .link_name {
+.sidebar .nav-links li a .link-name {
     font-size: 18px;
     font-weight: 400;
     color: #fff;
     transition: all 0.4s ease;
 }
-.sidebar.close .nav-links li a .link_name {
+.sidebar.close .nav-links li a .link-name {
     opacity: 0;
     pointer-events: none;
 }
@@ -144,10 +184,10 @@ body {
     pointer-events: auto;
     transition: all 0.4s ease;
 }
-.sidebar .nav-links li .sub-menu .link_name {
+.sidebar .nav-links li .sub-menu .link-name {
     display: none;
 }
-.sidebar.close .nav-links li .sub-menu .link_name {
+.sidebar.close .nav-links li .sub-menu .link-name {
     font-size: 18px;
     opacity: 1;
     display: block;
@@ -169,11 +209,23 @@ body {
     width: 260px;
     display: flex;
     align-items: center;
-    justify-content: space-between;
     background: #1d1b31;
     padding: 12px 0;
     transition: all 0.5s ease;
 }
+.sidebar .profile-details #logout {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background: #1d1b31;
+    min-width: 50px !important;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 0px;
+    transition: all 0.5s ease;
+}
+
 .sidebar.close .profile-details {
     background: none;
 }
@@ -196,7 +248,7 @@ body {
 .sidebar.close .profile-details img {
     padding: 10px;
 }
-.sidebar .profile-details .profile_name,
+.sidebar .profile-details .profile-name,
 .sidebar .profile-details .job {
     color: #fff;
     font-size: 18px;
@@ -206,7 +258,7 @@ body {
     transition-delay: 0.1s;
 }
 .sidebar.close .profile-details i,
-.sidebar.close .profile-details .profile_name,
+.sidebar.close .profile-details .profile-name,
 .sidebar.close .profile-details .job {
     /* display: none; */
     transition-delay: 0s;

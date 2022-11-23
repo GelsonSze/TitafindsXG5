@@ -14,11 +14,6 @@ nav {
     justify-content: space-between;
 }
 
-#icon-logo {
-    width: 35px;
-    height: 35px;
-}
-
 header ul {
     display: flex;
     flex-direction: row;
@@ -326,14 +321,6 @@ h1 {
     top: 5px;
     right: 7px;
     color: white;
-}
-
-a:visited {
-    color: white;
-}
-
-a:hover {
-    background-color: #815251;
 }
 
 #outer-icon:hover {
