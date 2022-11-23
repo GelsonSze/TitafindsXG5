@@ -236,8 +236,9 @@ $(function () {
         const trans_data = {
             date: new Date(),
             type: "Restock",
+            name: $('#name').val(),
             desc: "Item added "+ $('#code').val(),
-             qty: parseInt($('#quantity').val()),
+            qty: parseInt($('#quantity').val()),
             sellingPrice: parseInt($('#selling-price').val()),
             transactedBy: "Someone"
         }
@@ -253,8 +254,8 @@ $(function () {
             processData: false,
             contentType: false,
 
-            success: async function (flag) {
-                if (flag) {
+            success: async function (data) {
+                if (data) {
                     console.log("success");
 
                     // Adds record to transactions
@@ -262,7 +263,7 @@ $(function () {
                         url: "/addTransaction",
                         data: trans_data,
                         type: "POST",
-                        success: async  function (flag) {
+                        success: async  function (data) {
                             console.log('New transaction added');
                         }
                     })

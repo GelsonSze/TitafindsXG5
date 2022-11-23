@@ -25,8 +25,8 @@ const transactionController = {
         console.log('Added transaction: ')
         console.log(transItem)
 
-        db.insertOne(Transaction, transItem, function (flag) {
-            res.send(flag);
+        db.insertOne(Transaction, transItem, function (data) {
+            res.send(data);
         });
     },
 
@@ -47,12 +47,49 @@ const transactionController = {
     },
 
     searchTransactions: function (req, res) {
-        var search = req.body.search
-        console.log(req)
-        db.findMany(Transaction, { description: {$regex: search, $options: 'i'} }, {}, function(data) {
-            //console.log(data)
-            res.status(200).json(data);
-        })
+        var search = req.params.search
+        var type = req.params.type
+        console.log(req.params)
+
+        if (search == 'empty') {search = ''}
+
+        if (type == 'Type')
+        {
+            db.findMany(Transaction, 
+                {$or: [
+                    { description: {$regex: search, $options: 'i'} },
+                    { name:        {$regex: search,   $options: 'i'} },
+                    
+                ]},
+            
+                {}, function(data) 
+                {
+                console.log(data)
+                res.status(200).json(data);
+                }
+            )
+        }
+        else
+        {
+            db.findMany(Transaction, 
+                {$and: [
+                    {$or: [
+                        { description: {$regex: search, $options: 'i'} },
+                        { name:        {$regex: search, $options: 'i'} },
+                        
+                    ]},
+        
+                    { type:        {$regex: type,   $options: 'i'}}
+                ]}, 
+            
+                {}, function(data) 
+                {
+                console.log(data)
+                res.status(200).json(data);
+                }
+            )
+        }
+        
     }
 
 
