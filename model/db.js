@@ -70,6 +70,13 @@ const db = {
         });
     },
 
+    findLastX: function(model, query, projection, limit, callback) {
+        model.find(query, projection, function(error, result) {
+            if (error) return callback(false);
+            return callback(result);
+        }).sort({_id:-1}).limit(limit)
+    },
+
     updateOne: function (model, filter, update, callback) {
         model.updateOne(filter, update, function (error, result) {
             if (error) return callback(false);

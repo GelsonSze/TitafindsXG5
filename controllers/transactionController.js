@@ -36,6 +36,15 @@ const transactionController = {
         });
     },
 
+    getXTransactions: function (req, res) {
+        var code = req.params.code
+        var limit = req.params.limit
+        db.findLastX(Transaction, {description: {$regex:code, $options: 'i'}}, {}, limit, function(data) {
+            
+            res.status(200).json(data);
+        })
+    },
+
     // UNTESTED
     getTransaction: function (req, res) {
         db.findOne(Transaction, {description: {$regex:req.query.code, $options: 'i'}}, {}, async function(data) {
