@@ -1,0 +1,188 @@
+<section id="popup">
+    <button class="popup_close">X</button>
+    <h1>Add New Item</h1>
+
+    <form id="form" enctype="multipart/form-data">
+        <div id="popup-form-wrapper">
+            <div id="popup-left-wrapper">
+                {{! Product Name / Product Code / Product Image }}
+                <div class="popup-row-wrapper">
+                    <div class="item-wrapper">
+                        <label for="name">Product Name</label><br />
+                        <input type="text" id="name" name="name" /><br />
+                    </div>
+
+                    <div class="item-wrapper">
+                        <label for="code">Product Code</label><br />
+                        <input type="text" id="code" name="code" /><br />
+                    </div>
+                </div>
+
+                {{! Product Description}}
+                <div class="popup-row-wrapper">
+                    <div class="item-wrapper">
+                        <label for="description">Product Description</label><br />
+                        <textarea id="description" name="description"></textarea><br />
+                    </div>
+                </div>
+
+                {{! Type / Classification / Brand }}
+                <div class="popup-row-wrapper">
+                    <div class="item-wrapper">
+                        <label for="type">Type</label><br />
+                        <!-- change in db -->
+                        <select id="type" name="type">
+                            <option value="" disabled selected>Select</option>
+                            <option value="Bracelet">Bracelet</option>
+                            <option value="Chain">Chain</option>
+                            <option value="Earrings">Earrings</option>
+                            <option value="Necklace">Necklace</option>
+                            <option value="Pendant">Pendant</option>
+                            <option value="Ring">Ring</option>
+                            <option value="Watch">Watch</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="item-wrapper">
+                        <label for="classification">Classification</label><br />
+                        <select id="classification" name="classification">
+                            <option value="" disabled selected>Select</option>
+                            <option value="10 karat">10 karat</option>
+                            <option value="14 karat">14 karat</option>
+                            <option value="18 karat">18 karat</option>
+                            <option value="21 karat">21 karat</option>
+                            <option value="22 karat">22 karat</option>
+                            <option value="24 karat">24 karat</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="item-wrapper">
+                        <label for="brand">Brand</label><br />
+                        <select id="brand" name="brand">
+                            <option value="" disabled selected>Select</option>
+                            <option value="Branded">Branded</option>
+                            <option value="Unbranded">Unbranded</option>
+                        </select>
+                        <br />
+                    </div>
+                </div>
+
+                {{! Design / Selling Type / Item Status }}
+                <div class="popup-row-wrapper">
+                    <div class="item-wrapper">
+                        <label for="design">Design</label><br />
+                        <select id="design" name="design">
+                            <option value="" disabled selected>Select</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Special">Special</option>
+                            <option value="Very Special">Very Special</option>
+                            <option value="Very Very Special">Very Very Special</option>
+                            <option value="Very Very Very Special">Very Very Very Special</option>
+                        </select>
+                    </div>
+
+                    <div class="item-wrapper">
+                        <label for="selling-type">Selling Type</label><br />
+                        <select id="selling-type" name="sellingType">
+                            <option value="" disabled selected>Select</option>
+                            <option value="per design">per design</option>
+                            <option value="per gram">per gram</option>
+                        </select>
+                        <br />
+                    </div>
+
+                    <div class="item-wrapper">
+                        <label for="status">Item Status</label><br />
+                        <select id="status" name="status">
+                            <!-- change in db -->
+                            <option value="Available">Available</option>
+                            <option value="Damaged">Damaged</option>
+                            <option value="Sold Out">Sold Out</option>
+                        </select>
+                        <br />
+                    </div>
+                </div>
+
+                {{! Length / Size }}
+                <div class="popup-row-wrapper">
+                    <div class="item-wrapper">
+                        <label for="length">Length</label><br />
+                        <div class="item-wrapper-wrapper">
+                            <input type="text" id="length" name="length" /><!-- add to db -->
+                            <select id="prodLength" name="length-unit">
+                                <!-- change in db -->
+                                <option value="cm">cm</option>
+                                <option value="mm">mm</option>
+                                <option value="inch">inch</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="item-wrapper">
+                        <label for="size">Size</label><br />
+                        <div class="item-wrapper-wrapper">
+                            <input type="text" id="size" name="size" />
+                            <select id="prodSize" name="size-unit">
+                                <!-- change in db -->
+                                <option value="cm">cm</option>
+                                <option value="mm">mm</option>
+                                <option value="inch">inch</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                {{! Weight / Stock Qty / Selling Price / Purchase Price }}
+                <div class="popup-row-wrapper">
+                    <div class="item-wrapper">
+                        <label for="weight">Weight</label><br />
+                        <input type="text" id="weight" name="weight" /><br />
+                        <span>GRAMS</span>
+                    </div>
+
+                    <div class="item-wrapper">
+                        <label for="stock-subtract">Stock Quantity</label><br />
+                        <div class="qty-wrapper-wrapper">
+                            <button type="button" id="stock-subtract">-</button>
+                            <input type="text" id="quantity" name="quantity" /><br />
+                            <button type="button" id="stock-add">+</button>
+                        </div>
+                    </div>
+
+                    <div class="item-wrapper">
+                        <label for="selling-price">Selling Price</label><br />
+                        <input type="text" id="selling-price" name="sellingPrice" /><br />
+                    </div>
+
+                    <div class="item-wrapper">
+                        <label for="purchase-price">Purchase Price</label><br />
+                        <input type="text" id="purchase-price" name="purchasePrice" /><br />
+                    </div>
+                </div>
+            </div>
+
+            <div id="popup-right-wrapper">
+                <img id="image-preview" src="/img/test.png" />
+                <label for="image">Product Image</label>
+                <label for="image" class="button-secondary">
+                    Upload image
+                    <input
+                        type="file"
+                        id="image"
+                        accept=""
+                        accept=".png, .jpg, .jpeg"
+                        name="image"
+                    />
+                </label>
+                <p class="text-error"></p>
+            </div>
+        </div>
+
+        <div class="command">
+            <button type="sumbit" id="create">Add</button>
+            <button type="reset">Cancel</button>
+        </div>
+    </form>
+</section>
