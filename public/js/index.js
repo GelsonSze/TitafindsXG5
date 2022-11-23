@@ -72,7 +72,8 @@ function item(
 function getSpecifiedItems(refreshGrid = false, classification, type, status, weight, size){
     /*Records it as 0 if the user did not select a category*/
     var Specified = []
-   
+    var check = ($('#filter-search').val()).toLowerCase();
+
     /*Process gets all items given a specific condition, which is if the item has the following category. The ==0 condition
     is only for the instances where the category was not changed.*/
     $.ajax({
@@ -87,9 +88,10 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
             for (var product of items) {
                 if ((product.type == $('#dropdown-type-select').text() || type == 0) &&
                     (product.classification == $('#dropdown-classification-select').text() || classification == 0) &&
-                    (product.status == $('#dropdown-status-select').text() || status == 0) && 
-                    ((product.weight >= $('#weight-min').val() && (product.weight <= $('#weight-max').val()) || weight == 0)) &&
-                    ((product.size >= $('#size-min').val() && (product.size <= $('#size-max').val()) || size == 0)))
+                    (product.status == $('#dropdown-status-select').text() || status == 0) &&
+                    (((product.weight >= $('#weight-min').val() && (product.weight <= $('#weight-max').val())) || weight == 0)) &&
+                    (((product.size >= $('#size-min').val() && (product.size <= $('#size-max').val())) || size == 0)) &&
+                    (((product.name).toLowerCase().search(check) != -1) || ((product.code).toLowerCase().search(check) != -1)) || (check == ""))
                 {
                     Specified.push(
                         new item(
@@ -321,7 +323,7 @@ $(function () {
         {
             var status = 0;
         }
-        if(($('#weight-min').val() == "" || $('#weight-min').val() == ""))
+        if(($('#weight-min').val() == "" || $('#weight-max').val() == ""))
         {
             var weight = 0;
         }
@@ -341,7 +343,8 @@ $(function () {
         $('#size-min').val(0)
         $('#weight-max').val("")
         $('#size-min').val("")
-        getAllItems(true);
+        $('#filter-search').val("")
+        getSpecifiedItems(true, 0,0,0,0,0);
     });
 
     //hover on image
