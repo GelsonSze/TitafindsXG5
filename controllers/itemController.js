@@ -9,7 +9,7 @@ const itemController = {
     home: function (req, res) {
         res.render("index", {
             title: "index",
-            styles: ["index.css", "w2ui-overrides.css", "popup.css"],
+            styles: ["pages/index.css", "general/w2ui-overrides.css", "general/popup.css"],
             scripts: ["index.js"],
         });
     },
@@ -23,7 +23,7 @@ const itemController = {
         res.render("item", {
             title: "Product",
             code: req.body.code,
-            styles: ["item.css", "w2ui-overrides.css"],
+            styles: ["pages/item.css", "general/w2ui-overrides.css"],
             scripts: ["item.js"],
         });
     },
