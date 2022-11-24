@@ -1,4 +1,5 @@
 var Items = [];
+var AddPopupQuantity = 0;
 
 /**
  * Request data from the server and if refreshGrid is true,
@@ -67,6 +68,18 @@ function item(
         sellingPrice: sellingPrice,
         status: status,
     };
+}
+
+function increase () {
+    AddPopupQuantity += 1;
+    $("#add-popup #quantity").val(AddPopupQuantity);
+}
+
+function decrease () {
+    if (AddPopupQuantity > 0) {
+        AddPopupQuantity -= 1;
+        $("#add-popup #quantity").val(AddPopupQuantity);
+    }
 }
 
 // On document ready
