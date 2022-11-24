@@ -186,6 +186,8 @@ button:hover {
     background-color: #9e9e9e;
 }
 
-#error-message {
-
+#add-popup input[type="text"], 
+#restock-popup input[type="text"], 
+#sell-popup input[type="text"] {
+    padding: 5px;
 }
