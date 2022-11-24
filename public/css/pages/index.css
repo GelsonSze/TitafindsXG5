@@ -184,7 +184,8 @@ main {
 }
 
 .dropdown-select-content button:hover {
-    opacity: 0.3;
+    /* opacity: 0.3; */
+    background-color: var(--clr-pink-70);
 }
 
 .dropdown-btn {

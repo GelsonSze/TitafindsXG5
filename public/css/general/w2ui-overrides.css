@@ -27,8 +27,8 @@
     margin: 0;
     padding: 0;
 
-    background-color: #484848;
-    color: white;
+    background-color: var(--clr-table-bg);
+    color: var(--clr-table-color);
 
     border-right: none;
     border-bottom: none;

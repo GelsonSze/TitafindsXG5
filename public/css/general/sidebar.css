@@ -9,8 +9,8 @@ body {
 }
 .sidebar {
     /* For designer, change these colors */
-    --main-color: #11101d;
-    --accent-color: #1d1b31;
+    --main-color: var(--clr-burgundy-80);
+    --accent-color: var(--clr-burgundy-dark);
 
     position: fixed;
     top: 0;
