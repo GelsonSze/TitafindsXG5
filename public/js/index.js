@@ -34,8 +34,8 @@ function getAllItems(refreshGrid = false) {
                     );
                 }
                 if (refreshGrid) {
-                    w2ui["itemGrid"].records = Items;
-                    w2ui["itemGrid"].refresh();
+                    w2ui["item-grid"].records = Items;
+                    w2ui["item-grid"].refresh();
                 }
             },
         });
@@ -77,8 +77,8 @@ function item(
 $(function () {
     getAllItems(true);
 
-    $("#itemGrid").w2grid({
-        name: "itemGrid",
+    $("#item-grid").w2grid({
+        name: "item-grid",
         show: {
             footer: true,
             lineNumbers: true,
@@ -156,7 +156,7 @@ $(function () {
         onDblClick: function (recid) {
             // Redirects to item page
 
-            var record = w2ui["itemGrid"].get(recid.recid);
+            var record = w2ui["item-grid"].get(recid.recid);
             //console.log(record)
 
             window.location.href = "/item/" + record.code;
@@ -289,7 +289,7 @@ $(function () {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
             // console.log("refresh/resize");
-            w2ui["itemGrid"].refresh();
+            w2ui["item-grid"].refresh();
         }, 510);
     });
 });

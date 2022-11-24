@@ -16,7 +16,7 @@ $(function () {
 
             setTimeout(() => {
                 try {
-                    w2ui["itemGrid"].refresh();
+                    w2ui["item-grid"].refresh();
                 } catch (err) {
                     console.log("Item grid not found");
                 }
