@@ -171,12 +171,12 @@ $(function () {
     /* clicking on the X button of the popup clears the form */
     $("#popup .popup_close").on("click", function () {
         $("#popup #form")[0].reset();
-        $("#image-preview").attr("src", "/img/test.png");
+        $("#image-preview").attr("src", "/img/product-images/default.png");
     });
 
     $("#popup form .command :reset").on("click", function (e) {
         $("#popup").popup("hide");
-        $("#image-preview").attr("src", "/img/test.png");
+        $("#image-preview").attr("src", "/img/product-images/default.png");
     });
 
     $("#popup form .command :submit").on("click", function (e) {
