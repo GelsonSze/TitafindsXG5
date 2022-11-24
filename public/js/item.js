@@ -3,7 +3,21 @@ var page_item = null;
 /**
  * Constructor for the item file
  */
-function Item(image, name, code, type, classification, length, size, weight, quantity, sellingType, purchasePrice, sellingPrice, status) {
+function Item(
+    image,
+    name,
+    code,
+    type,
+    classification,
+    length,
+    size,
+    weight,
+    quantity,
+    sellingType,
+    purchasePrice,
+    sellingPrice,
+    status
+) {
     return {
         image: image,
         name: name,
@@ -28,32 +42,44 @@ function Item(image, name, code, type, classification, length, size, weight, qua
 function getItem() {
     var item_code = window.location.pathname.split("/").pop();
     $.ajax({
-        url:"/getItem?code="+item_code,
-        type:"GET",
+        url: `/getItem=${item_code}`,
+        type: "GET",
         processData: false,
         contentType: false,
-        data:{"code":item_code},
         headers: {
             "Content-Type": "application/json",
         },
         success: function (item) {
             // Note from Erik: length is undefined ata sa database hence it being an outlier with system colors
-            page_item = new Item(   item.image, item.name, item.code, item.type, item.classification, item.length, 
-                                    item.size, item.weight, item.quantity, item.sellingType, item.purchasePrice, 
-                                    item.sellingPrice,  item.status
-                                );
+            page_item = new Item(
+                item.image,
+                item.name,
+                item.code,
+                item.type,
+                item.classification,
+                item.length,
+                item.size,
+                item.weight,
+                item.quantity,
+                item.sellingType,
+                item.purchasePrice,
+                item.sellingPrice,
+                item.status
+            );
 
-            var num_keys = Object.keys(page_item).length
+            var num_keys = Object.keys(page_item).length;
 
-            var fields = $.map(page_item, function(value, key) {return key;})
-            var values = $.map(page_item, function(value, key) {return value;})
+            var fields = $.map(page_item, function (value, key) {
+                return key;
+            });
+            var values = $.map(page_item, function (value, key) {
+                return value;
+            });
 
             // Appends a field into the #fields-table
-            for (var i = 0; i < num_keys; i++) 
-            {
-                $('#fields-table').append(itemDesc(fields[i], values[i]))
+            for (var i = 0; i < num_keys; i++) {
+                $("#fields-table").append(itemDesc(fields[i], values[i]));
             }
-
         },
     });
 }
@@ -63,8 +89,7 @@ function getItem() {
  * @param  {String} [field] - Is the field name for the table item
  * @param  {String} [desc] - Is the field description for the table item
  */
-function itemDesc(field, desc) { 
-
+function itemDesc(field, desc) {
     const html = `
     <div class="item-desc-wrapper">
         <div class="field">
@@ -75,14 +100,12 @@ function itemDesc(field, desc) {
         </div>
     </div>
     
-    `
-    
+    `;
+
     return html;
 }
 
 $(function () {
-
     // Loads item for the page.
     getItem();
-
-})
+});
