@@ -1,6 +1,6 @@
 .popup_content {
     margin: 5%;
-    padding: 2%;
+    padding: 20px;
     border: 2px solid #444;
     background: white;
 }
@@ -16,7 +16,7 @@
     margin: 10px;
 }
 
-#add-popup, 
+#add-popup,
 #restock-popup,
 #sell-popup {
     border-radius: 8px;
@@ -25,21 +25,15 @@
     color: black;
 }
 
-#restock-popup,
-#sell-popup {
-    width: 20%;
-    height: 30%;
-}
-
 #add-popup h1,
-#restock-popup h1, 
+#restock-popup h1,
 #sell-popup h1 {
     text-align: center;
     color: black;
 }
 
 #add-popup label,
-#restock-popup label, 
+#restock-popup label,
 #sell-popup label {
     font-family: "Inter Medium";
     text-transform: none;
@@ -58,7 +52,7 @@
 }
 
 #add-popup textarea,
-#restock-popup textarea, 
+#restock-popup textarea,
 #sell-popup textarea {
     resize: horizontal;
     padding: 5px;
@@ -67,7 +61,24 @@
     width: 100%;
 }
 
+.restock-sell-common {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    width: 300px;
+    height: 100px;
+    gap: 15px;
+}
+
+.restock-sell-common .text-error {
+    position: absolute;
+    inset: 0;
+    margin-top: 55px;
+}
+
 #add {
+    display: flex;
+    flex-wrap: nowrap;
     margin: 10px;
 }
 
@@ -149,7 +160,7 @@
 }
 
 #quantity {
-    width: 50px;
+    /* width: 50px; */
     margin: 0 2px;
 }
 
@@ -170,8 +181,8 @@ button:hover {
     cursor: pointer;
 }
 
-.add-popup_close, 
-.restock-popup_close, 
+.add-popup_close,
+.restock-popup_close,
 .sell-popup_close {
     border-radius: 50%;
     float: right;
@@ -188,8 +199,8 @@ button:hover {
     margin: 0 10px;
 }
 
-#add-popup input[type="text"], 
-#restock-popup input[type="text"], 
+#add-popup input[type="text"],
+#restock-popup input[type="text"],
 #sell-popup input[type="text"] {
     padding: 5px;
 }
