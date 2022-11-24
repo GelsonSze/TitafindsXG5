@@ -54,6 +54,8 @@ const testController = {
                             quantity: sampleItem.quantity,
                             sellingPrice: sampleItem.sellingPrice,
                             transactedBy: sampleItem.addedBy,
+                            code: sampleItem.code,
+                            name: sampleItem.name,
                         };
 
                         var newTransaction = new Transaction(transaction);

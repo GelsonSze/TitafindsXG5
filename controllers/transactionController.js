@@ -26,6 +26,8 @@ const transactionController = {
                 quantity: req.body.quantity,
                 sellingPrice: req.body.sellingPrice,
                 transactedBy: req.body.transactedBy,
+                code: req.body.code,
+                name: req.body.name,
             };
 
             console.log("Added transaction: ");
@@ -120,7 +122,7 @@ const transactionController = {
                     Transaction,
                     {
                         $or: [
-                            { description: { $regex: search, $options: "i" } },
+                            { code: { $regex: search, $options: "i" } },
                             { name: { $regex: search, $options: "i" } },
                         ],
                     },
@@ -138,7 +140,7 @@ const transactionController = {
                         $and: [
                             {
                                 $or: [
-                                    { description: { $regex: search, $options: "i" } },
+                                    { code: { $regex: search, $options: "i" } },
                                     { name: { $regex: search, $options: "i" } },
                                 ],
                             },

@@ -126,6 +126,8 @@ const itemController = {
                             quantity: data.quantity,
                             sellingPrice: data.sellingPrice,
                             transactedBy: data.addedBy,
+                            code: req.body.code,
+                            name: req.body.name,
                         };
                         next();
                     }
