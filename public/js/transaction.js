@@ -25,7 +25,7 @@ function getAllTransactions(refreshGrid = false) {
                 setTimeout(() => {
                     w2ui["itemGrid"].records = Transactions.reverse();
                     w2ui["itemGrid"].refresh();
-                }, 1500);
+                }, 1000);
             }
         },
     });
@@ -148,16 +148,7 @@ $(function () {
                 Transactions = [];
                 console.log(items);
                 for (var trans of items) {
-                    Transactions.push(
-                        new transaction(
-                            trans.date,
-                            trans.type,
-                            trans.description,
-                            trans.quantity,
-                            trans.sellingPrice,
-                            trans.transactedBy
-                        )
-                    );
+                    pushTransaction(trans);
                 }
                 w2ui["itemGrid"].records = Transactions.reverse();
                 w2ui["itemGrid"].refresh();
