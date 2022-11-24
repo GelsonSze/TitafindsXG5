@@ -110,7 +110,7 @@ $(function () {
         },
     });
 
-    $(".refresh-button").click(function () {
+    $("#table-filter-refresh").click(function () {
         getAllTransactions(true);
         setTimeout(() => {
             w2ui["itemGrid"].refresh();
