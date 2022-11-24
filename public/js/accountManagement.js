@@ -31,6 +31,17 @@ $(function () {
             },
             { field: "firstName", text: "First Name", size: "5%", sortable: true },
             { field: "lastName", text: "Last Name", size: "5%", sortable: true },
-            ],
+            {
+                field: "edit",
+                size: "5%",
+                render: function (record, extra) {
+                    var html =
+                        '<button type="button" class="table-edit-btn" id="rec-' +
+                        record.code +
+                        '">Edit</button>';
+                    return html;
+                },
+            },
+        ],
     });
 });

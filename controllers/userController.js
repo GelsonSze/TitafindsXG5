@@ -7,7 +7,7 @@ const userController = {
     login: function (req, res) {
         res.render("login", {
             title: "Login",
-            styles: ["login.css"],
+            styles: ["pages/login.css"],
             scripts: ["login.js"],
         });
     },
@@ -42,6 +42,19 @@ const userController = {
         console.log("Logged out user");
     },
 
+    accountManagement: function (req, res) {
+        res.render("accountManagement", {
+            title: "Account Management",
+            styles: [
+                "pages/accountManagement.css",
+                "pages/index.css",
+                "general/w2ui-overrides.css",
+                "general/popup.css",
+            ],
+            scripts: ["accountManagement.js", "index.js"],
+        });
+    },
+
     // Add new user (need to finalize)
     addUser: async function (req, res) {
         try {
@@ -73,13 +86,6 @@ const userController = {
             res.status(500).json(err);
             return;
         }
-    },
-    checkAccSettings: function (req, res) {
-        res.render("account", {
-            title: "Account Settings",
-            styles: ["account.css", "index.css", "w2ui-overrides.css", "popup.css"],
-            scripts: ["account.js", "index.js"],
-        });
     },
     // // TO BE REMOVED: Add admin user to database
     // addAdmin: async function () {

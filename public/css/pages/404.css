@@ -1,0 +1,23 @@
+main {
+    flex-direction: column;
+    align-items: center;
+}
+
+#icon-404 {
+    width: 200px;
+}
+
+#text-title {
+    font-weight: bold;
+    font-size: 30px;
+    font-family: var(--font-type2);
+    color: var(--clr-txt-primary);
+    margin: 5px 0 0;
+}
+
+#text-subtitle {
+    font-weight: bold;
+    font-size: 16px;
+    color: var(--clr-txt-secondary);
+    margin-bottom: 25px;
+}

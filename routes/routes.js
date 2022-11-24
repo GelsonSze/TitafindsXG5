@@ -22,8 +22,8 @@ app.delete("/auth/logout", userController.logoutUser);
 app.get("/item/:code", checkAuth, itemController.itemDetails);
 app.get("/getItem", itemController.getItem);
 
-//The account page
-app.get("/userManagement", userController.checkAccSettings);
+//The Account Management page
+app.get("/accountManagement", checkAuth, userController.accountManagement);
 
 // TO BE REMOVED
 // if (process.env.NODE_ENV === "development") {

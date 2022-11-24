@@ -85,6 +85,14 @@ app.use(mongoSanitize());
 // Assign routes
 app.use("/", routes);
 
+// 404 not found page
+app.use((req, res, err) => {
+    res.status(404).render("404", {
+        title: "404 Not Found",
+        styles: ["pages/404.css"],
+    });
+});
+
 // Connect to MongoDB
 db.connectDB();
 
