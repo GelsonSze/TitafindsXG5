@@ -37,7 +37,7 @@ const itemController = {
         console.log(">>BODY<<");
         console.log(req.body);
 
-        var image = "test.png";
+        var image = "product-images/default.png";
         var error = "";
         var errorFields = [];
 
@@ -49,7 +49,7 @@ const itemController = {
         }
 
         var addedItem = {
-            image: image ?? "test.png",
+            image: image ?? "product-images/default.png",
             code: req.body.code,
             name: req.body.name,
             description: req.body.description,
