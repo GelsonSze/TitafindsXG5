@@ -194,7 +194,7 @@ function secondDiff(date1, date2) {
  * Returns formatted date 'Day Mon dd yyyy, hh:mm {am|pm}'
  * @param  {Date} d - the date to be formatted
  */
-function formatDate(d) {
+function formatDate2(d) {
     var months = [
             "Jan",
             "Feb",
@@ -224,17 +224,34 @@ function formatDate(d) {
 }
 
 /**
+ * Returns formatted date 'Day Mon dd yyyy, hh:mm {am|pm}'
+ * @param  {Date} d - the date to be formatted
+ */
+function formatDate(d) {    
+    //include 0 if the year is less than 10
+    const year = d.getFullYear() < 10 ? "0" + d.getFullYear() : d.getFullYear();
+    //include 0 if the month is less than 10
+    const month = d.getMonth() < 10 ? `0${d.getMonth()}` : d.getMonth();
+    //include 0 if the day is less than 10
+    const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+
+    return `${year}/${month}/${day} ${formatAMPM(d)}`;
+}
+
+/**
  * Returns formatted 12 hour time 'hh:mm {am|pm}'
  * @param  {Date} date - the date to be formatted
  */
 function formatAMPM(date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
+    var seconds = date.getSeconds();
     var ampm = hours >= 12 ? "pm" : "am";
     hours = hours % 12;
     hours = hours ? hours : 12; // the hour '0' should be '12'
     minutes = minutes < 10 ? "0" + minutes : minutes;
-    var strTime = hours + ":" + minutes + " " + ampm;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+    var strTime = `${hours}:${minutes}:${seconds} ${ampm}`;
     return strTime;
 }
 

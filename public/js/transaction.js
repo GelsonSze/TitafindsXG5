@@ -46,6 +46,9 @@ function pushTransaction(trans) {
         success: function (item) {
             // console.log("transactions inside");
             // console.log(trans);
+
+        
+
             trans.date = formatDate(new Date(trans.date));
             Transactions.push(
                 new transaction(
