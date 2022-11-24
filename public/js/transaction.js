@@ -138,22 +138,32 @@ $(function () {
             searchBar = "empty";
         }
 
-        $.ajax({
-            url: `/searchTransactions=${typeBar}&${searchBar}`,
-            type: "GET",
-            processData: false,
-            contentType: false,
-            headers: { "Content-Type": "application/json" },
-            success: function (items) {
-                Transactions = [];
-                console.log(items);
-                for (var trans of items) {
-                    pushTransaction(trans);
-                }
-                w2ui["itemGrid"].records = Transactions.reverse();
-                w2ui["itemGrid"].refresh();
-            },
-        });
+        if (searchBar == 'empty' && typeBar == 'Type')
+        {
+            getAllTransactions(true);
+        }
+        else {
+            $.ajax({
+                url: `/searchTransactions=${typeBar}&${searchBar}`,
+                type: "GET",
+                processData: false,
+                contentType: false,
+                headers: { "Content-Type": "application/json" },
+                success: function (items) {
+                    Transactions = [];
+                    console.log(items);
+    
+    
+    
+                    for (var trans of items) {
+                        pushTransaction(trans);
+                    }
+                    w2ui["itemGrid"].records = Transactions.reverse();
+                    w2ui["itemGrid"].refresh();
+                },
+            });
+        }
+        
     });
 
     $(window).resize(function () {
