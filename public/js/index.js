@@ -75,12 +75,14 @@ function item(
 }
 
 function increase () {
+    AddPopupQuantity = $("#add-popup #quantity").val();
     AddPopupQuantity += 1;
     $("#add-popup #quantity").val(AddPopupQuantity);
 }
 
 function decrease () {
     if (AddPopupQuantity > 0) {
+        AddPopupQuantity = $("#add-popup #quantity").val();
         AddPopupQuantity -= 1;
         $("#add-popup #quantity").val(AddPopupQuantity);
     }
