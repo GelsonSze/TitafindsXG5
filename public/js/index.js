@@ -32,9 +32,12 @@ function getAllItems(refreshGrid = false) {
                     )
                 );
             }
+
             if (refreshGrid) {
-                w2ui["itemGrid"].records = Items;
-                w2ui["itemGrid"].refresh();
+                setTimeout(() => {
+                    w2ui["itemGrid"].records = Items;
+                    w2ui["itemGrid"].refresh();
+                }, 1000);
             }
         },
     });
