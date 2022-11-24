@@ -174,8 +174,11 @@
 #popup-right-wrapper {
     display: flex;
     flex-direction: column;
-
     width: 200px;
+}
+
+.popup-label-image {
+    margin-top: 5px;
 }
 
 button:hover {

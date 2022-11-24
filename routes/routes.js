@@ -37,7 +37,7 @@ app.get("/getItem=:code", itemController.getItem);
 //     console.log("Development mode: Adding sample items to database");
 //     var samples = [
 //         {
-//             image: "test.png",
+//             image: "items/default.png",
 //             code: generateItemCode("Necklace"),
 //             name: "Phoenix Necklace",
 //             type: "Necklace",
@@ -56,7 +56,7 @@ app.get("/getItem=:code", itemController.getItem);
 //             addedBy: "admin",
 //         },
 //         {
-//             image: "test.png",
+//             image: "items/default.png",
 //             code: generateItemCode("Necklace"),
 //             name: "Saudi Gold Tiffany Necklace",
 //             type: "Necklace",
@@ -75,7 +75,7 @@ app.get("/getItem=:code", itemController.getItem);
 //             addedBy: "admin",
 //         },
 //         {
-//             image: "test.png",
+//             image: "items/default.png",
 //             code: generateItemCode("Chain"),
 //             name: "VVsplChristian Dior Saudi Gold Cadena Chain",
 //             type: "Chain",

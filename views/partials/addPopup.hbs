@@ -137,8 +137,10 @@
                     <div class="item-wrapper">
                         <label for="stock-subtract">Stock Quantity</label><br />
                         <div class="qty-wrapper-wrapper">
-                            <button onclick="decrease()" type="button" id="stock-subtract">-</button>
-                            <input type="text" id="quantity" name="quantity" /><br />
+                            <button onclick="decrease()" type="button" id="stock-subtract">
+                                -
+                            </button>
+                            <input type="text" id="quantity" name="quantity" maxlength="15" /><br />
                             <button onclick="increase()" type="button" id="stock-add">+</button>
                         </div>
                     </div>
@@ -165,8 +167,8 @@
             </div>
 
             <div id="popup-right-wrapper">
-                <img id="image-preview" src="/img/test.png" />
-                <label for="image">Product Image</label>
+                <img id="image-preview" src="/img/items/default.png" />
+                <label for="image" class="popup-label-image">Product Image</label>
                 <label for="image" class="button-secondary">
                     Upload image
                     <input
