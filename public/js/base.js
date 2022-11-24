@@ -56,7 +56,7 @@ $(function () {
                 url: "/auth/logout",
                 type: "DELETE",
                 success: function (res) {
-                    window.location.href = window.location.origin + "/login";
+                    window.location.replace(window.location.origin + "/login");
                 },
             });
         }
