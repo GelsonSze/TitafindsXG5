@@ -1,21 +1,5 @@
-{{!--
-<header>
-    <nav>
-        {{!
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul>
-        }}
-        <div id="main-logo">
-            <img src="/img/Titafinds/icon.png" id="icon-logo" />
-        </div>
-    </nav>
-</header>
---}}
-
-<main>
+{{>sidebar}}
+<main class="main-section">
     <section>
         <section id="main-control">
             <h1>Inventory List</h1>
@@ -161,8 +145,8 @@
 
     <section id="main-body">
         {{!place code for the w2ui table here }}
-        <div id="itemGrid"></div>
+        <div id="item-grid"></div>
     </section>
 </main>
 
-<img id="w2ui-enlarged-image" src="img/test.png" />
+<img id="w2ui-enlarged-image" src="img/product-images/default.png" />

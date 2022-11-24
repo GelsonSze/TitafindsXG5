@@ -45,38 +45,41 @@
     --clr-gray-600: hsl(203, 10%, 60%);
 
     /* Color Palette */
-/* GOLD */
---clr-gold-darker: #635200;
---clr-gold-dark: #927900;
---clr-gold-100: #CEAA00;
---clr-gold-70: #DDC44D;
---clr-gold-50: #E6D480;
-/* ORANGE */
---clr-orange-dark: #893708;
---clr-orange-100: #C14D0B;
---clr-orange-80: #CD713C;
---clr-orange-60: #DA946D;
-/* PINK */
---clr-pink-dark: #AF8B7C;
---clr-pink-100: #F6C4AF;
---clr-pink-70: #F8D0BF;
---clr-pink-50: #FAE1D7;
---clr-pink-30: #FCEDE7;
-/* BURGUNDY */
---clr-burgundy-dark: #260504;
---clr-burgundy-100: #350705;
---clr-burgundy-80: #5D3937;
---clr-burgundy-60: #866A69;
-/* GREYSCALE */
---clr-black-100: #000000;
---clr-black-80: #484848;
---clr-black-75: #9A9A9A;
---clr-black-50: #C0C0C0;
---clr-offwhite: #FAF9F6;
---clr-white: #FFFFFF;
+    /* GOLD */
+    --clr-gold-darker: #635200;
+    --clr-gold-dark: #927900;
+    --clr-gold-100: #ceaa00;
+    --clr-gold-70: #ddc44d;
+    --clr-gold-50: #e6d480;
+    /* ORANGE */
+    --clr-orange-dark: #893708;
+    --clr-orange-100: #c14d0b;
+    --clr-orange-80: #cd713c;
+    --clr-orange-60: #da946d;
+    /* PINK */
+    --clr-pink-dark: #af8b7c;
+    --clr-pink-100: #f6c4af;
+    --clr-pink-70: #f8d0bf;
+    --clr-pink-50: #fae1d7;
+    --clr-pink-30: #fcede7;
+    /* BURGUNDY */
+    --clr-burgundy-dark: #260504;
+    --clr-burgundy-100: #350705;
+    --clr-burgundy-80: #5d3937;
+    --clr-burgundy-60: #866a69;
+    /* GREYSCALE */
+    --clr-black-100: #000000;
+    --clr-black-80: #484848;
+    --clr-black-75: #9a9a9a;
+    --clr-black-50: #c0c0c0;
+    --clr-offwhite: #faf9f6;
+    --clr-white: #ffffff;
 
-    --clr-bg: hsl(5, 100%, 98%);
+    --clr-bg: var(--clr-offwhite);
     --clr-bg-500: hsl(216, 90%, 92%);
+
+    --clr-table-bg: var(--clr-burgundy-80);
+    --clr-table-color: #F5F5F5;
 
     --clr-btn-primary: var(--clr-gold);
     --clr-box-shadow-primary: rgb(225 211 205 / 70%);
@@ -95,7 +98,7 @@
     --clr-tag-gray: hsl(195, 34%, 77%);
     --clr-tag-brown: hsl(60, 20%, 73%);
 
-    --font-type: "Omnes", Poppins, "Segoe UI", Tahoma, Geneva, Verdana,
+    --font-type: "Inter Regular", Poppins, "Segoe UI", Tahoma, Geneva, Verdana,
         sans-serif;
     --font-type2: "Omnes Medium", var(--font-type);
 
@@ -142,7 +145,7 @@ body {
     padding: 0;
     font-family: var(--font-type);
     background-color: var(--clr-bg);
-    height: 100vh;
+    min-height: 100vh;
 }
 
 header {
@@ -216,7 +219,7 @@ input[type="email"],
 input[type="password"],
 input[type="tel"],
 input[type="date"] {
-    height: 25px;
+    height: 45px;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid var(--clr-gray);
@@ -535,9 +538,9 @@ main {
 }
 
 select.error,
-input.error, 
-textarea.error, 
-.button-secondary.error{
+input.error,
+textarea.error,
+.button-secondary.error {
     border-color: var(--clr-tag-red) !important;
 }
 
@@ -622,14 +625,14 @@ textarea.error,
 }
 
 /* TO BE REMOVED -note:
- itemGrid must be kebab-case
+ item-grid must be kebab-case
  refactor/relocate code to a group */
 
 #main-body {
     height: 80%;
 }
 
-#itemGrid {
+#item-grid {
     height: 100%;
 }
 
@@ -640,4 +643,15 @@ textarea.error,
     object-position: 50% 50%;
     border-radius: 5px;
     border: 1px solid var(--clr-box-shadow-primary);
+}
+
+.sidebar-links {
+    float: left;
+    color: white;
+    text-indent: 0.8em;
+    font-size: 15px;
+    margin-right: 10%;
+    margin-left: 10%;
+    font-family: "Inter Regular";
+    padding: 10px;
 }

@@ -9,22 +9,24 @@ const itemController = {
     home: function (req, res) {
         res.render("index", {
             title: "index",
-            styles: ["index.css", "w2ui-overrides.css", "general/popup.css"],
+            styles: ["pages/index.css", "general/w2ui-overrides.css", "general/popup.css"],
             scripts: ["index.js"],
+            user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });
     },
 
-    // Redirects to home page
-    homeRedirect: function (req, res) {
-        res.redirect("/");
-    },
+    // // Redirects to home page
+    // homeRedirect: function (req, res) {
+    //     res.redirect("/");
+    // },
 
     itemDetails: function (req, res) {
         res.render("item", {
             title: "Product",
             code: req.body.code,
-            styles: ["item.css"],
+            styles: ["pages/item.css", "general/w2ui-overrides.css", "general/popup.css"],
             scripts: ["item.js"],
+            user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });
     },
 
@@ -35,11 +37,11 @@ const itemController = {
         console.log(">>BODY<<");
         console.log(req.body);
 
-        var image = "test.png";
+        var image = "product-images/default.png";
         var error = "";
         var errorFields = [];
 
-        var codeExists = await Item.findOne({code: req.body.code});
+        var codeExists = await Item.findOne({ code: req.body.code });
 
         if (req.file) {
             image = req.file;
@@ -47,7 +49,7 @@ const itemController = {
         }
 
         var addedItem = {
-            image: image ?? "test.png",
+            image: image ?? "product-images/default.png",
             code: req.body.code,
             name: req.body.name,
             description: req.body.description,
@@ -67,61 +69,51 @@ const itemController = {
             addedBy: req.session.user.username,
         };
 
-        //console.log(addedItem); 
+        //console.log(addedItem);
 
         // Selling price default to 0 if field is empty and selling type is per design
-        if(addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
+        if (addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
             addedItem.sellingPrice = "0";
 
         // Purchase price is default to 0 if field is empty
-        if(isEmptyOrSpaces(addedItem.purchasePrice))
-            addedItem.purchasePrice = "0";
+        if (isEmptyOrSpaces(addedItem.purchasePrice)) addedItem.purchasePrice = "0";
 
         console.log(addedItem);
         //  Errors
-        if(codeExists){
+        if (codeExists) {
             error = "Item code already exists";
             errorFields = ["code"];
-        }
-        else if(addedItem.code.length > 100){
+        } else if (addedItem.code.length > 100) {
             error = "Item code exceeds maximum character limit";
             errorFields = ["code"];
-        }
-        else if(addedItem.name.length > 255){
+        } else if (addedItem.name.length > 255) {
             error = "Name exceeds maximum character limit";
             errorFields = ["name"];
-        }
-        else if(addedItem.size != null && isNaN(addedItem.size)){
+        } else if (addedItem.size != null && isNaN(addedItem.size)) {
             error = "Size inputted is not a number";
             errorFields = ["size"];
-        }
-        else if(addedItem.weight != null && isNaN(addedItem.weight)){
+        } else if (addedItem.weight != null && isNaN(addedItem.weight)) {
             error = "Weight inputted is not a number";
             errorFields = ["weight"];
-        }
-        else if(isNaN(addedItem.quantity)){
+        } else if (isNaN(addedItem.quantity)) {
             error = "Quantity inputted is not a number";
             errorFields = ["quantity"];
-        }
-        else if(!(isNaN(addedItem.quantity)) && addedItem.quantity % 1 != 0){
+        } else if (!isNaN(addedItem.quantity) && addedItem.quantity % 1 != 0) {
             error = "Quantity inputted is not a whole number";
             errorFields = ["quantity"];
-        }
-        else if(addedItem.sellingPrice != null && isNaN(addedItem.sellingPrice)){
+        } else if (addedItem.sellingPrice != null && isNaN(addedItem.sellingPrice)) {
             error = "Selling price inputted is not a number";
             errorFields = ["selling-price"];
-        }
-        else if(addedItem.purchasePrice != null && isNaN(addedItem.purchasePrice)){
+        } else if (addedItem.purchasePrice != null && isNaN(addedItem.purchasePrice)) {
             error = "Purchase price inputted is not a number";
             errorFields = ["purchase-price"];
-        }
-        else{
+        } else {
             db.insertOne(Item, addedItem, function (flag) {
                 res.send(flag);
             });
             return;
         }
-        res.status(400).json({message: error, fields: errorFields});
+        res.status(400).json({ message: error, fields: errorFields });
     },
     getItems: function (req, res) {
         db.findMany(Item, {}, null, function (data) {
@@ -193,11 +185,6 @@ const itemController = {
         }
         res.status(400).json({message: error, fields: ["quantity"]});
     },
-
-    // //TO BE REMOVED:
-    // addItemSamples: async function (data) {
-    //     await Item.insertMany(data);
-    // },
 };
 
 export default itemController;

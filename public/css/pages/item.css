@@ -1,5 +1,5 @@
 #item-page-wrapper {
-    display:flex;
+    display: flex;
     flex-direction: column;
 
     width: 100%;
@@ -14,7 +14,7 @@
 #left-wrapper {
     display: flex;
     flex-direction: column;
-    width:50%;
+    width: 50%;
 }
 
 #right-wrapper {

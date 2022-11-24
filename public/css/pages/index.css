@@ -14,11 +14,6 @@ nav {
     justify-content: space-between;
 }
 
-#icon-logo {
-    width: 35px;
-    height: 35px;
-}
-
 header ul {
     display: flex;
     flex-direction: row;
@@ -189,7 +184,8 @@ main {
 }
 
 .dropdown-select-content button:hover {
-    opacity: 0.3;
+    /* opacity: 0.3; */
+    background-color: var(--clr-pink-70);
 }
 
 .dropdown-btn {
@@ -279,4 +275,75 @@ h1 {
     width: var(--width);
     object-fit: contain;
     border: 0.5vh solid black;
+}
+
+#inner-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #5d3937;
+    display: none;
+    z-index: 99;
+}
+
+#outer-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 100%;
+    background-color: #5d3937;
+}
+
+#toggle-sidebar {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 35px;
+    font-size: 30px;
+    background-color: #5d3937;
+    color: white;
+    background: none;
+    outline: none;
+    border: none;
+}
+
+#close-sidebar {
+    background-color: #815251;
+    border: #815251;
+    font-size: 20px;
+    position: absolute;
+    top: 5px;
+    right: 7px;
+    color: white;
+}
+
+#outer-icon:hover {
+    background-color: #260504;
+}
+
+#brand-img {
+    margin-right: 10%;
+    margin-left: 28%;
+    margin-top: 12%;
+    max-width: 35%;
+    max-height: 45%;
+}
+
+#brand-title-img {
+    margin-right: 10%;
+    margin-left: 15%;
+    max-width: 60%;
+    max-height: 60%;
+    margin-bottom: 5%;
+}
+
+#outer-sidebar-icons {
+    position: relative;
+    top: 40%;
+    color: white;
+    margin-right: 10%;
+    margin-left: 28%;
 }

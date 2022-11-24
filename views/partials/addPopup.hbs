@@ -106,6 +106,7 @@
 
                 {{! Length / Size }}
                 <div class="popup-row-wrapper">
+                    {{!--
                     <div class="item-wrapper">
                         <label for="prod-length">Length</label><br />
                         <div class="item-wrapper-wrapper">
@@ -118,9 +119,10 @@
                             </select>
                         </div>
                     </div>
+                    --}}
 
                     <div class="item-wrapper">
-                        <label for="size">Size</label><br />
+                        <label for="size">Size/Length</label><br />
                         <div class="item-wrapper-wrapper">
                             <input type="text" id="size" name="size" />
                             <select id="prodSize" name="size-unit">
@@ -131,15 +133,6 @@
                             </select>
                         </div>
                     </div>
-                </div>
-
-                {{! Weight / Stock Qty / Selling Price / Purchase Price }}
-                <div class="popup-row-wrapper">
-                    <div class="item-wrapper">
-                        <label for="weight">Weight</label><br />
-                        <input type="text" id="weight" name="weight" /><br />
-                        <span>GRAMS</span>
-                    </div>
 
                     <div class="item-wrapper">
                         <label for="stock-subtract">Stock Quantity</label><br />
@@ -148,6 +141,15 @@
                             <input type="text" id="quantity" name="quantity" /><br />
                             <button onclick="increase()" type="button" id="stock-add">+</button>
                         </div>
+                    </div>
+                </div>
+
+                {{! Weight / Stock Qty / Selling Price / Purchase Price }}
+                <div class="popup-row-wrapper">
+                    <div class="item-wrapper">
+                        <label for="weight">Weight</label><br />
+                        <input type="text" id="weight" name="weight" /><br />
+                        <span>GRAMS</span>
                     </div>
 
                     <div class="item-wrapper">
