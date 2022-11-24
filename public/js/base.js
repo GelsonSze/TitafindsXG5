@@ -4,35 +4,65 @@ const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\
 
 //source: https://laasyasettyblog.hashnode.dev/validating-username-using-regex
 const usernameRegex = RegExp(/^[A-Za-z][A-Za-z0-9_]{4,29}$/);
-const tags = [
-    { name: "FAQ's", color: "orange" },
-    { name: "Off-Topic Chatter", color: "green" },
-    { name: "Feedback", color: "purple" },
-    { name: "Member Spotlight", color: "red" },
-    { name: "Introductions", color: "blue" },
-    { name: "Announcements", color: "pink" },
-    { name: "Showcase", color: "gray" },
-    { name: "Jobs", color: "brown" },
-];
 
 $(function () {
     let sidebar = document.querySelector(".sidebar");
     let sidebarBtn = document.querySelector("#sidebar-toggle");
 
-    sidebarBtn.addEventListener("click", () => {
-        sidebar.classList.toggle("close");
-        menuBtnChange();
-    });
+    if (sidebar && sidebarBtn) {
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+            menuBtnChange();
 
-    let arrow = document.querySelectorAll(".arrow");
-    for (var i = 0; i < arrow.length; i++) {
-        arrow[i].addEventListener("click", (e) => {
-            let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
-            arrowParent.classList.toggle("showMenu");
+            setTimeout(() => {
+                try {
+                    w2ui["itemGrid"].refresh();
+                } catch (err) {
+                    console.log("Item grid not found");
+                }
+                try {
+                    w2ui["transaction-grid"].refresh();
+                } catch (err) {
+                    console.log("Transaction grid not found");
+                }
+                try {
+                    w2ui["details-grid"].refresh();
+                } catch (err) {
+                    console.log("Item details grid not found");
+                }
+            }, 510);
         });
     }
 
-    // following are the code to change sidebar button(optional)
+    $(document).on("click", (e) => {
+        // console.log(e.target);
+        if (
+            e.target.closest(".icon-link") &&
+            !e.target.closest(".sidebar").classList.contains("close")
+        ) {
+            e.target.closest(".icon-link").parentElement.classList.toggle("showMenu");
+
+            // let arrow = document.querySelectorAll(".arrow");
+            // for (var i = 0; i < arrow.length; i++) {
+            //     arrow[i].addEventListener("click", (e) => {
+            //         let arrowParent = e.target.parentElement.parentElement; //selecting main parent of arrow
+            //         arrowParent.classList.toggle("showMenu");
+            //     });
+            // }
+        } else if (e.target.closest("#logout")) {
+            console.log(e.target);
+
+            $.ajax({
+                url: "/auth/logout",
+                type: "DELETE",
+                success: function (res) {
+                    window.location.href = window.location.origin + "/login";
+                },
+            });
+        }
+    });
+
+    // following are the code to change sidebar button
     function menuBtnChange() {
         if (sidebar.classList.contains("close")) {
             sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu"); //replacing the icons class

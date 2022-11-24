@@ -16,7 +16,6 @@ main {
     justify-content: center;
     flex-direction: column;
     position: relative;
-    margin: auto;
     width: 350px;
     padding: 30px 0;
     gap: 20px;

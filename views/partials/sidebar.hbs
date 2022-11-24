@@ -1,19 +1,19 @@
 <nav class="sidebar close">
     <div class="logo-details">
         <div class="logo-column">
-            <img src="img/Titafinds/icon.png" class="logo-icon" />
+            <img src="/img/Titafinds/icon.png" class="logo-icon" />
             <span class="logo-name">TitaFinds</span>
         </div>
         <i class="bx bx-menu" id="sidebar-toggle"></i>
     </div>
     <ul class="nav-links">
         <li>
-            <a href="#">
+            <a href="/">
                 <i class="bx bx-grid-alt"></i>
                 <span class="link-name">Inventory</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link-name" href="#">Inventory</a></li>
+                <li><a class="link-name" href="/">Inventory</a></li>
             </ul>
         </li>
         {{!--
@@ -100,14 +100,15 @@
         </li>
         --}}
         <li>
-            <a href="#">
+            <a href="/transactions">
                 <i class="bx bx-receipt"></i>
                 <span class="link-name">Transaction</span>
             </a>
             <ul class="sub-menu blank">
-                <li><a class="link-name" href="#">Transaction</a></li>
+                <li><a class="link-name" href="/transactions">Transaction</a></li>
             </ul>
         </li>
+        {{#if user.isAdmin}}
         <li>
             <div class="icon-link">
                 <a href="#">
@@ -118,19 +119,28 @@
             </div>
             <ul class="sub-menu">
                 <li><a class="link-name" href="#">Settings</a></li>
-                <li><a href="#">Account Management</a></li>
-                <li><a href="#">Configure Attributes</a></li>
-                <li><a href="#">Configure Collection</a></li>
+                <li>
+                    <a href="#"><span class="bx bx-user"></span>Account Management</a>
+                </li>
+                <li>
+                    <a href="#"><span class="bx bx-book-alt"></span>Configure Attributes</a>
+                </li>
+                <li>
+                    <a href="#"><span class="bx bx-collection"></span>Configure Collection</a>
+                </li>
             </ul>
         </li>
+        {{/if}}
         <li>
             <div class="profile-details">
                 <div class="profile-content">
                     <img src="/img/Titafinds/icon.png" alt="profileImg" />
                 </div>
-                <div class="name-job">
-                    <div class="profile-name">Titafinds Admin</div>
-                    <div class="job">Super Admin</div>
+                <div class="name-role">
+                    <div class="profile-name">{{user.username}}</div>
+                    <div class="role">
+                        {{#if user.isAdmin}}Super Admin{{else}}Normal User{{/if}}
+                    </div>
                 </div>
                 <i class="bx bx-log-out" id="logout"></i>
             </div>

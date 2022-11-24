@@ -1,39 +1,21 @@
-<header>
-    <nav>
-        {{! <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/contact">Contact</a></li>
-        </ul> }}
-        <div id="main-logo">
-            <img src="/img/Titafinds/icon.png" id="icon-logo" />
-        </div>
-    </nav>
-</header>
-
-<main>
+{{>sidebar}}
+<main class="main-section">
     <div id="item-page-wrapper">
         <div id="top-wrapper">
             <div id="left-wrapper">
-
                 {{!-- Image and Name --}}
                 <h2>Item Name</h2>
-                <img src="/img/test.png">
-
+                <img src="/img/test.png" />
             </div>
 
             <div id="right-wrapper">
                 <span>Fields</span>
                 {{!-- Attributes / Descriptions --}}
-                <div id="fields-table">
-
-                </div>
+                <div id="fields-table"></div>
             </div>
         </div>
 
         {{!-- Transaction --}}
-        <div id="bottom-wrapper">
-            Transactions
-        </div>
+        <div id="bottom-wrapper">Transactions</div>
     </div>
 </main>

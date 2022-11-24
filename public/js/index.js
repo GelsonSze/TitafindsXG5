@@ -1,4 +1,3 @@
-
 var Items = [];
 
 /**
@@ -6,48 +5,43 @@ var Items = [];
  * render it in the grid.
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
  */
-
-function showSidebar(){
-    document.getElementById("inner-sidebar").style.display = "block";
-    document.getElementById("outer-sidebar").style.display = "none";
-}
-function hideSidebar(){
-    document.getElementById("inner-sidebar").style.display = "none";
-    document.getElementById("outer-sidebar").style.display = "block";
-}
 function getAllItems(refreshGrid = false) {
-    $.ajax({
-        url: "/getItems",
-        type: "GET",
-        processData: false,
-        contentType: false,
-        headers: {
-            "Content-Type": "application/json",
-        },
-        success: function (items) {
-            for (var product of items) {
-                Items.push(
-                    new item(
-                        product.image,
-                        product.name,
-                        product.code,
-                        product.type,
-                        product.classification,
-                        product.size,
-                        product.weight,
-                        product.quantity,
-                        product.sellingPrice,
-                        product.purchasePrice,
-                        product.status
-                    )
-                );
-            }
-            if (refreshGrid) {
-                w2ui["itemGrid"].records = Items;
-                w2ui["itemGrid"].refresh();
-            }
-        },
-    });
+    try {
+        $.ajax({
+            url: "/getItems",
+            type: "GET",
+            processData: false,
+            contentType: false,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            success: function (items) {
+                for (var product of items) {
+                    Items.push(
+                        new item(
+                            product.image,
+                            product.name,
+                            product.code,
+                            product.type,
+                            product.classification,
+                            product.size,
+                            product.weight,
+                            product.quantity,
+                            product.sellingPrice,
+                            product.purchasePrice,
+                            product.status
+                        )
+                    );
+                }
+                if (refreshGrid) {
+                    w2ui["itemGrid"].records = Items;
+                    w2ui["itemGrid"].refresh();
+                }
+            },
+        });
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 function item(
@@ -146,17 +140,17 @@ $(function () {
                 sortable: true,
             },
             { field: "status", text: "Status", size: "7%", sortable: true },
-            {
-                field: "edit",
-                size: "5%",
-                render: function (record, extra) {
-                    var html =
-                        '<button type="button" class="table-edit-btn" id="rec-' +
-                        record.code +
-                        '">Edit</button>';
-                    return html;
-                },
-            },
+            // {
+            //     field: "edit",
+            //     size: "5%",
+            //     render: function (record, extra) {
+            //         var html =
+            //             '<button type="button" class="table-edit-btn" id="rec-' +
+            //             record.code +
+            //             '">Edit</button>';
+            //         return html;
+            //     },
+            // },
         ],
         records: Items,
         onDblClick: function (recid) {
@@ -222,7 +216,6 @@ $(function () {
         data.append("dateAdded", new Date());
         data.append("dateUpdated", new Date());
 
-        //TO BE REMOVED
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
@@ -281,18 +274,22 @@ $(function () {
 
     //hover on image
     $(document).on("mouseover", "#w2ui-image", function (e) {
-        console.log(e.target.src);
+        // console.log(e.target.src);
         $("#w2ui-enlarged-image").attr("src", e.target.src);
         $("#w2ui-enlarged-image").css("display", "block");
     });
     //leave hover on image
     $(document).on("mouseleave", "#w2ui-image", function (e) {
-        console.log("leave");
+        // console.log("leave");
         $("#w2ui-enlarged-image").css("display", "none");
     });
-});
-
-$(window).resize(function () {
-    console.log("refresh/resize");
-    w2ui["itemGrid"].refresh();
+    //refresh grid when window is resized
+    var resizeTimer;
+    $(window).resize(function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+            // console.log("refresh/resize");
+            w2ui["itemGrid"].refresh();
+        }, 510);
+    });
 });
