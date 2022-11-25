@@ -53,7 +53,7 @@ const userController = {
                 res.end();
             }
         } catch (err) {
-            res.status(500).json({ message: "Server error: Logout user", details: err });
+            res.status(500).json({ message: "Server error: Logout user", details: err});
             return;
         }
     },
