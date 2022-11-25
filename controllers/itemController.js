@@ -9,7 +9,7 @@ const itemController = {
     home: function (req, res) {
         res.render("index", {
             title: "index",
-            styles: ["index.css", "w2ui-overrides.css", "popup.css"],
+            styles: ["pages/index.css", "general/w2ui-overrides.css", "general/popup.css"],
             scripts: ["index.js"],
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });

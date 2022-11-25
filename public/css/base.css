@@ -625,14 +625,14 @@ textarea.error,
 }
 
 /* TO BE REMOVED -note:
- item-grid must be kebab-case
+ itemGrid must be kebab-case
  refactor/relocate code to a group */
 
 #main-body {
     height: 80%;
 }
 
-#item-grid {
+#itemGrid {
     height: 100%;
 }
 

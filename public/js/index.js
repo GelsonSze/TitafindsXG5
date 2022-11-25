@@ -35,8 +35,8 @@ function getAllItems(refreshGrid = false) {
                     );
                 }
                 if (refreshGrid) {
-                    w2ui["item-grid"].records = Items;
-                    w2ui["item-grid"].refresh();
+                    w2ui["itemGrid"].records = Items;
+                    w2ui["itemGrid"].refresh();
                 }
             },
         });
@@ -155,8 +155,8 @@ $(function () {
     $("#size-min").val(0);
     getAllItems(true);
 
-    $("#item-grid").w2grid({
-        name: "item-grid",
+    $("#itemGrid").w2grid({
+        name: "itemGrid",
         show: {
             footer: true,
             lineNumbers: true,
@@ -234,7 +234,7 @@ $(function () {
         onDblClick: function (recid) {
             // Redirects to item page
 
-            var record = w2ui["item-grid"].get(recid.recid);
+            var record = w2ui["itemGrid"].get(recid.recid);
             //console.log(record)
 
             window.open(`/item/${record.code}`, "_blank");
@@ -277,7 +277,7 @@ $(function () {
 
         const code = $("#restock-popup #code").val();
         const data = new FormData($("#restock-form")[0]);
-        var recID = w2ui["item-grid"].find({ code: code });
+        var recID = w2ui["itemGrid"].find({ code: code });
         recID = recID[0];
 
         $.ajax({
@@ -302,7 +302,7 @@ $(function () {
                             contentType: false,
 
                             success: async function (foundData) {
-                                w2ui["item-grid"].set(recID, { quantity: foundData.quantity });
+                                w2ui["itemGrid"].set(recID, { quantity: foundData.quantity });
                             },
                         });
 
@@ -372,7 +372,7 @@ $(function () {
 
         const code = $("#sell-popup #code").val();
         const data = new FormData($("#sell-form")[0]);
-        var recID = w2ui["item-grid"].find({ code: code });
+        var recID = w2ui["itemGrid"].find({ code: code });
         recID = recID[0];
 
         $.ajax({
@@ -397,7 +397,7 @@ $(function () {
                             contentType: false,
 
                             success: async function (foundData) {
-                                w2ui["item-grid"].set(recID, { quantity: foundData.quantity });
+                                w2ui["itemGrid"].set(recID, { quantity: foundData.quantity });
                             },
                         });
                         $("#sell-popup #sell-form")[0].reset();
@@ -612,7 +612,7 @@ $(function () {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
             // console.log("refresh/resize");
-            w2ui["item-grid"].refresh();
+            w2ui["itemGrid"].refresh();
         }, 510);
     });
 });
