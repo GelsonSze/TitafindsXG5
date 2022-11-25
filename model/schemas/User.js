@@ -12,10 +12,10 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
 
-    // email: {
-    //     type: String,
-    //     unique: true,
-    // },
+    image: {
+        type: String,
+        default: "default.png",
+    },
 
     firstName: {
         type: String,

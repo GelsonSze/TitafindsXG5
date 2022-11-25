@@ -181,7 +181,37 @@ const adminController = {
                 return;
             }
             const suspendUser = {
-                isSuspended: req.body.isSuspended,
+                isSuspended: true,
+            };
+
+            db.updateOne(User, { _id: req.body.id }, suspendUser, function (data) {
+                res.send(data);
+            });
+            return;
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Server Error: Suspend User", details: error.message });
+            return;
+        }
+    },
+
+    // Resume a user
+    resumeUser: async function (req, res) {
+        try {
+            //Check if the user is admin
+            if (!req.session.user.isAdmin) {
+                res.status(403).json({ message: "User is not admin" });
+                return;
+            }
+
+            //Check if the user already exists
+            const user = await User.findById(req.body.id);
+            if (!user) {
+                res.status(404).json({ message: "User does not exist" });
+                return;
+            }
+            const suspendUser = {
+                isSuspended: false,
             };
 
             db.updateOne(User, { _id: req.body.id }, suspendUser, function (data) {

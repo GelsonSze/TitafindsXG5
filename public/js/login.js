@@ -5,6 +5,13 @@ window.addEventListener("load", function (e) {
     const error = this.document.querySelector(".text-error");
     let fields = [username, password];
 
+    //setTimeout 500ms to allow the error message to be displayed
+    setTimeout(function () {
+        const suspended = this.document.querySelector(".text-error");
+        console.log(suspended.value);
+        if (suspended.value) showError(suspended, suspended.value, []);
+    }, 1500);
+
     login.addEventListener("click", (e) => {
         e.preventDefault();
 
@@ -16,11 +23,11 @@ window.addEventListener("load", function (e) {
         }
 
         if (isEmptyOrSpaces(username.value) || isEmptyOrSpaces(password.value)) {
-            showError(error, "Please fill out all fields.", emptyFields);
+            showError(error, "Please fill out all fields", emptyFields);
             return;
         }
         if (!username.value.match(usernameRegex)) {
-            showError(error, "Please enter a valid username.", [username]);
+            showError(error, "Please enter a valid username", [username]);
             return;
         }
 
@@ -34,13 +41,13 @@ window.addEventListener("load", function (e) {
                 password: password.value,
             }),
         })
-        .then((res) => {
-            if (res.status >= 400) {
-                showError(error, "Invalid username or password.", fields);
-                return;
-            }
-            if (res.status == 200) window.location.replace(window.location.origin + "/");
-        })
-        .catch((err) => console.log(err));
+            .then((res) => {
+                if (res.status >= 400) {
+                    showError(error, "Invalid username or password", fields);
+                    return;
+                }
+                if (res.status == 200) window.location.replace(window.location.origin + "/");
+            })
+            .catch((err) => console.log(err));
     });
 });

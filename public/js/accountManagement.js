@@ -329,6 +329,41 @@ $(function () {
                 },
             });
         }
+
+        //resume
+
+        if (e.target.closest(".resume-popup_open")) {
+            var id = e.target.closest(".resume-popup_open").dataset.id;
+            $("#resume-form").data("id", id);
+            $.ajax({
+                url: `/auth/getUser=${id}`,
+                type: "GET",
+                processData: false,
+                contentType: false,
+                success: async function (user, status) {
+                    if (user) {
+                        $("#resume-username").text(user.username);
+                    } else {
+                        console.log("Error: User not found");
+                    }
+                },
+                error: async function (jqXHR, textStatus, errorThrown) {
+                    message = jqXHR.responseJSON.message;
+                    fields = jqXHR.responseJSON.fields;
+                    details = jqXHR.responseJSON.details;
+
+                    if (fields) {
+                        fields.forEach(async function (field) {
+                            emptyFields.push($(`#${field}`)[0]);
+                        });
+                        showError(error, message, emptyFields);
+                    } else if (details) {
+                        showError(error, message, []);
+                        console.log(details);
+                    }
+                },
+            });
+        }
     });
 
     $("#update-form .command :submit").on("click", function (e) {
@@ -396,7 +431,7 @@ $(function () {
     });
 
     $("#reset-popup").popup({
-        blur: false /* pop-up must be only closed with X button, not by clicking outside */,
+        blur: false,
     });
 
     $("#reset-form .command :submit").on("click", function (e) {
@@ -428,7 +463,7 @@ $(function () {
     });
 
     $("#suspend-popup").popup({
-        blur: false /* pop-up must be only closed with X button, not by clicking outside */,
+        blur: false,
     });
 
     $("#suspend-form .command :submit").on("click", function (e) {
@@ -436,7 +471,7 @@ $(function () {
 
         $.ajax({
             url: "/auth/suspendUser",
-            data: JSON.stringify({ id: $("#suspend-form").data("id"), isSuspended: true }),
+            data: JSON.stringify({ id: $("#suspend-form").data("id") }),
             type: "PUT",
             processData: false,
             contentType: "application/json; charset=utf-8",
@@ -448,6 +483,38 @@ $(function () {
                     getAllUsers(true);
                     console.log("reloaded");
                     $("#suspend-popup").popup("hide");
+                }
+            },
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                details = jqXHR.responseJSON.details;
+
+                if (details) console.log(details);
+            },
+        });
+    });
+
+    $("#resume-popup").popup({
+        blur: false,
+    });
+
+    $("#resume-form .command :submit").on("click", function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "/auth/resumeUser",
+            data: JSON.stringify({ id: $("#resume-form").data("id") }),
+            type: "PUT",
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+
+            success: async function (flag, status) {
+                if (flag) {
+                    console.log("success");
+                    Users = [];
+                    getAllUsers(true);
+                    console.log("reloaded");
+                    $("#resume-popup").popup("hide");
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {

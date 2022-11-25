@@ -30,6 +30,7 @@ app.get("/auth/getUser=:id", [checkAuth, adminController.getUser]);
 app.post("/auth/addUser", [checkAuth, adminController.addUser]);
 app.put("/auth/updateUser", adminController.updateUser);
 app.put("/auth/suspendUser", adminController.suspendUser);
+app.put("/auth/resumeUser", adminController.resumeUser);
 app.put("/auth/resetPassword", adminController.resetPassword);
 
 export default app;

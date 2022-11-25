@@ -6,10 +6,14 @@ import db from "../model/db.js";
 const userController = {
     // The login page
     login: function (req, res) {
+        var error = "";
+        if (req.query.suspended) error = "Account suspended";
+
         res.render("login", {
             title: "Login",
             styles: ["pages/login.css"],
             scripts: ["login.js"],
+            error: error,
         });
     },
 
@@ -19,14 +23,20 @@ const userController = {
             //Find the user
             const user = await User.findOne({ username: req.body.username });
             if (!user) {
-                res.status(404).json("User not found.");
+                res.status(404).json("User not found");
                 return;
             }
+
+            // //Check if user is suspended
+            // if (user.isSuspended) {
+            //     res.status(403).json("Account suspended");
+            //     return;
+            // }
 
             //Check if the password is correct
             const isMatch = await bcrypt.compare(req.body.password, user.password);
             if (!isMatch) {
-                res.status(400).json("Incorrect password.");
+                res.status(400).json("Incorrect password");
                 return;
             }
             req.session.user = user;
@@ -53,7 +63,7 @@ const userController = {
                 res.end();
             }
         } catch (err) {
-            res.status(500).json({ message: "Server error: Logout user", details: err});
+            res.status(500).json({ message: "Server error: Logout user", details: err });
             return;
         }
     },

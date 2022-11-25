@@ -12,8 +12,8 @@ export async function checkAuth(req, res, next) {
         } else {
             if (req.session.viewPage) {
                 delete req.session.viewPage;
-                req.session.error = "Account suspended";
-                return res.redirect("/login");
+                req.session.destroy();
+                return res.redirect("/login?suspended=true");
             } else {
                 res.status(403).json({ message: "User is suspended" });
                 return;
