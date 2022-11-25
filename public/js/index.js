@@ -112,7 +112,7 @@ $(function () {
                 size: "7%",
                 render: function (record, extra) {
                     var html =
-                        '<img id="w2ui-image" src="img/' +
+                        '<img id="w2ui-image" src="/img/' +
                         record.image +
                         '" alt="' +
                         record.image +
@@ -380,12 +380,12 @@ $(function () {
 
     $("#add-popup .add-popup_close").on("click", function () {
         $("#add-popup #add-form")[0].reset();
-        $("#image-preview").attr("src", "/img/items/default.png");
+        $("#image-preview").attr("src", "/img/product-images/default.png");
     });
 
     $("#add-popup form .command :reset").on("click", function (e) {
         $("#add-popup #add-form")[0].reset();
-        $("#image-preview").attr("src", "/img/items/default.png");
+        $("#image-preview").attr("src", "/img/product-images/default.png");
         $("#add-popup").popup("hide");
     });
 
