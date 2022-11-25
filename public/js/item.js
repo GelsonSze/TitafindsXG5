@@ -90,7 +90,7 @@ function pushTransaction(trans) {
  * render it in the grid.
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
  */
-function getLastFiveTransactions(refreshGrid = false) {
+function getTransactions(refreshGrid = false) {
     var itemCode = window.location.pathname.split("/").pop();
 
     $("#details-grid").w2grid({
@@ -123,17 +123,17 @@ function getLastFiveTransactions(refreshGrid = false) {
         },
     });
 
+
     $.ajax({
-        url: `/getXTransactions=${itemCode}&${5}`,
+        url: `/searchTransactions=${'Type'}&${itemCode}`,
         type: "GET",
         processData: false,
         contentType: false,
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         success: function (items) {
+            console.log(items)
             Transactions = [];
-            console.log(items);
+
             var dfd = $.Deferred().resolve();
 
             items.forEach(function (trans) {
@@ -143,7 +143,6 @@ function getLastFiveTransactions(refreshGrid = false) {
             });
 
             dfd.done(function () {
-                console.log("yay!");
                 if (refreshGrid) {
                     w2ui["details-grid"].records = Transactions.reverse();
                     w2ui["details-grid"].refresh();
@@ -151,6 +150,7 @@ function getLastFiveTransactions(refreshGrid = false) {
             });
         },
     });
+
 }
 
 /**
@@ -230,5 +230,5 @@ function itemDesc(field, desc) {
 $(document).ready(function () {
     // Loads item for the page.
     getItem();
-    getLastFiveTransactions(true);
+    getTransactions(true);
 });
