@@ -39,6 +39,42 @@ function transaction( date, type, desc,
 };
 }
 
+/**
+ * This function pushes the transaction of the item in the transaction array
+ * @param {Object} trans - transaction object
+ */
+ function pushTransaction(trans) {
+    var dfd = $.Deferred();
+
+    $.ajax({
+        url: `/getItemById=${trans.description}`,
+        type: "GET",
+        processData: false,
+        contentType: false,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        success: function (item) {
+
+            trans.date = formatDate(new Date(trans.date));
+            Transactions.push(
+                new transaction(
+                    trans.date,
+                    trans.type,
+                    `Item ${trans.type} - ${item.name} (${item.code})`,
+                    trans.quantity,
+                    trans.sellingPrice,
+                    trans.transactedBy
+                )
+            );
+            dfd.resolve();
+            
+        },
+    });
+
+    return dfd.promise();
+}
+
 
 /**
  * Request data from the server and if refreshGrid is true,
@@ -90,22 +126,22 @@ function transaction( date, type, desc,
         },
         success: function (items) {
             Transactions = [];
-            for (var trans of items) {
-                Transactions.push(
-                    new transaction(
-                        trans.date,
-                        trans.type,
-                        trans.description,
-                        trans.quantity,
-                        trans.sellingPrice,
-                        trans.transactedBy
-                    )
-                );
-            }
-            if (refreshGrid) {
-                w2ui["itemGrid"].records = Transactions;
-                w2ui["itemGrid"].refresh();
-            }
+            console.log(items)
+            var dfd = $.Deferred().resolve();
+
+            items.forEach(function(trans) {
+                dfd = dfd.then(function() {
+                    return pushTransaction(trans)
+                })
+            })
+
+            dfd.done(function() {
+                console.log('yay!')
+                if (refreshGrid) {
+                    w2ui["itemGrid"].records = Transactions.reverse();
+                    w2ui["itemGrid"].refresh();
+                }
+            })
         },
     });
 }
@@ -117,7 +153,7 @@ function transaction( date, type, desc,
 function getItem() {
     var item_code = window.location.pathname.split("/").pop();
     $.ajax({
-        url:"/getItem?code="+item_code,
+        url:"/getItem="+item_code,
         type:"GET",
         processData: false,
         contentType: false,

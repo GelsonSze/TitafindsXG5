@@ -64,10 +64,8 @@ const transactionController = {
             var code = req.params.code;
             var limit = req.params.limit;
             db.findLastX(
-                Transaction,
-                { description: { $regex: code, $options: "i" } },
-                {},
-                limit,
+                Transaction, { code: code },
+                null, limit,
                 function (data) {
                     res.status(200).json(data);
                 }

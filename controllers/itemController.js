@@ -164,7 +164,6 @@ const itemController = {
             }
 
             db.findOne(Item, { code: req.params.code }, {}, async function (data) {
-                console.log(req.query);
                 res.status(200).json(await data);
             });
         } catch (err) {
