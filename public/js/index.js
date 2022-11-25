@@ -15,30 +15,22 @@ function getAllItems(refreshGrid = false) {
             "Content-Type": "application/json",
         },
         success: function (items) {
-            for (var product of items) {
-                Items.push(
-                    new item(
-                        product.image,
-                        product.name,
-                        product.code,
-                        product.type,
-                        product.classification,
-                        product.size,
-                        product.weight,
-                        product.quantity,
-                        product.sellingPrice,
-                        product.purchasePrice,
-                        product.status
-                    )
-                );
-            }
+            Items = []
 
-            if (refreshGrid) {
-                setTimeout(() => {
+            var dfd = $.Deferred().resolve();
+
+            items.forEach(function(product) {
+                dfd = dfd.then(function() {
+                    return pushItem(product)
+                })
+            })
+
+            dfd.done(function() {
+                if (refreshGrid) {
                     w2ui["itemGrid"].records = Items;
                     w2ui["itemGrid"].refresh();
-                }, 1000);
-            }
+                }
+            })
         },
     });
 }
@@ -70,6 +62,30 @@ function item(
         sellingPrice: sellingPrice,
         status: status,
     };
+}
+
+function pushItem(product) {
+    var dfd = $.Deferred();
+
+    Items.push(
+        new item(
+            product.image,
+            product.name,
+            product.code,
+            product.type,
+            product.classification,
+            product.size,
+            product.weight,
+            product.quantity,
+            product.sellingPrice,
+            product.purchasePrice,
+            product.status
+        )
+    );
+
+    dfd.resolve();
+
+    return dfd.promise();
 }
 
 function getSpecifiedItems(refreshGrid = false, classification, type, status, weight, size) {
