@@ -401,9 +401,7 @@ $(function () {
         var error = $("#add-popup .text-error")[0];
 
         let fields = [name, code, type, sellingType, quantity];
-
         let emptyFields = [];
-
         fields.forEach(async function (field) {
             if (isEmptyOrSpaces(field.value)) {
                 emptyFields.push(field);
@@ -454,7 +452,7 @@ $(function () {
                     emptyFields.push($(`#${field}`)[0]);
                 });
 
-                showError(error, message, emptyFields);
+                showError(fields, message, emptyFields);
             },
         });
     });

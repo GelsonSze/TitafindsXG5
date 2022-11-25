@@ -198,3 +198,9 @@ button:hover {
 #sell-popup input[type="text"] {
     padding: 5px;
 }
+
+#reset-popup input[type="text"],
+#update-popup input[type="text"],
+#suspend-popup input[type="text"] {
+    padding: 5px;
+}
