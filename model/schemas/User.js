@@ -12,24 +12,35 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
 
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
+    // email: {
+    //     type: String,
+    //     unique: true,
+    // },
 
     firstName: {
         type: String,
-        required: true,
     },
 
     lastName: {
         type: String,
-        required: true,
     },
 
     isAdmin: {
         type: Boolean,
+        default: false,
+    },
+
+    isSuspended: {
+        type: Boolean,
+        default: false,
+    },
+
+    dateCreated: {
+        type: String,
+    },
+
+    lastLogin: {
+        type: String,
     },
 });
 

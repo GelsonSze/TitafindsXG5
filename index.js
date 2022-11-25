@@ -9,7 +9,9 @@ import helmet from "helmet";
 import { expressCspHeader } from "express-csp-header";
 import session from "express-session";
 import passport from "passport";
+import connectMongo from "connect-mongo";
 import mongoSanitize from "express-mongo-sanitize";
+import { EventEmitter } from "events";
 
 // Database module
 import db from "./model/db.js";
@@ -20,6 +22,9 @@ import { dirname } from "path";
 
 //Route modules
 import routes from "./routes/routes.js";
+
+//limit EventEmitter to 100
+EventEmitter.defaultMaxListeners = 100;
 
 const app = express();
 
@@ -72,6 +77,8 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
+        maxAge: new Date(Date.now() + 3600000),
+        store: connectMongo.create({ mongoUrl: process.env.MONGODB_URI }),
     })
 );
 

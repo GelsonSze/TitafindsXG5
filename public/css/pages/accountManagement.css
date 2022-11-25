@@ -4,3 +4,8 @@
 #popup-title {
     margin-left: 5vh;
 }
+
+.admin-actions {
+    display: flex;
+    font-size: 22px;
+}

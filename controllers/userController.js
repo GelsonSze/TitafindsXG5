@@ -1,6 +1,7 @@
 //Controller for user
 import User from "../model/schemas/User.js";
 import bcrypt from "bcrypt";
+import db from "../model/db.js";
 
 const userController = {
     // The login page
@@ -33,7 +34,7 @@ const userController = {
             //Respond with the user
             res.sendStatus(200);
         } catch (error) {
-            res.status(500).json(err);
+            res.status(500).json({ message: "Server Error: Login user", details: err });
             return;
         }
     },
@@ -41,82 +42,6 @@ const userController = {
     logoutUser: function (req, res) {
         console.log("Logged out user");
     },
-
-    accountManagement: function (req, res) {
-        res.render("accountManagement", {
-            title: "Account Management",
-            styles: [
-                "pages/accountManagement.css",
-                "pages/index.css",
-                "general/w2ui-overrides.css",
-                "general/popup.css",
-            ],
-            scripts: ["accountManagement.js", "index.js"],
-        });
-    },
-
-    // Add new user (need to finalize)
-    addUser: async function (req, res) {
-        try {
-            //Check if the user already exists
-            const user = await User.findOne({ email: req.body.email });
-            if (user) {
-                res.status(400).json("User already exists.");
-                return;
-            }
-
-            //Create a new user
-            const newUser = new User({
-                username: req.body.username,
-                password: req.body.password,
-                email: req.body.email,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                isAdmin: false,
-            });
-
-            //Hash the password
-            const salt = await bcrypt.genSalt(10);
-            newUser.password = await bcrypt.hash(newUser.password, salt);
-
-            //Save the user
-            const savedUser = await newUser.save();
-            res.status(200).json(savedUser);
-        } catch (error) {
-            res.status(500).json(err);
-            return;
-        }
-    },
-    // // TO BE REMOVED: Add admin user to database
-    // addAdmin: async function () {
-    //     try {
-    //         //Check if the user already exists
-    //         const user = await User.findOne({ username: "admin" });
-    //         if (user) {
-    //             console.log("Admin already exists.");
-    //             return;
-    //         }
-
-    //         //Create a new user
-    //         const admin = new User({
-    //             username: "admin",
-    //             password: "admin",
-    //             email: "admin@gmail.com",
-    //             firstName: "admin",
-    //             lastName: "admin",
-    //             isAdmin: true,
-    //         });
-
-    //         //Hash the password
-    //         const salt = await bcrypt.genSalt(10);
-    //         admin.password = await bcrypt.hash(admin.password, salt);
-
-    //         //Save the user
-    //         await admin.save();
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // },
 };
 
 export default userController;
