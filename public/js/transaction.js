@@ -6,6 +6,8 @@ var Transactions = [];
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
  */
 function getAllTransactions(refreshGrid = false) {
+    
+
     $.ajax({
         url: "/getTransactions",
         type: "GET",
@@ -16,17 +18,25 @@ function getAllTransactions(refreshGrid = false) {
         },
         success: function (items) {
             Transactions = [];
-            for (var trans of items) {
-                pushTransaction(trans);
-            }
-        },
-        complete: function () {
-            if (refreshGrid) {
-                setTimeout(() => {
+
+            var dfd = $.Deferred().resolve();
+
+            items.forEach(function(trans) {
+                dfd = dfd.then(function() {
+                    return pushTransaction(trans)
+                })
+            })
+
+            dfd.done(function() {
+                if (refreshGrid) {
                     w2ui["itemGrid"].records = Transactions.reverse();
                     w2ui["itemGrid"].refresh();
-                }, 1000);
-            }
+                }
+                
+
+                $('#table-filter-apply').attr('disabled', false)
+            })
+
         },
     });
 }
@@ -35,6 +45,8 @@ function getAllTransactions(refreshGrid = false) {
  * @param {Object} trans - transaction object
  */
 function pushTransaction(trans) {
+    var dfd = $.Deferred();
+
     $.ajax({
         url: `/getItemById=${trans.description}`,
         type: "GET",
@@ -44,10 +56,6 @@ function pushTransaction(trans) {
             "Content-Type": "application/json",
         },
         success: function (item) {
-            // console.log("transactions inside");
-            // console.log(trans);
-
-        
 
             trans.date = formatDate(new Date(trans.date));
             Transactions.push(
@@ -60,8 +68,12 @@ function pushTransaction(trans) {
                     trans.transactedBy
                 )
             );
+            dfd.resolve();
+            
         },
     });
+
+    return dfd.promise();
 }
 
 function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
@@ -78,8 +90,6 @@ function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
 
 // On document ready
 $(function () {
-    getAllTransactions(true);
-
     $("#itemGrid").w2grid({
         name: "itemGrid",
         show: {
@@ -110,11 +120,11 @@ $(function () {
         },
     });
 
+    getAllTransactions(true);
+
+
     $(".refresh-button").click(function () {
         getAllTransactions(true);
-        setTimeout(() => {
-            w2ui["itemGrid"].refresh();
-        }, 5000);
     });
 
     $(".dropdown-type").click(function () {
@@ -132,6 +142,8 @@ $(function () {
     $("#table-filter-apply").click(function () {
         var searchBar = $("#filter-search").val();
         var typeBar = $("#dropdown-selected").html();
+
+        $('#table-filter-apply').attr('disabled', true)
 
         // Cheats the empty search bar
         if (!searchBar) {
@@ -151,15 +163,21 @@ $(function () {
                 headers: { "Content-Type": "application/json" },
                 success: function (items) {
                     Transactions = [];
-                    console.log(items);
+
+                    var dfd = $.Deferred().resolve();
+
+                    items.forEach(function(trans) {
+                        dfd = dfd.then(function() {
+                            return pushTransaction(trans)
+                        })
+                    })
+
+                    dfd.done(function() {
+                        w2ui["itemGrid"].records = Transactions.reverse();
+                        w2ui["itemGrid"].refresh();
     
-    
-    
-                    for (var trans of items) {
-                        pushTransaction(trans);
-                    }
-                    w2ui["itemGrid"].records = Transactions.reverse();
-                    w2ui["itemGrid"].refresh();
+                        $('#table-filter-apply').attr('disabled', false)
+                    })
                 },
             });
         }
