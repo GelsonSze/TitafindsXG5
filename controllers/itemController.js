@@ -9,15 +9,16 @@ const itemController = {
     home: function (req, res) {
         res.render("index", {
             title: "index",
-            styles: ["pages/index.css", "general/w2ui-overrides.css", "general/popup.css"],
+            styles: ["index.css", "w2ui-overrides.css", "popup.css"],
             scripts: ["index.js"],
+            user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });
     },
 
-    // Redirects to home page
-    homeRedirect: function (req, res) {
-        res.redirect("/");
-    },
+    // // Redirects to home page
+    // homeRedirect: function (req, res) {
+    //     res.redirect("/");
+    // },
 
     itemDetails: function (req, res) {
         db.findOne(Item, { code: req.params.code }, {}, async function (data) {
@@ -30,6 +31,7 @@ const itemController = {
                 sellingType: data.sellingType,
                 styles: ["pages/item.css", "general/w2ui-overrides.css"],
                 scripts: ["item.js"],
+                user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
             });
         });
     },
@@ -81,17 +83,18 @@ const itemController = {
                 addedBy: req.session.user.username,
             };
 
-            //console.log(addedItem);
+        //console.log(addedItem); 
 
             // Selling price default to 0 if field is empty and selling type is per design
-            if (addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
+            if  (addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
                 addedItem.sellingPrice = "0";
             //Selling price defaults to price * item weight if field is empty and selling type is per gram
             else if (addedItem.sellingType == "per gram" && isEmptyOrSpaces(addedItem.sellingPrice))
                 addedItem.sellingPrice = addedItem.weight * price;
 
-            // Purchase price is default to 0 if field is empty
-            if (isEmptyOrSpaces(addedItem.purchasePrice)) addedItem.purchasePrice = "0";
+        // Purchase price is default to 0 if field is empty
+        if(isEmptyOrSpaces(addedItem.purchasePrice))
+            addedItem.purchasePrice = "0";
 
             console.log(addedItem);
             //  Errors
@@ -177,6 +180,30 @@ const itemController = {
         }
     },
 
+    restockItem: async function (req, res) {
+        var error = "";        
+        var quantity = req.body.quantity;
+        var item = await Item.findOne({code: req.body.code});
+        console.log(quantity);
+
+        if (isNaN(quantity)) {
+            error = "Quantity inputted is not a number.";
+        }
+        else if (!(isNaN(quantity)) && quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number.";
+        }
+        else if (quantity == 0){
+            error = "Quantity is 0.";
+        }
+        else {
+            db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: req.body.quantity}}, function (data) {
+                res.status(200).json(data);
+            });
+            return;
+        }
+        res.status(400).json({message: error, fields: ["quantity"]});
+    },
+    
     getItemById: function (req, res) {
         try {
             if (!req.session.user) {
@@ -193,10 +220,35 @@ const itemController = {
         }
     },
 
-    // //TO BE REMOVED:
-    // addItemSamples: async function (data) {
-    //     await Item.insertMany(data);
-    // },
+    sellItem: async function (req, res) {
+        var error = "";        
+        var quantity = req.body.quantity;
+        var item = await Item.findOne({code: req.body.code});
+
+        if (isNaN(quantity)) {
+            error = "Quantity inputted is not a number.";
+        }
+        else if(!(isNaN(quantity)) && quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number.";
+        }
+        else if (quantity == 0) {
+            error = "Quantity is 0.";
+        }
+        else if (item.quantity == 0){
+            error = "No available stock.";
+        }
+        else if ( (item.quantity - quantity) < 0) {
+            error = "Insufficient stock.";
+        }
+        else {
+            quantity = -Math.abs(req.body.quantity);
+            db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: quantity}}, function (data) {
+                res.status(200).json(data);
+            });
+            return;
+        }
+        res.status(400).json({message: error, fields: ["quantity"]});
+    },
 };
 
 export default itemController;

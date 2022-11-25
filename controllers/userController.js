@@ -33,14 +33,29 @@ const userController = {
             //Respond with the user
             res.sendStatus(200);
         } catch (error) {
-            res.status(500).json(err);
+            res.status(500).json({ message: "Server error: Login user", details: err });
             return;
         }
     },
 
     // Logs out user
     logoutUser: function (req, res) {
-        console.log("Logged out user");
+        try {
+            if (req.session) {
+                req.session.destroy((err) => {
+                    if (err) {
+                        res.status(400).send("Unable to log out");
+                    } else {
+                        res.status(200).send("Logout successful");
+                    }
+                });
+            } else {
+                res.end();
+            }
+        } catch (err) {
+            res.status(500).json({ message: "Server error: Logout user", details: err });
+            return;
+        }
     },
 
     // Add new user (need to finalize)
@@ -71,7 +86,7 @@ const userController = {
             const savedUser = await newUser.save();
             res.status(200).json(savedUser);
         } catch (error) {
-            res.status(500).json(err);
+            res.status(500).json({ message: "Server error: Add user", details: err });
             return;
         }
     },

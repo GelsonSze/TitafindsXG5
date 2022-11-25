@@ -75,8 +75,11 @@
     --clr-offwhite: #faf9f6;
     --clr-white: #ffffff;
 
-    --clr-bg: hsl(5, 100%, 98%);
+    --clr-bg: var(--clr-offwhite);
     --clr-bg-500: hsl(216, 90%, 92%);
+
+    --clr-table-bg: var(--clr-burgundy-80);
+    --clr-table-color: #F5F5F5;
 
     --clr-btn-primary: var(--clr-gold);
     --clr-box-shadow-primary: rgb(225 211 205 / 70%);
@@ -95,7 +98,7 @@
     --clr-tag-gray: hsl(195, 34%, 77%);
     --clr-tag-brown: hsl(60, 20%, 73%);
 
-    --font-type: "Omnes", Poppins, "Segoe UI", Tahoma, Geneva, Verdana,
+    --font-type: "Inter Regular", Poppins, "Segoe UI", Tahoma, Geneva, Verdana,
         sans-serif;
     --font-type2: "Omnes Medium", var(--font-type);
 
@@ -142,7 +145,7 @@ body {
     padding: 0;
     font-family: var(--font-type);
     background-color: var(--clr-bg);
-    height: 100vh;
+    min-height: 100vh;
 }
 
 header {
@@ -216,7 +219,7 @@ input[type="email"],
 input[type="password"],
 input[type="tel"],
 input[type="date"] {
-    height: 25px;
+    height: 45px;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid var(--clr-gray);
@@ -622,14 +625,14 @@ textarea.error,
 }
 
 /* TO BE REMOVED -note:
- itemGrid must be kebab-case
+ item-grid must be kebab-case
  refactor/relocate code to a group */
 
 #main-body {
     height: 80%;
 }
 
-#itemGrid {
+#item-grid {
     height: 100%;
 }
 
@@ -640,4 +643,15 @@ textarea.error,
     object-position: 50% 50%;
     border-radius: 5px;
     border: 1px solid var(--clr-box-shadow-primary);
+}
+
+.sidebar-links {
+    float: left;
+    color: white;
+    text-indent: 0.8em;
+    font-size: 15px;
+    margin-right: 10%;
+    margin-left: 10%;
+    font-family: "Inter Regular";
+    padding: 10px;
 }

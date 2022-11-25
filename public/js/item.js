@@ -111,44 +111,26 @@ function getItem() {
         type: "GET",
         processData: false,
         contentType: false,
-        data: { code: item_code },
         headers: {
             "Content-Type": "application/json",
         },
         success: function (item) {
             // Note from Erik: length is undefined ata sa database hence it being an outlier with system colors
-            page_item = new Item(
-                item.image,
-                item.name,
-                item.code,
-                item.type,
-                item.classification,
-                item.length,
-                item.size,
-                item.weight,
-                item.quantity,
-                item.sellingType,
-                item.purchasePrice,
-                item.sellingPrice,
-                item.status
-            );
+            page_item = new Item(   item.image, item.name, item.code, item.type, item.classification, item.length, 
+                                    item.size, item.weight, item.quantity, item.sellingType, item.purchasePrice, 
+                                    item.sellingPrice,  item.status
+                                );
 
-            var num_keys = Object.keys(page_item).length;
+            var num_keys = Object.keys(page_item).length
 
-            var fields = $.map(page_item, function (value, key) {
-                return key;
-            });
-            var values = $.map(page_item, function (value, key) {
-                return value;
-            });
-
-            // Changes image source of img element into the item image
-            $("#left-wrapper img").attr("src", `../img/${item.image}`);
+            var fields = $.map(page_item, function(value, key) {return key;})
+            var values = $.map(page_item, function(value, key) {return value;})
 
             // Appends a field into the #fields-table
             for (var i = 0; i < num_keys; i++) {
                 $("#table-body").append(`<tr><td>${fields[i]}</td> <td>${values[i]}</td></tr>`);
             }
+
         },
     });
 }
@@ -158,7 +140,8 @@ function getItem() {
  * @param  {String} [field] - Is the field name for the table item
  * @param  {String} [desc] - Is the field description for the table item
  */
-function itemDesc(field, desc) {
+function itemDesc(field, desc) { 
+
     const html = `
     <div class="item-desc-wrapper">
         <div class="field">
@@ -169,8 +152,8 @@ function itemDesc(field, desc) {
         </div>
     </div>
     
-    `;
-
+    `
+    
     return html;
 }
 

@@ -8,6 +8,11 @@ import transactionController from "../controllers/transactionController.js";
 
 const app = express();
 
+// Authentication and Authorization
+app.post("/auth/addUser", userController.addUser);
+app.post("/auth/login", userController.loginUser);
+app.delete("/auth/logout", userController.logoutUser);
+
 // The dashboard or inventory page
 app.get("/", checkAuth, itemController.home);
 app.post(
@@ -16,13 +21,13 @@ app.post(
     itemController.addItem,
     transactionController.addTransaction
 );
+app.post("/restockItem", upload.any(), itemController.restockItem);
+app.post("/sellItem", upload.any(), itemController.sellItem);
 app.get("/getItems", itemController.getItems);
+
 
 // The login page
 app.get("/login", checkNoAuth, userController.login);
-app.post("/auth/addUser", userController.addUser);
-app.post("/auth/login", userController.loginUser);
-app.delete("/auth/logout", userController.logoutUser);
 
 // The Item Page
 app.get("/item/:code", checkAuth, itemController.itemDetails);
@@ -47,7 +52,7 @@ app.get("/searchTransactions=:type&:search", transactionController.searchTransac
 //     console.log("Development mode: Adding sample items to database");
 //     var samples = [
 //         {
-//             image: "test.png",
+//             image: "items/default.png",
 //             code: generateItemCode("Necklace"),
 //             name: "Phoenix Necklace",
 //             type: "Necklace",
@@ -66,7 +71,7 @@ app.get("/searchTransactions=:type&:search", transactionController.searchTransac
 //             addedBy: "admin",
 //         },
 //         {
-//             image: "test.png",
+//             image: "items/default.png",
 //             code: generateItemCode("Necklace"),
 //             name: "Saudi Gold Tiffany Necklace",
 //             type: "Necklace",
@@ -85,7 +90,7 @@ app.get("/searchTransactions=:type&:search", transactionController.searchTransac
 //             addedBy: "admin",
 //         },
 //         {
-//             image: "test.png",
+//             image: "items/default.png",
 //             code: generateItemCode("Chain"),
 //             name: "VVsplChristian Dior Saudi Gold Cadena Chain",
 //             type: "Chain",
