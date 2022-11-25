@@ -111,10 +111,10 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
         success: function (items) {
             for (var product of items) {
                 if (
-                    (product.type == $("#dropdown-type-select").text() || type == 0) &&
-                    (product.classification == $("#dropdown-classification-select").text() ||
+                    (product.type == $("#dropdown-type-select").text().trim() || type == 0) &&
+                    (product.classification == $("#dropdown-classification-select").text().trim() ||
                         classification == 0) &&
-                    (product.status == $("#dropdown-status-select").text() || status == 0) &&
+                    (product.status == $("#dropdown-status-select").text().trim() || status == 0) &&
                     ((product.weight >= $("#weight-min").val() &&
                         product.weight <= $("#weight-max").val()) ||
                         weight == 0) &&
@@ -596,13 +596,13 @@ $(function () {
     });
 
     $("#table-filter-apply").click(function () {
-        if ($("#dropdown-type-select").text() == "Type") {
+        if ($("#dropdown-type-select").text().trim() == "Type") {
             var type = 0;
         }
-        if ($("#dropdown-classification-select").text() == "Classification") {
+        if ($("#dropdown-classification-select").text().trim() == "Classification") {
             var classification = 0;
         }
-        if ($("#dropdown-status-select").text() == "Status") {
+        if ($("#dropdown-status-select").text().trim() == "Status") {
             var status = 0;
         }
         if ($("#weight-min").val() == "" || $("#weight-max").val() == "") {
@@ -611,7 +611,7 @@ $(function () {
         if ($("#size-min").val() == "" || $("#size-max").val() == "") {
             var size = 0;
         }
-        
+
         getSpecifiedItems(true, classification, type, status, weight, size);
     });
 
@@ -623,7 +623,7 @@ $(function () {
         $("#weight-min").val(0);
         $("#size-min").val(0);
         $("#weight-max").val("");
-        $("#size-min").val("");
+        $("#size-max").val("");
         $("#filter-search").val("");
         getSpecifiedItems(true, 0, 0, 0, 0, 0);
     });
