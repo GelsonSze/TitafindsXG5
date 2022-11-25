@@ -199,10 +199,13 @@ button:hover {
     padding: 5px;
 }
 
-#reset-popup input[type="text"],
-#update-popup input[type="text"],
-#suspend-popup input[type="text"] {
+#reset-popup input[type="text"], input[type="password"],
+#update-popup input[type="text"],input[type="password"],
+#suspend-popup input[type="text"], input[type="password"],
+#user-popup input[type="text"], input[type="password"] {
     padding: 5px;
+    margin-left: 25vh;
+    margin-bottom: 2vh;
 }
 
 #replay-symbol{
@@ -233,4 +236,12 @@ button:hover {
 
 #suspend{
     background-color: black;
+}
+
+#username, #last-name, #first-name, #password, #confirm-password{
+    width: 50%;
+    color: var(--accent-color);
+}
+label{
+    margin-left: 25vh;
 }
