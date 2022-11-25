@@ -8,7 +8,7 @@ const itemController = {
     // The dashboard or inventory page
     home: function (req, res) {
         res.render("index", {
-            title: "index",
+            title: "Inventory",
             styles: ["pages/index.css", "general/w2ui-overrides.css", "general/popup.css"],
             scripts: ["index.js"],
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },

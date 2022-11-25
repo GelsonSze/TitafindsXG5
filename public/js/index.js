@@ -333,11 +333,13 @@ $(function () {
                         message = jqXHR.responseJSON.message;
                         fields = jqXHR.responseJSON.fields;
 
-                        fields.forEach(async function (field) {
-                            emptyFields.push($(`#${field}`)[0]);
-                        });
+                        if(fields){
+                            fields.forEach(async function (field) {
+                                emptyFields.push($(`#${field}`)[0]);
+                            });
 
-                        showError(error, message, emptyFields);
+                            showError(error, message, emptyFields);
+                        }
                     },
                 });
             },
@@ -346,11 +348,13 @@ $(function () {
                 message = jqXHR.responseJSON.message;
                 fields = jqXHR.responseJSON.fields;
 
-                fields.forEach(async function (field) {
-                    emptyFields.push($(`#${field}`)[0]);
-                });
+                if(fields){
+                    fields.forEach(async function (field) {
+                        emptyFields.push($(`#${field}`)[0]);
+                    });
 
-                showError(error, message, emptyFields);
+                    showError(error, message, emptyFields);
+                }
             },
         });
     });
@@ -426,11 +430,13 @@ $(function () {
                         message = jqXHR.responseJSON.message;
                         fields = jqXHR.responseJSON.fields;
 
-                        fields.forEach(async function (field) {
-                            emptyFields.push($(`#${field}`)[0]);
-                        });
+                        if(fields){
+                            fields.forEach(async function (field) {
+                                emptyFields.push($(`#${field}`)[0]);
+                            });
 
-                        showError(error, message, emptyFields);
+                            showError(error, message, emptyFields);
+                        }
                     },
                 });
             },
@@ -439,11 +445,13 @@ $(function () {
                 message = jqXHR.responseJSON.message;
                 fields = jqXHR.responseJSON.fields;
 
-                fields.forEach(async function (field) {
-                    emptyFields.push($(`#${field}`)[0]);
-                });
+                if(fields){
+                    fields.forEach(async function (field) {
+                        emptyFields.push($(`#${field}`)[0]);
+                    });
 
-                showError(error, message, emptyFields);
+                    showError(error, message, emptyFields);
+                }
             },
         });
     });
@@ -532,13 +540,14 @@ $(function () {
             error: async function (jqXHR, textStatus, errorThrown) {
                 message = jqXHR.responseJSON.message;
                 fields = jqXHR.responseJSON.fields;
-                console.log(fields);
+                
+                if(fields){
+                    fields.forEach(async function (field) {
+                        emptyFields.push($(`#${field}`)[0]);
+                    });
 
-                fields.forEach(async function (field) {
-                    emptyFields.push($(`#${field}`)[0]);
-                });
-
-                showError(error, message, emptyFields);
+                    showError(error, message, emptyFields);
+                }
             },
         });
     });
