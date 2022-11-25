@@ -82,6 +82,50 @@ function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
     };
 }
 
+function filter() {
+    var searchBar = $("#filter-search").val();
+    var typeBar = $("#dropdown-selected").html();
+    $("#table-filter-refresh i").addClass("bx-spin");
+
+    $("#table-filter-apply").attr("disabled", true);
+
+    // Cheats the empty search bar
+    if (!searchBar) {
+        searchBar = "empty";
+    }
+
+    if (searchBar == "empty" && typeBar == "Type") {
+        getAllTransactions(true);
+    } else {
+        $.ajax({
+            url: `/searchTransactions=${typeBar}&${searchBar}`,
+            type: "GET",
+            processData: false,
+            contentType: false,
+            headers: { "Content-Type": "application/json" },
+            success: function (items) {
+                Transactions = [];
+
+                var dfd = $.Deferred().resolve();
+
+                items.forEach(function (trans) {
+                    dfd = dfd.then(function () {
+                        return pushTransaction(trans);
+                    });
+                });
+
+                dfd.done(function () {
+                    w2ui["transaction-grid"].records = Transactions.reverse();
+                    w2ui["transaction-grid"].refresh();
+
+                    $("#table-filter-apply").attr("disabled", false);
+                    $("#table-filter-refresh i").removeClass("bx-spin");
+                });
+            },
+        });
+    }
+}
+
 // On document ready
 $(function () {
     $("#transaction-grid").w2grid({
@@ -117,8 +161,8 @@ $(function () {
 
     getAllTransactions(true);
 
-    $("#table-filter-refresh").click(function () {
-        getAllTransactions(true);
+    $("#table-filter-refresh, #table-filter-apply").click(function () {
+        filter();
     });
 
     $(".dropdown-type").click(function () {
@@ -133,55 +177,8 @@ $(function () {
         $("#dropdown-selected").html("Type");
     });
 
-    $("#table-filter-apply").click(function () {
-        var searchBar = $("#filter-search").val();
-        var typeBar = $("#dropdown-selected").html();
-
-        $("#table-filter-apply").attr("disabled", true);
-
-        // Cheats the empty search bar
-        if (!searchBar) {
-            searchBar = "empty";
-        }
-
-        if (searchBar == "empty" && typeBar == "Type") {
-            getAllTransactions(true);
-        } else {
-            $.ajax({
-                url: `/searchTransactions=${typeBar}&${searchBar}`,
-                type: "GET",
-                processData: false,
-                contentType: false,
-                headers: { "Content-Type": "application/json" },
-                success: function (items) {
-                    Transactions = [];
-
-                    var dfd = $.Deferred().resolve();
-
-                    items.forEach(function (trans) {
-                        dfd = dfd.then(function () {
-                            return pushTransaction(trans);
-                        });
-                    });
-
-                    dfd.done(function () {
-                        w2ui["transaction-grid"].records = Transactions.reverse();
-                        w2ui["transaction-grid"].refresh();
-
-                        $("#table-filter-apply").attr("disabled", false);
-                    });
-                },
-            });
-        }
-    });
-
     $(window).resize(function () {
         console.log("refresh/resize");
         w2ui["transaction-grid"].refresh();
     });
 });
-
-// $(window).resize(function () {
-//     console.log("refresh/resize");
-//     w2ui["transaction-grid"].refresh();
-// });
