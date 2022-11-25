@@ -111,19 +111,19 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
         success: function (items) {
             for (var product of items) {
                 if (
-                    ((product.type == $("#dropdown-type-select").text() || type == 0) &&
-                        (product.classification == $("#dropdown-classification-select").text() ||
-                            classification == 0) &&
-                        (product.status == $("#dropdown-status-select").text() || status == 0) &&
-                        ((product.weight >= $("#weight-min").val() &&
-                            product.weight <= $("#weight-max").val()) ||
-                            weight == 0) &&
-                        ((product.size >= $("#size-min").val() &&
-                            product.size <= $("#size-max").val()) ||
-                            size == 0) &&
-                        (product.name.toLowerCase().search(check) != -1 ||
-                            product.code.toLowerCase().search(check) != -1)) ||
-                    check == ""
+                    (product.type == $("#dropdown-type-select").text() || type == 0) &&
+                    (product.classification == $("#dropdown-classification-select").text() ||
+                        classification == 0) &&
+                    (product.status == $("#dropdown-status-select").text() || status == 0) &&
+                    ((product.weight >= $("#weight-min").val() &&
+                        product.weight <= $("#weight-max").val()) ||
+                        weight == 0) &&
+                    ((product.size >= $("#size-min").val() &&
+                        product.size <= $("#size-max").val()) ||
+                        size == 0) &&
+                    (product.name.toLowerCase().search(check) != -1 ||
+                        product.code.toLowerCase().search(check) != -1) //||
+                    //check == ""
                 ) {
                     Specified.push(
                         new item(
@@ -611,6 +611,13 @@ $(function () {
         if ($("#size-min").val() == "" || $("#size-max").val() == "") {
             var size = 0;
         }
+        console.log("in apply on click");
+        console.log(type);
+        console.log(classification);
+        console.log(status);
+        console.log(weight);
+        console.log(size);
+
         getSpecifiedItems(true, classification, type, status, weight, size);
     });
 
