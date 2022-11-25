@@ -27,8 +27,8 @@
     margin: 0;
     padding: 0;
 
-    background-color: #484848;
-    color: white;
+    background-color: var(--clr-table-bg);
+    color: var(--clr-table-color);
 
     border-right: none;
     border-bottom: none;
@@ -87,4 +87,8 @@
 }
 .w2ui-sort-down {
     /*Modifies the sort button (arrow) of the columns*/
+}
+
+.w2ui-reset .w2ui-grid .w2ui-inactive {
+    margin-left: 60px;
 }

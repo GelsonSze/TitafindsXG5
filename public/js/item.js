@@ -160,7 +160,7 @@ function getTransactions(refreshGrid = false) {
 function getItem() {
     var item_code = window.location.pathname.split("/").pop();
     $.ajax({
-        url: "/getItem=" + item_code,
+        url: `/getItem=${item_code}`,
         type: "GET",
         processData: false,
         contentType: false,

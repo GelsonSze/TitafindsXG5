@@ -39,7 +39,7 @@ window.addEventListener("load", function (e) {
                 showError(error, "Invalid username or password.", fields);
                 return;
             }
-            if (res.status == 200) this.window.location.href = window.location.origin + "/";
+            if (res.status == 200) window.location.replace(window.location.origin + "/");
         })
         .catch((err) => console.log(err));
     });

@@ -9,6 +9,7 @@ const transactionController = {
             title: "Transactions",
             styles: ["pages/index.css", "general/w2ui-overrides.css"],
             scripts: ["transaction.js"],
+            user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });
     },
 

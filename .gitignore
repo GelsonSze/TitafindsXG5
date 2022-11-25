@@ -2,8 +2,8 @@
 .DS_Store
 .vscode
 .vscode/
-public/items
-!public/items/default.png
+public/product-images
+!public/product-images/default.png
 
 # Logs
 logs

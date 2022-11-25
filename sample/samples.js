@@ -2,7 +2,7 @@ import testController from "./testController.js";
 
 var samples = [
     {
-        image: "test.png",
+        image: "product-images/sample-product1.jpg",
         code: "N1234",
         name: "Phoenix Necklace",
         type: "Necklace",
@@ -21,7 +21,7 @@ var samples = [
         addedBy: "admin",
     },
     {
-        image: "test.png",
+        image: "product-images/sample-product2.jpg",
         code: "N5678",
         name: "Saudi Gold Tiffany Necklace",
         type: "Necklace",
@@ -40,7 +40,7 @@ var samples = [
         addedBy: "admin",
     },
     {
-        image: "test.png",
+        image: "product-images/sample-product3.jpg",
         code: "C789",
         name: "VVsplChristian Dior Saudi Gold Cadena Chain",
         type: "Chain",

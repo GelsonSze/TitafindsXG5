@@ -2,7 +2,7 @@
 import Item from "../model/schemas/Item.js";
 import db from "../model/db.js";
 import { generateItemCode, isEmptyOrSpaces } from "../utils/helper.js";
-import { upload } from "../utils/multer.js";
+import { ImageDirectory } from "../utils/multer.js";
 
 const itemController = {
     // The dashboard or inventory page
@@ -11,20 +11,22 @@ const itemController = {
             title: "index",
             styles: ["pages/index.css", "general/w2ui-overrides.css", "general/popup.css"],
             scripts: ["index.js"],
+            user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });
     },
 
-    // Redirects to home page
-    homeRedirect: function (req, res) {
-        res.redirect("/");
-    },
+    // // Redirects to home page
+    // homeRedirect: function (req, res) {
+    //     res.redirect("/");
+    // },
 
     itemDetails: function (req, res) {
         res.render("item", {
             title: "Product",
             code: req.body.code,
-            styles: ["pages/item.css", "general/w2ui-overrides.css"],
+            styles: ["pages/item.css", "general/w2ui-overrides.css", "general/popup.css"],
             scripts: ["item.js"],
+            user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });
     },
 
@@ -43,7 +45,7 @@ const itemController = {
 
             // Placeholder for price value in global config setting
             var price = 1;
-            var image = "test.png";
+            var image = `${ImageDirectory}/default.png`;
             var error = "";
             var errorFields = [];
 
@@ -55,7 +57,7 @@ const itemController = {
             }
 
             var addedItem = {
-                image: image ?? "test.png",
+                image: image,
                 code: req.body.code,
                 name: req.body.name,
                 description: req.body.description,
@@ -163,9 +165,15 @@ const itemController = {
                 return;
             }
 
-            db.findOne(Item, { code: req.params.code }, {}, async function (data) {
-                res.status(200).json(await data);
+            db.findOne(Item, {code:req.params.code}, {}, async function(data) {
+                if (data){
+                    res.status(200).json(await data);
+                }
+                else {
+                    res.status(400).json({message: "Invalid Product Code.", fields: ["code"]});
+                }
             });
+
         } catch (err) {
             res.status(500).json({ message: "Server Error: Get Item", details: err });
             return;
@@ -190,10 +198,59 @@ const itemController = {
         }
     },
 
-    // //TO BE REMOVED:
-    // addItemSamples: async function (data) {
-    //     await Item.insertMany(data);
-    // },
+    restockItem: async function (req, res) {
+        var error = "";        
+        var quantity = req.body.quantity;
+        var item = await Item.findOne({code: req.body.code});
+        console.log(quantity);
+
+        if (isNaN(quantity)) {
+            error = "Quantity inputted is not a number.";
+        }
+        else if (!(isNaN(quantity)) && quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number.";
+        }
+        else if (quantity == 0){
+            error = "Quantity is 0.";
+        }
+        else {
+            db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: req.body.quantity}}, function (data) {
+                res.status(200).json(data);
+            });
+            return;
+        }
+        res.status(400).json({message: error, fields: ["restock-quantity"]});
+    },
+
+    sellItem: async function (req, res) {
+        var error = "";        
+        var quantity = req.body.quantity;
+        var item = await Item.findOne({code: req.body.code});
+
+        if (isNaN(quantity)) {
+            error = "Quantity inputted is not a number.";
+        }
+        else if(!(isNaN(quantity)) && quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number.";
+        }
+        else if (quantity == 0) {
+            error = "Quantity is 0.";
+        }
+        else if (item.quantity == 0){
+            error = "No available stock.";
+        }
+        else if ( (item.quantity - quantity) < 0) {
+            error = "Insufficient stock.";
+        }
+        else {
+            quantity = -Math.abs(req.body.quantity);
+            db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: quantity}}, function (data) {
+                res.status(200).json(data);
+            });
+            return;
+        }
+        res.status(400).json({message: error, fields: ["sell-quantity"]});
+    },
 };
 
 export default itemController;

@@ -1,4 +1,5 @@
 var Items = [];
+var AddPopupQuantity = 0;
 
 /**
  * Request data from the server and if refreshGrid is true,
@@ -6,33 +7,37 @@ var Items = [];
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
  */
 function getAllItems(refreshGrid = false) {
-    $.ajax({
-        url: "/getItems",
-        type: "GET",
-        processData: false,
-        contentType: false,
-        headers: {
-            "Content-Type": "application/json",
-        },
-        success: function (items) {
-            Items = [];
+    try{
+        $.ajax({
+            url: "/getItems",
+            type: "GET",
+            processData: false,
+            contentType: false,
+            headers: {
+                "Content-Type": "application/json",
+            },
+            success: function (items) {
+                Items = [];
 
-            var dfd = $.Deferred().resolve();
+                var dfd = $.Deferred().resolve();
 
-            items.forEach(function (product) {
-                dfd = dfd.then(function () {
-                    return pushItem(product);
+                items.forEach(function (product) {
+                    dfd = dfd.then(function () {
+                        return pushItem(product);
+                    });
                 });
-            });
 
-            dfd.done(function () {
-                if (refreshGrid) {
-                    w2ui["item-grid"].records = Items;
-                    w2ui["item-grid"].refresh();
-                }
-            });
-        },
-    });
+                dfd.done(function () {
+                    if (refreshGrid) {
+                        w2ui["item-grid"].records = Items;
+                        w2ui["item-grid"].refresh();
+                    }
+                });
+            },
+        });
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 function item(
@@ -145,6 +150,24 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
         },
     });
 }
+function increase() {
+    AddPopupQuantity = $("#add-popup #quantity").val();
+    if (!isNaN(AddPopupQuantity)) {
+        AddPopupQuantity = Number(AddPopupQuantity);
+        AddPopupQuantity += 1;
+        $("#add-popup #quantity").val(AddPopupQuantity);
+    }
+}
+
+function decrease() {
+    AddPopupQuantity = $("#add-popup #quantity").val();
+    if (!isNaN(AddPopupQuantity) && AddPopupQuantity > 0) {
+        AddPopupQuantity = Number($("#add-popup #quantity").val());
+        AddPopupQuantity -= 1;
+        $("#add-popup #quantity").val(AddPopupQuantity);
+    }
+}
+
 // On document ready
 $(function () {
     $("#weight-min").val(0);
@@ -167,7 +190,7 @@ $(function () {
                 size: "7%",
                 render: function (record, extra) {
                     var html =
-                        '<img id="w2ui-image" src="img/' +
+                        '<img id="w2ui-image" src="/img/' +
                         record.image +
                         '" alt="' +
                         record.image +
@@ -214,17 +237,17 @@ $(function () {
                 sortable: true,
             },
             { field: "status", text: "Status", size: "7%", sortable: true },
-            {
-                field: "edit",
-                size: "5%",
-                render: function (record, extra) {
-                    var html =
-                        '<button type="button" class="table-edit-btn" id="rec-' +
-                        record.code +
-                        '">Edit</button>';
-                    return html;
-                },
-            },
+            // {
+            //     field: "edit",
+            //     size: "5%",
+            //     render: function (record, extra) {
+            //         var html =
+            //             '<button type="button" class="table-edit-btn" id="rec-' +
+            //             record.code +
+            //             '">Edit</button>';
+            //         return html;
+            //     },
+            // },
         ],
         records: Items,
         onDblClick: function (recid) {
@@ -233,36 +256,227 @@ $(function () {
             var record = w2ui["item-grid"].get(recid.recid);
             //console.log(record)
 
-            window.location.href = "/item/" + record.code;
+            window.open(`/item/${record.code}`, "_blank");
         },
     });
 
+    $("#restock-popup").popup({
+        blur: false /* pop-up must be only closed with X button, not by clicking outside */,
+    });
+
+    $("#restock-popup .restock-popup_close").on("click", async function () {
+        $("#restock-popup #restock-form")[0].reset();
+    });
+
+    $("#restock-popup form .command :reset").on("click", async function () {
+        $("#restock-popup #restock-form")[0].reset();
+        $("#restock-popup").popup("hide");
+    });
+
+    $("#restock-popup form .command :submit").on("click", function (e) {
+        e.preventDefault();
+
+        var codeField = $("#restock-popup #code")[0];
+        var quantityField = $("#restock-popup #restock-quantity")[0];
+        var error = $("#restock-popup .text-error")[0];
+
+        var fields = [codeField, quantityField];
+        var emptyFields = [];
+
+        fields.forEach(async function (field) {
+            if (isEmptyOrSpaces(field.value)) {
+                emptyFields.push(field);
+            }
+        });
+
+        if (emptyFields.length > 0) {
+            showError(error, "Please fill out all the fields.", emptyFields);
+            return;
+        }
+
+        const code = $("#restock-popup #code").val();
+        const data = new FormData($("#restock-form")[0]);
+        var recID = w2ui["item-grid"].find({ code: code });
+        recID = recID[0];
+
+        $.ajax({
+            url: `/getItem=${code}`,
+            type: "GET",
+            processData: false,
+            contentType: false,
+
+            success: async function (foundData) {
+                $.ajax({
+                    url: "/restockItem",
+                    data: data,
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+
+                    success: async function (foundData) {
+                        $.ajax({
+                            url: `/getItem=${code}`,
+                            type: "GET",
+                            processData: false,
+                            contentType: false,
+
+                            success: async function (foundData) {
+                                w2ui["item-grid"].set(recID, { quantity: foundData.quantity });
+                            },
+                        });
+
+                        $("#restock-popup #restock-form")[0].reset();
+                        $("#restock-popup").popup("hide");
+                    },
+
+                    error: async function (jqXHR, textStatus, errorThrown) {
+                        message = jqXHR.responseJSON.message;
+                        fields = jqXHR.responseJSON.fields;
+
+                        fields.forEach(async function (field) {
+                            emptyFields.push($(`#${field}`)[0]);
+                        });
+
+                        showError(error, message, emptyFields);
+                    },
+                });
+            },
+
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                fields = jqXHR.responseJSON.fields;
+
+                fields.forEach(async function (field) {
+                    emptyFields.push($(`#${field}`)[0]);
+                });
+
+                showError(error, message, emptyFields);
+            },
+        });
+    });
+
+    $("#sell-popup").popup({
+        blur: false,
+    });
+
+    $("#sell-popup .sell-popup_close").on("click", function () {
+        $("#sell-popup #sell-form")[0].reset();
+    });
+
+    $("#sell-popup form .command :reset").on("click", function () {
+        $("#sell-popup #sell-form")[0].reset();
+        $("#sell-popup").popup("hide");
+    });
+
+    $("#sell-popup form .command :submit").on("click", function (e) {
+        e.preventDefault();
+
+        var codeField = $("#sell-popup #code")[0];
+        var quantityField = $("#sell-popup #sell-quantity")[0];
+        var error = $("#sell-popup .text-error")[0];
+
+        var fields = [codeField, quantityField];
+        var emptyFields = [];
+
+        fields.forEach(async function (field) {
+            if (isEmptyOrSpaces(field.value)) {
+                emptyFields.push(field);
+            }
+        });
+
+        if (emptyFields.length > 0) {
+            showError(error, "Please fill out all the fields.", emptyFields);
+            return;
+        }
+
+        const code = $("#sell-popup #code").val();
+        const data = new FormData($("#sell-form")[0]);
+        var recID = w2ui["item-grid"].find({ code: code });
+        recID = recID[0];
+
+        $.ajax({
+            url: `/getItem=${code}`,
+            type: "GET",
+            processData: false,
+            contentType: false,
+
+            success: async function (foundData) {
+                $.ajax({
+                    url: "/sellItem",
+                    data: data,
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+
+                    success: async function (foundData) {
+                        $.ajax({
+                            url: `/getItem=${code}`,
+                            type: "GET",
+                            processData: false,
+                            contentType: false,
+
+                            success: async function (foundData) {
+                                w2ui["item-grid"].set(recID, { quantity: foundData.quantity });
+                            },
+                        });
+                        $("#sell-popup #sell-form")[0].reset();
+                        $("#sell-popup").popup("hide");
+                    },
+
+                    error: async function (jqXHR, textStatus, errorThrown) {
+                        message = jqXHR.responseJSON.message;
+                        fields = jqXHR.responseJSON.fields;
+
+                        fields.forEach(async function (field) {
+                            emptyFields.push($(`#${field}`)[0]);
+                        });
+
+                        showError(error, message, emptyFields);
+                    },
+                });
+            },
+
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                fields = jqXHR.responseJSON.fields;
+
+                fields.forEach(async function (field) {
+                    emptyFields.push($(`#${field}`)[0]);
+                });
+
+                showError(error, message, emptyFields);
+            },
+        });
+    });
+
     /* pop-up must be only closed with X button, not by clicking outside */
-    $("#popup").popup({
+    $("#add-popup").popup({
         blur: false,
     });
 
     /* clicking on the X button of the popup clears the form */
-    $("#popup .popup_close").on("click", function () {
-        $("#popup #form")[0].reset();
-        $("#image-preview").attr("src", "/img/test.png");
+
+    $("#add-popup .add-popup_close").on("click", function () {
+        $("#add-popup #add-form")[0].reset();
+        $("#image-preview").attr("src", "/img/product-images/default.png");
     });
 
-    $("#popup form .command :reset").on("click", function (e) {
-        $("#popup").popup("hide");
-        $("#image-preview").attr("src", "/img/test.png");
+    $("#add-popup form .command :reset").on("click", function (e) {
+        $("#add-popup #add-form")[0].reset();
+        $("#image-preview").attr("src", "/img/product-images/default.png");
+        $("#add-popup").popup("hide");
     });
 
-    $("#popup form .command :submit").on("click", function (e) {
+    $("#add-popup form .command :submit").on("click", function (e) {
         e.preventDefault();
 
-        var name = $("#name")[0];
-        var code = $("#code")[0];
-        var type = $("#type")[0];
-        var sellingType = $("#selling-type")[0];
-        var weight = $("#weight")[0]; // required if selling type is per gram
-        var quantity = $("#quantity")[0];
-        var error = $(".text-error")[0];
+        var name = $("#add-popup #name")[0];
+        var code = $("#add-popup #code")[0];
+        var type = $("#add-popup #type")[0];
+        var sellingType = $("#add-popup #selling-type")[0];
+        var weight = $("#add-popup #weight")[0]; // required if selling type is per gram
+        var quantity = $("#add-popup #quantity")[0];
+        var error = $("#add-popup .text-error")[0];
 
         let fields = [name, code, type, sellingType, quantity];
 
@@ -286,7 +500,7 @@ $(function () {
             return;
         }
 
-        const data = new FormData($("#form")[0]);
+        const data = new FormData($("#add-form")[0]);
         data.append("dateAdded", new Date());
         data.append("dateUpdated", new Date());
 
@@ -304,7 +518,6 @@ $(function () {
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
-
         $.ajax({
             url: "/addItem",
             data: data,
@@ -312,28 +525,14 @@ $(function () {
             processData: false,
             contentType: false,
 
-            success: async function (data) {
-                if (data) {
-                    console.log("success");
-
-                    // Adds record to transactions
-                    // $.ajax({
-                    //     url: "/addTransaction",
-                    //     data: trans_data,
-                    //     type: "POST",
-                    //     success: async function (data) {
-                    //         console.log("New transaction added");
-                    //     },
-                    // });
-
-                    Items = [];
-                    getAllItems(true);
-                    console.log("reloaded");
-                    $("#popup").popup("hide");
-
-                    // Reset form after successful submit
-                    $("#popup #form")[0].reset();
-                }
+            success: async function (foundData) {
+                console.log("success");
+                Items = [];
+                getAllItems(true);
+                console.log("reloaded");
+                $("#add-popup #add-form")[0].reset();
+                $("#add-popup").popup("hide");
+                $("#image-preview").attr("src", "/img/product-images/default.png");
             },
 
             error: async function (jqXHR, textStatus, errorThrown) {
@@ -352,16 +551,29 @@ $(function () {
     //on change of image
     $("#image").on("change", function () {
         try {
-            if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $("#image-preview").attr("src", e.target.result);
-                };
-                reader.readAsDataURL(this.files[0]);
-            } else {
-                showError($(".text-error")[0], "Please select an image file", [
-                    $("#image-preview")[0],
-                ]);
+            if(this.files[0]){
+                //console.log(this.files[
+                if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
+                    if(this.files[0].size <= 1024 * 1024 * 5){
+                        //add in here validation for size
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("#image-preview").attr("src", e.target.result);
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    }
+                    else{
+                        $("#add-popup #image").val("");
+                        showError($("#add-popup .text-error")[0], "Image file exceeds 5mb", [
+                            $("#image-preview")[0],
+                        ]);
+                    }
+                } else {
+                    $("#add-popup #image").val("");
+                    showError($("#add-popup .text-error")[0], "Please select an image file", [
+                        $("#image-preview")[0],
+                    ]);
+                }
             }
         } catch (err) {
             console.log(err);
@@ -418,18 +630,22 @@ $(function () {
 
     //hover on image
     $(document).on("mouseover", "#w2ui-image", function (e) {
-        console.log(e.target.src);
+        // console.log(e.target.src);
         $("#w2ui-enlarged-image").attr("src", e.target.src);
         $("#w2ui-enlarged-image").css("display", "block");
     });
     //leave hover on image
     $(document).on("mouseleave", "#w2ui-image", function (e) {
-        console.log("leave");
+        // console.log("leave");
         $("#w2ui-enlarged-image").css("display", "none");
     });
-});
-
-$(window).resize(function () {
-    console.log("refresh/resize");
-    w2ui["item-grid"].refresh();
+    //refresh grid when window is resized
+    var resizeTimer;
+    $(window).resize(function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+            // console.log("refresh/resize");
+            w2ui["item-grid"].refresh();
+        }, 510);
+    });
 });
