@@ -12,11 +12,11 @@ const transactionSchema = new mongoose.Schema({
     },
 
     code: {
-        type: String
+        type: String,
     },
 
     name: {
-        type: String
+        type: String,
     },
 
     description: {

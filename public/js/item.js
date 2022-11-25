@@ -123,15 +123,14 @@ function getTransactions(refreshGrid = false) {
         },
     });
 
-
     $.ajax({
-        url: `/searchTransactions=${'Type'}&${itemCode}`,
+        url: `/searchTransactions=${"Type"}&${itemCode}`,
         type: "GET",
         processData: false,
         contentType: false,
         headers: { "Content-Type": "application/json" },
         success: function (items) {
-            console.log(items)
+            console.log(items);
             Transactions = [];
 
             var dfd = $.Deferred().resolve();
@@ -150,7 +149,6 @@ function getTransactions(refreshGrid = false) {
             });
         },
     });
-
 }
 
 /**

@@ -7,7 +7,7 @@ var AddPopupQuantity = 0;
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
  */
 function getAllItems(refreshGrid = false) {
-    try{
+    try {
         $.ajax({
             url: "/getItems",
             type: "GET",
@@ -551,18 +551,17 @@ $(function () {
     //on change of image
     $("#image").on("change", function () {
         try {
-            if(this.files[0]){
+            if (this.files[0]) {
                 //console.log(this.files[
                 if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
-                    if(this.files[0].size <= 1024 * 1024 * 5){
+                    if (this.files[0].size <= 1024 * 1024 * 5) {
                         //add in here validation for size
                         var reader = new FileReader();
                         reader.onload = function (e) {
                             $("#image-preview").attr("src", e.target.result);
                         };
                         reader.readAsDataURL(this.files[0]);
-                    }
-                    else{
+                    } else {
                         $("#add-popup #image").val("");
                         showError($("#add-popup .text-error")[0], "Image file exceeds 5mb", [
                             $("#image-preview")[0],

@@ -25,7 +25,6 @@ app.post("/restockItem", upload.any(), itemController.restockItem);
 app.post("/sellItem", upload.any(), itemController.sellItem);
 app.get("/getItems", itemController.getItems);
 
-
 // The login page
 app.get("/login", checkNoAuth, userController.login);
 

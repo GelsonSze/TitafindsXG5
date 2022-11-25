@@ -227,7 +227,7 @@ function formatDate2(d) {
  * Returns formatted date 'Day Mon dd yyyy, hh:mm {am|pm}'
  * @param  {Date} d - the date to be formatted
  */
-function formatDate(d) {    
+function formatDate(d) {
     //include 0 if the year is less than 10
     const year = d.getFullYear() < 10 ? "0" + d.getFullYear() : d.getFullYear();
     //include 0 if the month is less than 10

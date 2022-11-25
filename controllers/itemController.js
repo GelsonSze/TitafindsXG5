@@ -165,15 +165,13 @@ const itemController = {
                 return;
             }
 
-            db.findOne(Item, {code:req.params.code}, {}, async function(data) {
-                if (data){
+            db.findOne(Item, { code: req.params.code }, {}, async function (data) {
+                if (data) {
                     res.status(200).json(await data);
-                }
-                else {
-                    res.status(400).json({message: "Invalid Product Code.", fields: ["code"]});
+                } else {
+                    res.status(400).json({ message: "Invalid Product Code.", fields: ["code"] });
                 }
             });
-
         } catch (err) {
             res.status(500).json({ message: "Server Error: Get Item", details: err });
             return;
@@ -199,57 +197,59 @@ const itemController = {
     },
 
     restockItem: async function (req, res) {
-        var error = "";        
+        var error = "";
         var quantity = req.body.quantity;
-        var item = await Item.findOne({code: req.body.code});
+        var item = await Item.findOne({ code: req.body.code });
         console.log(quantity);
 
         if (isNaN(quantity)) {
             error = "Quantity inputted is not a number.";
-        }
-        else if (!(isNaN(quantity)) && quantity % 1 != 0){
+        } else if (!isNaN(quantity) && quantity % 1 != 0) {
             error = "Quantity inputted is not a whole number.";
-        }
-        else if (quantity == 0){
+        } else if (quantity == 0) {
             error = "Quantity is 0.";
-        }
-        else {
-            db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: req.body.quantity}}, function (data) {
-                res.status(200).json(data);
-            });
+        } else {
+            db.updateOne(
+                Item,
+                { code: req.body.code },
+                { $inc: { quantity: req.body.quantity } },
+                function (data) {
+                    res.status(200).json(data);
+                }
+            );
             return;
         }
-        res.status(400).json({message: error, fields: ["restock-quantity"]});
+        res.status(400).json({ message: error, fields: ["restock-quantity"] });
     },
 
     sellItem: async function (req, res) {
-        var error = "";        
+        var error = "";
         var quantity = req.body.quantity;
-        var item = await Item.findOne({code: req.body.code});
+        var item = await Item.findOne({ code: req.body.code });
 
         if (isNaN(quantity)) {
             error = "Quantity inputted is not a number.";
-        }
-        else if(!(isNaN(quantity)) && quantity % 1 != 0){
+        } else if (!isNaN(quantity) && quantity % 1 != 0) {
             error = "Quantity inputted is not a whole number.";
-        }
-        else if (quantity == 0) {
+        } else if (quantity == 0) {
             error = "Quantity is 0.";
-        }
-        else if (item.quantity == 0){
+        } else if (item.quantity == 0) {
             error = "No available stock.";
-        }
-        else if ( (item.quantity - quantity) < 0) {
+        } else if (item.quantity - quantity < 0) {
             error = "Insufficient stock.";
-        }
-        else {
+        } else {
             quantity = -Math.abs(req.body.quantity);
-            db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: quantity}}, function (data) {
-                res.status(200).json(data);
-            });
+            db.updateOne(
+                Item,
+                { code: req.body.code },
+                { $inc: { quantity: quantity } },
+                function (data) {
+                    res.status(200).json(data);
+                }
+            );
             return;
         }
-        res.status(400).json({message: error, fields: ["sell-quantity"]});
+        res.status(400).json({ message: error, fields: ["sell-quantity"] });
     },
 };
 
