@@ -127,7 +127,7 @@ main {
     cursor: pointer;
 }
 
-#table-filter-apply, #table-filter-clear {
+.table-filter {
     background-color: #866a69;
 
     border: none;
@@ -143,6 +143,10 @@ main {
 
     padding: 4px 8px;
     text-decoration: none;
+}
+
+#table-filter-refresh {
+    font-size: 18px;
 }
 
 

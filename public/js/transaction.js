@@ -123,7 +123,7 @@ $(function () {
     getAllTransactions(true);
 
 
-    $(".refresh-button").click(function () {
+    $("#table-filter-refresh").click(function () {
         getAllTransactions(true);
     });
 
