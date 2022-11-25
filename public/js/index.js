@@ -230,10 +230,10 @@ $(function () {
             success: async function (foundData) {
                 $.ajax({
                     url: "/restockItem",
-                    data: data,
+                    data: JSON.stringify(Object.fromEntries(data)),
                     type: "POST",
                     processData: false,
-                    contentType: false,
+                    contentType: "application/json; charset=utf-8",
 
                     success: async function (foundData) {
                         $.ajax({
@@ -242,8 +242,8 @@ $(function () {
                             processData: false,
                             contentType: false,
 
-                            success: async function (foundData) {
-                                w2ui["item-grid"].set(recID, { quantity: foundData.quantity });
+                            success: async function (newData) {
+                                w2ui["item-grid"].set(recID, { quantity: newData.quantity });
                             },
                         });
 
@@ -325,10 +325,10 @@ $(function () {
             success: async function (foundData) {
                 $.ajax({
                     url: "/sellItem",
-                    data: data,
+                    data: JSON.stringify(Object.fromEntries(data)),
                     type: "POST",
                     processData: false,
-                    contentType: false,
+                    contentType: "application/json; charset=utf-8",
 
                     success: async function (foundData) {
                         $.ajax({
@@ -337,8 +337,8 @@ $(function () {
                             processData: false,
                             contentType: false,
 
-                            success: async function (foundData) {
-                                w2ui["item-grid"].set(recID, { quantity: foundData.quantity });
+                            success: async function (newData) {
+                                w2ui["item-grid"].set(recID, { quantity: newData.quantity });
                             },
                         });
                         $("#sell-popup #sell-form")[0].reset();
@@ -424,9 +424,11 @@ $(function () {
         data.append("dateAdded", new Date());
         data.append("dateUpdated", new Date());
 
+        //TO BE REMOVED
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
+
         $.ajax({
             url: "/addItem",
             data: data,
@@ -459,7 +461,7 @@ $(function () {
     //on change of image
     $("#image").on("change", function () {
         try {
-            if(this.files[0]){
+            if (this.files[0]) {
                 console.log(this.files[0]);
                 console.log($(".text-error"));
                 if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {

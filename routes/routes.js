@@ -10,8 +10,8 @@ const app = express();
 // The inventory page (currently the home page)
 app.get("/", [viewPage, checkAuth, itemController.home]);
 app.post("/addItem", [checkAuth, upload.single("image"), itemController.addItem]);
-app.post("/restockItem", [upload.any(), itemController.restockItem]);
-app.post("/sellItem", [upload.any(), itemController.sellItem]);
+app.post("/restockItem", [itemController.restockItem]);
+app.post("/sellItem", [itemController.sellItem]);
 app.get("/getItems", [checkAuth, itemController.getItems]);
 
 // The login page

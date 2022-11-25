@@ -22,6 +22,7 @@ const testController = {
                 firstName: "admin",
                 lastName: "admin",
                 isAdmin: true,
+                dateCreated: new Date(),
             });
 
             //Hash the password
