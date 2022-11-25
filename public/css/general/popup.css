@@ -1,6 +1,6 @@
 .popup_content {
     margin: 5%;
-    padding: 2%;
+    padding: 20px;
     border: 2px solid #444;
     background: white;
 }
@@ -16,19 +16,25 @@
     margin: 10px;
 }
 
-#popup {
+#add-popup,
+#restock-popup,
+#sell-popup {
     border-radius: 8px;
     border-color: transparent;
     font-family: "Inter Bold";
     color: black;
 }
 
-#popup h1 {
+#add-popup h1,
+#restock-popup h1,
+#sell-popup h1 {
     text-align: center;
     color: black;
 }
 
-#popup label {
+#add-popup label,
+#restock-popup label,
+#sell-popup label {
     font-family: "Inter Medium";
     text-transform: none;
     font-size: 11px;
@@ -36,22 +42,44 @@
     margin-bottom: 4px;
 }
 
-#popup button {
+#add-popup button,
+#restock-popup button,
+#sell-popup button {
     border-radius: 8px;
     border-color: transparent;
     color: white;
     background: #716f6f;
 }
 
-#popup textarea {
+#add-popup textarea,
+#restock-popup textarea,
+#sell-popup textarea {
     resize: vertical;
     padding: 5px;
     height: 50px;
+    min-height: 50px;
     max-height: 100px;
     width: 100%;
 }
 
+.restock-sell-common {
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    width: 300px;
+    height: 100px;
+    gap: 15px;
+}
+
+.restock-sell-common .text-error {
+    position: absolute;
+    inset: 0;
+    margin-top: 55px;
+}
+
 #add {
+    display: flex;
+    flex-wrap: nowrap;
     margin: 10px;
 }
 
@@ -133,7 +161,7 @@
 }
 
 #quantity {
-    width: 50px;
+    /* width: 50px; */
     margin: 0 2px;
 }
 
@@ -146,15 +174,20 @@
 #popup-right-wrapper {
     display: flex;
     flex-direction: column;
-
     width: 200px;
+}
+
+.popup-label-image {
+    margin-top: 5px;
 }
 
 button:hover {
     cursor: pointer;
 }
 
-.popup_close {
+.add-popup_close,
+.restock-popup_close,
+.sell-popup_close {
     border-radius: 50%;
     float: right;
 }
@@ -168,4 +201,10 @@ button:hover {
     font-family: "Inter Bold";
     background-color: #9e9e9e;
     margin: 0 10px;
+}
+
+#add-popup input[type="text"],
+#restock-popup input[type="text"],
+#sell-popup input[type="text"] {
+    padding: 5px;
 }

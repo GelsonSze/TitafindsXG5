@@ -1,4 +1,5 @@
 var Items = [];
+var AddPopupQuantity = 0;
 
 /**
  * Request data from the server and if refreshGrid is true,
@@ -71,6 +72,24 @@ function item(
         sellingPrice: sellingPrice,
         status: status,
     };
+}
+
+function increase() {
+    AddPopupQuantity = $("#add-popup #quantity").val();
+    if (!isNaN(AddPopupQuantity)) {
+        AddPopupQuantity = Number(AddPopupQuantity);
+        AddPopupQuantity += 1;
+        $("#add-popup #quantity").val(AddPopupQuantity);
+    }
+}
+
+function decrease() {
+    AddPopupQuantity = $("#add-popup #quantity").val();
+    if (!isNaN(AddPopupQuantity) && AddPopupQuantity > 0) {
+        AddPopupQuantity = Number($("#add-popup #quantity").val());
+        AddPopupQuantity -= 1;
+        $("#add-popup #quantity").val(AddPopupQuantity);
+    }
 }
 
 // On document ready
@@ -163,32 +182,223 @@ $(function () {
         },
     });
 
+    $("#restock-popup").popup({
+        blur: false /* pop-up must be only closed with X button, not by clicking outside */,
+    });
+
+    $("#restock-popup .restock-popup_close").on("click", async function () {
+        $("#restock-popup #restock-form")[0].reset();
+    });
+
+    $("#restock-popup form .command :reset").on("click", async function () {
+        $("#restock-popup #restock-form")[0].reset();
+        $("#restock-popup").popup("hide");
+    });
+
+    $("#restock-popup form .command :submit").on("click", function (e) {
+        e.preventDefault();
+
+        var codeField = $("#restock-popup #code")[0];
+        var quantityField = $("#restock-popup #quantity")[0];
+        var error = $("#restock-popup .text-error")[0];
+
+        var fields = [codeField, quantityField];
+        var emptyFields = [];
+
+        fields.forEach(async function (field) {
+            if (isEmptyOrSpaces(field.value)) {
+                emptyFields.push(field);
+            }
+        });
+
+        if (emptyFields.length > 0) {
+            showError(error, "Please fill out all the fields.", emptyFields);
+            return;
+        }
+
+        const code = $("#restock-popup #code").val();
+        const data = new FormData($("#restock-form")[0]);
+        var recID = w2ui["item-grid"].find({ code: code });
+        recID = recID[0];
+
+        $.ajax({
+            url: `/getItem=${code}`,
+            type: "GET",
+            processData: false,
+            contentType: false,
+
+            success: async function (foundData) {
+                $.ajax({
+                    url: "/restockItem",
+                    data: data,
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+
+                    success: async function (foundData) {
+                        $.ajax({
+                            url: `/getItem=${code}`,
+                            type: "GET",
+                            processData: false,
+                            contentType: false,
+
+                            success: async function (foundData) {
+                                w2ui["item-grid"].set(recID, { quantity: foundData.quantity });
+                            },
+                        });
+
+                        $("#restock-popup #restock-form")[0].reset();
+                        $("#restock-popup").popup("hide");
+                    },
+
+                    error: async function (jqXHR, textStatus, errorThrown) {
+                        message = jqXHR.responseJSON.message;
+                        fields = jqXHR.responseJSON.fields;
+
+                        fields.forEach(async function (field) {
+                            emptyFields.push($(`#${field}`)[0]);
+                        });
+
+                        showError(error, message, emptyFields);
+                    },
+                });
+            },
+
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                fields = jqXHR.responseJSON.fields;
+
+                fields.forEach(async function (field) {
+                    emptyFields.push($(`#${field}`)[0]);
+                });
+
+                showError(error, message, emptyFields);
+            },
+        });
+    });
+
+    $("#sell-popup").popup({
+        blur: false,
+    });
+
+    $("#sell-popup .sell-popup_close").on("click", function () {
+        $("#sell-popup #sell-form")[0].reset();
+    });
+
+    $("#sell-popup form .command :reset").on("click", function () {
+        $("#sell-popup #sell-form")[0].reset();
+        $("#sell-popup").popup("hide");
+    });
+
+    $("#sell-popup form .command :submit").on("click", function (e) {
+        e.preventDefault();
+
+        var codeField = $("#sell-popup #code")[0];
+        var quantityField = $("#sell-popup #quantity")[0];
+        var error = $("#sell-popup .text-error")[0];
+
+        var fields = [codeField, quantityField];
+        var emptyFields = [];
+
+        fields.forEach(async function (field) {
+            if (isEmptyOrSpaces(field.value)) {
+                emptyFields.push(field);
+            }
+        });
+
+        if (emptyFields.length > 0) {
+            showError(error, "Please fill out all the fields.", emptyFields);
+            return;
+        }
+
+        const code = $("#sell-popup #code").val();
+        const data = new FormData($("#sell-form")[0]);
+        var recID = w2ui["item-grid"].find({ code: code });
+        recID = recID[0];
+
+        $.ajax({
+            url: `/getItem=${code}`,
+            type: "GET",
+            processData: false,
+            contentType: false,
+
+            success: async function (foundData) {
+                $.ajax({
+                    url: "/sellItem",
+                    data: data,
+                    type: "POST",
+                    processData: false,
+                    contentType: false,
+
+                    success: async function (foundData) {
+                        $.ajax({
+                            url: `/getItem=${code}`,
+                            type: "GET",
+                            processData: false,
+                            contentType: false,
+
+                            success: async function (foundData) {
+                                w2ui["item-grid"].set(recID, { quantity: foundData.quantity });
+                            },
+                        });
+                        $("#sell-popup #sell-form")[0].reset();
+                        $("#sell-popup").popup("hide");
+                    },
+
+                    error: async function (jqXHR, textStatus, errorThrown) {
+                        message = jqXHR.responseJSON.message;
+                        fields = jqXHR.responseJSON.fields;
+
+                        fields.forEach(async function (field) {
+                            emptyFields.push($(`#${field}`)[0]);
+                        });
+
+                        showError(error, message, emptyFields);
+                    },
+                });
+            },
+
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                fields = jqXHR.responseJSON.fields;
+
+                fields.forEach(async function (field) {
+                    emptyFields.push($(`#${field}`)[0]);
+                });
+
+                showError(error, message, emptyFields);
+            },
+        });
+    });
+
     /* pop-up must be only closed with X button, not by clicking outside */
-    $("#popup").popup({
+    $("#add-popup").popup({
         blur: false,
     });
 
     /* clicking on the X button of the popup clears the form */
-    $("#popup .popup_close").on("click", function () {
-        $("#popup #form")[0].reset();
-        $("#image-preview").attr("src", "/img/product-images/default.png");
+
+    $("#add-popup .add-popup_close").on("click", function () {
+        $("#add-popup #add-form")[0].reset();
+        $("#image-preview").attr("src", "/img/items/default.png");
     });
 
-    $("#popup form .command :reset").on("click", function (e) {
-        $("#popup").popup("hide");
-        $("#image-preview").attr("src", "/img/product-images/default.png");
+    $("#add-popup form .command :reset").on("click", function (e) {
+        $("#add-popup #add-form")[0].reset();
+        $("#image-preview").attr("src", "/img/items/default.png");
+        $("#add-popup").popup("hide");
     });
 
-    $("#popup form .command :submit").on("click", function (e) {
+    $("#add-popup form .command :submit").on("click", function (e) {
         e.preventDefault();
 
-        var name = $("#name")[0];
-        var code = $("#code")[0];
-        var type = $("#type")[0];
-        var sellingType = $("#selling-type")[0];
-        var weight = $("#weight")[0]; // required if selling type is per gram
-        var quantity = $("#quantity")[0];
-        var error = $(".text-error")[0];
+        var name = $("#add-popup #name")[0];
+        var code = $("#add-popup #code")[0];
+        var type = $("#add-popup #type")[0];
+        var sellingType = $("#add-popup #selling-type")[0];
+        var weight = $("#add-popup #weight")[0]; // required if selling type is per gram
+        var quantity = $("#add-popup #quantity")[0];
+        var error = $("#add-popup .text-error")[0];
 
         let fields = [name, code, type, sellingType, quantity];
 
@@ -212,14 +422,13 @@ $(function () {
             return;
         }
 
-        const data = new FormData($("#form")[0]);
+        const data = new FormData($("#add-form")[0]);
         data.append("dateAdded", new Date());
         data.append("dateUpdated", new Date());
 
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
-
         $.ajax({
             url: "/addItem",
             data: data,
@@ -227,17 +436,13 @@ $(function () {
             processData: false,
             contentType: false,
 
-            success: async function (flag, status) {
-                if (flag) {
-                    console.log("success");
-                    Items = [];
-                    getAllItems(true);
-                    console.log("reloaded");
-                    $("#popup").popup("hide");
-
-                    // Reset form after successful submit
-                    $("#popup #form")[0].reset();
-                }
+            success: async function (foundData) {
+                console.log("success");
+                Items = [];
+                getAllItems(true);
+                console.log("reloaded");
+                $("#add-popup #add-form")[0].reset();
+                $("#add-popup").popup("hide");
             },
 
             error: async function (jqXHR, textStatus, errorThrown) {

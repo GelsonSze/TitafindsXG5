@@ -122,16 +122,69 @@ const itemController = {
     },
 
     getItem: function (req, res) {
-        db.findOne(Item, { code: req.query.code }, {}, async function (data) {
-            console.log(req.query);
-            res.status(200).json(await data);
+        db.findOne(Item, {code:req.params.code}, {}, async function(data) {
+            if (data){
+                res.status(200).json(await data);
+            }
+            else {
+                res.status(400).json({message: "Invalid Product Code.", fields: ["code"]});
+            }
         });
     },
 
-    // //TO BE REMOVED:
-    // addItemSamples: async function (data) {
-    //     await Item.insertMany(data);
-    // },
+    restockItem: async function (req, res) {
+        var error = "";        
+        var quantity = req.body.quantity;
+        var item = await Item.findOne({code: req.body.code});
+        console.log(quantity);
+
+        if (isNaN(quantity)) {
+            error = "Quantity inputted is not a number.";
+        }
+        else if (!(isNaN(quantity)) && quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number.";
+        }
+        else if (quantity == 0){
+            error = "Quantity is 0.";
+        }
+        else {
+            db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: req.body.quantity}}, function (data) {
+                res.status(200).json(data);
+            });
+            return;
+        }
+        res.status(400).json({message: error, fields: ["quantity"]});
+    },
+
+    sellItem: async function (req, res) {
+        var error = "";        
+        var quantity = req.body.quantity;
+        var item = await Item.findOne({code: req.body.code});
+
+        if (isNaN(quantity)) {
+            error = "Quantity inputted is not a number.";
+        }
+        else if(!(isNaN(quantity)) && quantity % 1 != 0){
+            error = "Quantity inputted is not a whole number.";
+        }
+        else if (quantity == 0) {
+            error = "Quantity is 0.";
+        }
+        else if (item.quantity == 0){
+            error = "No available stock.";
+        }
+        else if ( (item.quantity - quantity) < 0) {
+            error = "Insufficient stock.";
+        }
+        else {
+            quantity = -Math.abs(req.body.quantity);
+            db.updateOne(Item, {code: req.body.code}, {$inc: {quantity: quantity}}, function (data) {
+                res.status(200).json(data);
+            });
+            return;
+        }
+        res.status(400).json({message: error, fields: ["quantity"]});
+    },
 };
 
 export default itemController;
