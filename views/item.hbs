@@ -1,10 +1,12 @@
 <header>
     <nav>
-        {{! <ul>
+        {{!
+        <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/contact">Contact</a></li>
-        </ul> }}
+        </ul>
+        }}
         <div id="main-logo">
             <img src="/img/Titafinds/icon.png" id="icon-logo" />
         </div>
@@ -15,30 +17,22 @@
     <div id="item-page-wrapper">
         <div id="top-wrapper">
             <div id="left-wrapper">
-
                 {{!-- Image and Name --}}
                 <h2>Item Name</h2>
-                <img src="/img/test.png">
-
+                <img src="/img/test.png" />
             </div>
 
             <div id="right-wrapper">
                 <span>Fields</span>
                 {{!-- Attributes / Descriptions --}}
-                <div id="fields-table">
-
-                </div>
+                <div id="fields-table"></div>
             </div>
         </div>
 
         {{!-- Transaction --}}
         <div id="bottom-wrapper">
-            Transactions
-            {{!place code for the w2ui table here }}
-            <div id="itemGrid"></div>
+            Transactions {{!place code for the w2ui table here }}
+            <div id="details-grid" class="w2ui-grid-custom"></div>
         </div>
-
-        
-        
     </div>
 </main>

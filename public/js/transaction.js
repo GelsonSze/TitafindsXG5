@@ -6,8 +6,6 @@ var Transactions = [];
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
  */
 function getAllTransactions(refreshGrid = false) {
-    
-
     $.ajax({
         url: "/getTransactions",
         type: "GET",
@@ -21,22 +19,20 @@ function getAllTransactions(refreshGrid = false) {
 
             var dfd = $.Deferred().resolve();
 
-            items.forEach(function(trans) {
-                dfd = dfd.then(function() {
-                    return pushTransaction(trans)
-                })
-            })
+            items.forEach(function (trans) {
+                dfd = dfd.then(function () {
+                    return pushTransaction(trans);
+                });
+            });
 
-            dfd.done(function() {
+            dfd.done(function () {
                 if (refreshGrid) {
-                    w2ui["itemGrid"].records = Transactions.reverse();
-                    w2ui["itemGrid"].refresh();
+                    w2ui["transaction-grid"].records = Transactions.reverse();
+                    w2ui["transaction-grid"].refresh();
                 }
-                
 
-                $('#table-filter-apply').attr('disabled', false)
-            })
-
+                $("#table-filter-apply").attr("disabled", false);
+            });
         },
     });
 }
@@ -56,7 +52,6 @@ function pushTransaction(trans) {
             "Content-Type": "application/json",
         },
         success: function (item) {
-
             trans.date = formatDate(new Date(trans.date));
             Transactions.push(
                 new transaction(
@@ -69,7 +64,6 @@ function pushTransaction(trans) {
                 )
             );
             dfd.resolve();
-            
         },
     });
 
@@ -90,8 +84,8 @@ function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
 
 // On document ready
 $(function () {
-    $("#itemGrid").w2grid({
-        name: "itemGrid",
+    $("#transaction-grid").w2grid({
+        name: "transaction-grid",
         show: {
             footer: true,
             lineNumbers: true,
@@ -111,17 +105,17 @@ $(function () {
         onDblClick: function (recid) {
             // Redirects to item page
 
-            var record = w2ui["itemGrid"].get(recid.recid);
+            var record = w2ui["transaction-grid"].get(recid.recid);
 
-            // Grabs the last string in description. This is the code.
-            // var code = record.description.split(" ").pop()
+            var strArray = record.description.split(" ");
+            var str = strArray[strArray.length - 1];
+            var code = str.substring(str.indexOf("(") + 1, str.lastIndexOf(")"));
 
-            // window.location.href = "/item/"+code;
+            window.open(`/item/${code}`, "_blank");
         },
     });
 
     getAllTransactions(true);
-
 
     $("#table-filter-refresh").click(function () {
         getAllTransactions(true);
@@ -143,18 +137,16 @@ $(function () {
         var searchBar = $("#filter-search").val();
         var typeBar = $("#dropdown-selected").html();
 
-        $('#table-filter-apply').attr('disabled', true)
+        $("#table-filter-apply").attr("disabled", true);
 
         // Cheats the empty search bar
         if (!searchBar) {
             searchBar = "empty";
         }
 
-        if (searchBar == 'empty' && typeBar == 'Type')
-        {
+        if (searchBar == "empty" && typeBar == "Type") {
             getAllTransactions(true);
-        }
-        else {
+        } else {
             $.ajax({
                 url: `/searchTransactions=${typeBar}&${searchBar}`,
                 type: "GET",
@@ -166,31 +158,30 @@ $(function () {
 
                     var dfd = $.Deferred().resolve();
 
-                    items.forEach(function(trans) {
-                        dfd = dfd.then(function() {
-                            return pushTransaction(trans)
-                        })
-                    })
+                    items.forEach(function (trans) {
+                        dfd = dfd.then(function () {
+                            return pushTransaction(trans);
+                        });
+                    });
 
-                    dfd.done(function() {
-                        w2ui["itemGrid"].records = Transactions.reverse();
-                        w2ui["itemGrid"].refresh();
-    
-                        $('#table-filter-apply').attr('disabled', false)
-                    })
+                    dfd.done(function () {
+                        w2ui["transaction-grid"].records = Transactions.reverse();
+                        w2ui["transaction-grid"].refresh();
+
+                        $("#table-filter-apply").attr("disabled", false);
+                    });
                 },
             });
         }
-        
     });
 
     $(window).resize(function () {
         console.log("refresh/resize");
-        w2ui["itemGrid"].refresh();
+        w2ui["transaction-grid"].refresh();
     });
 });
 
 // $(window).resize(function () {
 //     console.log("refresh/resize");
-//     w2ui["itemGrid"].refresh();
+//     w2ui["transaction-grid"].refresh();
 // });

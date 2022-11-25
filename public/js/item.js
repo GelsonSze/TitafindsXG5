@@ -4,7 +4,21 @@ var Transactions = [];
 /**
  * Constructor for the item file
  */
-function Item(image, name, code, type, classification, length, size, weight, quantity, sellingType, purchasePrice, sellingPrice, status) {
+function Item(
+    image,
+    name,
+    code,
+    type,
+    classification,
+    length,
+    size,
+    weight,
+    quantity,
+    sellingType,
+    purchasePrice,
+    sellingPrice,
+    status
+) {
     return {
         image: image,
         name: name,
@@ -25,25 +39,23 @@ function Item(image, name, code, type, classification, length, size, weight, qua
 /**
  * Constructor for transaction file
  */
-function transaction( date, type, desc,
-    quantity, sellingPrice, transactedBy) 
-{
+function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
     return {
-    recid: Transactions.length + 1,
-    date: date,
-    type: type,
-    description: desc,
-    quantity: quantity,
-    sellingPrice: sellingPrice,
-    transactedBy: transactedBy
-};
+        recid: Transactions.length + 1,
+        date: date,
+        type: type,
+        description: desc,
+        quantity: quantity,
+        sellingPrice: sellingPrice,
+        transactedBy: transactedBy,
+    };
 }
 
 /**
  * This function pushes the transaction of the item in the transaction array
  * @param {Object} trans - transaction object
  */
- function pushTransaction(trans) {
+function pushTransaction(trans) {
     var dfd = $.Deferred();
 
     $.ajax({
@@ -55,7 +67,6 @@ function transaction( date, type, desc,
             "Content-Type": "application/json",
         },
         success: function (item) {
-
             trans.date = formatDate(new Date(trans.date));
             Transactions.push(
                 new transaction(
@@ -68,24 +79,22 @@ function transaction( date, type, desc,
                 )
             );
             dfd.resolve();
-            
         },
     });
 
     return dfd.promise();
 }
 
-
 /**
  * Request data from the server and if refreshGrid is true,
  * render it in the grid.
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
  */
- function getLastFiveTransactions(refreshGrid = false) {
-    var itemCode = window.location.pathname.split("/").pop()
+function getLastFiveTransactions(refreshGrid = false) {
+    var itemCode = window.location.pathname.split("/").pop();
 
-    $("#itemGrid").w2grid({
-        name: "itemGrid",
+    $("#details-grid").w2grid({
+        name: "details-grid",
         show: {
             footer: true,
             lineNumbers: true,
@@ -94,27 +103,25 @@ function transaction( date, type, desc,
         limit: 50,
         recordHeight: 60,
         columns: [
-            { field: "date",         text: "Date",          size: "35%", sortable: true },
-            { field: "type",         text: "Type",          size: "5%", sortable: true },
-            { field: "description",  text: "Description",   size: "40%", sortable: true },
-            { field: "quantity",     text: "Quantity",      size: "3%", sortable: true },
-            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true},
+            { field: "date", text: "Date", size: "35%", sortable: true },
+            { field: "type", text: "Type", size: "5%", sortable: true },
+            { field: "description", text: "Description", size: "40%", sortable: true },
+            { field: "quantity", text: "Quantity", size: "3%", sortable: true },
+            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true },
             { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
         ],
         records: Transactions,
-        onDblClick: function(recid) {
+        onDblClick: function (recid) {
             // Redirects to item page
 
-            var record = w2ui["itemGrid"].get(recid.recid);
-            
-            // Grabs the last string in description. This is the code.
-            var code = record.description.split(" ").pop()
+            var record = w2ui["details-grid"].get(recid.recid);
 
-            window.location.href = "/item/"+code;
+            // Grabs the last string in description. This is the code.
+            var code = record.description.split(" ").pop();
+
+            window.location.href = "/item/" + code;
         },
     });
-
-
 
     $.ajax({
         url: `/getXTransactions=${itemCode}&${5}`,
@@ -126,22 +133,22 @@ function transaction( date, type, desc,
         },
         success: function (items) {
             Transactions = [];
-            console.log(items)
+            console.log(items);
             var dfd = $.Deferred().resolve();
 
-            items.forEach(function(trans) {
-                dfd = dfd.then(function() {
-                    return pushTransaction(trans)
-                })
-            })
+            items.forEach(function (trans) {
+                dfd = dfd.then(function () {
+                    return pushTransaction(trans);
+                });
+            });
 
-            dfd.done(function() {
-                console.log('yay!')
+            dfd.done(function () {
+                console.log("yay!");
                 if (refreshGrid) {
-                    w2ui["itemGrid"].records = Transactions.reverse();
-                    w2ui["itemGrid"].refresh();
+                    w2ui["details-grid"].records = Transactions.reverse();
+                    w2ui["details-grid"].refresh();
                 }
-            })
+            });
         },
     });
 }
@@ -153,35 +160,48 @@ function transaction( date, type, desc,
 function getItem() {
     var item_code = window.location.pathname.split("/").pop();
     $.ajax({
-        url:"/getItem="+item_code,
-        type:"GET",
+        url: "/getItem=" + item_code,
+        type: "GET",
         processData: false,
         contentType: false,
-        data:{"code":item_code},
+        data: { code: item_code },
         headers: {
             "Content-Type": "application/json",
         },
         success: function (item) {
             // Note from Erik: length is undefined ata sa database hence it being an outlier with system colors
-            page_item = new Item(   item.image, item.name, item.code, item.type, item.classification, item.length, 
-                                    item.size, item.weight, item.quantity, item.sellingType, item.purchasePrice, 
-                                    item.sellingPrice,  item.status
-                                );
+            page_item = new Item(
+                item.image,
+                item.name,
+                item.code,
+                item.type,
+                item.classification,
+                item.length,
+                item.size,
+                item.weight,
+                item.quantity,
+                item.sellingType,
+                item.purchasePrice,
+                item.sellingPrice,
+                item.status
+            );
 
-            var num_keys = Object.keys(page_item).length
+            var num_keys = Object.keys(page_item).length;
 
-            var fields = $.map(page_item, function(value, key) {return key;})
-            var values = $.map(page_item, function(value, key) {return value;})
-            
+            var fields = $.map(page_item, function (value, key) {
+                return key;
+            });
+            var values = $.map(page_item, function (value, key) {
+                return value;
+            });
+
             // Changes image source of img element into the item image
-            $("#left-wrapper img").attr("src",`../img/${item.image}`);
+            $("#left-wrapper img").attr("src", `../img/${item.image}`);
 
             // Appends a field into the #fields-table
-            for (var i = 0; i < num_keys; i++) 
-            {
-                $('#fields-table').append(itemDesc(fields[i], values[i]))
+            for (var i = 0; i < num_keys; i++) {
+                $("#fields-table").append(itemDesc(fields[i], values[i]));
             }
-
         },
     });
 }
@@ -191,8 +211,7 @@ function getItem() {
  * @param  {String} [field] - Is the field name for the table item
  * @param  {String} [desc] - Is the field description for the table item
  */
-function itemDesc(field, desc) { 
-
+function itemDesc(field, desc) {
     const html = `
     <div class="item-desc-wrapper">
         <div class="field">
@@ -203,15 +222,13 @@ function itemDesc(field, desc) {
         </div>
     </div>
     
-    `
-    
+    `;
+
     return html;
 }
 
-$(document).ready(function(){
-
+$(document).ready(function () {
     // Loads item for the page.
     getItem();
     getLastFiveTransactions(true);
-
-})
+});

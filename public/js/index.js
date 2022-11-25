@@ -15,22 +15,22 @@ function getAllItems(refreshGrid = false) {
             "Content-Type": "application/json",
         },
         success: function (items) {
-            Items = []
+            Items = [];
 
             var dfd = $.Deferred().resolve();
 
-            items.forEach(function(product) {
-                dfd = dfd.then(function() {
-                    return pushItem(product)
-                })
-            })
+            items.forEach(function (product) {
+                dfd = dfd.then(function () {
+                    return pushItem(product);
+                });
+            });
 
-            dfd.done(function() {
+            dfd.done(function () {
                 if (refreshGrid) {
-                    w2ui["itemGrid"].records = Items;
-                    w2ui["itemGrid"].refresh();
+                    w2ui["item-grid"].records = Items;
+                    w2ui["item-grid"].refresh();
                 }
-            })
+            });
         },
     });
 }
@@ -138,9 +138,9 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
                 }
             }
             if (refreshGrid) {
-                w2ui["itemGrid"].clear();
-                w2ui["itemGrid"].records = Specified;
-                w2ui["itemGrid"].refresh();
+                w2ui["item-grid"].clear();
+                w2ui["item-grid"].records = Specified;
+                w2ui["item-grid"].refresh();
             }
         },
     });
@@ -151,8 +151,8 @@ $(function () {
     $("#size-min").val(0);
     getAllItems(true);
 
-    $("#itemGrid").w2grid({
-        name: "itemGrid",
+    $("#item-grid").w2grid({
+        name: "item-grid",
         show: {
             footer: true,
             lineNumbers: true,
@@ -230,7 +230,7 @@ $(function () {
         onDblClick: function (recid) {
             // Redirects to item page
 
-            var record = w2ui["itemGrid"].get(recid.recid);
+            var record = w2ui["item-grid"].get(recid.recid);
             //console.log(record)
 
             window.location.href = "/item/" + record.code;
@@ -431,5 +431,5 @@ $(function () {
 
 $(window).resize(function () {
     console.log("refresh/resize");
-    w2ui["itemGrid"].refresh();
+    w2ui["item-grid"].refresh();
 });
