@@ -262,14 +262,12 @@ $(function () {
 
     $("#restock-popup").popup({
         blur: false /* pop-up must be only closed with X button, not by clicking outside */,
-    });
-
-    $("#restock-popup .restock-popup_close").on("click", async function () {
-        $("#restock-popup #restock-form")[0].reset();
+        onclose: function(){
+            $("#restock-popup #restock-form")[0].reset();
+        }
     });
 
     $("#restock-popup form .command :reset").on("click", async function () {
-        $("#restock-popup #restock-form")[0].reset();
         $("#restock-popup").popup("hide");
     });
 
@@ -359,14 +357,12 @@ $(function () {
 
     $("#sell-popup").popup({
         blur: false,
-    });
-
-    $("#sell-popup .sell-popup_close").on("click", function () {
-        $("#sell-popup #sell-form")[0].reset();
+        onclose: function(){
+            $("#sell-popup #sell-form")[0].reset();
+        }
     });
 
     $("#sell-popup form .command :reset").on("click", function () {
-        $("#sell-popup #sell-form")[0].reset();
         $("#sell-popup").popup("hide");
     });
 
@@ -455,18 +451,13 @@ $(function () {
     /* pop-up must be only closed with X button, not by clicking outside */
     $("#add-popup").popup({
         blur: false,
-    });
-
-    /* clicking on the X button of the popup clears the form */
-
-    $("#add-popup .add-popup_close").on("click", function () {
-        $("#add-popup #add-form")[0].reset();
-        $("#image-preview").attr("src", "/img/product-images/default.png");
+        onclose: function(){
+            $("#add-popup #add-form")[0].reset();
+            $("#image-preview").attr("src", "/img/product-images/default.png");
+        }
     });
 
     $("#add-popup form .command :reset").on("click", function (e) {
-        $("#add-popup #add-form")[0].reset();
-        $("#image-preview").attr("src", "/img/product-images/default.png");
         $("#add-popup").popup("hide");
     });
 
