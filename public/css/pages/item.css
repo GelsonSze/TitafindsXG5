@@ -1,5 +1,5 @@
 #item-page-wrapper {
-    display:flex;
+    display: flex;
     flex-direction: column;
 
     width: 100%;
@@ -9,12 +9,73 @@
 #top-wrapper {
     display: flex;
     flex-direction: row;
+    margin: 0px 100px;
 }
 
 #left-wrapper {
     display: flex;
     flex-direction: column;
-    width:30%;
+    width: auto;
+    padding-left: 20px;
+    margin-right: 40px;
+}
+
+#product-img {
+    height: 100%;
+    width: 400px;
+    border-radius: 10px;
+}
+
+#item-attributes-wrapper {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-attributes-wrapper {
+    font-family: "Inter Regular";
+    font-size: 14px;
+    margin: 5px 0;
+    display: flex;
+}
+
+.main-attributes-wrapper span {
+    font-family: "Inter Bold";
+}
+
+#item-title {
+    font-family: "Inter Bold";
+    font-size: 45px;
+    margin: 0;
+
+    color: #5d3937;
+}
+
+#item-code {
+    font-family: "Inter Bold";
+    font-size: 30px;
+    margin: 0;
+
+    color: #866a69;
+}
+
+#description-wrapper {
+    margin-top: 10px;
+}
+
+#description-wrapper span {
+    color: #866a69;
+    font-family: "Inter Bold";
+    font-size: 14px;
+    margin: 0;
+}
+
+#description-wrapper p {
+    color: #350705;
+    font-family: "Inter Medium";
+    font-size: 16px;
+    margin: 0;
+    margin-bottom: 10px;
 }
 
 #right-wrapper {
@@ -30,12 +91,43 @@
     width: 100%;
 }
 
+#attributes-table {
+    border: 1px solid #866a69;
+    border-radius: 10px;
+    font-family: "Inter Medium";
+    overflow: hidden;
+    color: #350705;
+}
+
+#attributes-table thead {
+    background-color: #fae1d7;
+    overflow: hidden;
+    margin: 10px;
+    height: 25px;
+
+    font-family: "Inter Bold";
+    font-size: 15px;
+}
+
+#attributes-table tbody {
+    font-size: 14px;
+}
+
+#attributes-table td {
+    padding: 5px 0px 5px 10px;
+}
+
+#attributes-table td:nth-child(2) {
+    border-left: 1px solid #866a69;
+    border-bottom: 1px solid #dedede;
+}
+
 #bottom-wrapper {
     height: 370px;
 }
 
 .dropbtn {
-    background-color:#d9d9d9;
+    background-color: #d9d9d9;
     border-radius: 8px;
     margin: 0;
     font-size: 24px;
@@ -44,14 +136,15 @@
 }
 
 /* Dropdown button on hover & focus */
-.dropbtn:hover, .dropbtn:focus {
+.dropbtn:hover,
+.dropbtn:focus {
     background-color: #f6c4af;
 }
 
 /* The container <div> - needed to position the dropdown content */
 .edit-dropdown {
-    clear: left;
-    clear: right;
+    position: absolute;
+    left: 0;
 }
 
 /* Dropdown Content (Hidden by Default) */
@@ -60,7 +153,7 @@
     position: absolute;
     background-color: white;
     min-width: 140px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -71,9 +164,9 @@
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    border:transparent;
+    border: transparent;
     min-width: 140px;
-    cursor:pointer;
+    cursor: pointer;
     text-align: left;
 }
 
@@ -84,7 +177,7 @@
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
-    display:block;
+    display: block;
 }
 
 .icons {
@@ -93,7 +186,7 @@
 }
 
 .dropbtn {
-    background-color:#d9d9d9;
+    background-color: #d9d9d9;
     border-radius: 8px;
     margin: 0;
     font-size: 24px;
@@ -102,7 +195,8 @@
 }
 
 /* Dropdown button on hover & focus */
-.dropbtn:hover, .dropbtn:focus {
+.dropbtn:hover,
+.dropbtn:focus {
     background-color: #f6c4af;
 }
 
@@ -118,7 +212,7 @@
     position: absolute;
     background-color: white;
     min-width: 140px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
@@ -129,9 +223,9 @@
     padding: 12px 16px;
     text-decoration: none;
     display: block;
-    border:transparent;
+    border: transparent;
     min-width: 140px;
-    cursor:pointer;
+    cursor: pointer;
     text-align: left;
 }
 
@@ -142,7 +236,7 @@
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {
-    display:block;
+    display: block;
 }
 
 .icons {

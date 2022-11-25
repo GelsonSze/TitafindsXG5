@@ -20,11 +20,17 @@ const itemController = {
     },
 
     itemDetails: function (req, res) {
-        res.render("item", {
-            title: "Product",
-            code: req.body.code,
-            styles: ["pages/item.css", "general/w2ui-overrides.css"],
-            scripts: ["item.js"],
+        db.findOne(Item, { code: req.params.code }, {}, async function (data) {
+            res.render("item", {
+                title: "Product",
+                name: data.name,
+                code: data.code,
+                desc: data.description,
+                type: data.type,
+                sellingType: data.sellingType,
+                styles: ["pages/item.css", "general/w2ui-overrides.css"],
+                scripts: ["item.js"],
+            });
         });
     },
 

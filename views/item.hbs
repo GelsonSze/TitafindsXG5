@@ -1,10 +1,12 @@
 <header>
     <nav>
-        {{! <ul>
+        {{!
+        <ul>
             <li><a href="/">Home</a></li>
             <li><a href="/about">About</a></li>
             <li><a href="/contact">Contact</a></li>
-        </ul> }}
+        </ul>
+        }}
         <div id="main-logo">
             <img src="/img/Titafinds/icon.png" id="icon-logo" />
         </div>
@@ -12,14 +14,6 @@
 </header>
 
 <main>
-    <div class="edit-dropdown">
-        <button onclick="myFunction()" class="dropbtn material-symbols-outlined">more_horiz</button>
-            <div id="myDropdown" class="dropdown-content">
-                <button class = edit-popup_open> <span class = "icons material-symbols-outlined">edit</span>Edit Item</button>
-                <button class = delete-popup_open> <span class = "icons material-symbols-outlined">delete</span>Delete Item</button>
-            </div>
-    </div>
-
     <section id="edit-popup">
         <button class="edit-popup_close">X</button>
         <h1>Edit New Item</h1>
@@ -100,7 +94,9 @@
                                 <option value="Special">Special</option>
                                 <option value="Very Special">Very Special</option>
                                 <option value="Very Very Special">Very Very Special</option>
-                                <option value="Very Very Very Special">Very Very Very Special</option>
+                                <option value="Very Very Very Special">
+                                    Very Very Very Special
+                                </option>
                             </select>
                         </div>
 
@@ -208,34 +204,66 @@
         </form>
     </section>
 
-    
     <div id="item-page-wrapper">
         <div id="top-wrapper">
             <div id="left-wrapper">
-
                 {{!-- Image and Name --}}
-                <h2>Item Name</h2>
-                <img src="/img/test.png">
+                <img id="product-img" src="/img/test.png" />
 
+                <div id="item-attributes-wrapper">
+                    <div class="main-attributes-wrapper"><span>Type:&nbsp;</span> {{type}}</div>
+                    <div class="main-attributes-wrapper"><span>Selling Type:&nbsp;</span> {{sellingType}}</div>
+                    <div class="main-attributes-wrapper"><span>Available Quantity:&nbsp;</span></div>
+                    <div class="main-attributes-wrapper"><span>Damaged Quantity:&nbsp;</span></div>
+                </div>
+
+                <div class="edit-dropdown">
+                    <button onclick="myFunction()" class="dropbtn material-symbols-outlined">
+                        more_horiz
+                    </button>
+                    <div id="myDropdown" class="dropdown-content">
+                        <button class="edit-popup_open">
+                            <span class="icons material-symbols-outlined">edit</span>Edit Item
+                        </button>
+                        <button class="delete-popup_open">
+                            <span class="icons material-symbols-outlined">delete</span>Delete Item
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div id="right-wrapper">
-                <span>Fields</span>
-                {{!-- Attributes / Descriptions --}}
-                <div id="fields-table">
+                <p id="item-code">{{code}}</p>
 
+                <p id="item-title">{{name}}</p>
+
+                <div id="description-wrapper">
+                    <span>Description</span>
+                    <p>{{desc}}</p>
                 </div>
+
+                <table id="attributes-table" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>Attributes</td>
+                            <td>Value</td>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        {{!-- Content from item.js --}}
+                    </tbody>
+                </table>
+
+                {{!-- Attributes / Descriptions --}} {{!--
+                <div id="fields-table"></div>
+                --}}
             </div>
         </div>
 
         {{!-- Transaction --}}
         <div id="bottom-wrapper">
-            Transactions
-            {{!place code for the w2ui table here }}
+            Transactions {{!place code for the w2ui table here }}
             <div id="itemGrid"></div>
         </div>
-
-        
-        
     </div>
 </main>
