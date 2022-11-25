@@ -85,7 +85,6 @@ function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
 function filter() {
     var searchBar = $("#filter-search").val();
     var typeBar = $("#dropdown-selected").html();
-    $("#table-filter-refresh i").addClass("bx-spin");
 
     $("#table-filter-apply").attr("disabled", true);
 
@@ -120,7 +119,6 @@ function filter() {
 
                     $("#table-filter-apply").attr("disabled", false);
                 });
-                $("#table-filter-refresh i").removeClass("bx-spin");
             },
         });
     }

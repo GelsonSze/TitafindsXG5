@@ -21,8 +21,8 @@ app.post(
     itemController.addItem,
     transactionController.addTransaction
 );
-app.post("/restockItem", upload.any(), itemController.restockItem);
-app.post("/sellItem", upload.any(), itemController.sellItem);
+app.post("/restockItem", upload.any(), itemController.restockItem, transactionController.addTransaction);
+app.post("/sellItem", upload.any(), itemController.sellItem, transactionController.addTransaction);
 app.get("/getItems", itemController.getItems);
 
 // The login page

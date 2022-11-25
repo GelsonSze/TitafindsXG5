@@ -83,7 +83,7 @@ const db = {
     updateOne: function (model, filter, update, callback) {
         model.updateOne(filter, update, function (error, result) {
             if (error) return callback(false);
-            console.log("Document modified: " + result.nModified);
+            console.log("Document modified: " + result.modifiedCount);
             return callback(true);
         });
     },
@@ -91,7 +91,7 @@ const db = {
     updateMany: function (model, filter, update, callback) {
         model.updateMany(filter, update, function (error, result) {
             if (error) return callback(false);
-            console.log("Documents modified: " + result.nModified);
+            console.log("Documents modified: " + result.modifiedCount);
             return callback(true);
         });
     },

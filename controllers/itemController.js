@@ -196,7 +196,7 @@ const itemController = {
         }
     },
 
-    restockItem: async function (req, res) {
+    restockItem: async function (req, res, next) {
         var error = "";
         var quantity = req.body.quantity;
         var item = await Item.findOne({ code: req.body.code });
@@ -214,7 +214,17 @@ const itemController = {
                 { code: req.body.code },
                 { $inc: { quantity: req.body.quantity } },
                 function (data) {
-                    res.status(200).json(data);
+                    req.body = {
+                        date: req.body.dateRestocked,
+                        type: "Restock",
+                        description: item._id.toString(),
+                        quantity: quantity,
+                        sellingPrice: item.sellingPrice,
+                        transactedBy: req.session.user.username,
+                        code: item.code,
+                        name: item.name
+                    }
+                    next();
                 }
             );
             return;
@@ -222,7 +232,7 @@ const itemController = {
         res.status(400).json({ message: error, fields: ["restock-quantity"] });
     },
 
-    sellItem: async function (req, res) {
+    sellItem: async function (req, res, next) {
         var error = "";
         var quantity = req.body.quantity;
         var item = await Item.findOne({ code: req.body.code });
@@ -244,7 +254,17 @@ const itemController = {
                 { code: req.body.code },
                 { $inc: { quantity: quantity } },
                 function (data) {
-                    res.status(200).json(data);
+                    req.body = {
+                        date: req.body.dateSold,
+                        type: "Sell",
+                        description: item._id.toString(),
+                        quantity: quantity,
+                        sellingPrice: item.sellingPrice,
+                        transactedBy: req.session.user.username,
+                        code: item.code,
+                        name: item.name
+                    }
+                    next();
                 }
             );
             return;

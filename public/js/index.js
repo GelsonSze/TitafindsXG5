@@ -296,6 +296,8 @@ $(function () {
 
         const code = $("#restock-popup #code").val();
         const data = new FormData($("#restock-form")[0]);
+        data.append("dateRestocked", new Date());
+
         var recID = w2ui["item-grid"].find({ code: code });
         recID = recID[0];
 
@@ -391,6 +393,7 @@ $(function () {
 
         const code = $("#sell-popup #code").val();
         const data = new FormData($("#sell-form")[0]);
+        data.append("dateSold", new Date());
         var recID = w2ui["item-grid"].find({ code: code });
         recID = recID[0];
 
