@@ -119,8 +119,8 @@ function filter() {
                     w2ui["transaction-grid"].refresh();
 
                     $("#table-filter-apply").attr("disabled", false);
-                    $("#table-filter-refresh i").removeClass("bx-spin");
                 });
+                $("#table-filter-refresh i").removeClass("bx-spin");
             },
         });
     }
