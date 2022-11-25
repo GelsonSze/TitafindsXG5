@@ -206,6 +206,11 @@
 
     <div id="item-page-wrapper">
         <div id="top-wrapper">
+            <div id ="commands">
+                <box-icon class="edit-popup_open icon-popup" type='solid' name='edit'></box-icon>
+                <box-icon class="delete-popup_open icon-popup" name='trash' ></box-icon>
+            </div>    
+
             <div id="left-wrapper">
                 {{!-- Image and Name --}}
                 <img id="product-img" src="/img/product-images/default.png" />
@@ -215,20 +220,6 @@
                     <div class="main-attributes-wrapper"><span>Selling Type:&nbsp;</span> {{sellingType}}</div>
                     <div class="main-attributes-wrapper"><span>Available Quantity:&nbsp;</span></div>
                     <div class="main-attributes-wrapper"><span>Damaged Quantity:&nbsp;</span></div>
-                </div>
-
-                <div class="edit-dropdown">
-                    <button onclick="myFunction()" class="dropbtn material-symbols-outlined">
-                        more_horiz
-                    </button>
-                    <div id="myDropdown" class="dropdown-content">
-                        <button class="edit-popup_open">
-                            <span class="icons material-symbols-outlined">edit</span>Edit Item
-                        </button>
-                        <button class="delete-popup_open">
-                            <span class="icons material-symbols-outlined">delete</span>Delete Item
-                        </button>
-                    </div>
                 </div>
             </div>
 
