@@ -204,3 +204,33 @@ button:hover {
 #suspend-popup input[type="text"] {
     padding: 5px;
 }
+
+#replay-symbol{
+    color: white;
+    background-color: black;
+    border-radius: 60%;
+    float: left;
+    font-size: 40px;
+    margin-top: 2vh;
+    margin-bottom: 5vh;
+}
+#block-symbol{
+    color:white;
+    background-color: black;
+    border-radius: 60%;
+    float: left;
+    font-size: 40px;
+}
+
+#certainty-popup{
+    margin-top: 2vh;
+    margin-left: 10vh;
+}
+
+#reset{
+    background-color: black;
+}
+
+#suspend{
+    background-color: black;
+}
