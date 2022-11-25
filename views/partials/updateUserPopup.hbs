@@ -1,52 +1,38 @@
 <section id="update-popup" class="popup">
     <button class="update-popup_close">X</button>
-    <h1>Edit User</h1>
+    <h1>Update User</h1>
 
     <form id="update-form" enctype="multipart/form-data">
         <div id="popup-form-wrapper">
             <div id="popup-left-wrapper">
-
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="name">First Name</label><br />
-                        <input type="text" id="first-name" name="firstName" /><br />
+                        <label for="update-username">Username</label><br />
+                        <input type="text" id="update-username" name="username" /><br />
                     </div>
                 </div>
 
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="code">Last Name</label><br />
+                        <label for="update-first-name">First Name</label><br />
+                        <input type="text" id="update-first-name" name="firstName" /><br />
+                    </div>
+                </div>
+
+                <div class="popup-row-wrapper">
+                    <div class="item-wrapper">
+                        <label for="update-last-name">Last Name</label><br />
                         <input type="text" id="last-name" name="lastName" /><br />
                     </div>
                 </div>
 
-                <div class="popup-row-wrapper">
-                    <div class="item-wrapper">
-                        <label for="code">Username</label><br />
-                        <input type="text" id="username" name="username" /><br />
-                    </div>
-                </div>
-
-                <div class="popup-row-wrapper">
-                    <div class="item-wrapper">
-                        <label for="name">Password</label><br />
-                        <input type="password" id="password" name="password" /><br />
-                    </div>
-                </div>
-
-                <div class="popup-row-wrapper">
-                    <div class="item-wrapper">
-                        <label for="code">Confirm Password</label><br />
-                        <input type="password" id="confirm-password" name="confirmPassword" /><br />
-                    </div>
-                </div>
                 <p class="user-text-error"></p>
             </div>
 
         </div>
         <div class="command">
-            <button type="reset">Save Changes</button>
-            <button type="submit" id="update">Discard Changes</button>
+            <button type="reset">Cancel</button>
+            <button type="submit" id="update-user-button">Update</button>
         </div>
     </form>
 </section>

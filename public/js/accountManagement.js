@@ -109,6 +109,16 @@ $(function () {
         ],
     });
 
+    $("#user-popup .user-popup_close").on("click", async function () {
+        $("#user-popup #user-form")[0].reset();
+    });
+
+    $("#user-popup form .command :reset").on("click", async function () {
+        $("#user-popup #user-form")[0].reset();
+        $("#user-popup").popup("hide");
+    });
+
+
     $("#reset-popup").popup({
         blur: false /* pop-up must be only closed with X button, not by clicking outside */,
     });
