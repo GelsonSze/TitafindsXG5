@@ -7,9 +7,11 @@ import { upload } from "../utils/multer.js";
 
 const app = express();
 
-// The dashboard or inventory page
+// The inventory page (currently the home page)
 app.get("/", [viewPage, checkAuth, itemController.home]);
 app.post("/addItem", [checkAuth, upload.single("image"), itemController.addItem]);
+app.post("/restockItem", [upload.any(), itemController.restockItem]);
+app.post("/sellItem", [upload.any(), itemController.sellItem]);
 app.get("/getItems", [checkAuth, itemController.getItems]);
 
 // The login page
@@ -19,7 +21,7 @@ app.delete("/auth/logout", userController.logoutUser);
 
 // The Item Page
 app.get("/item/:code", [viewPage, checkAuth, itemController.itemDetails]);
-app.get("/getItem", [checkAuth, itemController.getItem]);
+app.get("/getItem=:code", [checkAuth, itemController.getItem]);
 
 //The Account Management page
 app.get("/accountManagement", [viewPage, checkAuth, adminController.accountManagement]);

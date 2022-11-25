@@ -64,6 +64,10 @@ function user(
 $(function () {
     getAllUsers(true);
 
+    $("#user-popup").popup({
+        blur: false,
+    });
+
     $("#user-grid").w2grid({
         name: "user-grid",
         show: {

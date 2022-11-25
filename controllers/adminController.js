@@ -14,6 +14,7 @@ const adminController = {
                 "general/popup.css",
             ],
             scripts: ["accountManagement.js", "index.js"],
+            user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });
     },
 
