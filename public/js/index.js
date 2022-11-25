@@ -611,13 +611,7 @@ $(function () {
         if ($("#size-min").val() == "" || $("#size-max").val() == "") {
             var size = 0;
         }
-        console.log("in apply on click");
-        console.log(type);
-        console.log(classification);
-        console.log(status);
-        console.log(weight);
-        console.log(size);
-
+        
         getSpecifiedItems(true, classification, type, status, weight, size);
     });
 
