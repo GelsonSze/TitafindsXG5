@@ -1,47 +1,61 @@
-<section id="user-popup" class="popup">
-    <button class="user-popup_close">X</button>
+<section id="create-popup" class="popup">
+    <button class="create-popup_close">X</button>
     <h1 id="popup-title">Create User</h1>
 
-    <form id="user-form" enctype="multipart/form-data">
+    <form id="create-form" enctype="multipart/form-data">
         <div id="popup-form-wrapper">
             <div id="popup-left-wrapper">
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="add-username">Username</label><br />
-                        <input type="text" id="add-username" name="username" /><br />
+                        <label for="create-username">Username</label><br />
+                        <input
+                            type="text"
+                            id="create-username"
+                            name="username"
+                            autocomplete="username"
+                        /><br />
                     </div>
                 </div>
 
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="add-first-name">First Name</label><br />
-                        <input type="text" id="add-first-name" name="firstName" /><br />
+                        <label for="create-first-name">First Name</label><br />
+                        <input type="text" id="create-first-name" name="firstName" /><br />
                     </div>
                 </div>
 
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="add-last-name">Last Name</label><br />
-                        <input type="text" id="add-last-name" name="lastName" /><br />
+                        <label for="create-last-name">Last Name</label><br />
+                        <input type="text" id="create-last-name" name="lastName" /><br />
                     </div>
                 </div>
 
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="add-password">Password</label><br />
-                        <input type="password" id="add-password" name="password" /><br />
+                        <label for="create-password">Password</label><br />
+                        <input
+                            type="password"
+                            id="create-password"
+                            name="password"
+                            autocomplete="new-password"
+                        /><br />
                     </div>
                 </div>
 
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="add-confirm-password">Confirm Password</label><br />
-                        <input type="password" id="add-confirm-password" name="confirmPassword" /><br />
+                        <label for="create-confirm-password">Confirm Password</label><br />
+                        <input
+                            type="password"
+                            id="create-confirm-password"
+                            name="confirmPassword"
+                            autocomplete="new-password"
+                        /><br />
                     </div>
                 </div>
-                <p class="user-text-error"></p>
+                <p class="text-error create-text-error"></p>
             </div>
-
         </div>
         <div class="command">
             <button type="reset">Cancel</button>

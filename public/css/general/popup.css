@@ -200,16 +200,13 @@ button:hover {
     padding: 5px;
 }
 
-#reset-popup input[type="text"], input[type="password"],
-#update-popup input[type="text"],input[type="password"],
-#suspend-popup input[type="text"], input[type="password"],
-#user-popup input[type="text"], input[type="password"] {
+#reset-popup input[type="text"],
+#update-popup input[type="text"],
+#suspend-popup input[type="text"] {
     padding: 5px;
-    margin-left: 25vh;
-    margin-bottom: 2vh;
 }
 
-#replay-symbol{
+#replay-symbol {
     color: white;
     background-color: black;
     border-radius: 60%;
@@ -218,31 +215,23 @@ button:hover {
     margin-top: 2vh;
     margin-bottom: 5vh;
 }
-#block-symbol{
-    color:white;
+#block-symbol {
+    color: white;
     background-color: black;
     border-radius: 60%;
     float: left;
     font-size: 40px;
 }
 
-#certainty-popup{
+#certainty-popup {
     margin-top: 2vh;
     margin-left: 10vh;
 }
 
-#reset{
+#reset {
     background-color: black;
 }
 
-#suspend{
+#suspend {
     background-color: black;
-}
-
-#username, #last-name, #first-name, #password, #confirm-password{
-    width: 50%;
-    color: var(--accent-color);
-}
-label{
-    margin-left: 25vh;
 }

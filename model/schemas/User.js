@@ -39,8 +39,14 @@ const userSchema = new mongoose.Schema({
         type: String,
     },
 
+    dateUpdated: {
+        type: String,
+        default: null,
+    },
+
     lastLogin: {
         type: String,
+        default: null,
     },
 });
 

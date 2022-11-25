@@ -18,7 +18,6 @@ const testController = {
             const admin = new User({
                 username: "admin",
                 password: "admin",
-                email: "admin@gmail.com",
                 firstName: "admin",
                 lastName: "admin",
                 isAdmin: true,

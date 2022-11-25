@@ -75,6 +75,7 @@ const itemSchema = new mongoose.Schema({
 
     dateUpdated: {
         type: String,
+        default: null,
     },
 
     addedBy: {

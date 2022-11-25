@@ -371,21 +371,15 @@ $(function () {
         });
     });
 
-    /* pop-up must be only closed with X button, not by clicking outside */
     $("#add-popup").popup({
         blur: false,
-    });
-
-    /* clicking on the X button of the popup clears the form */
-
-    $("#add-popup .add-popup_close").on("click", function () {
-        $("#add-popup #add-form")[0].reset();
-        $("#image-preview").attr("src", "/img/product-images/default.png");
+        onclose: function () {
+            $("#add-form")[0].reset();
+            $("#image-preview").attr("src", "/img/product-images/default.png");
+        },
     });
 
     $("#add-popup form .command :reset").on("click", function (e) {
-        $("#add-popup #add-form")[0].reset();
-        $("#image-preview").attr("src", "/img/product-images/default.png");
         $("#add-popup").popup("hide");
     });
 

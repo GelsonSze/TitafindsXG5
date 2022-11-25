@@ -7,7 +7,7 @@ var Users = [];
  */
 function getAllUsers(refreshGrid = false) {
     $.ajax({
-        url: "/getUsers",
+        url: "/auth/getUsers",
         type: "GET",
         processData: false,
         contentType: false,
@@ -17,6 +17,7 @@ function getAllUsers(refreshGrid = false) {
         success: function (users) {
             for (var account of users) {
                 account = new user(
+                    account._id,
                     account.username,
                     account.password,
                     account.firstName,
@@ -24,9 +25,9 @@ function getAllUsers(refreshGrid = false) {
                     account.isAdmin,
                     account.isSuspended,
                     account.dateCreated,
+                    account.dateUpdated,
                     account.lastLogin
                 );
-                console.log(account);
                 Users.push(account);
             }
             if (refreshGrid) {
@@ -39,6 +40,7 @@ function getAllUsers(refreshGrid = false) {
 
 //function that returns user object
 function user(
+    id,
     username,
     password,
     firstName,
@@ -46,10 +48,12 @@ function user(
     isAdmin,
     isSuspended,
     dateCreated,
+    dateUpdated,
     lastLogin
 ) {
     return {
         recid: Users.length + 1,
+        id: id,
         username: username,
         password: password,
         firstName: firstName,
@@ -57,16 +61,16 @@ function user(
         isAdmin: isAdmin,
         isSuspended: isSuspended,
         dateCreated: dateCreated,
+        dateUpdated: dateUpdated,
         lastLogin: lastLogin,
+        w2ui: {
+            style: `background-color: ${isSuspended ? "#f76f72" : "white"}`,
+        },
     };
 }
 
 $(function () {
     getAllUsers(true);
-
-    $("#user-popup").popup({
-        blur: false,
-    });
 
     $("#user-grid").w2grid({
         name: "user-grid",
@@ -81,27 +85,44 @@ $(function () {
             {
                 field: "dateCreated",
                 text: "Date Created",
-                size: "10%",
+                size: "7%",
                 sortable: true,
             },
             {
                 field: "username",
                 text: "Username",
-                size: "10%",
+                size: "7%",
                 sortable: true,
             },
             { field: "firstName", text: "First Name", size: "5%", sortable: true },
             { field: "lastName", text: "Last Name", size: "5%", sortable: true },
             {
+                field: "dateUpdated",
+                text: "Date Updated",
+                size: "7%",
+                sortable: true,
+            },
+            {
+                field: "lastLogin",
+                text: "Last Login",
+                size: "7%",
+                sortable: true,
+            },
+            {
                 field: "edit",
                 size: "5%",
                 render: function (record, extra) {
+                    var resetButton = `<button class="reset-popup_open" data-id='${record.id}'><i class='bx bx-reset'></i></button>`;
+                    var suspendButton = `<button class="suspend-popup_open" data-id='${record.id}'><i class='bx bx-block'></i></button>`;
+                    var resumeButton = `<button class="resume-popup_open" data-id='${record.id}'><i class='bx bx-play'></i></button>`;
                     var html = `
-                    <div class='admin-actions'>
-                    <button class = "update-popup_open"><i class='bx bxs-edit' data-recid='${record.username}'></i></button>
-                    <button class = "reset-popup_open"><i class='bx bx-reset' data-recid='${record.username}'></i></button>
-                    <button class = "suspend-popup_open"><i class='bx bx-block' data-recid='${record.username}'></i></button>
-                    </div>
+                <div class='admin-actions'>
+                    <button class="update-popup_open" data-id='${
+                        record.id
+                    }'><i class='bx bx-edit'></i></button>
+                    ${record.isAdmin ? "" : resetButton}
+                    ${record.isAdmin ? "" : record.isSuspended ? resumeButton : suspendButton}
+                </div>
                     `;
                     return html;
                 },
@@ -109,64 +130,26 @@ $(function () {
         ],
     });
 
-    $("#user-popup .user-popup_close").on("click", async function () {
-        $("#user-popup #user-form")[0].reset();
+    $("#create-popup").popup({
+        blur: false,
+        onclose: function () {
+            $("#create-form").trigger("reset");
+        },
     });
 
-    $("#user-popup form .command :reset").on("click", async function () {
-        $("#user-popup #user-form")[0].reset();
-        $("#user-popup").popup("hide");
+    $("#create-form .command :reset").on("click", function () {
+        $("#create-popup").popup("hide");
     });
 
-
-    $("#reset-popup").popup({
-        blur: false /* pop-up must be only closed with X button, not by clicking outside */,
-    });
-
-    $("#reset-popup .reset-popup_close").on("click", async function () {
-        $("#reset-popup #reset-form")[0].reset();
-    });
-
-    $("#reset-popup form .command :reset").on("click", async function () {
-        $("#reset-popup #reset-form")[0].reset();
-        $("#reset-popup").popup("hide");
-    });
-
-    $("#suspend-popup").popup({
-        blur: false /* pop-up must be only closed with X button, not by clicking outside */,
-    });
-
-    $("#suspend-popup .suspend-popup_close").on("click", async function () {
-        $("#reset-popup #reset-form")[0].reset();
-    });
-
-    $("#suspend-popup form .command :reset").on("click", async function () {
-        $("#suspend-popup #reset-form")[0].reset();
-        $("#suspend-popup").popup("hide");
-    });
-
-    $("#update-popup").popup({
-        blur: false /* pop-up must be only closed with X button, not by clicking outside */,
-    });
-
-    $("#update-popup .update-popup_close").on("click", async function () {
-        $("#reset-popup #reset-form")[0].reset();
-    });
-
-    $("#update-popup form .command :reset").on("click", async function () {
-        $("#suspend-popup #reset-form")[0].reset();
-        $("#suspend-popup").popup("hide");
-    });
-
-    $("#user-popup form .command :submit").on("click", function (e) {
+    $("#create-form .command :submit").on("click", function (e) {
         e.preventDefault();
 
-        var username = $("#user-popup #username")[0];
-        var firstName = $("#user-popup #first-name")[0];
-        var lastName = $("#user-popup #last-name")[0];
-        var password = $("#user-popup #password")[0];
-        var confirm = $("#user-popup #confirm-password")[0];
-        var error = $("#user-popup .user-text-error")[0];
+        var username = $("#create-username")[0];
+        var firstName = $("#create-first-name")[0];
+        var lastName = $("#create-last-name")[0];
+        var password = $("#create-password")[0];
+        var confirm = $("#create-confirm-password")[0];
+        var error = $(".create-text-error")[0];
         let fields = [username, firstName, lastName, password];
         let emptyFields = [];
         let wrongFields = [];
@@ -180,21 +163,16 @@ $(function () {
             showError(error, "Please fill out all the fields.", emptyFields);
             return;
         }
-        
-        if ($("#user-popup #password").val() != $("#user-popup #confirm-password").val())
-        {
+
+        if ($("#create-password").val() != $("#create-confirm-password").val()) {
             wrongFields = [password, confirm];
-            showError(error, "Password and confirm password do not match!", wrongFields);
+            showError(error, "Password and confirm password do not match", wrongFields);
             return;
         }
-        else
-        {
-            showError(error, "", emptyFields);
-        }
 
-        const data = new FormData($("#form")[0]);
-        data.append("dateAdded", new Date());
-        data.append("dateUpdated", new Date());
+        const data = new FormData($("#create-form")[0]);
+        data.delete("confirmPassword");
+        data.append("dateCreated", new Date());
 
         //TO BE REMOVED
         for (var pair of data.entries()) {
@@ -203,35 +181,281 @@ $(function () {
 
         $.ajax({
             url: "/auth/addUser",
-            data: data,
+            data: JSON.stringify(Object.fromEntries(data)),
             type: "POST",
             processData: false,
-            contentType: false,
-    
+            contentType: "application/json; charset=utf-8",
+
             success: async function (flag, status) {
                 if (flag) {
                     console.log("success");
                     Users = [];
                     getAllUsers(true);
                     console.log("reloaded");
-                    $("#user-popup").popup("hide");
-    
-                    // Reset form after successful submit
-                    $("#user-popup #form")[0].reset();
-               }
+                    $("#create-popup").popup("hide");
+                }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                
                 message = jqXHR.responseJSON.message;
-                fields = jqXHR.responseJSON.details;
+                fields = jqXHR.responseJSON.fields;
+                details = jqXHR.responseJSON.details;
 
-                fields.forEach(async function (field) {
-                    emptyFields.push($(`#${field}`)[0]);
-                });
-
-                showError(error, message, emptyFields);
+                if (fields) {
+                    fields.forEach(async function (field) {
+                        emptyFields.push($(`#${field}`)[0]);
+                    });
+                    showError(error, message, emptyFields);
+                } else if (details) {
+                    showError(error, message, []);
+                    console.log(details);
+                }
             },
         });
+    });
 
+    $("#update-popup").popup({
+        blur: false,
+        onclose: function () {
+            $("#update-form").trigger("reset");
+        },
+    });
+
+    $("#update-form .command :reset").on("click", function () {
+        $("#update-popup").popup("hide");
+    });
+
+    $(document).on("click", (e) => {
+        // console.log(e.target);
+        if (e.target.closest(".update-popup_open")) {
+            $("#update-popup").popup("hide");
+            var id = e.target.closest(".update-popup_open").dataset.id;
+            $("#update-form").data("id", id);
+            //get ajax call and display in form
+            $.ajax({
+                url: `/auth/getUser=${id}`,
+                type: "GET",
+                processData: false,
+                contentType: false,
+                success: async function (user, status) {
+                    if (user) {
+                        $("#update-username").val(user.username);
+                        $("#update-first-name").val(user.firstName);
+                        $("#update-last-name").val(user.lastName);
+                        $("#update-popup").popup("show");
+                    } else {
+                        console.log("Error: User not found");
+                    }
+                },
+                error: async function (jqXHR, textStatus, errorThrown) {
+                    message = jqXHR.responseJSON.message;
+                    fields = jqXHR.responseJSON.fields;
+                    details = jqXHR.responseJSON.details;
+
+                    if (fields) {
+                        fields.forEach(async function (field) {
+                            emptyFields.push($(`#${field}`)[0]);
+                        });
+                        showError(error, message, emptyFields);
+                    } else if (details) {
+                        showError(error, message, []);
+                        console.log(details);
+                    }
+                },
+            });
+        }
+
+        if (e.target.closest(".reset-popup_open")) {
+            var id = e.target.closest(".reset-popup_open").dataset.id;
+            $("#reset-form").data("id", id);
+            $.ajax({
+                url: `/auth/getUser=${id}`,
+                type: "GET",
+                processData: false,
+                contentType: false,
+                success: async function (user, status) {
+                    if (user) {
+                        $("#reset-username").text(user.username);
+                    } else {
+                        console.log("Error: User not found");
+                    }
+                },
+                error: async function (jqXHR, textStatus, errorThrown) {
+                    message = jqXHR.responseJSON.message;
+                    fields = jqXHR.responseJSON.fields;
+                    details = jqXHR.responseJSON.details;
+
+                    if (fields) {
+                        fields.forEach(async function (field) {
+                            emptyFields.push($(`#${field}`)[0]);
+                        });
+                        showError(error, message, emptyFields);
+                    } else if (details) {
+                        showError(error, message, []);
+                        console.log(details);
+                    }
+                },
+            });
+        }
+
+        if (e.target.closest(".suspend-popup_open")) {
+            var id = e.target.closest(".suspend-popup_open").dataset.id;
+            $("#suspend-form").data("id", id);
+            $.ajax({
+                url: `/auth/getUser=${id}`,
+                type: "GET",
+                processData: false,
+                contentType: false,
+                success: async function (user, status) {
+                    if (user) {
+                        $("#suspend-username").text(user.username);
+                    } else {
+                        console.log("Error: User not found");
+                    }
+                },
+                error: async function (jqXHR, textStatus, errorThrown) {
+                    message = jqXHR.responseJSON.message;
+                    fields = jqXHR.responseJSON.fields;
+                    details = jqXHR.responseJSON.details;
+
+                    if (fields) {
+                        fields.forEach(async function (field) {
+                            emptyFields.push($(`#${field}`)[0]);
+                        });
+                        showError(error, message, emptyFields);
+                    } else if (details) {
+                        showError(error, message, []);
+                        console.log(details);
+                    }
+                },
+            });
+        }
+    });
+
+    $("#update-form .command :submit").on("click", function (e) {
+        e.preventDefault();
+
+        var username = $("#update-username")[0];
+        var firstName = $("#update-first-name")[0];
+        var lastName = $("#update-last-name")[0];
+        var error = $(".update-text-error")[0];
+        let fields = [username, firstName, lastName];
+        let emptyFields = [];
+        let wrongFields = [];
+        fields.forEach(async function (field) {
+            if (isEmptyOrSpaces(field.value)) {
+                emptyFields.push(field);
+            }
+        });
+
+        if (emptyFields.length > 0) {
+            showError(error, "Please fill out all the fields.", emptyFields);
+            return;
+        }
+
+        const data = new FormData($("#update-form")[0]);
+        data.append("id", $("#update-form").data("id"));
+        data.append("dateUpdated", new Date());
+
+        //TO BE REMOVED
+        for (var pair of data.entries()) {
+            console.log(pair[0] + ":" + pair[1]);
+        }
+
+        $.ajax({
+            url: "/auth/updateUser",
+            data: JSON.stringify(Object.fromEntries(data)),
+            type: "PUT",
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+
+            success: async function (flag, status) {
+                if (flag) {
+                    console.log("success");
+                    Users = [];
+                    getAllUsers(true);
+                    console.log("reloaded");
+                    $("#update-popup").popup("hide");
+                }
+            },
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                fields = jqXHR.responseJSON.fields;
+                details = jqXHR.responseJSON.details;
+
+                if (fields) {
+                    fields.forEach(async function (field) {
+                        emptyFields.push($(`#${field}`)[0]);
+                    });
+                    showError(error, message, emptyFields);
+                } else if (details) {
+                    showError(error, message, []);
+                    console.log(details);
+                }
+            },
+        });
+    });
+
+    $("#reset-popup").popup({
+        blur: false /* pop-up must be only closed with X button, not by clicking outside */,
+    });
+
+    $("#reset-form .command :submit").on("click", function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "/auth/resetPassword",
+            data: JSON.stringify({ id: $("#reset-form").data("id") }),
+            type: "PUT",
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+
+            success: async function (flag, status) {
+                if (flag) {
+                    console.log("success");
+                    Users = [];
+                    getAllUsers(true);
+                    console.log("reloaded");
+                    $("#reset-popup").popup("hide");
+                }
+            },
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                details = jqXHR.responseJSON.details;
+
+                if (details) console.log(details);
+            },
+        });
+    });
+
+    $("#suspend-popup").popup({
+        blur: false /* pop-up must be only closed with X button, not by clicking outside */,
+    });
+
+    $("#suspend-form .command :submit").on("click", function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            url: "/auth/suspendUser",
+            data: JSON.stringify({ id: $("#suspend-form").data("id"), isSuspended: true }),
+            type: "PUT",
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+
+            success: async function (flag, status) {
+                if (flag) {
+                    console.log("success");
+                    Users = [];
+                    getAllUsers(true);
+                    console.log("reloaded");
+                    $("#suspend-popup").popup("hide");
+                }
+            },
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                details = jqXHR.responseJSON.details;
+
+                if (details) console.log(details);
+            },
+        });
     });
 });
