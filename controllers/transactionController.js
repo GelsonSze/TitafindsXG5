@@ -15,11 +15,6 @@ const transactionController = {
 
     addTransaction: async function (req, res) {
         try {
-            //check if session user exist, if not return error
-            if (!req.session.user) {
-                res.status(400).json({ error: "User not logged in" });
-                return;
-            }
             var transItem = {
                 date: req.body.date,
                 type: req.body.type,
@@ -45,12 +40,6 @@ const transactionController = {
 
     getTransactions: function (req, res) {
         try {
-            //check if session user exist, if not return error
-            if (!req.session.user) {
-                res.status(400).json({ error: "User not logged in" });
-                return;
-            }
-
             db.findMany(Transaction, {}, null, function (data) {
                 res.status(200).json(data);
             });
@@ -76,12 +65,6 @@ const transactionController = {
     // UNTESTED
     getTransaction: function (req, res) {
         try {
-            //check if session user exist, if not return error
-            if (!req.session.user) {
-                res.status(400).json({ error: "User not logged in" });
-                return;
-            }
-
             db.findOne(
                 Transaction,
                 { description: { $regex: req.query.code, $options: "i" } },
@@ -99,11 +82,6 @@ const transactionController = {
 
     searchTransactions: function (req, res) {
         try {
-            if (!req.session.user) {
-                res.status(400).json({ error: "User not logged in" });
-                return;
-            }
-
             var search = req.params.search;
             var type = req.params.type;
             console.log(req.params);

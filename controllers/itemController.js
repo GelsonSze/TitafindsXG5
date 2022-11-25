@@ -33,11 +33,6 @@ const itemController = {
     // Adds item passed in a post request into the database
     addItem: async function (req, res, next) {
         try {
-            if (!req.session.user) {
-                res.status(400).json({ error: "User not logged in" });
-                return;
-            }
-
             console.log(">>FILE<<");
             console.log(req.file);
             console.log(">>BODY<<");
@@ -144,11 +139,6 @@ const itemController = {
     },
     getItems: function (req, res) {
         try {
-            if (!req.session.user) {
-                res.status(400).json({ error: "User not logged in" });
-                return;
-            }
-
             db.findMany(Item, {}, null, function (data) {
                 res.status(200).json(data);
             });
@@ -160,11 +150,6 @@ const itemController = {
 
     getItem: function (req, res) {
         try {
-            if (!req.session.user) {
-                res.status(400).json({ error: "User not logged in" });
-                return;
-            }
-
             db.findOne(Item, { code: req.params.code }, {}, async function (data) {
                 if (data) {
                     res.status(200).json(await data);
@@ -180,10 +165,6 @@ const itemController = {
 
     getItemById: function (req, res) {
         try {
-            if (!req.session.user) {
-                res.status(400).json({ error: "User not logged in" });
-                return;
-            }
             console.log("in item id");
             console.log(req.params.id);
             db.findById(Item, req.params.id, "name code", async function (data) {
