@@ -531,8 +531,8 @@ $(function () {
     $(window).resize(function () {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
-            // console.log("refresh/resize");
-            w2ui["item-grid"].refresh();
+            console.log("refresh/resize");
+            w2ui["user-grid"].refresh();
         }, 510);
     });
 });
