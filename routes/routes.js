@@ -25,6 +25,9 @@ app.get("/getItem=:code", [checkAuth, itemController.getItem]);
 
 //The Account Management page
 app.get("/accountManagement", [viewPage, checkAuth, adminController.accountManagement]);
+app.get("/changePassword", adminController.changePassword);
+app.put("/changeOwnPassword", adminController.changeOwnPassword);
+
 app.get("/auth/getUsers", [checkAuth, adminController.getUsers]);
 app.get("/auth/getUser=:id", [checkAuth, adminController.getUser]);
 app.post("/auth/addUser", [checkAuth, adminController.addUser]);
