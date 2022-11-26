@@ -122,7 +122,7 @@ $(function () {
                 <div class='admin-actions'>
                     <button class="update-popup_open" data-id='${
                         record.id
-                    }'><i class='material-symbols-outlined'>edit</i></button>
+                    }'><i class='material-symbols-outlined'>edit_square</i></button>
                     ${record.isAdmin ? "" : resetButton}
                     ${record.isAdmin ? "" : record.isSuspended ? resumeButton : suspendButton}
                 </div>
