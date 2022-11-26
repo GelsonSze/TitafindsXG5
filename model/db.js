@@ -49,6 +49,13 @@ const db = {
         });
     },
 
+    findById: function (model, id, projection, callback) {
+        model.findById(id, projection, function (error, result) {
+            if (error) return callback(false);
+            return callback(result);
+        });
+    },
+
     findOne: function (model, query, projection, callback) {
         model.findOne(query, projection, function (error, result) {
             if (error) return callback(false);
@@ -63,10 +70,20 @@ const db = {
         });
     },
 
+    findLastX: function (model, query, projection, limit, callback) {
+        model
+            .find(query, projection, function (error, result) {
+                if (error) return callback(false);
+                return callback(result);
+            })
+            .sort({ _id: -1 })
+            .limit(limit);
+    },
+
     updateOne: function (model, filter, update, callback) {
         model.updateOne(filter, update, function (error, result) {
             if (error) return callback(false);
-            console.log("Document modified: " + result.nModified);
+            console.log("Document modified: " + result.modifiedCount);
             return callback(true);
         });
     },
@@ -74,7 +91,7 @@ const db = {
     updateMany: function (model, filter, update, callback) {
         model.updateMany(filter, update, function (error, result) {
             if (error) return callback(false);
-            console.log("Documents modified: " + result.nModified);
+            console.log("Documents modified: " + result.modifiedCount);
             return callback(true);
         });
     },

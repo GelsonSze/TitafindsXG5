@@ -4,14 +4,15 @@ import userController from "../controllers/userController.js";
 import adminController from "../controllers/adminController.js";
 import { checkAuth, checkNoAuth, viewPage } from "../controllers/authController.js";
 import { upload } from "../utils/multer.js";
+import transactionController from "../controllers/transactionController.js";
 
 const app = express();
 
 // The inventory page (currently the home page)
 app.get("/", [viewPage, checkAuth, itemController.home]);
-app.post("/addItem", [checkAuth, upload.single("image"), itemController.addItem]);
-app.post("/restockItem", [itemController.restockItem]);
-app.post("/sellItem", [itemController.sellItem]);
+app.post("/addItem", [checkAuth, upload.single("image"), itemController.addItem, transactionController.addTransaction]);
+app.post("/restockItem", [checkAuth, itemController.restockItem, transactionController.addTransaction]);
+app.post("/sellItem", [checkAuth, itemController.sellItem, transactionController.addTransaction]);
 app.get("/getItems", [checkAuth, itemController.getItems]);
 
 // The login page
@@ -22,15 +23,25 @@ app.delete("/auth/logout", userController.logoutUser);
 // The Item Page
 app.get("/item/:code", [viewPage, checkAuth, itemController.itemDetails]);
 app.get("/getItem=:code", [checkAuth, itemController.getItem]);
+app.get("/getItemById=:id", [checkAuth, itemController.getItemById]);
+
+// The transactions page
+app.get("/transactions", [viewPage, checkAuth, transactionController.transactions]);
+app.get("/getTransactions", [checkAuth, transactionController.getTransactions]);
+app.get("/getItemTransactions=:id", [checkAuth, transactionController.getItemTransactionsById]);
+app.get("/getXTransactions=:code&:limit", [checkAuth, transactionController.getXTransactions]);
+app.post("/addTransaction", [checkAuth, transactionController.addTransaction]);
+app.get("/getTransaction", [checkAuth, transactionController.getTransaction]);
+app.get("/searchTransactions=:type&:search", [checkAuth, transactionController.searchTransactions]);
 
 //The Account Management page
 app.get("/accountManagement", [viewPage, checkAuth, adminController.accountManagement]);
 app.get("/auth/getUsers", [checkAuth, adminController.getUsers]);
 app.get("/auth/getUser=:id", [checkAuth, adminController.getUser]);
 app.post("/auth/addUser", [checkAuth, adminController.addUser]);
-app.put("/auth/updateUser", adminController.updateUser);
-app.put("/auth/suspendUser", adminController.suspendUser);
-app.put("/auth/resumeUser", adminController.resumeUser);
-app.put("/auth/resetPassword", adminController.resetPassword);
+app.put("/auth/updateUser", [checkAuth, adminController.updateUser]);
+app.put("/auth/suspendUser", [checkAuth, adminController.suspendUser]);
+app.put("/auth/resumeUser", [checkAuth, adminController.resumeUser]);
+app.put("/auth/resetPassword", [checkAuth, adminController.resetPassword]);
 
 export default app;

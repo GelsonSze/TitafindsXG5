@@ -152,7 +152,9 @@
     justify-content: space-between;
 }
 
-#quantity {
+#quantity,
+#sell-quantity,
+#restock-quantity {
     /* width: 50px; */
     margin: 0 2px;
 }

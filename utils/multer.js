@@ -1,11 +1,11 @@
 import multer from "multer";
-
+export const ImageDirectory = "product-images";
 /**
  * Setup for image upload
  */
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, "./public/img/product-images/");
+        cb(null, `./public/img/${ImageDirectory}/`);
     },
     filename: (req, file, cb) => {
         cb(null, `${Date.now()}-${file.originalname}`);
