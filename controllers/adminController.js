@@ -252,23 +252,22 @@ const adminController = {
 
     changeOwnPassword: async function (req, res) {
         try {
-
+            console.log(req.session.user)
             var error = "";
             var errorFields = [];
-            const updatedPassword = req.params.password;
+            const updatedPassword = req.body.newPassword;
             const oldHashedPassword = "";
+            var alphanumeric = /^([a-zA-Z0-9]+)$/;
+            var alphaNumSymbols = /^([a-zA-Z0-9!@#$%^&*]+)$/;
 
             //Hash the password
             const salt = await bcrypt.genSalt(10);
             var hashedPassword = await bcrypt.hash(updatedPassword, salt);
 
             db.findOne(User, {username: req.session.user}, {}, function (data) {
+                console.log(data)
                 oldHashedPassword = data.password;
             })
-
-            db.updateOne(User, {username: req.session.user}, {password: hashedPassword}, function (data) {
-                res.send(data);
-            } )
 
             if (String(updatedPassword).length < 6) {
                 error = "Password is less than 6 characters";

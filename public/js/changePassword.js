@@ -1,20 +1,20 @@
 
 
 $(function() {
-    var newPassField = $('#new-password')[0];
+    var newPassField = $('#newPassword')[0];
     var confirmPassField = $('#confirm-password')[0];
 
 
-    $('#password-form .command :submit').on("click", function(e) {
+    $('#change').on("click", function(e) {
         e.preventDefault();
 
         let fields = [newPassField, confirmPassField];
         let emptyFields = [];
         let wrongFields = [];
 
-        var newPassword = $('#new-password').val()
+        var newPassword = $('#newPassword').val()
         var confirmPassword = $('#confirm-password').val()
-        var error = $('pass-text-error');
+        var error = $('#pass-text-error')[0];
 
         fields.forEach(async function (field) {
             if (isEmptyOrSpaces(field.value)) {
@@ -38,7 +38,7 @@ $(function() {
         
         $.ajax({
             url: "/changeOwnPassword",
-            data: JSON.stringify({password: newPassword}),
+            data: JSON.stringify(Object.fromEntries(data)),
             type: "PUT",
             processData: false,
             contentType: "application/json; charset=utf-8",
