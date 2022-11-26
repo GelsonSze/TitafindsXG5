@@ -49,6 +49,7 @@ const adminController = {
             }
             var error = "";
             var errorFields = [];
+            var alphabet = /^([a-zA-Z]+)$/;
             var alphanumeric = /^([a-zA-Z0-9]+)$/;
             var alphaNumSymbols = /^([a-zA-Z0-9!@#$%^&*]+)$/;
 
@@ -67,15 +68,21 @@ const adminController = {
             } else if (String(newUser.username).length > 100) {
                 error = "Username exceeds 100 characters";
                 errorFields = ["create-username"];
+            } else if (!String(newUser.username).match(alphanumeric)){
+                error = "Username is not alphanumeric";
+                errorFields = ["create-username"];
+            } else if (!String(newUser.firstName).match(alphabet)){
+                error = "First name contains characters not in the alphabet";
+                errorFields = ["create-first-name"];
+            } else if(!String(newUser.lastName).match(alphabet)){
+                error = "Last name contains characters not in the alphabet";
+                errorFields = ["create-last-name"];
             } else if (String(newUser.password).length < 6) {
                 error = "Password is less than 6 characters";
                 errorFields = ["create-password"];
             } else if (String(newUser.password).length > 100) {
                 error = "Password exceeds 100 characters";
                 errorFields = ["create-password"];
-            } else if (!String(newUser.username).match(alphanumeric)){
-                error = "Username is not alphanumeric";
-                errorFields = ["create-username"];
             } else if(!String(newUser.password).match(alphaNumSymbols)){
                 error = "Password contains non-alphanumeric symbols that isn't !@#$%^&*";
                 errorFields = ["create-password"];
