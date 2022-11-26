@@ -268,7 +268,7 @@ $(function () {
     $("#restock-popup form .command :submit").on("click", function (e) {
         e.preventDefault();
 
-        var codeField = $("#restock-popup #code")[0];
+        var codeField = $("#restock-popup #restock-code")[0];
         var quantityField = $("#restock-popup #restock-quantity")[0];
         var error = $("#restock-popup .text-error")[0];
 
@@ -286,7 +286,7 @@ $(function () {
             return;
         }
 
-        const code = $("#restock-popup #code").val();
+        const code = $("#restock-popup #restock-code").val();
         const data = new FormData($("#restock-form")[0]);
         data.append("dateRestocked", new Date());
 
@@ -344,6 +344,9 @@ $(function () {
 
                 if (fields) {
                     fields.forEach(async function (field) {
+                        if (field == "code") {
+                            field = `restock-${field}`;
+                        }
                         emptyFields.push($(`#${field}`)[0]);
                     });
 
@@ -367,7 +370,7 @@ $(function () {
     $("#sell-popup form .command :submit").on("click", function (e) {
         e.preventDefault();
 
-        var codeField = $("#sell-popup #code")[0];
+        var codeField = $("#sell-popup #sell-code")[0];
         var quantityField = $("#sell-popup #sell-quantity")[0];
         var error = $("#sell-popup .text-error")[0];
 
@@ -385,7 +388,7 @@ $(function () {
             return;
         }
 
-        const code = $("#sell-popup #code").val();
+        const code = $("#sell-popup #sell-code").val();
         const data = new FormData($("#sell-form")[0]);
         data.append("dateSold", new Date());
         var recID = w2ui["item-grid"].find({ code: code });
@@ -441,6 +444,9 @@ $(function () {
 
                 if (fields) {
                     fields.forEach(async function (field) {
+                        if (field == "code") {
+                            field = `sell-${field}`;
+                        }
                         emptyFields.push($(`#${field}`)[0]);
                     });
 

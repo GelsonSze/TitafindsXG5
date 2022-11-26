@@ -21,7 +21,12 @@ app.post(
     itemController.addItem,
     transactionController.addTransaction
 );
-app.post("/restockItem", upload.any(), itemController.restockItem, transactionController.addTransaction);
+app.post(
+    "/restockItem",
+    upload.any(),
+    itemController.restockItem,
+    transactionController.addTransaction
+);
 app.post("/sellItem", upload.any(), itemController.sellItem, transactionController.addTransaction);
 app.get("/getItems", itemController.getItems);
 
@@ -36,6 +41,7 @@ app.get("/getItemById=:id", itemController.getItemById);
 // The transactions page
 app.get("/transactions", checkAuth, transactionController.transactions);
 app.get("/getTransactions", transactionController.getTransactions);
+app.get("/getItemTransactions=:id", transactionController.getItemTransactionsById);
 app.get("/getXTransactions=:code&:limit", transactionController.getXTransactions);
 app.post("/addTransaction", transactionController.addTransaction);
 app.get("/getTransaction", transactionController.getTransaction);

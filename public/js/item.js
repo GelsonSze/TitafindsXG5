@@ -121,27 +121,35 @@ function getTransactions(refreshGrid = false) {
     });
 
     $.ajax({
-        url: `/searchTransactions=${"Type"}&${itemCode}`,
+        url: `/getItem=${itemCode}`,
         type: "GET",
         processData: false,
         contentType: "application/json; charset=utf-8",
-        success: function (items) {
-            console.log(items);
-            Transactions = [];
+        success: function (item) {
+            $.ajax({
+                url: `/getItemTransactions=${item._id.toString()}`,
+                type: "GET",
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+                success: function (transactions) {
+                    console.log(transactions);
+                    Transactions = [];
 
-            var dfd = $.Deferred().resolve();
+                    var dfd = $.Deferred().resolve();
 
-            items.forEach(function (trans) {
-                dfd = dfd.then(function () {
-                    return pushTransaction(trans);
-                });
-            });
+                    transactions.forEach(function (trans) {
+                        dfd = dfd.then(function () {
+                            return pushTransaction(trans);
+                        });
+                    });
 
-            dfd.done(function () {
-                if (refreshGrid) {
-                    w2ui["details-grid"].records = Transactions.reverse();
-                    w2ui["details-grid"].refresh();
-                }
+                    dfd.done(function () {
+                        if (refreshGrid) {
+                            w2ui["details-grid"].records = Transactions.reverse();
+                            w2ui["details-grid"].refresh();
+                        }
+                    });
+                },
             });
         },
     });

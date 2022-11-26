@@ -55,6 +55,21 @@ const transactionController = {
         }
     },
 
+    getItemTransactionsById: function (req, res) {
+        try {
+            db.findMany(Transaction, { description: req.params.id }, {}, async function (data) {
+                console.log(data);
+                res.status(200).json(data);
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Get Transaction By Id",
+                details: error.message,
+            });
+            return;
+        }
+    },
+
     getXTransactions: function (req, res) {
         try {
             var code = req.params.code;
