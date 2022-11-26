@@ -187,11 +187,10 @@ button:hover {
     cursor: pointer;
 }
 
-.add-popup_close,
-.restock-popup_close,
-.sell-popup_close {
+.popup-close {
     border-radius: 50%;
-    float: right;
+    position:absolute;
+    right:25px;
 }
 
 .command {
@@ -242,7 +241,7 @@ button:hover {
 #reset-form,
 #suspend-form,
 #update-form,
-#create-form {
+#create-form{
     margin-top: 2vh;
 }
 
@@ -276,9 +275,6 @@ button:hover {
     color: var(--label-color);
 }
 
-#cancel-update-button,
-#update-user-button,
-#cancel-create-button,
-#create-user-button {
+.cancel-update{
     background-color: var(--button-color);
 }
