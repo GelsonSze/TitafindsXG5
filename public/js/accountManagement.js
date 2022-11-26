@@ -16,6 +16,9 @@ function getAllUsers(refreshGrid = false) {
         },
         success: function (users) {
             for (var account of users) {
+                account.dateCreated = formatDate(new Date(account.dateCreated));
+                if(account.dateUpdated != null) account.dateUpdated = formatDate(new Date(account.dateUpdated));
+                if(account.lastLogin != null) account.lastLogin = formatDate(new Date(account.lastLogin));
                 account = new user(
                     account._id,
                     account.username,
@@ -119,7 +122,7 @@ $(function () {
                 <div class='admin-actions'>
                     <button class="update-popup_open" data-id='${
                         record.id
-                    }'><i class='material-symbols-outlined'>edit</i></button>
+                    }'><i class='material-symbols-outlined'>edit_square</i></button>
                     ${record.isAdmin ? "" : resetButton}
                     ${record.isAdmin ? "" : record.isSuspended ? resumeButton : suspendButton}
                 </div>
