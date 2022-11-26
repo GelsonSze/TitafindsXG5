@@ -205,7 +205,9 @@ button:hover {
 #suspend-popup input[type="text"] {
     padding: 5px;
 }
+
 #replay-symbol {
+    /*Adjust background-color of background of the replay symbol*/
     color: white;
     background-color: black;
     border-radius: 60%;
@@ -217,6 +219,7 @@ button:hover {
     margin-right: 5vh;
 }
 #block-symbol {
+    /*Adjust background-color of background of the block symbol*/
     color: white;
     background-color: black;
     border-radius: 60%;
@@ -231,18 +234,41 @@ button:hover {
     font-size:15px;
 }
 #reset-username, #suspend-username{
+    /*Adjust color of username in reset popup and suspend popup*/
     color: brown;
     font-size: 15px;
 }
 
-#reset-form, #suspend-form{
+#reset-form, #suspend-form, #update-form, #create-form{
     margin-top: 2vh;
 }
 
 #reset-user-button{
+    /*Adjust color of reset button*/
     background-color:black;
 }
 
 #suspend-user-button{
+    /*Adjust color of suspend user button*/
     background-color: black;
+}
+
+#update-username, #update-first-name, #update-last-name, 
+#create-username, #create-first-name, #create-last-name, #create-password, #create-confirm-password
+{
+    width:50%;
+    margin-left: 17vh;
+    margin-bottom: 3vh;
+}
+
+#username-label, #first-name-label, #last-name-label,
+#password-label, #confirm-password-label{
+    /*Insert code here for changing the color of the label*/
+    margin-left: 17vh;
+}
+
+#cancel-update-button, #update-user-button,
+#cancel-create-button, #create-user-button{
+    /*Adjust button color here*/
+    background-color:black;
 }
