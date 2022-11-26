@@ -136,12 +136,14 @@
                 <div class="profile-content">
                     <img src="/img/logos/icon.png" alt="profileImg" />
                 </div>
+                <a href="/changePassword">
                 <div class="name-role">
                     <div class="profile-name">{{user.username}}</div>
                     <div class="role">
                         {{#if user.isAdmin}}Super Admin{{else}}Normal User{{/if}}
                     </div>
                 </div>
+                </a>
                 <i class="bx bx-log-out" id="logout"></i>
             </div>
         </li>
