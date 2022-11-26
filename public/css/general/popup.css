@@ -8,9 +8,11 @@
 .popup {
     /* Change this colors */
     --label-color: #000;
-    --button-color: #000;
+    --create-button-color: #000;
+    --update-button-color: #000;
     --reset-button-color: #000;
     --suspend-button-color: #000;
+    --resume-button-color: #000;
 
     border-radius: 8px;
     border-color: transparent;
@@ -177,8 +179,8 @@ button:hover {
 
 .popup-close {
     border-radius: 50%;
-    position:absolute;
-    right:25px;
+    position: absolute;
+    right: 25px;
 }
 
 .command {
@@ -192,59 +194,68 @@ button:hover {
     margin: 0 10px;
 }
 
-#replay-symbol {
-    /*Adjust background-color of background of the replay symbol*/
-    color: white;
-    background-color: black;
-    border-radius: 60%;
-    float: left;
-    font-size: 50px;
-    margin-top: 2vh;
-    margin-bottom: 5vh;
-    margin-left: 5vh;
-    margin-right: 5vh;
-}
-#block-symbol {
-    /*Adjust background-color of background of the block symbol*/
-    color: white;
-    background-color: black;
-    border-radius: 60%;
-    float: left;
-    font-size: 50px;
-    margin-top: 2vh;
-    margin-bottom: 5vh;
+.confirm-type-form {
+    padding: 20px 10px 0;
 }
 
-#certainty-popup {
-    margin-top: 3vh;
-    font-size: 15px;
+.confirm-type-form .popup-row-wrapper {
+    align-items: center;
 }
-#reset-username,
-#suspend-username {
+
+.confirm-type-form .command {
+    margin-top: 20px;
+}
+
+.confirm-type-text-highlight {
     /*Adjust color of username in reset popup and suspend popup*/
     color: brown;
     font-size: 15px;
 }
 
-#reset-form,
-#suspend-form,
-#update-form,
-#create-form{
-    margin-top: 2vh;
+.confirm-type-symbol {
+    color: white;
+    background-color: black;
+    border-radius: 100%;
+    padding: 7px;
+    font-size: 45px;
+    margin-right: 5px;
 }
 
-#reset-user-button {
+#certainty-text {
+    font-size: 15px;
+    width: 15vw;
+    max-width: 300px;
+    min-width: 200px;
+}
+
+#create-user-button {
+    background-color: var(--create-button-color);
+}
+
+#update-user-button {
+    background-color: var(--update-button-color);
+}
+
+#reset-user-button,
+#replay-symbol {
     background-color: var(--reset-button-color);
 }
 
-#suspend-user-button {
+#suspend-user-button,
+#block-symbol {
     background-color: var(--suspend-button-color);
+}
+
+#resume-user-button,
+#play-symbol {
+    background-color: var(--resume-button-color);
 }
 
 .create-update-form {
     width: 50%;
     inset: 0;
     margin: auto;
+    margin-top: 2vh;
 }
 
 .create-update-form .item-wrapper {
@@ -261,8 +272,4 @@ button:hover {
 #password-label, #confirm-password-label */
 .create-update-label {
     color: var(--label-color);
-}
-
-.cancel-update{
-    background-color: var(--button-color);
 }
