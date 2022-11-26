@@ -205,33 +205,44 @@ button:hover {
 #suspend-popup input[type="text"] {
     padding: 5px;
 }
-
 #replay-symbol {
     color: white;
     background-color: black;
     border-radius: 60%;
     float: left;
-    font-size: 40px;
+    font-size: 50px;
     margin-top: 2vh;
     margin-bottom: 5vh;
+    margin-left: 5vh;
+    margin-right: 5vh;
 }
 #block-symbol {
     color: white;
     background-color: black;
     border-radius: 60%;
     float: left;
-    font-size: 40px;
+    font-size: 50px;
+    margin-top: 2vh;
+    margin-bottom: 5vh;
 }
 
 #certainty-popup {
+    margin-top: 3vh;
+    font-size:15px;
+}
+#reset-username, #suspend-username{
+    color: brown;
+    font-size: 15px;
+}
+
+#reset-form, #suspend-form{
     margin-top: 2vh;
-    margin-left: 10vh;
 }
 
-#reset {
-    background-color: black;
+#reset-user-button{
+    background-color:black;
 }
 
-#suspend {
+#suspend-user-button{
     background-color: black;
 }
