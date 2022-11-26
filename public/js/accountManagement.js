@@ -16,6 +16,9 @@ function getAllUsers(refreshGrid = false) {
         },
         success: function (users) {
             for (var account of users) {
+                account.dateCreated = formatDate(new Date(account.dateCreated));
+                account.dateUpdated = formatDate(new Date(account.dateUpdated));
+                account.lastLogin = formatDate(new Date(account.lastLogin));
                 account = new user(
                     account._id,
                     account.username,
