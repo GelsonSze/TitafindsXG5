@@ -185,6 +185,9 @@ $(document).ready(function () {
 
     $("#edit-popup").popup({
         blur: false,
+        onopen: function(){
+            
+        }
     });
 
     $("#edit-popup .edit-popup_close").on("click", function (e) {});

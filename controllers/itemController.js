@@ -29,7 +29,7 @@ const itemController = {
                 desc: data.description,
                 type: data.type,
                 sellingType: data.sellingType,
-                styles: ["pages/item.css", "general/w2ui-overrides.css"],
+                styles: ["pages/item.css", "general/w2ui-overrides.css", "general/popup.css"],
                 scripts: ["item.js"],
                 user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
             });
