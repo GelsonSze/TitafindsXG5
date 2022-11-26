@@ -49,6 +49,9 @@ const adminController = {
             }
             var error = "";
             var errorFields = [];
+            var alphanumeric = /^([a-zA-Z0-9]+)$/;
+            var alphaNumSymbols = /^([a-zA-Z0-9!@#$%^&*]+)$/;
+
             //Create a new user
             const newUser = {
                 username: req.body.username,
@@ -69,6 +72,12 @@ const adminController = {
                 errorFields = ["create-password"];
             } else if (String(newUser.password).length > 100) {
                 error = "Password exceeds 100 characters";
+                errorFields = ["create-password"];
+            } else if (!String(newUser.username).match(alphanumeric)){
+                error = "Username is not alphanumeric";
+                errorFields = ["create-username"];
+            } else if(!String(newUser.password).match(alphaNumSymbols)){
+                error = "Password contains non-alphanumeric symbols that isn't !@#$%^&*";
                 errorFields = ["create-password"];
             } else {
                 //Hash the password
@@ -106,6 +115,8 @@ const adminController = {
 
             var error = "";
             var errorFields = [];
+            var alphanumeric = /^([a-zA-Z0-9]+)$/;
+
             const updatedUser = {
                 username: req.body.username,
                 firstName: req.body.firstName,
@@ -118,6 +129,9 @@ const adminController = {
                 errorFields = ["update-username"];
             } else if (String(updatedUser.username).length > 100) {
                 error = "Username exceeds 100 characters";
+                errorFields = ["update-username"];
+            } else if (!String(updatedUser.username).match(alphanumeric)){
+                error = "Username is not alphanumeric";
                 errorFields = ["update-username"];
             } else {
                 db.updateOne(User, { _id: req.body.id }, updatedUser, function (data) {
@@ -148,7 +162,6 @@ const adminController = {
                 res.status(404).json({ message: "User does not exist" });
                 return;
             }
-
             const salt = await bcrypt.genSalt(10);
             var hashedPassword = await bcrypt.hash("password", salt);
             const resetUser = {
