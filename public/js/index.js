@@ -12,36 +12,28 @@ function getAllItems(refreshGrid = false) {
             url: "/getItems",
             type: "GET",
             processData: false,
-            contentType: false,
-            headers: {
-                "Content-Type": "application/json",
-            },
+            contentType: "application/json; charset=utf-8",
             success: function (items) {
-                for (var product of items) {
-                    Items.push(
-                        new item(
-                            product.image,
-                            product.name,
-                            product.code,
-                            product.type,
-                            product.classification,
-                            product.size,
-                            product.weight,
-                            product.quantity,
-                            product.sellingPrice,
-                            product.purchasePrice,
-                            product.status
-                        )
-                    );
-                }
-                if (refreshGrid) {
-                    w2ui["item-grid"].records = Items;
-                    w2ui["item-grid"].refresh();
-                }
+                Items = [];
+
+                var dfd = $.Deferred().resolve();
+
+                items.forEach(function (product) {
+                    dfd = dfd.then(function () {
+                        return pushItem(product);
+                    });
+                });
+
+                dfd.done(function () {
+                    if (refreshGrid) {
+                        w2ui["item-grid"].records = Items;
+                        w2ui["item-grid"].refresh();
+                    }
+                });
             },
         });
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -74,6 +66,84 @@ function item(
     };
 }
 
+function pushItem(product) {
+    var dfd = $.Deferred();
+
+    Items.push(
+        new item(
+            product.image,
+            product.name,
+            product.code,
+            product.type,
+            product.classification,
+            product.size,
+            product.weight,
+            product.quantity,
+            product.sellingPrice,
+            product.purchasePrice,
+            product.status
+        )
+    );
+
+    dfd.resolve();
+
+    return dfd.promise();
+}
+
+function getSpecifiedItems(refreshGrid = false, classification, type, status, weight, size) {
+    /*Records it as 0 if the user did not select a category*/
+    var Specified = [];
+    var check = $("#filter-search").val().toLowerCase();
+
+    /*Process gets all items given a specific condition, which is if the item has the following category. The ==0 condition
+    is only for the instances where the category was not changed.*/
+    $.ajax({
+        url: "/getItems",
+        type: "GET",
+        processData: false,
+        contentType: "application/json; charset=utf-8",
+        success: function (items) {
+            for (var product of items) {
+                if (
+                    (product.type == $("#dropdown-type-select").text().trim() || type == 0) &&
+                    (product.classification == $("#dropdown-classification-select").text().trim() ||
+                        classification == 0) &&
+                    (product.status == $("#dropdown-status-select").text().trim() || status == 0) &&
+                    ((product.weight >= $("#weight-min").val() &&
+                        product.weight <= $("#weight-max").val()) ||
+                        weight == 0) &&
+                    ((product.size >= $("#size-min").val() &&
+                        product.size <= $("#size-max").val()) ||
+                        size == 0) &&
+                    (product.name.toLowerCase().search(check) != -1 ||
+                        product.code.toLowerCase().search(check) != -1) //||
+                    //check == ""
+                ) {
+                    Specified.push(
+                        new item(
+                            product.image,
+                            product.name,
+                            product.code,
+                            product.type,
+                            product.classification,
+                            product.size,
+                            product.weight,
+                            product.quantity,
+                            product.sellingPrice,
+                            product.purchasePrice,
+                            product.status
+                        )
+                    );
+                }
+            }
+            if (refreshGrid) {
+                w2ui["item-grid"].clear();
+                w2ui["item-grid"].records = Specified;
+                w2ui["item-grid"].refresh();
+            }
+        },
+    });
+}
 function increase() {
     AddPopupQuantity = $("#add-popup #quantity").val();
     if (!isNaN(AddPopupQuantity)) {
@@ -94,6 +164,8 @@ function decrease() {
 
 // On document ready
 $(function () {
+    $("#weight-min").val(0);
+    $("#size-min").val(0);
     getAllItems(true);
 
     $("#item-grid").w2grid({
@@ -178,28 +250,26 @@ $(function () {
             var record = w2ui["item-grid"].get(recid.recid);
             //console.log(record)
 
-            window.location.href = "/item/" + record.code;
+            window.open(`/item/${record.code}`, "_blank");
         },
     });
 
     $("#restock-popup").popup({
         blur: false /* pop-up must be only closed with X button, not by clicking outside */,
-    });
-
-    $("#restock-popup .restock-popup_close").on("click", async function () {
-        $("#restock-popup #restock-form")[0].reset();
+        onclose: function () {
+            $("#restock-popup #restock-form")[0].reset();
+        },
     });
 
     $("#restock-popup form .command :reset").on("click", async function () {
-        $("#restock-popup #restock-form")[0].reset();
         $("#restock-popup").popup("hide");
     });
 
     $("#restock-popup form .command :submit").on("click", function (e) {
         e.preventDefault();
 
-        var codeField = $("#restock-popup #code")[0];
-        var quantityField = $("#restock-popup #quantity")[0];
+        var codeField = $("#restock-popup #restock-code")[0];
+        var quantityField = $("#restock-popup #restock-quantity")[0];
         var error = $("#restock-popup .text-error")[0];
 
         var fields = [codeField, quantityField];
@@ -216,8 +286,10 @@ $(function () {
             return;
         }
 
-        const code = $("#restock-popup #code").val();
+        const code = $("#restock-popup #restock-code").val();
         const data = new FormData($("#restock-form")[0]);
+        data.append("dateRestocked", new Date());
+
         var recID = w2ui["item-grid"].find({ code: code });
         recID = recID[0];
 
@@ -255,11 +327,13 @@ $(function () {
                         message = jqXHR.responseJSON.message;
                         fields = jqXHR.responseJSON.fields;
 
-                        fields.forEach(async function (field) {
-                            emptyFields.push($(`#${field}`)[0]);
-                        });
+                        if (fields) {
+                            fields.forEach(async function (field) {
+                                emptyFields.push($(`#${field}`)[0]);
+                            });
 
-                        showError(error, message, emptyFields);
+                            showError(error, message, emptyFields);
+                        }
                     },
                 });
             },
@@ -268,33 +342,36 @@ $(function () {
                 message = jqXHR.responseJSON.message;
                 fields = jqXHR.responseJSON.fields;
 
-                fields.forEach(async function (field) {
-                    emptyFields.push($(`#${field}`)[0]);
-                });
+                if (fields) {
+                    fields.forEach(async function (field) {
+                        if (field == "code") {
+                            field = `restock-${field}`;
+                        }
+                        emptyFields.push($(`#${field}`)[0]);
+                    });
 
-                showError(error, message, emptyFields);
+                    showError(error, message, emptyFields);
+                }
             },
         });
     });
 
     $("#sell-popup").popup({
         blur: false,
-    });
-
-    $("#sell-popup .sell-popup_close").on("click", function () {
-        $("#sell-popup #sell-form")[0].reset();
+        onclose: function () {
+            $("#sell-popup #sell-form")[0].reset();
+        },
     });
 
     $("#sell-popup form .command :reset").on("click", function () {
-        $("#sell-popup #sell-form")[0].reset();
         $("#sell-popup").popup("hide");
     });
 
     $("#sell-popup form .command :submit").on("click", function (e) {
         e.preventDefault();
 
-        var codeField = $("#sell-popup #code")[0];
-        var quantityField = $("#sell-popup #quantity")[0];
+        var codeField = $("#sell-popup #sell-code")[0];
+        var quantityField = $("#sell-popup #sell-quantity")[0];
         var error = $("#sell-popup .text-error")[0];
 
         var fields = [codeField, quantityField];
@@ -311,8 +388,9 @@ $(function () {
             return;
         }
 
-        const code = $("#sell-popup #code").val();
+        const code = $("#sell-popup #sell-code").val();
         const data = new FormData($("#sell-form")[0]);
+        data.append("dateSold", new Date());
         var recID = w2ui["item-grid"].find({ code: code });
         recID = recID[0];
 
@@ -349,11 +427,13 @@ $(function () {
                         message = jqXHR.responseJSON.message;
                         fields = jqXHR.responseJSON.fields;
 
-                        fields.forEach(async function (field) {
-                            emptyFields.push($(`#${field}`)[0]);
-                        });
+                        if (fields) {
+                            fields.forEach(async function (field) {
+                                emptyFields.push($(`#${field}`)[0]);
+                            });
 
-                        showError(error, message, emptyFields);
+                            showError(error, message, emptyFields);
+                        }
                     },
                 });
             },
@@ -362,11 +442,16 @@ $(function () {
                 message = jqXHR.responseJSON.message;
                 fields = jqXHR.responseJSON.fields;
 
-                fields.forEach(async function (field) {
-                    emptyFields.push($(`#${field}`)[0]);
-                });
+                if (fields) {
+                    fields.forEach(async function (field) {
+                        if (field == "code") {
+                            field = `sell-${field}`;
+                        }
+                        emptyFields.push($(`#${field}`)[0]);
+                    });
 
-                showError(error, message, emptyFields);
+                    showError(error, message, emptyFields);
+                }
             },
         });
     });
@@ -374,18 +459,13 @@ $(function () {
     /* pop-up must be only closed with X button, not by clicking outside */
     $("#add-popup").popup({
         blur: false,
-    });
-
-    /* clicking on the X button of the popup clears the form */
-
-    $("#add-popup .add-popup_close").on("click", function () {
-        $("#add-popup #add-form")[0].reset();
-        $("#image-preview").attr("src", "/img/product-images/default.png");
+        onclose: function () {
+            $("#add-popup #add-form")[0].reset();
+            $("#image-preview").attr("src", "/img/product-images/default.png");
+        },
     });
 
     $("#add-popup form .command :reset").on("click", function (e) {
-        $("#add-popup #add-form")[0].reset();
-        $("#image-preview").attr("src", "/img/product-images/default.png");
         $("#add-popup").popup("hide");
     });
 
@@ -426,6 +506,17 @@ $(function () {
         data.append("dateAdded", new Date());
         data.append("dateUpdated", new Date());
 
+        const trans_data = {
+            date: new Date(),
+            type: "Added",
+            name: $("#name").val(),
+            desc: "Item added " + $("#code").val(),
+            qty: parseInt($("#quantity").val()),
+            sellingPrice: parseInt($("#selling-price").val()),
+            transactedBy: "Someone",
+        };
+
+        //TO BE REMOVED
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
@@ -443,38 +534,101 @@ $(function () {
                 console.log("reloaded");
                 $("#add-popup #add-form")[0].reset();
                 $("#add-popup").popup("hide");
+                $("#image-preview").attr("src", "/img/product-images/default.png");
             },
 
             error: async function (jqXHR, textStatus, errorThrown) {
                 message = jqXHR.responseJSON.message;
                 fields = jqXHR.responseJSON.fields;
-                console.log(fields);
 
-                fields.forEach(async function (field) {
-                    emptyFields.push($(`#${field}`)[0]);
-                });
+                if (fields) {
+                    fields.forEach(async function (field) {
+                        emptyFields.push($(`#${field}`)[0]);
+                    });
 
-                showError(error, message, emptyFields);
+                    showError(error, message, emptyFields);
+                }
             },
         });
     });
     //on change of image
     $("#image").on("change", function () {
         try {
-            if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $("#image-preview").attr("src", e.target.result);
-                };
-                reader.readAsDataURL(this.files[0]);
-            } else {
-                showError($(".text-error")[0], "Please select an image file", [
-                    $("#image-preview")[0],
-                ]);
+            if (this.files[0]) {
+                //console.log(this.files[
+                if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
+                    if (this.files[0].size <= 1024 * 1024 * 5) {
+                        //add in here validation for size
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("#image-preview").attr("src", e.target.result);
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    } else {
+                        $("#add-popup #image").val("");
+                        showError($("#add-popup .text-error")[0], "Image file exceeds 5mb", [
+                            $("#image-preview")[0],
+                        ]);
+                    }
+                } else {
+                    $("#add-popup #image").val("");
+                    showError($("#add-popup .text-error")[0], "Please select an image file", [
+                        $("#image-preview")[0],
+                    ]);
+                }
             }
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
         }
+    });
+
+    $(".dropdown-type").click(function () {
+        var text = $(this).html();
+        $("#dropdown-type-select").html(text);
+    });
+
+    $(".dropdown-classification").click(function () {
+        var text = $(this).html();
+        $("#dropdown-classification-select").html(text);
+    });
+
+    $(".dropdown-status").click(function () {
+        var text = $(this).html();
+        console.log(text);
+        $("#dropdown-status-select").html(text);
+    });
+
+    $("#table-filter-apply").click(function () {
+        if ($("#dropdown-type-select").text().trim() == "Type") {
+            var type = 0;
+        }
+        if ($("#dropdown-classification-select").text().trim() == "Classification") {
+            var classification = 0;
+        }
+        if ($("#dropdown-status-select").text().trim() == "Status") {
+            var status = 0;
+        }
+        if ($("#weight-min").val() == "" || $("#weight-max").val() == "") {
+            var weight = 0;
+        }
+        if ($("#size-min").val() == "" || $("#size-max").val() == "") {
+            var size = 0;
+        }
+
+        getSpecifiedItems(true, classification, type, status, weight, size);
+    });
+
+    $("#table-filter-clear").click(function () {
+        /*Records it as 0 if the user did not select a category*/
+        $("#dropdown-type-select").html("Type");
+        $("#dropdown-classification-select").html("Classification");
+        $("#dropdown-status-select").html("Status");
+        $("#weight-min").val(0);
+        $("#size-min").val(0);
+        $("#weight-max").val("");
+        $("#size-max").val("");
+        $("#filter-search").val("");
+        getSpecifiedItems(true, 0, 0, 0, 0, 0);
     });
 
     //hover on image

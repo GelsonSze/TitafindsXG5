@@ -1,5 +1,6 @@
 //Controller for sample data
 import Item from "../model/schemas/Item.js";
+import Transaction from "../model/schemas/Transaction.js";
 import db from "../model/db.js";
 import User from "../model/schemas/User.js";
 import bcrypt from "bcrypt";
@@ -39,16 +40,31 @@ const testController = {
         try {
             //Check if sample data already exists
             data.forEach(async function (sampleItem, index) {
-                var flag = await Item.findOne({ code: sampleItem.code });
-                if (flag) {
+                var data = await Item.findOne({ code: sampleItem.code });
+                if (data) {
                     console.log("Sample item already exists");
                 } else {
                     var newSampleItem = new Item(sampleItem);
-                    newSampleItem.save();
+                    newSampleItem.save(function (err, item) {
+                        var transaction = {
+                            date: sampleItem.dateAdded,
+                            type: "Added",
+                            name: sampleItem.name,
+                            description: item.id,
+                            quantity: sampleItem.quantity,
+                            sellingPrice: sampleItem.sellingPrice,
+                            transactedBy: sampleItem.addedBy,
+                            code: sampleItem.code,
+                            name: sampleItem.name,
+                        };
+
+                        var newTransaction = new Transaction(transaction);
+                        newTransaction.save();
+                    });
                 }
             });
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
         }
     },
 };

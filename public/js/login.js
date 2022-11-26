@@ -34,13 +34,13 @@ window.addEventListener("load", function (e) {
                 password: password.value,
             }),
         })
-        .then((res) => {
-            if (res.status >= 400) {
-                showError(error, "Invalid username or password.", fields);
-                return;
-            }
-            if (res.status == 200) window.location.replace(window.location.origin + "/");
-        })
-        .catch((err) => console.log(err));
+            .then((res) => {
+                if (res.status >= 400) {
+                    showError(error, "Invalid username or password.", fields);
+                    return;
+                }
+                if (res.status == 200) window.location.replace(window.location.origin + "/");
+            })
+            .catch((err) => console.log(err));
     });
 });

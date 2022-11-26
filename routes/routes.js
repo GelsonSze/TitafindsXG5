@@ -4,6 +4,7 @@ import userController from "../controllers/userController.js";
 import { checkAuth, checkNoAuth } from "../controllers/authController.js";
 import { generateItemCode } from "../utils/helper.js";
 import { upload } from "../utils/multer.js";
+import transactionController from "../controllers/transactionController.js";
 
 const app = express();
 
@@ -14,11 +15,20 @@ app.delete("/auth/logout", userController.logoutUser);
 
 // The dashboard or inventory page
 app.get("/", checkAuth, itemController.home);
-app.post("/addItem", upload.single("image"), itemController.addItem);
-app.post("/restockItem", upload.any(), itemController.restockItem);
-app.post("/sellItem", upload.any(), itemController.sellItem);
+app.post(
+    "/addItem",
+    upload.single("image"),
+    itemController.addItem,
+    transactionController.addTransaction
+);
+app.post(
+    "/restockItem",
+    upload.any(),
+    itemController.restockItem,
+    transactionController.addTransaction
+);
+app.post("/sellItem", upload.any(), itemController.sellItem, transactionController.addTransaction);
 app.get("/getItems", itemController.getItems);
-
 
 // The login page
 app.get("/login", checkNoAuth, userController.login);
@@ -26,6 +36,16 @@ app.get("/login", checkNoAuth, userController.login);
 // The Item Page
 app.get("/item/:code", checkAuth, itemController.itemDetails);
 app.get("/getItem=:code", itemController.getItem);
+app.get("/getItemById=:id", itemController.getItemById);
+
+// The transactions page
+app.get("/transactions", checkAuth, transactionController.transactions);
+app.get("/getTransactions", transactionController.getTransactions);
+app.get("/getItemTransactions=:id", transactionController.getItemTransactionsById);
+app.get("/getXTransactions=:code&:limit", transactionController.getXTransactions);
+app.post("/addTransaction", transactionController.addTransaction);
+app.get("/getTransaction", transactionController.getTransaction);
+app.get("/searchTransactions=:type&:search", transactionController.searchTransactions);
 
 // TO BE REMOVED
 // if (process.env.NODE_ENV === "development") {
