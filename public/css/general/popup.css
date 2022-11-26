@@ -5,6 +5,7 @@
     background: white;
 }
 
+/*
 .itemFirst {
     float: left;
     clear: left;
@@ -14,9 +15,15 @@
 .item {
     float: left;
     margin: 10px;
-}
+} */
 
 .popup {
+    /* Change this colors */
+    --label-color: #000;
+    --button-color: #000;
+    --reset-button-color: #000;
+    --suspend-button-color: #000;
+
     border-radius: 8px;
     border-color: transparent;
     font-family: "Inter Bold";
@@ -34,6 +41,10 @@
     font-size: 11px;
     color: black;
     margin-bottom: 4px;
+}
+
+.popup input[type="text"] {
+    padding: 5px;
 }
 
 .popup button {
@@ -194,18 +205,6 @@ button:hover {
     margin: 0 10px;
 }
 
-#add-popup input[type="text"],
-#restock-popup input[type="text"],
-#sell-popup input[type="text"] {
-    padding: 5px;
-}
-
-#reset-popup input[type="text"],
-#update-popup input[type="text"],
-#suspend-popup input[type="text"] {
-    padding: 5px;
-}
-
 #replay-symbol {
     /*Adjust background-color of background of the replay symbol*/
     color: white;
@@ -231,44 +230,55 @@ button:hover {
 
 #certainty-popup {
     margin-top: 3vh;
-    font-size:15px;
+    font-size: 15px;
 }
-#reset-username, #suspend-username{
+#reset-username,
+#suspend-username {
     /*Adjust color of username in reset popup and suspend popup*/
     color: brown;
     font-size: 15px;
 }
 
-#reset-form, #suspend-form, #update-form, #create-form{
+#reset-form,
+#suspend-form,
+#update-form,
+#create-form {
     margin-top: 2vh;
 }
 
-#reset-user-button{
-    /*Adjust color of reset button*/
-    background-color:black;
+#reset-user-button {
+    background-color: var(--reset-button-color);
 }
 
-#suspend-user-button{
-    /*Adjust color of suspend user button*/
-    background-color: black;
+#suspend-user-button {
+    background-color: var(--suspend-button-color);
 }
 
-#update-username, #update-first-name, #update-last-name, 
-#create-username, #create-first-name, #create-last-name, #create-password, #create-confirm-password
-{
-    width:50%;
-    margin-left: 17vh;
+.create-update-form {
+    width: 50%;
+    inset: 0;
+    margin: auto;
+}
+
+.create-update-form .item-wrapper {
+    margin: 0;
+}
+
+/* #update-username, #update-first-name, #update-last-name, 
+#create-username, #create-first-name, #create-last-name, #create-password, #create-confirm-password */
+.create-update-input {
     margin-bottom: 3vh;
 }
 
-#username-label, #first-name-label, #last-name-label,
-#password-label, #confirm-password-label{
-    /*Insert code here for changing the color of the label*/
-    margin-left: 17vh;
+/* #username-label, #first-name-label, #last-name-label,
+#password-label, #confirm-password-label */
+.create-update-label {
+    color: var(--label-color);
 }
 
-#cancel-update-button, #update-user-button,
-#cancel-create-button, #create-user-button{
-    /*Adjust button color here*/
-    background-color:black;
+#cancel-update-button,
+#update-user-button,
+#cancel-create-button,
+#create-user-button {
+    background-color: var(--button-color);
 }
