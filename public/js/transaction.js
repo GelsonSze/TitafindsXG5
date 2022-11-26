@@ -24,8 +24,8 @@ function getAllTransactions(refreshGrid = false) {
 
             dfd.done(function () {
                 if (refreshGrid) {
-                    w2ui["transaction-grid"].records = Transactions.reverse();
-                    w2ui["transaction-grid"].refresh();
+                    w2ui["transactionGrid"].records = Transactions.reverse();
+                    w2ui["transactionGrid"].refresh();
                 }
 
                 $("#table-filter-apply").attr("disabled", false);
@@ -107,8 +107,8 @@ function filter() {
                 });
 
                 dfd.done(function () {
-                    w2ui["transaction-grid"].records = Transactions.reverse();
-                    w2ui["transaction-grid"].refresh();
+                    w2ui["transactionGrid"].records = Transactions.reverse();
+                    w2ui["transactionGrid"].refresh();
 
                     $("#table-filter-apply").attr("disabled", false);
                 });
@@ -119,8 +119,8 @@ function filter() {
 
 // On document ready
 $(function () {
-    $("#transaction-grid").w2grid({
-        name: "transaction-grid",
+    $("#transactionGrid").w2grid({
+        name: "transactionGrid",
         show: {
             footer: true,
             lineNumbers: true,
@@ -140,8 +140,9 @@ $(function () {
         onDblClick: function (recid) {
             // Redirects to item page
 
-            var record = w2ui["transaction-grid"].get(recid.recid);
+            var record = w2ui["transactionGrid"].get(recid.recid);
 
+            // Grabs the last string in description. This is the code.
             var strArray = record.description.split(" ");
             var str = strArray[strArray.length - 1];
             var code = str.substring(str.indexOf("(") + 1, str.lastIndexOf(")"));
@@ -170,6 +171,6 @@ $(function () {
 
     $(window).resize(function () {
         console.log("refresh/resize");
-        w2ui["transaction-grid"].refresh();
+        w2ui["transactionGrid"].refresh();
     });
 });

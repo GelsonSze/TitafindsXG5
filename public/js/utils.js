@@ -273,3 +273,36 @@ function birthdayInput(d) {
 String.prototype.removeNewlinesAndTags = function () {
     return this.replace(/(\r\n|\n|\r)/gm, "").replace(/(<([^>]+)>)/gi, "");
 };
+
+/**
+ * This function pushes the transaction of the item in the transaction array
+ * @param {Array} Transactions - Transactions global variable array
+ * @param {Object} trans - transaction object   
+ */
+function pushTransaction(Transactions, trans) {
+    $.ajax({
+        url: `/getItemById=${trans.description}`,
+        type: "GET",
+        processData: false,
+        contentType: false,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        success: function (item) {
+            // console.log("transactions inside");
+            // console.log(trans);
+            trans.date = formatDate(new Date(trans.date));
+            Transactions.push(
+                new transaction(
+                    trans.date,
+                    trans.type,
+                    `Item ${trans.type} - ${item.name} (${item.code})`,
+                    trans.quantity,
+                    trans.sellingPrice,
+                    trans.transactedBy
+                )
+            );
+        },
+    });
+}
+

@@ -21,12 +21,18 @@ const itemController = {
     // },
 
     itemDetails: function (req, res) {
-        res.render("item", {
-            title: "Product",
-            code: req.body.code,
-            styles: ["pages/item.css", "general/w2ui-overrides.css", "general/popup.css"],
-            scripts: ["item.js"],
-            user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
+        db.findOne(Item, { code: req.params.code }, {}, async function (data) {
+            res.render("item", {
+                title: "Product",
+                name: data.name,
+                code: data.code,
+                desc: data.description,
+                type: data.type,
+                sellingType: data.sellingType,
+                styles: ["pages/item.css", "general/w2ui-overrides.css", "general/popup.css"],
+                scripts: ["item.js"],
+                user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
+            });
         });
     },
 
@@ -40,7 +46,7 @@ const itemController = {
 
             // Placeholder for price value in global config setting
             var price = 1;
-            var image = `${ImageDirectory}/default.png`;
+            var image = "product-images/default.png";
             var error = "";
             var errorFields = [];
 
@@ -52,7 +58,7 @@ const itemController = {
             }
 
             var addedItem = {
-                image: image,
+                image: image ?? "product-images/default.png",
                 code: req.body.code,
                 name: req.body.name,
                 description: req.body.description,
@@ -72,17 +78,18 @@ const itemController = {
                 addedBy: req.session.user.username,
             };
 
-            //console.log(addedItem);
+        //console.log(addedItem); 
 
             // Selling price default to 0 if field is empty and selling type is per design
-            if (addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
+            if  (addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
                 addedItem.sellingPrice = "0";
             //Selling price defaults to price * item weight if field is empty and selling type is per gram
             else if (addedItem.sellingType == "per gram" && isEmptyOrSpaces(addedItem.sellingPrice))
                 addedItem.sellingPrice = addedItem.weight * price;
 
-            // Purchase price is default to 0 if field is empty
-            if (isEmptyOrSpaces(addedItem.purchasePrice)) addedItem.purchasePrice = "0";
+        // Purchase price is default to 0 if field is empty
+        if(isEmptyOrSpaces(addedItem.purchasePrice))
+            addedItem.purchasePrice = "0";
 
             console.log(addedItem);
             //  Errors
@@ -217,6 +224,23 @@ const itemController = {
             res.status(400).json({ message: error, fields: ["restock-quantity"] });
         } catch (error) {
             res.status(500).json({ message: "Server Error: Restock Item", details: error.message });
+            return;
+        }
+        res.status(400).json({message: error, fields: ["quantity"]});
+    },
+    
+    getItemById: function (req, res) {
+        try {
+            if (!req.session.user) {
+                res.status(400).json({ error: "User not logged in" });
+                return;
+            }
+            db.findById(Item, req.params.id, "name code", async function (data) {
+                console.log(data);
+                res.status(200).json(data);
+            });
+        } catch (err) {
+            res.status(500).json({ message: "Server Error: Get Item By Id", details: err });
             return;
         }
     },

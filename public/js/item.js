@@ -90,36 +90,6 @@ function pushTransaction(trans) {
 function getTransactions(refreshGrid = false) {
     var itemCode = window.location.pathname.split("/").pop();
 
-    $("#details-grid").w2grid({
-        name: "details-grid",
-        show: {
-            footer: true,
-            lineNumbers: true,
-        },
-        method: "GET",
-        limit: 50,
-        recordHeight: 60,
-        columns: [
-            { field: "date", text: "Date", size: "35%", sortable: true },
-            { field: "type", text: "Type", size: "5%", sortable: true },
-            { field: "description", text: "Description", size: "40%", sortable: true },
-            { field: "quantity", text: "Quantity", size: "3%", sortable: true },
-            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true },
-            { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
-        ],
-        records: Transactions,
-        onDblClick: function (recid) {
-            // Redirects to item page
-
-            var record = w2ui["details-grid"].get(recid.recid);
-
-            // Grabs the last string in description. This is the code.
-            var code = record.description.split(" ").pop();
-
-            window.location.href = "/item/" + code;
-        },
-    });
-
     $.ajax({
         url: `/getItem=${itemCode}`,
         type: "GET",
@@ -145,8 +115,8 @@ function getTransactions(refreshGrid = false) {
 
                     dfd.done(function () {
                         if (refreshGrid) {
-                            w2ui["details-grid"].records = Transactions.reverse();
-                            w2ui["details-grid"].refresh();
+                            w2ui["detailsGrid"].records = Transactions.reverse();
+                            w2ui["detailsGrid"].refresh();
                         }
                     });
                 },
@@ -199,8 +169,9 @@ function getItem() {
 
             // Appends a field into the #fields-table
             for (var i = 0; i < num_keys; i++) {
-                $("#fields-table").append(itemDesc(fields[i], values[i]));
+                $("#table-body").append(`<tr><td>${fields[i]}</td> <td>${values[i]}</td></tr>`);
             }
+
         },
     });
 }
@@ -210,7 +181,8 @@ function getItem() {
  * @param  {String} [field] - Is the field name for the table item
  * @param  {String} [desc] - Is the field description for the table item
  */
-function itemDesc(field, desc) {
+function itemDesc(field, desc) { 
+
     const html = `
     <div class="item-desc-wrapper">
         <div class="field">
@@ -221,8 +193,8 @@ function itemDesc(field, desc) {
         </div>
     </div>
     
-    `;
-
+    `
+    
     return html;
 }
 
@@ -230,4 +202,34 @@ $(document).ready(function () {
     // Loads item for the page.
     getItem();
     getTransactions(true);
+
+    $("#detailsGrid").w2grid({
+        name: "detailsGrid",
+        show: {
+            footer: true,
+            lineNumbers: true,
+        },
+        method: "GET",
+        limit: 50,
+        recordHeight: 60,
+        columns: [
+            { field: "date", text: "Date", size: "35%", sortable: true },
+            { field: "type", text: "Type", size: "5%", sortable: true },
+            { field: "description", text: "Description", size: "40%", sortable: true },
+            { field: "quantity", text: "Quantity", size: "3%", sortable: true },
+            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true },
+            { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
+        ],
+        records: Transactions,
+        onDblClick: function (recid) {
+            // Redirects to item page
+
+            var record = w2ui["detailsGrid"].get(recid.recid);
+
+            // Grabs the last string in description. This is the code.
+            var code = record.description.split(" ").pop();
+
+            window.location.href = "/item/" + code;
+        },
+    });
 });
