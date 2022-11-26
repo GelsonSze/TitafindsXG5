@@ -18,17 +18,17 @@
                     {{! Type }}
                     <div class="dropdown-select-wrapper">
                         <select disabled>
-                            <option disabled selected value>Type</option>
+                            <option id="dropdown-type-select" disabled selected value>Type</option>
                         </select>
                         <div class="dropdown-select-content">
-                            <button type="button">Chain</button>
-                            <button type="button">Braceclet</button>
-                            <button type="button">Earrings</button>
-                            <button type="button">Necklace</button>
-                            <button type="button">Pendant</button>
-                            <button type="button">Ring</button>
-                            <button type="button">Set</button>
-                            <button type="button">Watch</button>
+                            <button class="dropdown-type" type="button">Chain</button>
+                            <button class="dropdown-type" type="button">Bracelet</button>
+                            <button class="dropdown-type" type="button">Earrings</button>
+                            <button class="dropdown-type" type="button">Necklace</button>
+                            <button class="dropdown-type" type="button">Pendant</button>
+                            <button class="dropdown-type" type="button">Ring</button>
+                            <button class="dropdown-type" type="button">Set</button>
+                            <button class="dropdown-type" type="button">Watch</button>
                         </div>
                     </div>
 
@@ -47,15 +47,17 @@
                     }} {{! Classification }}
                     <div class="dropdown-select-wrapper">
                         <select disabled>
-                            <option disabled selected value>Classification</option>
+                            <option id="dropdown-classification-select" disabled selected value>
+                                Classification
+                            </option>
                         </select>
                         <div class="dropdown-select-content">
-                            <button type="button">10 karat</button>
-                            <button type="button">14 karat</button>
-                            <button type="button">18 karat</button>
-                            <button type="button">21 karat</button>
-                            <button type="button">22 karat</button>
-                            <button type="button">24 karat</button>
+                            <button class="dropdown-classification" type="button">10 karat</button>
+                            <button class="dropdown-classification" type="button">14 karat</button>
+                            <button class="dropdown-classification" type="button">18 karat</button>
+                            <button class="dropdown-classification" type="button">21 karat</button>
+                            <button class="dropdown-classification" type="button">22 karat</button>
+                            <button class="dropdown-classification" type="button">24 karat</button>
                         </div>
                     </div>
 
@@ -69,11 +71,14 @@
                     }} {{! Status }}
                     <div class="dropdown-select-wrapper">
                         <select disabled>
-                            <option disabled selected value>Status</option>
+                            <option id="dropdown-status-select" disabled selected value>
+                                Status
+                            </option>
                         </select>
                         <div class="dropdown-select-content">
-                            <button type="button">In Stock</button>
-                            <button type="button">No Stock</button>
+                            <button class="dropdown-status" type="button">Available</button>
+                            <button class="dropdown-status" type="button">Damaged</button>
+                            <button class="dropdown-status" type="button">Sold Out</button>
                         </div>
                     </div>
 
@@ -83,46 +88,41 @@
                     </select>
                     }} {{! Weight }}
                     <div class="dropdown-btn">
-                        <select disabled>
-                            <option disabled selected value>Weight</option>
-                        </select>
-                        <div class="dropdown-content">
-                            <span>WEIGHT RANGE</span>
-                            <div class="range-wrapper">
-                                <div class="gram-wrapper">
-                                    <input type="text" class="input-field" size="2" />
-                                    <span>GRAMS</span>
-                                </div>
-                                <span>to</span>
-                                <div class="gram-wrapper">
-                                    <input type="text" class="input-field" size="2" />
-                                    <span>GRAMS</span>
-                                </div>
+                        <span>WEIGHT RANGE</span>
+                        <div class="range-wrapper">
+                            <div class="gram-wrapper">
+                                <input type="text" class="input-field" id="weight-min" size="2" />
+                                <span>GRAMS</span>
+                            </div>
+                            <span>to</span>
+                            <div class="gram-wrapper">
+                                <input type="text" class="input-field" id="weight-max" size="2" />
+                                <span>GRAMS</span>
                             </div>
                         </div>
                     </div>
 
                     {{! Size }}
                     <div class="dropdown-btn">
-                        <select disabled>
-                            <option disabled selected value>Size</option>
-                        </select>
-                        <div class="dropdown-content">
-                            <span>SIZE RANGE</span>
-                            <div class="range-wrapper">
-                                <input type="text" class="input-field" size="2" />
-                                <span>to</span>
-                                <input type="text" class="input-field" size="2" />
-                            </div>
-                            <select>
-                                <option selected>cm</option>
-                                <option>inches</option>
-                            </select>
+                        <span>SIZE RANGE</span>
+                        <div class="range-wrapper">
+                            <input type="text" class="input-field" id="size-min" size="2" />
+                            <span>to</span>
+                            <input type="text" class="input-field" id="size-max" size="2" />
                         </div>
+                        <select>
+                            <option selected>cm</option>
+                            <option>inches</option>
+                        </select>
                     </div>
 
                     {{! Apply Button }}
-                    <button type="button" id="table-filter-apply">Apply Filter</button>
+                    <button type="button" class="table-filter" id="table-filter-apply">
+                        Apply Filter
+                    </button>
+                    <button type="button" class="table-filter" id="table-filter-clear">
+                        Clear Filter
+                    </button>
                 </div>
 
                 <div id="add">
@@ -145,7 +145,7 @@
 
     <section id="main-body">
         {{!place code for the w2ui table here }}
-        <div id="item-grid"></div>
+        <div id="item-grid" class="w2ui-grid-custom"></div>
     </section>
 </main>
 

@@ -1,0 +1,49 @@
+{{>sidebar}}
+<main class="main-section">
+    <section>
+        <section id="main-control">
+            <h1>Transaction List</h1>
+
+            <div id="table-actions-wrapper">
+                <div id="table-filters-wrapper">
+                    {{! Search }}
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    <input
+                        class="input-field"
+                        type="text"
+                        placeholder="Search"
+                        id="filter-search"
+                    />
+
+                    {{! Type }}
+                    <div class="dropdown-select-wrapper">
+                        <select disabled>
+                            <option id="dropdown-selected" disabled selected value>Type</option>
+                        </select>
+                        <div class="dropdown-select-content">
+                            <button class="dropdown-type" type="button">Restock</button>
+                            <button class="dropdown-type" type="button">Added</button>
+                            <button class="dropdown-type" type="button">Sell</button>
+                            <button class="dropdown-type" type="button">Any</button>
+                        </div>
+                    </div>
+
+                    {{! Apply Button }}
+                    <button type="button" class="table-filter" id="table-filter-apply">
+                        Apply Filter
+                    </button>
+                    <button type="button" class="table-filter" id="table-filter-clear">
+                        Clear Filter
+                    </button>
+                </div>
+                <button type="button" class="table-filter" id="table-filter-refresh">
+                    <i class="bx bx-refresh"></i>
+                </button>
+            </div>
+        </section>
+    </section>
+
+    <section id="main-body">
+        <div id="transaction-grid" class="w2ui-grid-custom"></div>
+    </section>
+</main>

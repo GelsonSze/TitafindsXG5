@@ -53,7 +53,7 @@ var samples = [
         sellingType: "per gram",
         purchasePrice: 20000,
         sellingPrice: 40000,
-        status: "Unavailable",
+        status: "Sold Out",
         dateAdded: "10/21/2022",
         dateUpdated: "10/31/2022",
         addedBy: "admin",
