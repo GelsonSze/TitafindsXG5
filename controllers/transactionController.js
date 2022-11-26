@@ -32,8 +32,11 @@ const transactionController = {
             db.insertOne(Transaction, transItem, function (data) {
                 res.send(data);
             });
-        } catch (err) {
-            res.status(500).json({ message: "Server Error: Add Transaction", details: err });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Add Transaction",
+                details: error.message,
+            });
             return;
         }
     },
@@ -43,8 +46,11 @@ const transactionController = {
             db.findMany(Transaction, {}, null, function (data) {
                 res.status(200).json(data);
             });
-        } catch (err) {
-            res.status(500).json({ message: "Server Error: Get Transactions", details: err });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Get Transactions",
+                details: error.message,
+            });
             return;
         }
     },
@@ -56,8 +62,11 @@ const transactionController = {
             db.findLastX(Transaction, { code: code }, null, limit, function (data) {
                 res.status(200).json(data);
             });
-        } catch (err) {
-            res.status(500).json({ message: "Server Error: Get Transactions", details: err });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Get Transactions",
+                details: error.message,
+            });
             return;
         }
     },
@@ -74,8 +83,11 @@ const transactionController = {
                     res.status(200).json(await data);
                 }
             );
-        } catch (err) {
-            res.status(500).json({ message: "Server Error: Get Transaction", details: err });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Get Transaction",
+                details: error.message,
+            });
             return;
         }
     },
@@ -129,8 +141,11 @@ const transactionController = {
                     }
                 );
             }
-        } catch (err) {
-            res.status(500).json({ message: "Server Error: Search Transactions", details: err });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Search Transactions",
+                details: error.message,
+            });
             return;
         }
     },

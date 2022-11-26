@@ -62,10 +62,7 @@ function pushTransaction(trans) {
         url: `/getItemById=${trans.description}`,
         type: "GET",
         processData: false,
-        contentType: false,
-        headers: {
-            "Content-Type": "application/json",
-        },
+        contentType: "application/json; charset=utf-8",
         success: function (item) {
             trans.date = formatDate(new Date(trans.date));
             Transactions.push(
@@ -127,8 +124,7 @@ function getTransactions(refreshGrid = false) {
         url: `/searchTransactions=${"Type"}&${itemCode}`,
         type: "GET",
         processData: false,
-        contentType: false,
-        headers: { "Content-Type": "application/json" },
+        contentType: "application/json; charset=utf-8",
         success: function (items) {
             console.log(items);
             Transactions = [];
@@ -161,11 +157,8 @@ function getItem() {
         url: `/getItem=${item_code}`,
         type: "GET",
         processData: false,
-        contentType: false,
+        contentType: "application/json; charset=utf-8",
         data: { code: item_code },
-        headers: {
-            "Content-Type": "application/json",
-        },
         success: function (item) {
             // Note from Erik: length is undefined ata sa database hence it being an outlier with system colors
             page_item = new Item(

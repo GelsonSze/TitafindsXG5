@@ -231,11 +231,11 @@ function formatDate(d) {
     //include 0 if the year is less than 10
     const year = d.getFullYear() < 10 ? "0" + d.getFullYear() : d.getFullYear();
     //include 0 if the month is less than 10
-    const month = d.getMonth()+1 < 10 ? `0${d.getMonth()+1}` : d.getMonth()+1;
+    const month = d.getMonth() < 10 ? `0${d.getMonth()}` : d.getMonth();
     //include 0 if the day is less than 10
     const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
 
-    return `${year}/${month}/${day} ${formatAMPM(d)}`;
+    return `${year}/${month + 1}/${day} ${formatAMPM(d)}`;
 }
 
 /**

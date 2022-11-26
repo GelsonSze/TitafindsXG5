@@ -12,10 +12,7 @@ function getAllItems(refreshGrid = false) {
             url: "/getItems",
             type: "GET",
             processData: false,
-            contentType: false,
-            headers: {
-                "Content-Type": "application/json",
-            },
+            contentType: "application/json; charset=utf-8",
             success: function (items) {
                 Items = [];
 
@@ -35,8 +32,8 @@ function getAllItems(refreshGrid = false) {
                 });
             },
         });
-    } catch (err) {
-        console.log(err);
+    } catch (error) {
+        console.log(error);
     }
 }
 
@@ -104,10 +101,7 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
         url: "/getItems",
         type: "GET",
         processData: false,
-        contentType: false,
-        headers: {
-            "Content-Type": "application/json",
-        },
+        contentType: "application/json; charset=utf-8",
         success: function (items) {
             for (var product of items) {
                 if (
@@ -262,9 +256,9 @@ $(function () {
 
     $("#restock-popup").popup({
         blur: false /* pop-up must be only closed with X button, not by clicking outside */,
-        onclose: function(){
+        onclose: function () {
             $("#restock-popup #restock-form")[0].reset();
-        }
+        },
     });
 
     $("#restock-popup form .command :reset").on("click", async function () {
@@ -333,7 +327,7 @@ $(function () {
                         message = jqXHR.responseJSON.message;
                         fields = jqXHR.responseJSON.fields;
 
-                        if(fields){
+                        if (fields) {
                             fields.forEach(async function (field) {
                                 emptyFields.push($(`#${field}`)[0]);
                             });
@@ -348,7 +342,7 @@ $(function () {
                 message = jqXHR.responseJSON.message;
                 fields = jqXHR.responseJSON.fields;
 
-                if(fields){
+                if (fields) {
                     fields.forEach(async function (field) {
                         emptyFields.push($(`#${field}`)[0]);
                     });
@@ -361,9 +355,9 @@ $(function () {
 
     $("#sell-popup").popup({
         blur: false,
-        onclose: function(){
+        onclose: function () {
             $("#sell-popup #sell-form")[0].reset();
-        }
+        },
     });
 
     $("#sell-popup form .command :reset").on("click", function () {
@@ -430,7 +424,7 @@ $(function () {
                         message = jqXHR.responseJSON.message;
                         fields = jqXHR.responseJSON.fields;
 
-                        if(fields){
+                        if (fields) {
                             fields.forEach(async function (field) {
                                 emptyFields.push($(`#${field}`)[0]);
                             });
@@ -445,7 +439,7 @@ $(function () {
                 message = jqXHR.responseJSON.message;
                 fields = jqXHR.responseJSON.fields;
 
-                if(fields){
+                if (fields) {
                     fields.forEach(async function (field) {
                         emptyFields.push($(`#${field}`)[0]);
                     });
@@ -459,10 +453,10 @@ $(function () {
     /* pop-up must be only closed with X button, not by clicking outside */
     $("#add-popup").popup({
         blur: false,
-        onclose: function(){
+        onclose: function () {
             $("#add-popup #add-form")[0].reset();
             $("#image-preview").attr("src", "/img/product-images/default.png");
-        }
+        },
     });
 
     $("#add-popup form .command :reset").on("click", function (e) {
@@ -540,8 +534,8 @@ $(function () {
             error: async function (jqXHR, textStatus, errorThrown) {
                 message = jqXHR.responseJSON.message;
                 fields = jqXHR.responseJSON.fields;
-                
-                if(fields){
+
+                if (fields) {
                     fields.forEach(async function (field) {
                         emptyFields.push($(`#${field}`)[0]);
                     });
@@ -577,8 +571,8 @@ $(function () {
                     ]);
                 }
             }
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
         }
     });
 

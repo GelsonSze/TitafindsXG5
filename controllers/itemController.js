@@ -132,8 +132,8 @@ const itemController = {
                 return;
             }
             res.status(400).json({ message: error, fields: errorFields });
-        } catch (err) {
-            res.status(500).json({ message: "Server Error: Add Item", details: err });
+        } catch (error) {
+            res.status(500).json({ message: "Server Error: Add Item", details: error.message });
             return;
         }
     },
@@ -142,8 +142,8 @@ const itemController = {
             db.findMany(Item, {}, null, function (data) {
                 res.status(200).json(data);
             });
-        } catch (err) {
-            res.status(500).json({ message: "Server Error: Get Items", details: err });
+        } catch (error) {
+            res.status(500).json({ message: "Server Error: Get Items", details: error.message });
             return;
         }
     },
@@ -157,8 +157,8 @@ const itemController = {
                     res.status(400).json({ message: "Invalid Product Code.", fields: ["code"] });
                 }
             });
-        } catch (err) {
-            res.status(500).json({ message: "Server Error: Get Item", details: err });
+        } catch (error) {
+            res.status(500).json({ message: "Server Error: Get Item", details: error.message });
             return;
         }
     },
@@ -171,86 +171,99 @@ const itemController = {
                 console.log(data);
                 res.status(200).json(data);
             });
-        } catch (err) {
-            res.status(500).json({ message: "Server Error: Get Item By Id", details: err });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Get Item By Id",
+                details: error.message,
+            });
             return;
         }
     },
 
     restockItem: async function (req, res, next) {
-        var error = "";
-        var quantity = req.body.quantity;
-        var item = await Item.findOne({ code: req.body.code });
-        console.log(quantity);
+        try {
+            var error = "";
+            var quantity = req.body.quantity;
+            var item = await Item.findOne({ code: req.body.code });
+            console.log(quantity);
 
-        if (isNaN(quantity)) {
-            error = "Quantity inputted is not a number.";
-        } else if (!isNaN(quantity) && quantity % 1 != 0) {
-            error = "Quantity inputted is not a whole number.";
-        } else if (quantity == 0) {
-            error = "Quantity is 0.";
-        } else {
-            db.updateOne(
-                Item,
-                { code: req.body.code },
-                { $inc: { quantity: req.body.quantity } },
-                function (data) {
-                    req.body = {
-                        date: req.body.dateRestocked,
-                        type: "Restock",
-                        description: item._id.toString(),
-                        quantity: quantity,
-                        sellingPrice: item.sellingPrice,
-                        transactedBy: req.session.user.username,
-                        code: item.code,
-                        name: item.name
+            if (isNaN(quantity)) {
+                error = "Quantity inputted is not a number.";
+            } else if (!isNaN(quantity) && quantity % 1 != 0) {
+                error = "Quantity inputted is not a whole number.";
+            } else if (quantity == 0) {
+                error = "Quantity is 0.";
+            } else {
+                db.updateOne(
+                    Item,
+                    { code: req.body.code },
+                    { $inc: { quantity: req.body.quantity } },
+                    function (data) {
+                        req.body = {
+                            date: req.body.dateRestocked,
+                            type: "Restock",
+                            description: item._id.toString(),
+                            quantity: quantity,
+                            sellingPrice: item.sellingPrice,
+                            transactedBy: req.session.user.username,
+                            code: item.code,
+                            name: item.name,
+                        };
+                        next();
                     }
-                    next();
-                }
-            );
+                );
+                return;
+            }
+            res.status(400).json({ message: error, fields: ["restock-quantity"] });
+        } catch (error) {
+            res.status(500).json({ message: "Server Error: Restock Item", details: error.message });
             return;
         }
-        res.status(400).json({ message: error, fields: ["restock-quantity"] });
     },
 
     sellItem: async function (req, res, next) {
-        var error = "";
-        var quantity = req.body.quantity;
-        var item = await Item.findOne({ code: req.body.code });
+        try {
+            var error = "";
+            var quantity = req.body.quantity;
+            var item = await Item.findOne({ code: req.body.code });
 
-        if (isNaN(quantity)) {
-            error = "Quantity inputted is not a number.";
-        } else if (!isNaN(quantity) && quantity % 1 != 0) {
-            error = "Quantity inputted is not a whole number.";
-        } else if (quantity == 0) {
-            error = "Quantity is 0.";
-        } else if (item.quantity == 0) {
-            error = "No available stock.";
-        } else if (item.quantity - quantity < 0) {
-            error = "Insufficient stock.";
-        } else {
-            quantity = -Math.abs(req.body.quantity);
-            db.updateOne(
-                Item,
-                { code: req.body.code },
-                { $inc: { quantity: quantity } },
-                function (data) {
-                    req.body = {
-                        date: req.body.dateSold,
-                        type: "Sell",
-                        description: item._id.toString(),
-                        quantity: quantity,
-                        sellingPrice: item.sellingPrice,
-                        transactedBy: req.session.user.username,
-                        code: item.code,
-                        name: item.name
+            if (isNaN(quantity)) {
+                error = "Quantity inputted is not a number.";
+            } else if (!isNaN(quantity) && quantity % 1 != 0) {
+                error = "Quantity inputted is not a whole number.";
+            } else if (quantity == 0) {
+                error = "Quantity is 0.";
+            } else if (item.quantity == 0) {
+                error = "No available stock.";
+            } else if (item.quantity - quantity < 0) {
+                error = "Insufficient stock.";
+            } else {
+                quantity = -Math.abs(req.body.quantity);
+                db.updateOne(
+                    Item,
+                    { code: req.body.code },
+                    { $inc: { quantity: quantity } },
+                    function (data) {
+                        req.body = {
+                            date: req.body.dateSold,
+                            type: "Sell",
+                            description: item._id.toString(),
+                            quantity: quantity,
+                            sellingPrice: item.sellingPrice,
+                            transactedBy: req.session.user.username,
+                            code: item.code,
+                            name: item.name,
+                        };
+                        next();
                     }
-                    next();
-                }
-            );
+                );
+                return;
+            }
+            res.status(400).json({ message: error, fields: ["sell-quantity"] });
+        } catch (error) {
+            res.status(500).json({ message: "Server Error: Sell Item", details: error.message });
             return;
         }
-        res.status(400).json({ message: error, fields: ["sell-quantity"] });
     },
 };
 

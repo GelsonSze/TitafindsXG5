@@ -10,10 +10,7 @@ function getAllTransactions(refreshGrid = false) {
         url: "/getTransactions",
         type: "GET",
         processData: false,
-        contentType: false,
-        headers: {
-            "Content-Type": "application/json",
-        },
+        contentType: "application/json; charset=utf-8",
         success: function (items) {
             Transactions = [];
 
@@ -47,10 +44,7 @@ function pushTransaction(trans) {
         url: `/getItemById=${trans.description}`,
         type: "GET",
         processData: false,
-        contentType: false,
-        headers: {
-            "Content-Type": "application/json",
-        },
+        contentType: "application/json; charset=utf-8",
         success: function (item) {
             trans.date = formatDate(new Date(trans.date));
             Transactions.push(
@@ -100,8 +94,7 @@ function filter() {
             url: `/searchTransactions=${typeBar}&${searchBar}`,
             type: "GET",
             processData: false,
-            contentType: false,
-            headers: { "Content-Type": "application/json" },
+            contentType: "application/json; charset=utf-8",
             success: function (items) {
                 Transactions = [];
 
