@@ -21,12 +21,12 @@ $(function () {
                     console.log("Item grid not found");
                 }
                 try {
-                    w2ui["transaction-grid"].refresh();
+                    w2ui["transactionGrid"].refresh();
                 } catch (err) {
                     console.log("Transaction grid not found");
                 }
                 try {
-                    w2ui["details-grid"].refresh();
+                    w2ui["detailsGrid"].refresh();
                 } catch (err) {
                     console.log("Item details grid not found");
                 }
