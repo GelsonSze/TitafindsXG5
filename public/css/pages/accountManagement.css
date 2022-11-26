@@ -5,4 +5,5 @@
 .admin-actions {
     display: flex;
     font-size: 22px;
+    gap: 1vw;
 }

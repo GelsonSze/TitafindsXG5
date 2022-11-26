@@ -5,18 +5,6 @@
     background: white;
 }
 
-/*
-.itemFirst {
-    float: left;
-    clear: left;
-    margin: 10px;
-}
-
-.item {
-    float: left;
-    margin: 10px;
-} */
-
 .popup {
     /* Change this colors */
     --label-color: #000;
