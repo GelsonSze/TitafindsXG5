@@ -1,13 +1,12 @@
 <section id="reset-popup" class="popup">
-    <h1>Reset User</h1>
-    <form id="reset-form">
+    <h1>Reset User Password</h1>
+    <form id="reset-form" class="confirm-type-form">
         <div class="popup-row-wrapper">
-            <div class="item-wrapper">
-                <i class="material-symbols-outlined" id="replay-symbol">replay</i>
-                <p id="certainty-popup">
-                    Are you sure you want to reset <b><span id="reset-username"></span></b>?
-                </p>
-            </div>
+            <i class="material-symbols-outlined confirm-type-symbol" id="replay-symbol">replay</i>
+            <p id="certainty-text">
+                Are you sure you want to reset password of
+                <b><span id="reset-username" class="confirm-type-text-highlight"></span></b>?
+            </p>
         </div>
 
         <div class="command">

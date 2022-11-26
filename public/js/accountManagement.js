@@ -110,16 +110,16 @@ $(function () {
             },
             {
                 field: "edit",
-                size: "5%",
+                size: "7%",
                 render: function (record, extra) {
-                    var resetButton = `<button class="reset-popup_open" data-id='${record.id}'><i class='bx bx-reset'></i></button>`;
-                    var suspendButton = `<button class="suspend-popup_open" data-id='${record.id}'><i class='bx bx-block'></i></button>`;
-                    var resumeButton = `<button class="resume-popup_open" data-id='${record.id}'><i class='bx bx-play'></i></button>`;
+                    var resetButton = `<button class="reset-popup_open" data-id='${record.id}'><i class='material-symbols-outlined'>replay</i></button>`;
+                    var suspendButton = `<button class="suspend-popup_open" data-id='${record.id}'><i class='material-symbols-outlined'>block</i></button>`;
+                    var resumeButton = `<button class="resume-popup_open" data-id='${record.id}'><i class='material-symbols-outlined'>play_arrow</i></button>`;
                     var html = `
                 <div class='admin-actions'>
                     <button class="update-popup_open" data-id='${
                         record.id
-                    }'><i class='bx bx-edit'></i></button>
+                    }'><i class='material-symbols-outlined'>edit</i></button>
                     ${record.isAdmin ? "" : resetButton}
                     ${record.isAdmin ? "" : record.isSuspended ? resumeButton : suspendButton}
                 </div>
@@ -531,7 +531,7 @@ $(function () {
     $(window).resize(function () {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(function () {
-            console.log("refresh/resize");
+            // console.log("refresh/resize");
             w2ui["user-grid"].refresh();
         }, 510);
     });

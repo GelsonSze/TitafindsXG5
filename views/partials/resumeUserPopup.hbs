@@ -1,17 +1,16 @@
 <section id="resume-popup" class="popup">
     <h1>Resume User</h1>
-    <form id="resume-form">
+    <form id="resume-form" class="confirm-type-form">
         <div class="popup-row-wrapper">
-            <div class="item-wrapper">
-                <i class="material-symbols-outlined" id="block-symbol">block</i>
-                <p id="certainty-popup">
-                    Are you sure you want to resume <span id="resume-username"></span>?
-                </p>
-            </div>
+            <i class="material-symbols-outlined confirm-type-symbol" id="play-symbol">play_arrow</i>
+            <p id="certainty-text">
+                Are you sure you want to resume
+                <span id="resume-username" class="confirm-type-text-highlight"></span>?
+            </p>
         </div>
 
         <div class="command">
-            <button class="resume-popup_close">Cancel</button>
+            <button type="reset" class="resume-popup_close">Cancel</button>
             <button type="submit" id="resume-user-button">Resume</button>
         </div>
     </form>

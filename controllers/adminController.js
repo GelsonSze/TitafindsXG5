@@ -25,7 +25,7 @@ const adminController = {
             const users = await User.find();
             res.status(200).json(users);
         } catch (error) {
-            res.status(500).json({ message: "Server Error: Get Users", details: err });
+            res.status(500).json({ message: "Server Error: Get Users", details: error.message });
         }
     },
     // Get a user
@@ -34,7 +34,7 @@ const adminController = {
             const user = await User.findById(req.params.id);
             res.status(200).json(user);
         } catch (error) {
-            res.status(500).json({ message: "Server Error: Get User", details: err });
+            res.status(500).json({ message: "Server Error: Get User", details: error.message });
         }
     },
 
