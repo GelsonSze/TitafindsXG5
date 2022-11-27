@@ -36,8 +36,8 @@ app.get("/searchTransactions=:type&:search", [checkAuth, transactionController.s
 
 //The Account Management page
 app.get("/accountManagement", [viewPage, adminOnly, checkAuth, adminController.accountManagement]);
-app.get("/changePassword", adminController.changePassword);
-app.put("/changeOwnPassword", adminController.changeOwnPassword);
+app.get("/changePassword", [viewPage, checkAuth, adminController.changePassword]);
+app.put("/changeOwnPassword", [checkAuth, adminController.changeOwnPassword]);
 
 app.get("/auth/getUsers", [adminOnly, checkAuth, adminController.getUsers]);
 app.get("/auth/getUser=:id", [adminOnly, checkAuth, adminController.getUser]);
