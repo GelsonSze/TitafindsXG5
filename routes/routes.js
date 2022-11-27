@@ -2,7 +2,7 @@ import express from "express";
 import itemController from "../controllers/itemController.js";
 import userController from "../controllers/userController.js";
 import adminController from "../controllers/adminController.js";
-import { checkAuth, checkNoAuth, viewPage } from "../controllers/authController.js";
+import { checkAuth, checkNoAuth, viewPage, adminOnly } from "../controllers/authController.js";
 import { upload } from "../utils/multer.js";
 import transactionController from "../controllers/transactionController.js";
 
@@ -35,16 +35,16 @@ app.get("/getTransaction", [checkAuth, transactionController.getTransaction]);
 app.get("/searchTransactions=:type&:search", [checkAuth, transactionController.searchTransactions]);
 
 //The Account Management page
-app.get("/accountManagement", [viewPage, checkAuth, adminController.accountManagement]);
+app.get("/accountManagement", [viewPage, adminOnly, checkAuth, adminController.accountManagement]);
 app.get("/changePassword", adminController.changePassword);
 app.put("/changeOwnPassword", adminController.changeOwnPassword);
 
-app.get("/auth/getUsers", [checkAuth, adminController.getUsers]);
-app.get("/auth/getUser=:id", [checkAuth, adminController.getUser]);
-app.post("/auth/addUser", [checkAuth, adminController.addUser]);
-app.put("/auth/updateUser", [checkAuth, adminController.updateUser]);
-app.put("/auth/suspendUser", [checkAuth, adminController.suspendUser]);
-app.put("/auth/resumeUser", [checkAuth, adminController.resumeUser]);
-app.put("/auth/resetPassword", [checkAuth, adminController.resetPassword]);
+app.get("/auth/getUsers", [adminOnly, checkAuth, adminController.getUsers]);
+app.get("/auth/getUser=:id", [adminOnly, checkAuth, adminController.getUser]);
+app.post("/auth/addUser", [adminOnly, checkAuth, adminController.addUser]);
+app.put("/auth/updateUser", [adminOnly, checkAuth, adminController.updateUser]);
+app.put("/auth/suspendUser", [adminOnly, checkAuth, adminController.suspendUser]);
+app.put("/auth/resumeUser", [adminOnly, checkAuth, adminController.resumeUser]);
+app.put("/auth/resetPassword", [adminOnly, checkAuth, adminController.resetPassword]);
 
 export default app;
