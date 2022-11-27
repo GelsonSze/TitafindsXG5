@@ -49,16 +49,31 @@ const adminController = {
             }
             var error = "";
             var errorFields = [];
-            var alphabet = /^([a-zA-Z]+)$/;
+            var nameRegex = /^([a-zA-Z\s.-]+)$/;
             var alphanumeric = /^([a-zA-Z0-9]+)$/;
             var alphaNumSymbols = /^([a-zA-Z0-9!@#$%^&*]+)$/;
+
+            var firstName = req.body.firstName;
+            var lastName = req.body.lastName;
+
+            //Removes excess spaces at the start and end of the name string
+            firstName = firstName.trim();
+            lastName = lastName.trim();
+
+            //Removes multiple spaces in between
+            firstName = firstName.replace(/\s\s+/g, ' ');
+            lastName = lastName.replace(/\s\s+/g, ' ');
+
+            console.log("After trim and replace");
+            console.log(firstName);
+            console.log(lastName);
 
             //Create a new user
             const newUser = {
                 username: req.body.username,
                 password: req.body.password,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
+                firstName: firstName,
+                lastName: lastName,
                 dateCreated: req.body.dateCreated,
             };
 
@@ -71,10 +86,10 @@ const adminController = {
             } else if (!String(newUser.username).match(alphanumeric)){
                 error = "Username is not alphanumeric";
                 errorFields = ["create-username"];
-            } else if (!String(newUser.firstName).match(alphabet)){
+            } else if (!String(newUser.firstName).match(nameRegex)){
                 error = "First name contains characters not in the alphabet";
                 errorFields = ["create-first-name"];
-            } else if(!String(newUser.lastName).match(alphabet)){
+            } else if(!String(newUser.lastName).match(nameRegex)){
                 error = "Last name contains characters not in the alphabet";
                 errorFields = ["create-last-name"];
             } else if (String(newUser.password).length < 6) {
