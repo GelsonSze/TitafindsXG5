@@ -8,12 +8,21 @@ export async function checkAuth(req, res, next) {
 
         // check if suspended
         if (!req.session.user.isSuspended) {
+            if(req.session.adminOnly) {
+                delete req.session.adminOnly;
+                if (!req.session.user.isAdmin) return res.redirect("/");
+            }
             return next();
         } else {
             if (req.session.viewPage) {
                 delete req.session.viewPage;
                 req.session.destroy();
-                return res.redirect("/login?suspended=true");
+                return res.render("login", {
+                    title: "Login",
+                    styles: ["pages/login.css"],
+                    scripts: ["login.js"],
+                    error: "Account Suspended",
+                });
             } else {
                 res.status(403).json({ message: "User is suspended" });
                 return;
@@ -43,5 +52,11 @@ export function checkNoAuth(req, res, next) {
 
 export function viewPage(req, res, next) {
     req.session.viewPage = true;
+    next();
+}
+
+
+export function adminOnly(req, res, next) {
+    req.session.adminOnly = true;
     next();
 }

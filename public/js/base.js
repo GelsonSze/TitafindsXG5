@@ -1,9 +1,6 @@
 const limit = 4,
     contentLimit = 170;
-const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
-
-//source: https://laasyasettyblog.hashnode.dev/validating-username-using-regex
-const usernameRegex = RegExp(/^[A-Za-z][A-Za-z0-9_]{4,29}$/);
+// const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
 
 $(function () {
     let sidebar = document.querySelector(".sidebar");

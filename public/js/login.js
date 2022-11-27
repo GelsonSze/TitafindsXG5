@@ -1,19 +1,15 @@
-window.addEventListener("load", function (e) {
-    const username = this.document.querySelector("#username");
-    const password = this.document.querySelector("#password");
-    const login = this.document.querySelector("#login");
-    const error = this.document.querySelector(".text-error");
-    let fields = [username, password];
+$(document).ready(function () {
+    const error = $(".text-error")[0];
+    if (!isEmptyOrSpaces(error.innerHTML)) {
+        showError(error, error.innerHTML, []);
+    }
 
-    //setTimeout 500ms to allow the error message to be displayed
-    setTimeout(function () {
-        const suspended = this.document.querySelector(".text-error");
-        console.log(suspended.value);
-        if (suspended.value) showError(suspended, suspended.value, []);
-    }, 1500);
-
-    login.addEventListener("click", (e) => {
+    $("#login").on("click", function (e) {
         e.preventDefault();
+
+        const username = $("#username")[0];
+        const password = $("#password")[0];
+        let fields = [username, password];
 
         let emptyFields = [];
         for (const input of fields) {
@@ -26,28 +22,31 @@ window.addEventListener("load", function (e) {
             showError(error, "Please fill out all fields", emptyFields);
             return;
         }
-        if (!username.value.match(usernameRegex)) {
-            showError(error, "Please enter a valid username", [username]);
-            return;
-        }
 
-        this.fetch("/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
+        $.ajax({
+            url: "/auth/login",
+            type: "POST",
+            data: JSON.stringify({ username: username.value, password: password.value }),
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+            success: function (data) {
+                window.location.replace(window.location.origin + "/");
             },
-            body: JSON.stringify({
-                username: username.value,
-                password: password.value,
-            }),
-        })
-            .then((res) => {
-                if (res.status >= 400) {
-                    showError(error, "Invalid username or password", fields);
-                    return;
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                fields = jqXHR.responseJSON.fields;
+                details = jqXHR.responseJSON.details;
+
+                if (fields) {
+                    fields.forEach(async function (field) {
+                        emptyFields.push($(`#${field}`)[0]);
+                    });
+                    showError(error, message, emptyFields);
+                } else if (details) {
+                    showError(error, message, []);
+                    console.log(details);
                 }
-                if (res.status == 200) window.location.replace(window.location.origin + "/");
-            })
-            .catch((err) => console.log(err));
+            },
+        });
     });
 });

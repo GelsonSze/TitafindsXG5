@@ -33,9 +33,9 @@ var successTimeout,
  * inputs in elements array for 5 seconds.
  * @param  {HTMLElement} error - the element to display the error message
  * @param  {string} message - the error message
- * @param  {HTMLElement[]} inputs - the fields to display red border
+ * @param  {HTMLElement[]} inputs=[] - the fields to display red border
  */
-function showError(error, message, inputs) {
+function showError(error, message, inputs = []) {
     clearTimeout(errorTimeout);
     for (const oldInput of tempFields) {
         oldInput.classList.remove("error");
@@ -192,9 +192,9 @@ function secondDiff(date1, date2) {
 
 /**
  * Returns formatted date 'Day Mon dd yyyy, hh:mm {am|pm}'
- * @param  {Date} d - the date to be formatted
+ * @param  {Date} date - the date to be formatted
  */
-function formatDate2(d) {
+function formatDate2(date) {
     var months = [
             "Jan",
             "Feb",
@@ -211,31 +211,31 @@ function formatDate2(d) {
         ],
         days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     return (
-        days[d.getDay()] +
+        days[date.getDay()] +
         " " +
-        months[d.getMonth()] +
+        months[date.getMonth()] +
         " " +
-        d.getDate() +
+        date.getDate() +
         " " +
-        d.getFullYear() +
+        date.getFullYear() +
         ", " +
-        formatAMPM(d)
+        formatAMPM(date)
     );
 }
 
 /**
  * Returns formatted date 'Day Mon dd yyyy, hh:mm {am|pm}'
- * @param  {Date} d - the date to be formatted
+ * @param  {Date} date - the date to be formatted
  */
-function formatDate(d) {
+function formatDate(date) {
     //include 0 if the year is less than 10
-    const year = d.getFullYear() < 10 ? "0" + d.getFullYear() : d.getFullYear();
+    const year = date.getFullYear() < 10 ? "0" + date.getFullYear() : date.getFullYear();
     //include 0 if the month is less than 10
-    const month = d.getMonth()+1 < 10 ? `0${d.getMonth()+1}` : d.getMonth()+1;
+    const month = date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1;
     //include 0 if the day is less than 10
-    const day = d.getDate() < 10 ? `0${d.getDate()}` : d.getDate();
+    const day = date.getDate() < 10 ? `0${date.getDate()}` : date.getDate();
 
-    return `${year}/${month}/${day} ${formatAMPM(d)}`;
+    return `${year}/${month}/${day} ${formatAMPM(date)}`;
 }
 
 /**
@@ -257,13 +257,13 @@ function formatAMPM(date) {
 
 /**
  * Returns formatted date 'yyyy-MM-dd'
- * @param  {Date} d - the date to be formatted
+ * @param  {Date} date - the date to be formatted
  */
-function birthdayInput(d) {
-    d = new Date(d);
-    let MM = d.getMonth() + 1;
+function birthdayInput(date) {
+    date = new Date(date);
+    let MM = date.getMonth() + 1;
     MM = MM < 10 ? "0" + MM : MM;
-    return `${d.getFullYear()}-${MM}-${d.getDate()}`;
+    return `${date.getFullYear()}-${MM}-${date.getDate()}`;
 }
 
 /**
@@ -277,32 +277,31 @@ String.prototype.removeNewlinesAndTags = function () {
 /**
  * This function pushes the transaction of the item in the transaction array
  * @param {Array} Transactions - Transactions global variable array
- * @param {Object} trans - transaction object   
+ * @param {Object} trans - transaction object
  */
-function pushTransaction(Transactions, trans) {
-    $.ajax({
-        url: `/getItemById=${trans.description}`,
-        type: "GET",
-        processData: false,
-        contentType: false,
-        headers: {
-            "Content-Type": "application/json",
-        },
-        success: function (item) {
-            // console.log("transactions inside");
-            // console.log(trans);
-            trans.date = formatDate(new Date(trans.date));
-            Transactions.push(
-                new transaction(
-                    trans.date,
-                    trans.type,
-                    `Item ${trans.type} - ${item.name} (${item.code})`,
-                    trans.quantity,
-                    trans.sellingPrice,
-                    trans.transactedBy
-                )
-            );
-        },
-    });
-}
-
+// function pushTransaction(Transactions, trans) {
+//     $.ajax({
+//         url: `/getItemById=${trans.description}`,
+//         type: "GET",
+//         processData: false,
+//         contentType: false,
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         success: function (item) {
+//             // console.log("transactions inside");
+//             // console.log(trans);
+//             trans.date = formatDate(new Date(trans.date));
+//             Transactions.push(
+//                 new transaction(
+//                     trans.date,
+//                     trans.type,
+//                     `Item ${trans.type} - ${item.name} (${item.code})`,
+//                     trans.quantity,
+//                     trans.sellingPrice,
+//                     trans.transactedBy
+//                 )
+//             );
+//         },
+//     });
+// }
