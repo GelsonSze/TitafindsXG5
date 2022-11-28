@@ -230,4 +230,17 @@ $(document).ready(function () {
             window.location.href = "/item/" + code;
         },
     });
+
+    // //refresh grid when window is resized
+    // var resizeTimer;
+    // $(window).resize(function () {
+    //     clearTimeout(resizeTimer);
+    //     resizeTimer = setTimeout(function () {
+    //         // console.log("refresh/resize");
+    //         w2ui["details-grid"].refresh();
+    //     }, 510);
+    // });
+    $("#edit-popup").popup({
+        blur: false,
+    });
 });

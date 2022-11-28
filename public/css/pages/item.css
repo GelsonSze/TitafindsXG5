@@ -1,3 +1,7 @@
+.main-section {
+    overflow: scroll;
+}
+
 #item-page-wrapper {
     display: flex;
     flex-direction: column;
@@ -124,6 +128,10 @@
 
 #bottom-wrapper {
     height: 370px;
+}
+
+#details-grid {
+    height: 100%;
 }
 
 #commands {
