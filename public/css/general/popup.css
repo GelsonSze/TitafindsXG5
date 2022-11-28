@@ -225,9 +225,7 @@ button:hover {
 
 #certainty-text {
     font-size: 15px;
-    width: 15vw;
-    max-width: 300px;
-    min-width: 200px;
+    width: 250px;
 }
 
 #create-user-button {
@@ -276,38 +274,10 @@ button:hover {
     color: var(--label-color);
 }
 
-#reset-popup input[type="text"],
-#update-popup input[type="text"],
-#suspend-popup input[type="text"] {
-    padding: 5px;
-}
-
-#replay-symbol{
-    color: white;
-    background-color: black;
-    border-radius: 60%;
-    float: left;
-    font-size: 40px;
-    margin-top: 2vh;
-    margin-bottom: 5vh;
-}
-#block-symbol{
-    color:white;
-    background-color: black;
-    border-radius: 60%;
-    float: left;
-    font-size: 40px;
-}
-
-#certainty-popup{
-    margin-top: 2vh;
-    margin-left: 10vh;
-}
-
-#reset{
+#reset {
     background-color: black;
 }
 
-#suspend{
+#suspend {
     background-color: black;
 }
