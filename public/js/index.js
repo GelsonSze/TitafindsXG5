@@ -100,7 +100,7 @@ function pushItem(product) {
 
 function getSpecifiedItems(refreshGrid = false, classification, type, status, weight, size) {
     /*Records it as 0 if the user did not select a category*/
-    var Specified = [];
+    Items = [];
     var check = $("#filter-search").val().toLowerCase();
 
     /*Process gets all items given a specific condition, which is if the item has the following category. The ==0 condition
@@ -127,7 +127,7 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
                         product.code.toLowerCase().search(check) != -1) //||
                     //check == ""
                 ) {
-                    Specified.push(
+                    Items.push(
                         new item(
                             product.image,
                             product.name,
@@ -146,7 +146,7 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
             }
             if (refreshGrid) {
                 w2ui["item-grid"].clear();
-                w2ui["item-grid"].records = Specified;
+                w2ui["item-grid"].records = Items;
                 w2ui["item-grid"].refresh();
             }
         },
@@ -621,6 +621,12 @@ $(function () {
         var text = $(this).html();
         console.log(text);
         $("#dropdown-status-select").html(text);
+    });
+
+    $("#filter-search").on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            $("#table-filter-apply").click();
+        }
     });
 
     $("#table-filter-apply").click(function () {
