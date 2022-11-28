@@ -17,8 +17,10 @@ function getAllUsers(refreshGrid = false) {
         success: function (users) {
             for (var account of users) {
                 account.dateCreated = formatDate(new Date(account.dateCreated));
-                if(account.dateUpdated != null) account.dateUpdated = formatDate(new Date(account.dateUpdated));
-                if(account.lastLogin != null) account.lastLogin = formatDate(new Date(account.lastLogin));
+                if (account.dateUpdated != null)
+                    account.dateUpdated = formatDate(new Date(account.dateUpdated));
+                if (account.lastLogin != null)
+                    account.lastLogin = formatDate(new Date(account.lastLogin));
                 account = new user(
                     account._id,
                     account.username,
@@ -169,7 +171,7 @@ $(function () {
 
         if ($("#create-password").val() != $("#create-confirm-password").val()) {
             wrongFields = [password, confirm];
-            showError(error, "Password and confirm password do not match", wrongFields);
+            showError(error, "Password and Confirm password do not match", wrongFields);
             return;
         }
 
@@ -204,13 +206,14 @@ $(function () {
                 details = jqXHR.responseJSON.details;
 
                 if (fields) {
+                    wrongFields = [];
                     fields.forEach(async function (field) {
-                        emptyFields.push($(`#${field}`)[0]);
+                        wrongFields.push($(`#${field}`)[0]);
                     });
-                    showError(error, message, emptyFields);
-                } else if (details) {
+                    showError(error, message, wrongFields);
+                } else {
                     showError(error, message, []);
-                    console.log(details);
+                    if (details) console.log(details);
                 }
             },
         });
@@ -255,13 +258,14 @@ $(function () {
                     details = jqXHR.responseJSON.details;
 
                     if (fields) {
+                        wrongFields = [];
                         fields.forEach(async function (field) {
-                            emptyFields.push($(`#${field}`)[0]);
+                            wrongFields.push($(`#${field}`)[0]);
                         });
-                        showError(error, message, emptyFields);
-                    } else if (details) {
+                        showError(error, message, wrongFields);
+                    } else {
                         showError(error, message, []);
-                        console.log(details);
+                        if (details) console.log(details);
                     }
                 },
             });
@@ -288,19 +292,20 @@ $(function () {
                     details = jqXHR.responseJSON.details;
 
                     if (fields) {
+                        wrongFields = [];
                         fields.forEach(async function (field) {
-                            emptyFields.push($(`#${field}`)[0]);
+                            wrongFields.push($(`#${field}`)[0]);
                         });
-                        showError(error, message, emptyFields);
-                    } else if (details) {
+                        showError(error, message, wrongFields);
+                    } else {
                         showError(error, message, []);
-                        console.log(details);
+                        if (details) console.log(details);
                     }
                 },
             });
         }
 
-        if (e.target.closest(".suspend-popup_open")) {            
+        if (e.target.closest(".suspend-popup_open")) {
             var id = e.target.closest(".suspend-popup_open").dataset.id;
             $("#suspend-form").data("id", id);
 
@@ -328,7 +333,7 @@ $(function () {
             //             });
             //         }
             //     });
-                
+
             $.ajax({
                 url: `/auth/getUser=${id}`,
                 type: "GET",
@@ -347,13 +352,14 @@ $(function () {
                     details = jqXHR.responseJSON.details;
 
                     if (fields) {
+                        wrongFields = [];
                         fields.forEach(async function (field) {
-                            emptyFields.push($(`#${field}`)[0]);
+                            wrongFields.push($(`#${field}`)[0]);
                         });
-                        showError(error, message, emptyFields);
-                    } else if (details) {
+                        showError(error, message, wrongFields);
+                    } else {
                         showError(error, message, []);
-                        console.log(details);
+                        if (details) console.log(details);
                     }
                 },
             });
@@ -382,13 +388,14 @@ $(function () {
                     details = jqXHR.responseJSON.details;
 
                     if (fields) {
+                        wrongFields = [];
                         fields.forEach(async function (field) {
-                            emptyFields.push($(`#${field}`)[0]);
+                            wrongFields.push($(`#${field}`)[0]);
                         });
-                        showError(error, message, emptyFields);
-                    } else if (details) {
+                        showError(error, message, wrongFields);
+                    } else {
                         showError(error, message, []);
-                        console.log(details);
+                        if (details) console.log(details);
                     }
                 },
             });
@@ -447,13 +454,14 @@ $(function () {
                 details = jqXHR.responseJSON.details;
 
                 if (fields) {
+                    wrongFields = [];
                     fields.forEach(async function (field) {
-                        emptyFields.push($(`#${field}`)[0]);
+                        wrongFields.push($(`#${field}`)[0]);
                     });
-                    showError(error, message, emptyFields);
-                } else if (details) {
+                    showError(error, message, wrongFields);
+                } else {
                     showError(error, message, []);
-                    console.log(details);
+                    if (details) console.log(details);
                 }
             },
         });

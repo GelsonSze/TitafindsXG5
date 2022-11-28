@@ -262,10 +262,12 @@ button:hover {
     margin: 0;
 }
 
-/* #update-username, #update-first-name, #update-last-name, 
-#create-username, #create-first-name, #create-last-name, #create-password, #create-confirm-password */
+.create-update-form .text-error {
+    margin-bottom: 1vh;
+}
+
 .create-update-input {
-    margin-bottom: 3vh;
+    margin-bottom: 2vh;
 }
 
 /* #username-label, #first-name-label, #last-name-label,
