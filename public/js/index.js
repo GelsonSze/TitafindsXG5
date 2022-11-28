@@ -223,12 +223,18 @@ $(function () {
                 text: "Selling Price",
                 size: "5%",
                 sortable: true,
+                render: function (record){
+                    return record.sellingPrice.toLocaleString("en-US");
+                }
             },
             {
                 field: "purchasePrice",
                 text: "Purchase Price",
                 size: "6%",
                 sortable: true,
+                render: function (record){
+                    return record.purchasePrice.toLocaleString("en-US");
+                }
             },
             { field: "status", text: "Status", size: "7%", sortable: true },
             // {
