@@ -143,6 +143,8 @@ body {
     font-weight: 400;
     color: #fff;
     transition: all 0.4s ease;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .sidebar.close .nav-links li a .link-name {
     opacity: 0;

@@ -120,7 +120,9 @@
             <ul class="sub-menu">
                 <li><a class="link-name" href="#">Settings</a></li>
                 <li>
-                    <a href="/accountManagement"><span class="bx bx-user"></span>Account Management</a>
+                    <a href="/accountManagement"
+                        ><span class="bx bx-user"></span>Account Management</a
+                    >
                 </li>
                 <li>
                     <a href="#"><span class="bx bx-book-alt"></span>Configure Attributes</a>
@@ -132,18 +134,25 @@
         </li>
         {{/if}}
         <li>
+            <a href="/changePassword">
+                <i class="bx bx-key"></i>
+                <span class="link-name">Change Password</span>
+            </a>
+            <ul class="sub-menu blank">
+                <li><a class="link-name" href="/changePassword">Change Password</a></li>
+            </ul>
+        </li>
+        <li>
             <div class="profile-details">
                 <div class="profile-content">
                     <img src="/img/logos/icon.png" alt="profileImg" />
                 </div>
-                <a href="/changePassword">
                 <div class="name-role">
                     <div class="profile-name">{{user.username}}</div>
                     <div class="role">
                         {{#if user.isAdmin}}Super Admin{{else}}Normal User{{/if}}
                     </div>
                 </div>
-                </a>
                 <i class="bx bx-log-out" id="logout"></i>
             </div>
         </li>

@@ -2,7 +2,6 @@
 import User from "../model/schemas/User.js";
 import bcrypt from "bcrypt";
 import db from "../model/db.js";
-import { ReturnDocument } from "mongodb";
 
 const adminController = {
     accountManagement: function (req, res) {
@@ -271,35 +270,26 @@ const adminController = {
 
     changeOwnPassword: async function (req, res) {
         try {
-            console.log(req.session.user);
             var error = "";
             var errorFields = [];
             const updatedPassword = req.body.newPassword;
-            const oldHashedPassword = "";
-            var alphanumeric = /^([a-zA-Z0-9]+)$/;
+            var oldHashedPassword = "";
             var alphaNumSymbols = /^([a-zA-Z0-9!@#$%^&*]+)$/;
 
-            //Hash the password
-            const salt = await bcrypt.genSalt(10);
-            var hashedPassword = await bcrypt.hash(updatedPassword, salt);
-
-            db.findOne(User, { username: req.session.user }, {}, function (data) {
-                console.log(data);
-                oldHashedPassword = data.password;
-            });
+            const user = await User.findOne({ username: req.session.user.username });
+            const isMatch = await bcrypt.compare(updatedPassword, user.password);
+            if (isMatch) {
+                error = "Password is the same as old password";
+                errorFields = ["new-password"];
+                return res.status(400).json({ message: error, fields: errorFields });
+            }
 
             if (String(updatedPassword).length < 6) {
                 error = "Password is less than 6 characters";
-                errorFields = ["update-password"];
+                errorFields = ["new-password"];
             } else if (String(updatedPassword).length > 100) {
                 error = "Password exceeds 100 characters";
-                errorFields = ["update-password"];
-            } else if (updatedPassword != req.params.confirm) {
-                error = "Password does not match";
-                errorFields = ["update-password", "confirm-password"];
-            } else if (hashedPassword == oldHashedPassword) {
-                error = "Password is the same as old password";
-                errorFields = ["update-password"];
+                errorFields = ["new-password"];
             } else {
                 //Update the password
                 db.updateOne(
@@ -307,7 +297,7 @@ const adminController = {
                     { username: req.session.user },
                     { password: updatedPassword },
                     function (data) {
-                        res.send(data);
+                        res.sendStatus(200);
                     }
                 );
                 return;

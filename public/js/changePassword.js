@@ -1,20 +1,17 @@
+$(function () {
+    var newPassField = $("#new-password")[0];
+    var confirmPassField = $("#confirm-password")[0];
 
-
-$(function() {
-    var newPassField = $('#newPassword')[0];
-    var confirmPassField = $('#confirm-password')[0];
-
-
-    $('#change').on("click", function(e) {
+    $("#change").on("click", function (e) {
         e.preventDefault();
 
         let fields = [newPassField, confirmPassField];
         let emptyFields = [];
         let wrongFields = [];
 
-        var newPassword = $('#newPassword').val()
-        var confirmPassword = $('#confirm-password').val()
-        var error = $('#pass-text-error')[0];
+        var newPassword = $("#new-password").val();
+        var confirmPassword = $("#confirm-password").val();
+        var error = $(".text-error")[0];
 
         fields.forEach(async function (field) {
             if (isEmptyOrSpaces(field.value)) {
@@ -23,19 +20,19 @@ $(function() {
         });
 
         if (emptyFields.length > 0) {
-            showError(error, "Please fill out all the fields.", emptyFields);
+            showError(error, "Please fill out all the fields", emptyFields);
             return;
         }
 
         if (newPassword != confirmPassword) {
             wrongFields = [newPassField, confirmPassField];
-            showError(error, "Password and confirm password do not match", wrongFields);
+            showError(error, "Password and Confirm password do not match", wrongFields);
             return;
         }
 
         const data = new FormData($("#password-form")[0]);
-        data.delete("confirm-password");
-        
+        data.delete("confirmPassword");
+
         $.ajax({
             url: "/changeOwnPassword",
             data: JSON.stringify(Object.fromEntries(data)),
@@ -44,10 +41,9 @@ $(function() {
             contentType: "application/json; charset=utf-8",
 
             success: async function (flag, status) {
-                if (flag) {
-                    console.log("success");
-                    $(".pass-text-error").html("Password successfully changed!")
-                }
+                console.log("success");
+                swal("Password changed!", { icon: "success" });
+                $("#password-form")[0].reset();
             },
             error: async function (jqXHR, textStatus, errorThrown) {
                 message = jqXHR.responseJSON.message;
@@ -55,17 +51,16 @@ $(function() {
                 details = jqXHR.responseJSON.details;
 
                 if (fields) {
+                    wrongFields = [];
                     fields.forEach(async function (field) {
-                        emptyFields.push($(`#${field}`)[0]);
+                        wrongFields.push($(`#${field}`)[0]);
                     });
-                    showError(error, message, emptyFields);
-                } else if (details) {
+                    showError(error, message, wrongFields);
+                } else {
                     showError(error, message, []);
-                    console.log(details);
+                    if (details) console.log(details);
                 }
             },
         });
-    })
-
-})
-
+    });
+});
