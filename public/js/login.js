@@ -26,7 +26,11 @@ $(document).ready(function () {
         $.ajax({
             url: "/auth/login",
             type: "POST",
-            data: JSON.stringify({ username: username.value, password: password.value }),
+            data: JSON.stringify({
+                username: username.value,
+                password: password.value,
+                lastLogin: new Date(),
+            }),
             processData: false,
             contentType: "application/json; charset=utf-8",
             success: function (data) {

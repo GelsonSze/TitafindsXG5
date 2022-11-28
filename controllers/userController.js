@@ -20,7 +20,10 @@ const userController = {
             const user = await User.findOne({ username: req.body.username });
             if (!user) {
                 console.log("User not found");
-                res.status(400).json({ message: "Invalid credentials", fields: ["username", "password"] });
+                res.status(400).json({
+                    message: "Invalid credentials",
+                    fields: ["username", "password"],
+                });
                 return;
             }
 
@@ -28,13 +31,23 @@ const userController = {
             const isMatch = await bcrypt.compare(req.body.password, user.password);
             if (!isMatch) {
                 console.log("Incorrect password");
-                res.status(400).json({ message: "Invalid credentials", fields: ["username", "password"] });
+                res.status(400).json({
+                    message: "Invalid credentials",
+                    fields: ["username", "password"],
+                });
                 return;
             }
-            req.session.user = user;
 
-            //Respond with the user
-            res.sendStatus(200);
+            req.session.user = user;
+            db.updateOne(
+                User,
+                { _id: user._id },
+                { lastLogin: req.body.lastLogin },
+                function (data) {
+                    res.sendStatus(200);
+                }
+            );
+            return;
         } catch (error) {
             res.status(500).json({ message: "Server error: Login user", details: err });
             return;
