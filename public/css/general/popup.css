@@ -8,6 +8,7 @@
 .popup {
     /* Change this colors */
     --label-color: #000;
+    --text-highlight-color: brown;
     --create-button-color: #000;
     --update-button-color: #000;
     --reset-button-color: #000;
@@ -210,7 +211,8 @@ button:hover {
 
 .confirm-type-text-highlight {
     /*Adjust color of username in reset popup and suspend popup*/
-    color: brown;
+    color: var(--text-highlight-color);
+    font-weight: 800;
     font-size: 15px;
 }
 
@@ -225,7 +227,7 @@ button:hover {
 
 #certainty-text {
     font-size: 15px;
-    width: 250px;
+    width: 270px;
 }
 
 #create-user-button {

@@ -44,7 +44,7 @@ const adminController = {
             //Check if the user already exists
             const user = await User.findOne({ username: req.body.username });
             if (user) {
-                res.status(403).json({ message: "User already exists" });
+                res.status(403).json({ message: "Username already exists" });
                 return;
             }
             var error = "";
@@ -61,8 +61,8 @@ const adminController = {
             lastName = lastName.trim();
 
             //Removes multiple spaces in between
-            firstName = firstName.replace(/\s\s+/g, ' ');
-            lastName = lastName.replace(/\s\s+/g, ' ');
+            firstName = firstName.replace(/\s\s+/g, " ");
+            lastName = lastName.replace(/\s\s+/g, " ");
 
             console.log("After trim and replace");
             console.log(firstName);
@@ -83,13 +83,13 @@ const adminController = {
             } else if (String(newUser.username).length > 100) {
                 error = "Username exceeds 100 characters";
                 errorFields = ["create-username"];
-            } else if (!String(newUser.username).match(alphanumeric)){
+            } else if (!String(newUser.username).match(alphanumeric)) {
                 error = "Username is not alphanumeric";
                 errorFields = ["create-username"];
-            } else if (!String(newUser.firstName).match(nameRegex)){
+            } else if (!String(newUser.firstName).match(nameRegex)) {
                 error = "First name contains characters not in the alphabet";
                 errorFields = ["create-first-name"];
-            } else if(!String(newUser.lastName).match(nameRegex)){
+            } else if (!String(newUser.lastName).match(nameRegex)) {
                 error = "Last name contains characters not in the alphabet";
                 errorFields = ["create-last-name"];
             } else if (String(newUser.password).length < 6) {
@@ -98,7 +98,7 @@ const adminController = {
             } else if (String(newUser.password).length > 100) {
                 error = "Password exceeds 100 characters";
                 errorFields = ["create-password"];
-            } else if(!String(newUser.password).match(alphaNumSymbols)){
+            } else if (!String(newUser.password).match(alphaNumSymbols)) {
                 error = "Password contains non-alphanumeric symbols that isn't !@#$%^&*";
                 errorFields = ["create-password"];
             } else {
@@ -152,7 +152,7 @@ const adminController = {
             } else if (String(updatedUser.username).length > 100) {
                 error = "Username exceeds 100 characters";
                 errorFields = ["update-username"];
-            } else if (!String(updatedUser.username).match(alphanumeric)){
+            } else if (!String(updatedUser.username).match(alphanumeric)) {
                 error = "Username is not alphanumeric";
                 errorFields = ["update-username"];
             } else {
@@ -263,10 +263,7 @@ const adminController = {
     changePassword: function (req, res) {
         res.render("changePassword", {
             title: "Change Password",
-            styles: [
-                "pages/changePassword.css",
-                "general/sidebar.css"
-            ],
+            styles: ["pages/changePassword.css", "general/sidebar.css"],
             scripts: ["changePassword.js"],
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });
@@ -274,7 +271,7 @@ const adminController = {
 
     changeOwnPassword: async function (req, res) {
         try {
-            console.log(req.session.user)
+            console.log(req.session.user);
             var error = "";
             var errorFields = [];
             const updatedPassword = req.body.newPassword;
@@ -286,10 +283,10 @@ const adminController = {
             const salt = await bcrypt.genSalt(10);
             var hashedPassword = await bcrypt.hash(updatedPassword, salt);
 
-            db.findOne(User, {username: req.session.user}, {}, function (data) {
-                console.log(data)
+            db.findOne(User, { username: req.session.user }, {}, function (data) {
+                console.log(data);
                 oldHashedPassword = data.password;
-            })
+            });
 
             if (String(updatedPassword).length < 6) {
                 error = "Password is less than 6 characters";
@@ -305,16 +302,23 @@ const adminController = {
                 errorFields = ["update-password"];
             } else {
                 //Update the password
-                db.updateOne(User, {username: req.session.user}, {password: updatedPassword}, function (data) {
-                    res.send(data);
-                } )
+                db.updateOne(
+                    User,
+                    { username: req.session.user },
+                    { password: updatedPassword },
+                    function (data) {
+                        res.send(data);
+                    }
+                );
                 return;
             }
             res.status(400).json({ message: error, fields: errorFields });
-
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: "Server Error: Update Password", details: error.message });
+            res.status(500).json({
+                message: "Server Error: Update Password",
+                details: error.message,
+            });
             return;
         }
     },

@@ -117,12 +117,12 @@ $(function () {
                 field: "edit",
                 size: "7%",
                 render: function (record, extra) {
-                    var resetButton = `<button class="reset-popup_open" data-id='${record.id}'><i class='material-symbols-outlined'>replay</i></button>`;
-                    var suspendButton = `<button class="suspend-popup_open" data-id='${record.id}'><i class='material-symbols-outlined'>block</i></button>`;
-                    var resumeButton = `<button class="resume-popup_open" data-id='${record.id}'><i class='material-symbols-outlined'>play_arrow</i></button>`;
+                    var resetButton = `<button class="reset-popup_open" title="Reset user password" data-id='${record.id}'><i class='material-symbols-outlined'>replay</i></button>`;
+                    var suspendButton = `<button class="suspend-popup_open" title="Suspend user" data-id='${record.id}'><i class='material-symbols-outlined'>block</i></button>`;
+                    var resumeButton = `<button class="resume-popup_open" title="Resume user" data-id='${record.id}'><i class='material-symbols-outlined'>play_arrow</i></button>`;
                     var html = `
                 <div class='admin-actions'>
-                    <button class="update-popup_open" data-id='${
+                    <button class="update-popup_open" title="Update user" data-id='${
                         record.id
                     }'><i class='material-symbols-outlined'>edit_square</i></button>
                     ${record.isAdmin ? "" : resetButton}
