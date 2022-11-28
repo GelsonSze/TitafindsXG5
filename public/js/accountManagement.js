@@ -300,9 +300,35 @@ $(function () {
             });
         }
 
-        if (e.target.closest(".suspend-popup_open")) {
+        if (e.target.closest(".suspend-popup_open")) {            
             var id = e.target.closest(".suspend-popup_open").dataset.id;
             $("#suspend-form").data("id", id);
+
+            // swal({ title: "Are you sure?", text: "You will not be able to recover this user!", icon: "warning", buttons: true, dangerMode: true, })
+            //     .then((willDelete) => {
+            //         if (willDelete) {
+            //             var id = e.target.closest(".suspend-popup_open").dataset.id;
+            //             $.ajax({
+            //                 url: `/auth/suspendUser=${id}`,
+            //                 type: "GET",
+            //                 processData: false,
+            //                 contentType: false,
+            //                 success: async function (flag, status) {
+            //                     if (flag) {
+            //                         swal("User suspended!", { icon: "success", });
+            //                         Users = [];
+            //                         getAllUsers(true);
+            //                     } else {
+            //                         swal("Error: User not found", { icon: "error", });
+            //                     }
+            //                 },
+            //                 error: async function (jqXHR, textStatus, errorThrown) {
+            //                     swal("Error: User not found", { icon: "error", });
+            //                 },
+            //             });
+            //         }
+            //     });
+                
             $.ajax({
                 url: `/auth/getUser=${id}`,
                 type: "GET",

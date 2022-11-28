@@ -1,6 +1,6 @@
 import express from "express";
 import itemController from "../controllers/itemController.js";
-import userController from "../controllers/userController.js";
+import loginController from "../controllers/loginController.js";
 import adminController from "../controllers/adminController.js";
 import { checkAuth, checkNoAuth, viewPage, adminOnly } from "../controllers/authController.js";
 import { upload } from "../utils/multer.js";
@@ -16,9 +16,9 @@ app.post("/sellItem", [checkAuth, itemController.sellItem, transactionController
 app.get("/getItems", [checkAuth, itemController.getItems]);
 
 // The login page
-app.get("/login", [viewPage, checkNoAuth, userController.login]);
-app.post("/auth/login", userController.loginUser);
-app.delete("/auth/logout", userController.logoutUser);
+app.get("/login", [viewPage, checkNoAuth, loginController.login]);
+app.post("/auth/login", loginController.loginUser);
+app.delete("/auth/logout", loginController.logoutUser);
 
 // The Item Page
 app.get("/item/:code", [viewPage, checkAuth, itemController.itemDetails]);

@@ -3,7 +3,7 @@ import User from "../model/schemas/User.js";
 import bcrypt from "bcrypt";
 import db from "../model/db.js";
 
-const userController = {
+const loginController = {
     // The login page
     login: function (req, res) {
         res.render("login", {
@@ -39,14 +39,19 @@ const userController = {
             }
 
             req.session.user = user;
-            db.updateOne(
-                User,
-                { _id: user._id },
-                { lastLogin: req.body.lastLogin },
-                function (data) {
-                    res.sendStatus(200);
-                }
-            );
+
+            //Check if the user is not suspended
+            if (!user.isSuspended) {
+                db.updateOne(
+                    User,
+                    { _id: user._id },
+                    { lastLogin: req.body.lastLogin },
+                    function (data) {
+                        res.sendStatus(200);
+                    }
+                );
+            }
+            else res.sendStatus(200);
             return;
         } catch (error) {
             res.status(500).json({ message: "Server error: Login user", details: err });
@@ -74,4 +79,4 @@ const userController = {
     },
 };
 
-export default userController;
+export default loginController;
