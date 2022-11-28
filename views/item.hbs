@@ -2,10 +2,10 @@
 <main class="main-section">
     <div id="item-page-wrapper">
         <div id="top-wrapper">
-            <div id ="commands">
-                <box-icon class="edit-popup_open icon-popup" type='solid' name='edit'></box-icon>
-                <box-icon class="delete-popup_open icon-popup" name='trash' ></box-icon>
-            </div>    
+            <div id="commands">
+                <box-icon class="edit-popup_open icon-popup" type="solid" name="edit"></box-icon>
+                <box-icon class="delete-popup_open icon-popup" name="trash"></box-icon>
+            </div>
 
             <div id="left-wrapper">
                 {{!-- Image and Name --}}
@@ -13,8 +13,12 @@
 
                 <div id="item-attributes-wrapper">
                     <div class="main-attributes-wrapper"><span>Type:&nbsp;</span> {{type}}</div>
-                    <div class="main-attributes-wrapper"><span>Selling Type:&nbsp;</span> {{sellingType}}</div>
-                    <div class="main-attributes-wrapper"><span>Available Quantity:&nbsp;</span></div>
+                    <div class="main-attributes-wrapper">
+                        <span>Selling Type:&nbsp;</span> {{sellingType}}
+                    </div>
+                    <div class="main-attributes-wrapper">
+                        <span>Available Quantity:&nbsp;</span>
+                    </div>
                     <div class="main-attributes-wrapper"><span>Damaged Quantity:&nbsp;</span></div>
                 </div>
             </div>
@@ -127,7 +131,9 @@
                                     <option value="Special">Special</option>
                                     <option value="Very Special">Very Special</option>
                                     <option value="Very Very Special">Very Very Special</option>
-                                    <option value="Very Very Very Special">Very Very Very Special</option>
+                                    <option value="Very Very Very Special">
+                                        Very Very Very Special
+                                    </option>
                                 </select>
                             </div>
 
@@ -159,7 +165,11 @@
                             <div class="item-wrapper">
                                 <label for="prod-length">Length</label><br />
                                 <div class="item-wrapper-wrapper">
-                                    <input type="text" id="prod-length" name="length" /><!-- add to db -->
+                                    <input
+                                        type="text"
+                                        id="prod-length"
+                                        name="length"
+                                    /><!-- add to db -->
                                     <select id="prodLength" name="length-unit">
                                         <!-- change in db -->
                                         <option value="cm">cm</option>
@@ -189,8 +199,15 @@
                                     <button onclick="decrease()" type="button" id="stock-subtract">
                                         -
                                     </button>
-                                    <input type="text" id="quantity" name="quantity" maxlength="15" /><br />
-                                    <button onclick="increase()" type="button" id="stock-add">+</button>
+                                    <input
+                                        type="text"
+                                        id="quantity"
+                                        name="quantity"
+                                        maxlength="15"
+                                    /><br />
+                                    <button onclick="increase()" type="button" id="stock-add">
+                                        +
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -234,11 +251,10 @@
             </form>
         </section>
 
-
         {{!-- Transaction --}}
         <div id="bottom-wrapper">
             Transactions {{!place code for the w2ui table here }}
-            <div id="detailsGrid" class="w2ui-grid-custom"></div>
+            <div id="details-grid" class="w2ui-grid-custom"></div>
         </div>
     </div>
 </main>

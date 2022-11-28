@@ -625,7 +625,7 @@ textarea.error,
 }
 
 /* TO BE REMOVED -note:
- itemGrid must be kebab-case
+ item-grid must be kebab-case
  refactor/relocate code to a group */
 
 #main-body {

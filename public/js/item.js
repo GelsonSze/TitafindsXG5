@@ -115,8 +115,8 @@ function getTransactions(refreshGrid = false) {
 
                     dfd.done(function () {
                         if (refreshGrid) {
-                            w2ui["detailsGrid"].records = Transactions.reverse();
-                            w2ui["detailsGrid"].refresh();
+                            w2ui["details-grid"].records = Transactions.reverse();
+                            w2ui["details-grid"].refresh();
                         }
                     });
                 },
@@ -171,7 +171,6 @@ function getItem() {
             for (var i = 0; i < num_keys; i++) {
                 $("#table-body").append(`<tr><td>${fields[i]}</td> <td>${values[i]}</td></tr>`);
             }
-
         },
     });
 }
@@ -181,8 +180,7 @@ function getItem() {
  * @param  {String} [field] - Is the field name for the table item
  * @param  {String} [desc] - Is the field description for the table item
  */
-function itemDesc(field, desc) { 
-
+function itemDesc(field, desc) {
     const html = `
     <div class="item-desc-wrapper">
         <div class="field">
@@ -193,8 +191,8 @@ function itemDesc(field, desc) {
         </div>
     </div>
     
-    `
-    
+    `;
+
     return html;
 }
 
@@ -203,8 +201,8 @@ $(document).ready(function () {
     getItem();
     getTransactions(true);
 
-    $("#detailsGrid").w2grid({
-        name: "detailsGrid",
+    $("#details-grid").w2grid({
+        name: "details-grid",
         show: {
             footer: true,
             lineNumbers: true,
@@ -224,7 +222,7 @@ $(document).ready(function () {
         onDblClick: function (recid) {
             // Redirects to item page
 
-            var record = w2ui["detailsGrid"].get(recid.recid);
+            var record = w2ui["details-grid"].get(recid.recid);
 
             // Grabs the last string in description. This is the code.
             var code = record.description.split(" ").pop();

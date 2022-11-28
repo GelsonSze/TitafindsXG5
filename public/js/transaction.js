@@ -24,8 +24,8 @@ function getAllTransactions(refreshGrid = false) {
 
             dfd.done(function () {
                 if (refreshGrid) {
-                    w2ui["transactionGrid"].records = Transactions.reverse();
-                    w2ui["transactionGrid"].refresh();
+                    w2ui["transaction-grid"].records = Transactions.reverse();
+                    w2ui["transaction-grid"].refresh();
                 }
 
                 $("#table-filter-apply").attr("disabled", false);
@@ -107,8 +107,8 @@ function filter() {
                 });
 
                 dfd.done(function () {
-                    w2ui["transactionGrid"].records = Transactions.reverse();
-                    w2ui["transactionGrid"].refresh();
+                    w2ui["transaction-grid"].records = Transactions.reverse();
+                    w2ui["transaction-grid"].refresh();
 
                     $("#table-filter-apply").attr("disabled", false);
                 });
@@ -119,8 +119,8 @@ function filter() {
 
 // On document ready
 $(function () {
-    $("#transactionGrid").w2grid({
-        name: "transactionGrid",
+    $("#transaction-grid").w2grid({
+        name: "transaction-grid",
         show: {
             footer: true,
             lineNumbers: true,
@@ -133,10 +133,14 @@ $(function () {
             { field: "type", text: "Type", size: "7%", sortable: true },
             { field: "description", text: "Description", size: "50%", sortable: true },
             { field: "quantity", text: "Quantity", size: "5%", sortable: true },
-            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true, 
-                render: function (record){
+            {
+                field: "sellingPrice",
+                text: "Selling Price",
+                size: "6%",
+                sortable: true,
+                render: function (record) {
                     return record.sellingPrice.toLocaleString("en-US");
-                } 
+                },
             },
             { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
         ],
@@ -144,7 +148,7 @@ $(function () {
         onDblClick: function (recid) {
             // Redirects to item page
 
-            var record = w2ui["transactionGrid"].get(recid.recid);
+            var record = w2ui["transaction-grid"].get(recid.recid);
 
             // Grabs the last string in description. This is the code.
             var strArray = record.description.split(" ");
@@ -175,6 +179,6 @@ $(function () {
 
     $(window).resize(function () {
         console.log("refresh/resize");
-        w2ui["transactionGrid"].refresh();
+        w2ui["transaction-grid"].refresh();
     });
 });

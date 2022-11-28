@@ -13,17 +13,17 @@ $(function () {
 
             setTimeout(() => {
                 try {
-                    w2ui["itemGrid"].refresh();
+                    w2ui["item-grid"].refresh();
                 } catch (err) {
                     console.log("Item grid not found");
                 }
                 try {
-                    w2ui["transactionGrid"].refresh();
+                    w2ui["transaction-grid"].refresh();
                 } catch (err) {
                     console.log("Transaction grid not found");
                 }
                 try {
-                    w2ui["detailsGrid"].refresh();
+                    w2ui["details-grid"].refresh();
                 } catch (err) {
                     console.log("Item details grid not found");
                 }
