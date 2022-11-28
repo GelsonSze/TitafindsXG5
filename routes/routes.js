@@ -5,6 +5,7 @@ import { checkAuth, checkNoAuth } from "../controllers/authController.js";
 import { generateItemCode } from "../utils/helper.js";
 import { upload } from "../utils/multer.js";
 import transactionController from "../controllers/transactionController.js";
+import configController from "../controllers/configController.js";
 
 const app = express();
 
@@ -46,6 +47,10 @@ app.get("/getXTransactions=:code&:limit", transactionController.getXTransactions
 app.post("/addTransaction", transactionController.addTransaction);
 app.get("/getTransaction", transactionController.getTransaction);
 app.get("/searchTransactions=:type&:search", transactionController.searchTransactions);
+
+// Configure Attributes page
+app.get("/configurations", checkAuth, configController.configurations);
+
 
 // TO BE REMOVED
 // if (process.env.NODE_ENV === "development") {
