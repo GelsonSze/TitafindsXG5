@@ -198,6 +198,13 @@ $(function () {
                     getAllUsers(true);
                     console.log("reloaded");
                     $("#create-popup").popup("hide");
+                    SnackBar({
+                        message: "User created successfully",
+                        status: "success",
+                        position: "br",
+                        timeout: 5000,
+                        fixed: true,
+                    });
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
@@ -446,6 +453,13 @@ $(function () {
                     getAllUsers(true);
                     console.log("reloaded");
                     $("#update-popup").popup("hide");
+                    SnackBar({
+                        message: "User updated successfully",
+                        status: "success",
+                        position: "br",
+                        timeout: 5000,
+                        fixed: true,
+                    });
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
@@ -488,6 +502,13 @@ $(function () {
                     getAllUsers(true);
                     console.log("reloaded");
                     $("#reset-popup").popup("hide");
+                    SnackBar({
+                        message: "User password reset successfully",
+                        status: "success",
+                        position: "br",
+                        timeout: 5000,
+                        fixed: true,
+                    });
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
@@ -495,6 +516,13 @@ $(function () {
                 details = jqXHR.responseJSON.details;
 
                 if (details) console.log(details);
+                SnackBar({
+                    message: message,
+                    status: "error",
+                    position: "br",
+                    timeout: 5000,
+                    fixed: true,
+                });
             },
         });
     });
@@ -520,6 +548,13 @@ $(function () {
                     getAllUsers(true);
                     console.log("reloaded");
                     $("#suspend-popup").popup("hide");
+                    SnackBar({
+                        message: "User suspended successfully",
+                        status: "success",
+                        position: "br",
+                        timeout: 5000,
+                        fixed: true,
+                    });
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
@@ -527,6 +562,13 @@ $(function () {
                 details = jqXHR.responseJSON.details;
 
                 if (details) console.log(details);
+                SnackBar({
+                    message: message,
+                    status: "error",
+                    position: "br",
+                    timeout: 5000,
+                    fixed: true,
+                });
             },
         });
     });
@@ -552,6 +594,13 @@ $(function () {
                     getAllUsers(true);
                     console.log("reloaded");
                     $("#resume-popup").popup("hide");
+                    SnackBar({
+                        message: "User resumed successfully",
+                        status: "success",
+                        position: "br",
+                        timeout: 5000,
+                        fixed: true,
+                    });
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
@@ -559,6 +608,13 @@ $(function () {
                 details = jqXHR.responseJSON.details;
 
                 if (details) console.log(details);
+                SnackBar({
+                    message: message,
+                    status: "error",
+                    position: "br",
+                    timeout: 5000,
+                    fixed: true,
+                });
             },
         });
     });

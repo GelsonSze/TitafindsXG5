@@ -34,6 +34,14 @@ function getAllItems(refreshGrid = false) {
         });
     } catch (error) {
         console.log(error);
+        SnackBar({
+            message: "Error: Getting all items failed",
+            status: "error",
+            icon: "error",
+            position: "br",
+            timeout: 5000,
+            fixed: true,
+        });
     }
 }
 
@@ -321,6 +329,13 @@ $(function () {
 
                         $("#restock-popup #restock-form")[0].reset();
                         $("#restock-popup").popup("hide");
+                        SnackBar({
+                            message: "Item restocked successfully",
+                            status: "success",
+                            position: "br",
+                            timeout: 5000,
+                            fixed: true,
+                        });
                     },
 
                     error: async function (jqXHR, textStatus, errorThrown) {
@@ -421,6 +436,14 @@ $(function () {
                         });
                         $("#sell-popup #sell-form")[0].reset();
                         $("#sell-popup").popup("hide");
+
+                        SnackBar({
+                            message: "Item sold successfully",
+                            status: "success",
+                            position: "br",
+                            timeout: 5000,
+                            fixed: true,
+                        });
                     },
 
                     error: async function (jqXHR, textStatus, errorThrown) {
@@ -523,6 +546,14 @@ $(function () {
                 $("#add-popup #add-form")[0].reset();
                 $("#add-popup").popup("hide");
                 $("#image-preview").attr("src", "/img/product-images/default.png");
+
+                SnackBar({
+                    message: "Item added successfully",
+                    status: "success",
+                    position: "br",
+                    timeout: 5000,
+                    fixed: true,
+                });
             },
 
             error: async function (jqXHR, textStatus, errorThrown) {
