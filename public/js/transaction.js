@@ -133,7 +133,11 @@ $(function () {
             { field: "type", text: "Type", size: "7%", sortable: true },
             { field: "description", text: "Description", size: "50%", sortable: true },
             { field: "quantity", text: "Quantity", size: "5%", sortable: true },
-            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true },
+            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true, 
+                render: function (record){
+                    return record.sellingPrice.toLocaleString("en-US");
+                } 
+            },
             { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
         ],
         records: Transactions,
