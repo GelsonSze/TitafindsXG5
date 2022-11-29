@@ -27,7 +27,9 @@ function getAllTransactions(refreshGrid = false) {
                     w2ui["transaction-grid"].records = Transactions.reverse();
                     w2ui["transaction-grid"].refresh();
                 }
-
+                $("#table-last-refresh-text").html(
+                    `<b>Last Refresh:</b> ${new Date().toLocaleString()}`
+                );
                 $("#table-filter-apply").attr("disabled", false);
             });
         },
