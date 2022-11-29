@@ -43,7 +43,10 @@ const adminController = {
             //Check if the user already exists
             const user = await User.findOne({ username: req.body.username });
             if (user) {
-                res.status(403).json({ message: "Username already exists" });
+                res.status(403).json({
+                    message: "Username already exists",
+                    fields: ["create-username"],
+                });
                 return;
             }
             var error = "";
@@ -121,16 +124,19 @@ const adminController = {
     // Update a user
     updateUser: async function (req, res) {
         try {
-            //Check if the user is admin
-            if (!req.session.user.isAdmin) {
-                res.status(403).json({ message: "User is not admin" });
-                return;
-            }
-
             //Check if the user already exists
             const user = await User.findById(req.body.id);
             if (!user) {
                 res.status(404).json({ message: "User does not exist" });
+                return;
+            }
+            //Check if the username already exists
+            const username = await User.findOne({ username: req.body.username });
+            if (username) {
+                res.status(403).json({
+                    message: "Username already exists",
+                    fields: ["update-username"],
+                });
                 return;
             }
 
