@@ -8,9 +8,12 @@ export async function checkAuth(req, res, next) {
 
         // check if suspended
         if (!req.session.user.isSuspended) {
-            if(req.session.adminOnly) {
+            if (req.session.adminOnly) {
                 delete req.session.adminOnly;
-                if (!req.session.user.isAdmin) return res.redirect("/");
+                if (!req.session.user.isAdmin) {
+                    req.session.error = "You were trying to access authorized page";
+                    return res.redirect("/");
+                }
             }
             return next();
         } else {
@@ -44,7 +47,7 @@ export function checkNoAuth(req, res, next) {
             delete req.session.viewPage;
             return res.redirect("/");
         } else {
-            req.session.warning.message = "User is logged in";
+            req.session.warning = "User is logged in";
         }
     }
     next();
@@ -54,7 +57,6 @@ export function viewPage(req, res, next) {
     req.session.viewPage = true;
     next();
 }
-
 
 export function adminOnly(req, res, next) {
     req.session.adminOnly = true;

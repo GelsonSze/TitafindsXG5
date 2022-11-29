@@ -7,18 +7,20 @@ import { ImageDirectory } from "../utils/multer.js";
 const itemController = {
     // The dashboard or inventory page
     home: function (req, res) {
+        var error = "";
+        if (req.session.error) {
+            error = req.session.error;
+            delete req.session.error;
+        }
+
         res.render("index", {
             title: "Inventory",
             styles: ["pages/index.css", "general/w2ui-overrides.css", "general/popup.css"],
             scripts: ["index.js"],
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
+            error: error,
         });
     },
-
-    // // Redirects to home page
-    // homeRedirect: function (req, res) {
-    //     res.redirect("/");
-    // },
 
     itemDetails: function (req, res) {
         db.findOne(Item, { code: req.params.code }, {}, async function (data) {
@@ -78,18 +80,17 @@ const itemController = {
                 addedBy: req.session.user.username,
             };
 
-        //console.log(addedItem); 
+            //console.log(addedItem);
 
             // Selling price default to 0 if field is empty and selling type is per design
-            if  (addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
+            if (addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
                 addedItem.sellingPrice = "0";
             //Selling price defaults to price * item weight if field is empty and selling type is per gram
             else if (addedItem.sellingType == "per gram" && isEmptyOrSpaces(addedItem.sellingPrice))
                 addedItem.sellingPrice = addedItem.weight * price;
 
-        // Purchase price is default to 0 if field is empty
-        if(isEmptyOrSpaces(addedItem.purchasePrice))
-            addedItem.purchasePrice = "0";
+            // Purchase price is default to 0 if field is empty
+            if (isEmptyOrSpaces(addedItem.purchasePrice)) addedItem.purchasePrice = "0";
 
             console.log(addedItem);
             //  Errors
@@ -226,9 +227,9 @@ const itemController = {
             res.status(500).json({ message: "Server Error: Restock Item", details: error.message });
             return;
         }
-        res.status(400).json({message: error, fields: ["quantity"]});
+        res.status(400).json({ message: error, fields: ["quantity"] });
     },
-    
+
     getItemById: function (req, res) {
         try {
             if (!req.session.user) {

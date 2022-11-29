@@ -273,16 +273,7 @@ const adminController = {
             var error = "";
             var errorFields = [];
             const updatedPassword = req.body.newPassword;
-            var oldHashedPassword = "";
             var alphaNumSymbols = /^([a-zA-Z0-9!@#$%^&*]+)$/;
-
-            const user = await User.findOne({ username: req.session.user.username });
-            const isMatch = await bcrypt.compare(updatedPassword, user.password);
-            if (isMatch) {
-                error = "Password is the same as old password";
-                errorFields = ["new-password"];
-                return res.status(400).json({ message: error, fields: errorFields });
-            }
 
             if (String(updatedPassword).length < 6) {
                 error = "Password is less than 6 characters";
@@ -291,13 +282,39 @@ const adminController = {
                 error = "Password exceeds 100 characters";
                 errorFields = ["new-password"];
             } else {
-                //Update the password
-                db.updateOne(
+                db.findOne(
                     User,
-                    { username: req.session.user },
-                    { password: updatedPassword },
-                    function (data) {
-                        res.sendStatus(200);
+                    { username: req.session.user.username },
+                    "password",
+                    async function (data) {
+                        if (data) {
+                            const oldPassword = data.password;
+                            const isMatch = await bcrypt.compare(updatedPassword, oldPassword);
+                            if (isMatch) {
+                                error = "Password is the same as old password";
+                                errorFields = ["new-password"];
+                                res.status(400).json({ message: error, fields: errorFields });
+                                return;
+                            }
+
+                            const salt = await bcrypt.genSalt(10);
+                            var hashedPassword = await bcrypt.hash(updatedPassword, salt);
+                            const updatedUser = {
+                                password: hashedPassword,
+                            };
+                            db.updateOne(
+                                User,
+                                { username: req.session.user.username },
+                                updatedUser,
+                                function (data) {
+                                    res.sendStatus(200);
+                                }
+                            );
+                        } else {
+                            error = "User does not exist";
+                            // res.status(400).json({ message: error });
+                            res.redirect("/");
+                        }
                     }
                 );
                 return;
