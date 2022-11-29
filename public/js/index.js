@@ -206,11 +206,7 @@ $(function () {
                 text: "Name",
                 size: "10%",
                 render: function (record, extra) {
-                    var html =
-                        '<p style="white-space: normal; word-wrap: break-word">' +
-                        record.name +
-                        "</p>";
-                    // var html = '<p>' + record.name + '</p>';
+                    var html =`<a href="/item/${record.code}" class="item-anchor-link">${record.name}</a>`;
                     return html;
                 },
                 sortable: true,
