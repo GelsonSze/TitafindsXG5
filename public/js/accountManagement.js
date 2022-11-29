@@ -165,7 +165,7 @@ $(function () {
         });
 
         if (emptyFields.length > 0) {
-            showError(error, "Please fill out all the fields.", emptyFields);
+            showError(error, "Please fill out all the fields", emptyFields);
             return;
         }
 
@@ -426,7 +426,7 @@ $(function () {
         });
 
         if (emptyFields.length > 0) {
-            showError(error, "Please fill out all the fields.", emptyFields);
+            showError(error, "Please fill out all the fields", emptyFields);
             return;
         }
 

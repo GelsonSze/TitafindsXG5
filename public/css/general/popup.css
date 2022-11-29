@@ -59,7 +59,6 @@
     flex-direction: column;
     margin-top: 30px;
     width: 300px;
-    height: 100px;
     gap: 15px;
 }
 
@@ -68,6 +67,10 @@
     inset: 0;
     margin-top: 55px;
     height: 0;
+}
+
+.restock-sell-common .item-wrapper {
+    margin-right: 0;
 }
 
 #add {
@@ -154,10 +157,7 @@
     justify-content: space-between;
 }
 
-#quantity,
-#sell-quantity,
-#restock-quantity {
-    /* width: 50px; */
+#quantity {
     margin: 0 2px;
 }
 

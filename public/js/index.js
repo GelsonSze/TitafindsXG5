@@ -206,7 +206,7 @@ $(function () {
                 text: "Name",
                 size: "10%",
                 render: function (record, extra) {
-                    var html =`<a href="/item/${record.code}" class="item-anchor-link">${record.name}</a>`;
+                    var html = `<a href="/item/${record.code}" class="item-anchor-link">${record.name}</a>`;
                     return html;
                 },
                 sortable: true,
@@ -292,7 +292,7 @@ $(function () {
         });
 
         if (emptyFields.length > 0) {
-            showError(error, "Please fill out all the fields.", emptyFields);
+            showError(error, "Please fill out all the fields", emptyFields);
             return;
         }
 
@@ -389,9 +389,10 @@ $(function () {
 
         var codeField = $("#sell-popup #sell-code")[0];
         var quantityField = $("#sell-popup #sell-quantity")[0];
+        var sellingPriceField = $("#sell-popup #sell-selling-price")[0];
         var error = $("#sell-popup .text-error")[0];
 
-        var fields = [codeField, quantityField];
+        var fields = [codeField, quantityField, sellingPriceField];
         var emptyFields = [];
 
         fields.forEach(async function (field) {
@@ -401,7 +402,7 @@ $(function () {
         });
 
         if (emptyFields.length > 0) {
-            showError(error, "Please fill out all the fields.", emptyFields);
+            showError(error, "Please fill out all the fields", emptyFields);
             return;
         }
 
@@ -433,7 +434,10 @@ $(function () {
                             contentType: false,
 
                             success: async function (newData) {
-                                w2ui["item-grid"].set(recID, { quantity: newData.quantity });
+                                w2ui["item-grid"].set(recID, {
+                                    quantity:
+                                        newData.quantity /*, sellingPrice: newData.sellingPrice*/,
+                                });
                             },
                         });
                         $("#sell-popup #sell-form")[0].reset();
@@ -520,7 +524,7 @@ $(function () {
         }
 
         if (emptyFields.length > 0) {
-            showError(error, "Please fill out all the fields.", emptyFields);
+            showError(error, "Please fill out all the fields", emptyFields);
             return;
         }
 
