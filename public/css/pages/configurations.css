@@ -1,3 +1,21 @@
+#configurations-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+}
+
+#upper-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+#lower-table {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 #config-attrib-grid {
     width: 100%;
     height: 400px;
