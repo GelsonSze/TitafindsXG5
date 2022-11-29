@@ -169,6 +169,8 @@ function getItem() {
 
             // Appends a field into the #fields-table
             for (var i = 0; i < num_keys; i++) {
+                if (fields[i] == "type" || fields[i] == "sellingType") continue;
+
                 $("#table-body").append(`<tr><td>${fields[i]}</td> <td>${values[i]}</td></tr>`);
             }
         },
