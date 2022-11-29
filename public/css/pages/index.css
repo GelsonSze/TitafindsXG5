@@ -107,16 +107,14 @@ main {
 }
 
 #table-filters-wrapper select {
-    height: none;
-
     max-height: 28px;
     min-width: 100px;
 
     font-family: "Inter Regular";
     font-weight: normal;
     font-size: 12px;
-
-    color: #a8a8a8;
+    /* TO BE REMOVED 
+    color: #a8a8a8; */
     padding: 3px;
     flex-shrink: 2;
 
@@ -282,12 +280,12 @@ h1 {
     border: 0.5vh solid black;
 }
 
-.item-anchor-link{
-    white-space: normal; 
+.item-anchor-link {
+    white-space: normal;
     word-wrap: break-word;
     font-weight: bold;
 }
 
-.item-anchor-link:hover{
+.item-anchor-link:hover {
     text-decoration: underline;
 }

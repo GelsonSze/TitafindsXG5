@@ -80,10 +80,13 @@
 
     --clr-table-bg: var(--clr-burgundy-80);
     --clr-table-color: #f5f5f5;
+    --clr-table-column-line: var(--clr-burgundy-100);
 
     --clr-btn-primary: var(--clr-gold);
     --clr-box-shadow-primary: rgb(225 211 205 / 70%);
     --clr-box-shadow-primary-hover: rgb(225 211 205 / 90%);
+
+    --clr-select-color: var(--clr-black-100);
 
     --clr-txt-primary: hsl(3, 83%, 11%);
     --clr-txt-secondary: hsla(21, 71%, 38%, 0.892);
@@ -189,7 +192,7 @@ label {
 select {
     font-family: var(--font-type2);
     font-weight: bold;
-    color: var(--clr-txt-secondary);
+    color: var(--clr-select-color);
     border: 1px solid var(--clr-gray);
     border-radius: 5px;
     padding: 10px 5px;
