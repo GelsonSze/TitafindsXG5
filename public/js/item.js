@@ -106,12 +106,24 @@ function getTransactions(refreshGrid = false) {
                     Transactions = [];
 
                     var dfd = $.Deferred().resolve();
-
                     transactions.forEach(function (trans) {
-                        dfd = dfd.then(function () {
-                            return pushTransaction(trans);
-                        });
+                        trans.date = formatDate(new Date(trans.date));
+                        Transactions.push(
+                            new transaction(
+                                trans.date,
+                                trans.type,
+                                `Item ${trans.type} - ${item.name} (${item.code})`,
+                                trans.quantity,
+                                trans.sellingPrice,
+                                trans.transactedBy
+                            )
+                        );
                     });
+                    // transactions.forEach(function (trans) {
+                    //     dfd = dfd.then(function () {
+                    //         return pushTransaction(trans);
+                    //     });
+                    // });
 
                     dfd.done(function () {
                         if (refreshGrid) {
@@ -217,7 +229,15 @@ $(document).ready(function () {
             { field: "type", text: "Type", size: "5%", sortable: true },
             { field: "description", text: "Description", size: "40%", sortable: true },
             { field: "quantity", text: "Quantity", size: "3%", sortable: true },
-            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true },
+            {
+                field: "sellingPrice",
+                text: "Selling Price",
+                size: "6%",
+                sortable: true,
+                render: function (record) {
+                    return record.sellingPrice.toLocaleString("en-US");
+                },
+            },
             { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
         ],
         records: Transactions,
