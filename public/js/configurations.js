@@ -1,23 +1,40 @@
 const attribsPage = `
+    <div class="attrib-page-wrapper">
+        <div class="header-color">Settings</div>
+        <div class="product-attributes-wrapper"> 
+            <h2> Edit product Attributes </h2>
 
-    <div class="product-attributes-wrapper"> 
-        <h2> Edit product Attributes </h2>
+            <div id='attribs-content'>
+                <div id="attrib-inputs-wrapper">
+                    <label for="attrib-name"> Attribute name </label> <br />
+                    <input type="text" class='text-input' id='attrib-name' name="attrib-dets" /> <br />
+                    
+                    <label for="attrib-type"> Attribute type </label> <br />
+                    <select id="attrib-type" name="attrib-type">
+                        <option value="" disabled selected>Select</option>
+                        <option value="String">String</option>
+                        <option value="Boolean">Boolean</option>
+                        <option value="Number">Number</option>
+                        <option value="Collection">Collection</option>
+                    </select>
+                </div>
 
-        <div>
-            <label for="attrib-name"> Attribute name </label> <br />
-            <input type="text" name="attrib-name" /> <br />
-            
-            <label for="attrib-type"> Attribute type </label> <br />
-            <input type="text" name="attrib-type" /> <br />
+                <div id="attrib-radio-wrapper">
+                    <p>Required</p>
+                    <label for="attrib-required-yes"> Yes </label>
+                    <input type="radio" id="attrib-required-yes" name="attrib-required"/>
 
-            <p>Required</p>
-            <label for="attrib-required-yes"> Yes </label>
-            <input type="radio" id="attrib-required-yes" name="attrib-required"/>
+                    <label for="attrib-required-no"> No </label>
+                    <input type="radio" id="attrib-required-no" name="attrib-required" />
+                </div>
 
-            <label for="attrib-required-no"> No </label>
-            <input type="radio" id="attrib-required-no" name="attrib-required" />
+                <div id="attrib-btn-wrapper">
+                    <button id="attrib-save">Save</button>
+                    <button id="attrib-delete">Delete</button>
+                </div>
+            </div>
+
         </div>
-
     </div>
 `;
 

@@ -1,7 +1,39 @@
+.w2ui-panel-content { 
+    background-color: var(--clr-offwhite) !important;  
+    border-left: 1px solid var(--clr-black-50);
+}
+
+.header-color {
+    height: 40px;
+    background-color: var(--clr-black-80);
+    color: white;
+
+    line-height: 40px;
+    padding-left: 10px;
+    font-family: 'Inter Medium';
+}
+
+.add-btn {
+    border-radius: 5px;
+    border: none;
+    font-family: 'Inter Bold';
+    padding: 5px 4px;
+    width: 100px;
+    background-color: var(--clr-gray-100);
+}
+
+h2 {font-family: 'Inter Bold' !important;}
+
 #configurations-wrapper {
     display: flex;
     flex-direction: column;
     width: 90%;
+
+    gap: 10px;
+}
+
+label {
+    text-transform: none;
 }
 
 #upper-table {
@@ -9,6 +41,40 @@
     flex-direction: column;
     width: 100%;
 }
+
+.product-attributes-wrapper {
+    padding: 20px;
+    margin-top: 20px;
+    color: #5e5e5e;
+}
+
+#attribs-content  {margin-top: 20px;}
+
+#attrib-name {
+    height: 25px;
+    padding: 5px;
+    font-size: 12px;
+    font-family: 'Inter Medium';
+}
+
+#attrib-type {
+    width: 180px;
+    padding: 2px;
+    font-size: 12px;
+    font-family: 'Inter Medium';
+    color: black;
+    font-weight: 500;
+}
+
+#attrib-btn-wrapper button{
+    border-radius: 5px;
+    border: none;
+    font-family: 'Inter Bold';
+    padding: 5px 4px;
+    width: 60px;
+    background-color: var(--clr-gray-100);
+}
+
 
 #lower-table {
     display: flex;
@@ -18,5 +84,5 @@
 
 #config-attrib-grid {
     width: 100%;
-    height: 400px;
+    height: 300px;
 }
