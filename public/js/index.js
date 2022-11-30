@@ -53,7 +53,7 @@ function item(
     classification,
     size,
     weight,
-    quantity,
+    available,
     sellingPrice,
     purchasePrice
 ) {
@@ -66,7 +66,7 @@ function item(
         classification: classification,
         size: size,
         weight: weight,
-        quantity: quantity,
+        available: available,
         purchasePrice: purchasePrice,
         sellingPrice: sellingPrice,
     };
@@ -84,7 +84,7 @@ function pushItem(product) {
             product.classification,
             product.size,
             product.weight,
-            product.quantity,
+            product.available,
             product.sellingPrice,
             product.purchasePrice
         )
@@ -133,7 +133,7 @@ function getSpecifiedItems(refreshGrid = false, classification, type, weight, si
                             product.classification,
                             product.size,
                             product.weight,
-                            product.quantity,
+                            product.available,
                             product.sellingPrice,
                             product.purchasePrice
                         )
@@ -217,7 +217,7 @@ $(function () {
             },
             { field: "size", text: "Size", size: "3%", sortable: true },
             { field: "weight", text: "Weight", size: "3%", sortable: true },
-            { field: "quantity", text: "Quantity", size: "3%", sortable: true },
+            { field: "available", text: "Available", size: "3%", sortable: true },
             {
                 field: "sellingPrice",
                 text: "Selling Price",
@@ -321,7 +321,7 @@ $(function () {
                             contentType: false,
 
                             success: async function (newData) {
-                                w2ui["item-grid"].set(recID, { quantity: newData.quantity });
+                                w2ui["item-grid"].set(recID, { available: newData.available });
                             },
                         });
 
@@ -431,8 +431,8 @@ $(function () {
 
                             success: async function (newData) {
                                 w2ui["item-grid"].set(recID, {
-                                    quantity:
-                                        newData.quantity /*, sellingPrice: newData.sellingPrice*/,
+                                    available:
+                                        newData.available /*, sellingPrice: newData.sellingPrice*/,
                                 });
                             },
                         });
@@ -501,10 +501,10 @@ $(function () {
         var type = $("#add-popup #type")[0];
         var sellingType = $("#add-popup #selling-type")[0];
         var weight = $("#add-popup #weight")[0]; // required if selling type is per gram
-        var quantity = $("#add-popup #quantity")[0];
+        var available = $("#add-popup #available")[0];
         var error = $("#add-popup .text-error")[0];
 
-        let fields = [name, code, type, sellingType, quantity];
+        let fields = [name, code, type, sellingType, available];
         let emptyFields = [];
         fields.forEach(async function (field) {
             if (isEmptyOrSpaces(field.value)) {

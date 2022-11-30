@@ -70,7 +70,7 @@ const itemController = {
                 design: req.body.design,
                 size: req.body.size,
                 weight: req.body.weight,
-                quantity: req.body.quantity,
+                available: req.body.available,
                 sellingType: req.body.sellingType,
                 purchasePrice: req.body.purchasePrice,
                 sellingPrice: req.body.sellingPrice,
@@ -108,12 +108,12 @@ const itemController = {
             } else if (addedItem.weight != null && isNaN(addedItem.weight)) {
                 error = "Weight inputted is not a number";
                 errorFields = ["weight"];
-            } else if (isNaN(addedItem.quantity)) {
-                error = "Quantity inputted is not a number";
-                errorFields = ["quantity"];
-            } else if (!isNaN(addedItem.quantity) && addedItem.quantity % 1 != 0) {
-                error = "Quantity inputted is not a whole number";
-                errorFields = ["quantity"];
+            } else if (isNaN(addedItem.available)) {
+                error = "Available quantity inputted is not a number";
+                errorFields = ["available"];
+            } else if (!isNaN(addedItem.available) && addedItem.available % 1 != 0) {
+                error = "Available quantity inputted is not a whole number";
+                errorFields = ["available"];
             } else if (addedItem.sellingPrice != null && isNaN(addedItem.sellingPrice)) {
                 error = "Selling price inputted is not a number";
                 errorFields = ["selling-price"];
@@ -127,7 +127,7 @@ const itemController = {
                             date: req.body.dateAdded,
                             type: "Added",
                             description: data._id.toString(),
-                            quantity: data.quantity,
+                            quantity: data.available,
                             sellingPrice: data.sellingPrice,
                             transactedBy: data.addedBy,
                             code: req.body.code,
@@ -204,7 +204,7 @@ const itemController = {
                 db.updateOne(
                     Item,
                     { code: req.body.code },
-                    { $inc: { quantity: req.body.quantity } },
+                    { $inc: { available: req.body.quantity } },
                     function (data) {
                         req.body = {
                             date: req.body.dateRestocked,
@@ -280,7 +280,7 @@ const itemController = {
                 db.updateOne(
                     Item,
                     { code: req.body.code },
-                    { $inc: { quantity: quantity } },
+                    { $inc: { available: quantity } },
                     function (data) {
                         req.body = {
                             date: req.body.dateSold,

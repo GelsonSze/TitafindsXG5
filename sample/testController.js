@@ -51,7 +51,7 @@ const testController = {
                             type: "Added",
                             name: sampleItem.name,
                             description: item.id,
-                            quantity: sampleItem.quantity,
+                            quantity: sampleItem.available,
                             sellingPrice: sampleItem.sellingPrice,
                             transactedBy: sampleItem.addedBy,
                             code: sampleItem.code,

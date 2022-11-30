@@ -13,7 +13,7 @@ function Item(
     length,
     size,
     weight,
-    quantity,
+    available,
     sellingType,
     purchasePrice,
     sellingPrice
@@ -27,7 +27,7 @@ function Item(
         length: length,
         size: size,
         weight: weight,
-        quantity: quantity,
+        available: available,
         sellingType: sellingType,
         purchasePrice: purchasePrice,
         sellingPrice: sellingPrice,
@@ -158,7 +158,7 @@ function getItem() {
                 item.length,
                 item.size,
                 item.weight,
-                item.quantity,
+                item.available,
                 item.sellingType,
                 item.purchasePrice,
                 item.sellingPrice
