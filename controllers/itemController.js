@@ -74,7 +74,6 @@ const itemController = {
                 sellingType: req.body.sellingType,
                 purchasePrice: req.body.purchasePrice,
                 sellingPrice: req.body.sellingPrice,
-                status: req.body.status,
                 dateAdded: req.body.dateAdded,
                 dateUpdated: req.body.dateUpdated,
                 addedBy: req.session.user.username,

@@ -55,8 +55,7 @@ function item(
     weight,
     quantity,
     sellingPrice,
-    purchasePrice,
-    status
+    purchasePrice
 ) {
     return {
         recid: Items.length + 1,
@@ -70,7 +69,6 @@ function item(
         quantity: quantity,
         purchasePrice: purchasePrice,
         sellingPrice: sellingPrice,
-        status: status,
     };
 }
 
@@ -88,8 +86,7 @@ function pushItem(product) {
             product.weight,
             product.quantity,
             product.sellingPrice,
-            product.purchasePrice,
-            product.status
+            product.purchasePrice
         )
     );
 
@@ -98,7 +95,7 @@ function pushItem(product) {
     return dfd.promise();
 }
 
-function getSpecifiedItems(refreshGrid = false, classification, type, status, weight, size) {
+function getSpecifiedItems(refreshGrid = false, classification, type, weight, size) {
     /*Records it as 0 if the user did not select a category*/
     Items = [];
     var check = $("#filter-search").val().toLowerCase();
@@ -116,7 +113,7 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
                     (product.type == $("#dropdown-type-select").text().trim() || type == 0) &&
                     (product.classification == $("#dropdown-classification-select").text().trim() ||
                         classification == 0) &&
-                    (product.status == $("#dropdown-status-select").text().trim() || status == 0) &&
+                    //(product.status == $("#dropdown-status-select").text().trim() || status == 0) &&
                     ((product.weight >= $("#weight-min").val() &&
                         product.weight <= $("#weight-max").val()) ||
                         weight == 0) &&
@@ -138,8 +135,7 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
                             product.weight,
                             product.quantity,
                             product.sellingPrice,
-                            product.purchasePrice,
-                            product.status
+                            product.purchasePrice
                         )
                     );
                 }
@@ -240,7 +236,7 @@ $(function () {
                     return record.purchasePrice.toLocaleString("en-US");
                 },
             },
-            { field: "status", text: "Status", size: "7%", sortable: true },
+            //{ field: "status", text: "Status", size: "7%", sortable: true },
             // {
             //     field: "edit",
             //     size: "5%",
@@ -617,11 +613,11 @@ $(function () {
         $("#dropdown-classification-select").html(text);
     });
 
-    $(".dropdown-status").click(function () {
-        var text = $(this).html();
-        console.log(text);
-        $("#dropdown-status-select").html(text);
-    });
+    // $(".dropdown-status").click(function () {
+    //     var text = $(this).html();
+    //     console.log(text);
+    //     $("#dropdown-status-select").html(text);
+    // });
 
     $("#filter-search").on("keydown", function (e) {
         if (e.keyCode == 13) {
@@ -636,9 +632,9 @@ $(function () {
         if ($("#dropdown-classification-select").text().trim() == "Classification") {
             var classification = 0;
         }
-        if ($("#dropdown-status-select").text().trim() == "Status") {
-            var status = 0;
-        }
+        // if ($("#dropdown-status-select").text().trim() == "Status") {
+        //     var status = 0;
+        // }
         if ($("#weight-min").val() == "" || $("#weight-max").val() == "") {
             var weight = 0;
         }
@@ -646,14 +642,14 @@ $(function () {
             var size = 0;
         }
 
-        getSpecifiedItems(true, classification, type, status, weight, size);
+        getSpecifiedItems(true, classification, type, weight, size);
     });
 
     $("#table-filter-clear").click(function () {
         /*Records it as 0 if the user did not select a category*/
         $("#dropdown-type-select").html("Type");
         $("#dropdown-classification-select").html("Classification");
-        $("#dropdown-status-select").html("Status");
+        // $("#dropdown-status-select").html("Status");
         $("#weight-min").val(0);
         $("#size-min").val(0);
         $("#weight-max").val("");

@@ -16,8 +16,7 @@ function Item(
     quantity,
     sellingType,
     purchasePrice,
-    sellingPrice,
-    status
+    sellingPrice
 ) {
     return {
         image: image,
@@ -32,7 +31,6 @@ function Item(
         sellingType: sellingType,
         purchasePrice: purchasePrice,
         sellingPrice: sellingPrice,
-        status: status,
     };
 }
 
@@ -163,8 +161,7 @@ function getItem() {
                 item.quantity,
                 item.sellingType,
                 item.purchasePrice,
-                item.sellingPrice,
-                item.status
+                item.sellingPrice
             );
 
             var num_keys = Object.keys(page_item).length;
