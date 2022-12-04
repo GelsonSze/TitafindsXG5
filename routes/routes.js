@@ -50,7 +50,8 @@ app.get("/searchTransactions=:type&:search", transactionController.searchTransac
 
 // Configure Attributes page
 app.get("/configurations", checkAuth, configController.configurations);
-
+app.post("/addAttribute", configController.addAttribute);
+app.get("/getAttributes", configController.getAttributes)
 
 // TO BE REMOVED
 // if (process.env.NODE_ENV === "development") {

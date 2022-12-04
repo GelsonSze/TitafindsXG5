@@ -50,23 +50,25 @@ const attribsPage = `
             <h2> Edit product Attributes </h2>
 
             <div id='attribs-content'>
-                <div id="attrib-inputs-wrapper">
-                    <p> Attribute name </p>
-                    <input type="text" class='text-input' id='attrib-name' name="attrib-dets" /> <br />
-                    
-                    <p> Attribute type </p>
-                    <select id="attrib-type" name="attrib-type">
-                        <option value="" disabled selected>Select</option>
-                        <option value="String">String</option>
-                        <option value="Boolean">Boolean</option>
-                        <option value="Number">Number</option>
-                        <option value="Collection">Collection</option>
-                    </select>
-                </div>
-                <div id="attrib-btn-wrapper">
-                    <button id="attrib-save">Save</button>
-                    <button id="attrib-delete">Delete</button>
-                </div>
+                <form id="add-form" enctype="multipart/form-data">
+                    <div id="attrib-inputs-wrapper">
+                        <p> Attribute name </p>
+                        <input type="text" class='text-input' id='attrib-name' name="attrib-dets" /> <br />
+                        
+                        <p> Attribute type </p>
+                        <select id="attrib-type" name="attrib-type">
+                            <option value="" disabled selected>Select</option>
+                            <option value="String">String</option>
+                            <option value="Boolean">Boolean</option>
+                            <option value="Number">Number</option>
+                            <option value="Collection">Collection</option>
+                        </select>
+                    </div>
+                    <div id="attrib-btn-wrapper">
+                        <button type='submit' id="attrib-save">Save</button>
+                        <button type='button' id="attrib-delete">Delete</button>
+                    </div>
+                </form>
             </div>
 
         </div>
@@ -208,6 +210,48 @@ $(function() {
 
     //let sidebar = new w2ui.w2sidebar(config.sidebar)
 
+    // Adds a listener to the buttons in the HTML panel
+    w2ui["attrib-sidebar"].on('click', function(event) {
+        $('#attrib-save').submit(function(e) {
+            e.preventDefault();
+            
+            console.log('Saving...')
+            var name = $('#attrib-name')[0]
+            var type = $('#attrib-type')[0]
+
+            let data = new FormData($("#attrib-save")[0]);
+
+            console.log(data)
+            $.ajax({
+                url: "/addAttribute",
+                data: data,
+                type: "POST",
+                processData: false,
+                contentType: false,
+
+                success: async function (foundData) {
+                    console.log("success");
+                    
+                },
+
+                // error: async function (jqXHR, textStatus, errorThrown) {
+                //     message = jqXHR.responseJSON.message;
+                //     fields = jqXHR.responseJSON.fields;
+
+                //     if (fields) {
+                //         fields.forEach(async function (field) {
+                //             emptyFields.push($(`#${field}`)[0]);
+                //         });
+
+                //         showError(error, message, emptyFields);
+                //     }
+                // },
+                
+            });
+            return false
+        })
+    })
+
     w2ui["attrib-grid"].html('left', w2ui["attrib-sidebar"])
 
 
@@ -249,11 +293,5 @@ $(function() {
         Attributes.push(attribID)
     })
 
-    $('#attrib-save').click(function() {
-        var name = $('#attrib-name')[0]
-        var type = $('#attrib-type')[0]
-
-
-
-    })
+    
 })

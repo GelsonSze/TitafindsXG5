@@ -14,26 +14,28 @@ const configController = {
     },
 
     addAttribute: async function (req, res) {
-            try {
-                var newAttrib = {
-                    name: req.body.name,
-                    dataType: req.body.type,
-                    options: req.body.options,
-                };
+        console.log(req.body)
+        console.log(req.query)
+        try {
+            var newAttrib = {
+                name: req.body.name,
+                dataType: req.body.type,
+                options: req.body.options,
+            };
 
-                console.log("Added attribute: ");
-                console.log(newAttrib);
+            console.log("Added attribute: ");
+            console.log(newAttrib);
 
-                db.insertOne(Attribute, newAttrib, function (data) {
-                    res.send(data);
-                });
-            } catch (error) {
-                res.status(500).json({
-                    message: "Server Error: Add Attribute",
-                    details: error.message,
-                });
-                return;
-            }
+            db.insertOne(Attribute, newAttrib, function (data) {
+                res.send(data);
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Add Attribute",
+                details: error.message,
+            });
+            return;
+        }
     },
 
     getAttributes: async function (req, res) {
