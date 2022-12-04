@@ -1,3 +1,6 @@
+Attributes = []
+Collections = []
+
 const attribsPage = `
     <div class="attrib-page-wrapper">
         <div class="header-color">Settings</div>
@@ -18,16 +21,6 @@ const attribsPage = `
                         <option value="Collection">Collection</option>
                     </select>
                 </div>
-
-                <div id="attrib-radio-wrapper">
-                    <p>Required</p>
-                    <label for="attrib-required-yes"> Yes </label>
-                    <input type="radio" id="attrib-required-yes" name="attrib-required"/>
-
-                    <label for="attrib-required-no"> No </label>
-                    <input type="radio" id="attrib-required-no" name="attrib-required" />
-                </div>
-
                 <div id="attrib-btn-wrapper">
                     <button id="attrib-save">Save</button>
                     <button id="attrib-delete">Delete</button>
@@ -38,6 +31,18 @@ const attribsPage = `
     </div>
 `;
 
+
+function addAtrribute(attribID) {
+    w2ui["attrib-sidebar"].add('general',{ id: attribID, text: 'Untitled' })
+
+    w2ui["attrib-sidebar"].on('click', function(event) {
+        switch (event.target) {
+            case attribID:
+                w2ui["attrib-grid"].html('main', attribsPage)
+                break
+        }
+    })
+}
 
 $(function() {
     // --------------------------------- First table ---------------------------------
@@ -61,11 +66,6 @@ $(function() {
             switch (event.target) {
                 case 'html':
                     w2ui["attrib-grid"].html('main', attribsPage)
-                    query(layout.el('main'))
-                        .removeClass('w2ui-grid')
-                        .css({
-                            'border-left': '1px solid #efefef'
-                        })
                     break
             }
         }
@@ -77,5 +77,15 @@ $(function() {
 
 
     // --------------------------------- Second Table ---------------------------------
+   
     
+
+
+
+    // ---- Other Functions ----
+
+    $('#new-attribute').click(function() {
+        addAtrribute('AdSGHZXQ')
+
+    })
 })
