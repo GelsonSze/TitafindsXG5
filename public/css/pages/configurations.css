@@ -46,7 +46,6 @@ label {
 
 .product-attributes-wrapper {
     padding: 20px;
-    margin-top: 20px;
     color: #5e5e5e;
 }
 
@@ -67,6 +66,10 @@ label {
     color: black;
     font-weight: 500;
 }
+
+#attrib-inputs-wrapper p { margin-top: 10px;}
+
+#attrib-btn-wrapper { margin-top: 20px;}
 
 #attrib-btn-wrapper button{
     border-radius: 5px;
