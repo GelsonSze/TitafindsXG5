@@ -9,10 +9,10 @@ const attribsPage = `
 
             <div id='attribs-content'>
                 <div id="attrib-inputs-wrapper">
-                    <label for="attrib-name"> Attribute name </label> <br />
+                    <p> Attribute name </p>
                     <input type="text" class='text-input' id='attrib-name' name="attrib-dets" /> <br />
                     
-                    <label for="attrib-type"> Attribute type </label> <br />
+                    <p> Attribute type </p>
                     <select id="attrib-type" name="attrib-type">
                         <option value="" disabled selected>Select</option>
                         <option value="String">String</option>
@@ -42,6 +42,73 @@ function addAtrribute(attribID) {
                 break
         }
     })
+}
+
+function getAttribContent(name, type) {
+
+    let options = null;
+
+    if (type == 'String') {
+        options =   `  
+                        <option value="String" selected>String</option>
+                        <option value="Boolean">Boolean</option>
+                        <option value="Number">Number</option>
+                        <option value="Collection">Collection</option>
+                    `
+    }
+    else if (type == 'Boolean') {
+        options =   `  
+                        <option value="String">String</option>
+                        <option value="Boolean" selected>Boolean</option>
+                        <option value="Number">Number</option>
+                        <option value="Collection">Collection</option>
+                    `
+    }
+    else if (type == 'Number') {
+        options =   `  
+                        <option value="String">String</option>
+                        <option value="Boolean">Boolean</option>
+                        <option value="Number" selected>Number</option>
+                        <option value="Collection">Collection</option>
+                    `
+    }
+    else if (type == 'Collection') {
+        options =   `  
+                        <option value="String">String</option>
+                        <option value="Boolean">Boolean</option>
+                        <option value="Number">Number</option>
+                        <option value="Collection" selected>Collection</option>
+                    `
+    }
+    
+    const attribsPage = `
+    <div class="attrib-page-wrapper">
+        <div class="header-color">Settings</div>
+        <div class="product-attributes-wrapper"> 
+            <h2> Edit product Attributes </h2>
+
+            <div id='attribs-content'>
+                <div id="attrib-inputs-wrapper">
+                    <p> Attribute name </p>
+                    <input type="text" class='text-input' id='attrib-name' name="attrib-dets">${name}</input><br />
+                    
+                    <p> Attribute type </p>
+                    <select id="attrib-type" name="attrib-type">`+
+                      options
+                        +
+                    `</select>
+                </div>
+                <div id="attrib-btn-wrapper">
+                    <button id="attrib-save">Save</button>
+                    <button id="attrib-delete">Delete</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    `;
+
+    return attribsPage
 }
 
 $(function() {
