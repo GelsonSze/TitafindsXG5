@@ -12,11 +12,6 @@ const attributeSchema = new mongoose.Schema({
         required: true,
     },
 
-    isRequired: {
-        type: Boolean,
-        required: true,
-    },
-
     options: {
         type: Array,
     },
