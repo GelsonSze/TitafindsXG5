@@ -1,5 +1,47 @@
-Attributes = []
-Collections = []
+let Attributes = []
+let Collections = []
+
+/**
+ * Request data from the server and if refreshGrid is true,
+ * render it in the grid.
+ * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
+ */
+function getAllAttributes(refreshGrid = false) {
+    $.ajax({
+        url: "/getAttributes",
+        type: "GET",
+        processData: false,
+        contentType: "application/json; charset=utf-8",
+        success: function (item) {
+            Attributes = [];
+
+            item.forEach(function(attr) {
+                Attributes.push(
+                    new attribute(
+                        item.name,
+                        item.dataType,
+                        item.options
+                    )
+                );
+            });
+            
+
+            if (refreshGrid) {
+                w2ui["transaction-grid"].records = Transactions.reverse();
+                w2ui["transaction-grid"].refresh();
+            }
+        },
+    });
+}
+
+function attribute(name, dataType, options) {
+    return {
+        name: name,
+        dataType: dataType,
+        type: type,
+        options: options,
+    };
+}
 
 const attribsPage = `
     <div class="attrib-page-wrapper">
@@ -31,7 +73,10 @@ const attribsPage = `
     </div>
 `;
 
-
+/**
+ * Adds an attribute to the sidebar with default settings.
+ * @param {String} attribID ID to base off of when calling in w2ui
+ */
 function addAtrribute(attribID) {
     w2ui["attrib-sidebar"].add('general',{ id: attribID, text: 'Untitled' })
 
@@ -44,6 +89,29 @@ function addAtrribute(attribID) {
     })
 }
 
+/**
+ * Adds an attribute to the sidebar with existing settings.
+ * @param {Object} attr object to base off of when calling in w2ui
+ */
+function addExistingAtrribute(attr) {
+    w2ui["attrib-sidebar"].add('general',{ id: attr.name, text: attr.name })
+
+    w2ui["attrib-sidebar"].on('click', function(event) {
+        switch (event.target) {
+            case attr.name:
+                w2ui["attrib-grid"].html('main', getAttribContent(attr.name, attr.dataType))
+                break
+        }
+    })
+}
+
+
+/**
+ * A page template for existing attributes upon adding.
+ * @param {String} name is name of attribute 
+ * @param {String} type is based off of [String, Boolean, Number, Collection]
+ * @returns 
+ */
 function getAttribContent(name, type) {
 
     let options = null;
@@ -145,14 +213,47 @@ $(function() {
 
     // --------------------------------- Second Table ---------------------------------
    
-    
+    $('#config-options-grid').w2layout({
+        name: 'options-grid',
+        padding: 0,
+        panels: [
+            { type: 'left', size: 200, resizable: true, minSize: 120 },
+            { type: 'main', minSize: 550, overflow: 'hidden' }
+        ],
+    })
+
+    $('#config-options-grid-sidebar').w2sidebar({
+        name: 'options-sidebar',
+        nodes: [
+            { id: 'general', text: 'General', group: true, expanded: true, nodes: [
+                { id: 'html', text: 'Some HTML', icon: 'fa fa-list-alt' }
+            ]}
+        ],
+        onClick(event) {
+            switch (event.target) {
+                case 'html':
+                    w2ui["options-grid"].html('main', attribsPage)
+                    break
+            }
+        }
+    })
 
 
 
     // ---- Other Functions ----
 
     $('#new-attribute').click(function() {
-        addAtrribute('AdSGHZXQ')
+        let num = Attributes.size
+        let attribID = String(num)
+        addAtrribute(attribID)
+        Attributes.push(attribID)
+    })
+
+    $('#attrib-save').click(function() {
+        var name = $('#attrib-name')[0]
+        var type = $('#attrib-type')[0]
+
+
 
     })
 })
