@@ -15,7 +15,6 @@ const configController = {
 
     addAttribute: async function (req, res) {
         console.log(req.body)
-        console.log(req.query)
         try {
             var newAttrib = {
                 name: req.body.name,

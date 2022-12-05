@@ -16,13 +16,20 @@ function getAllAttributes(refreshGrid = false) {
             Attributes = [];
 
             item.forEach(function (attr) {
-                Attributes.push(new attribute(item.name, item.dataType, item.options));
+                Attributes.push(new attribute(attr.name, attr.dataType, attr.options));
+                console.log('Pushing attribute')
+                console.log(attr)
             });
 
             if (refreshGrid) {
-                // Fix soon
-                // w2ui["attrib-grid"].records = Transactions.reverse();
-                // w2ui["transaction-grid"].refresh();
+                // Grabs each id of existing ID inside the sidebar and then removes all at once.
+                var nd = [];
+                for (var i in w2ui['attrib-sidebar'].nodes) nd.push(w2ui['attrib-sidebar'].nodes[i].id);
+                w2ui['attrib-sidebar'].remove.apply(w2ui['attrib-sidebar'], nd);
+
+                Attributes.forEach(function(attr) {
+                    addExistingAtrribute(attr);
+                });
             }
         },
     });
@@ -32,7 +39,6 @@ function attribute(name, dataType, options) {
     return {
         name: name,
         dataType: dataType,
-        type: type,
         options: options,
     };
 }
@@ -92,7 +98,7 @@ const typePage = `
  * @param {String} attribID ID to base off of when calling in w2ui
  */
 function addAtrribute(attribID) {
-    w2ui["attrib-sidebar"].add("general", { id: attribID, text: "Untitled" });
+    w2ui["attrib-sidebar"].add({ id: attribID, text: "Untitled" });
 
     w2ui["attrib-sidebar"].on("click", function (event) {
         switch (event.target) {
@@ -108,7 +114,9 @@ function addAtrribute(attribID) {
  * @param {Object} attr object to base off of when calling in w2ui
  */
 function addExistingAtrribute(attr) {
-    w2ui["attrib-sidebar"].add("general", { id: attr.name, text: attr.name });
+    console.log("Adding! Node is: ");
+    console.log(attr)
+    w2ui["attrib-sidebar"].add({ id: attr.name, text: attr.name });
 
     w2ui["attrib-sidebar"].on("click", function (event) {
         switch (event.target) {
@@ -266,6 +274,8 @@ $(function () {
     });
 
     w2ui["attrib-grid"].html("left", w2ui["attrib-sidebar"]);
+
+    getAllAttributes(true);
 
     // --------------------------------- Second Table ---------------------------------
 
