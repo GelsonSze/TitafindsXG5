@@ -44,7 +44,7 @@ const attribsPage = `
             <h2> Edit product Attributes </h2>
 
             <div id='attribs-content'>
-                <form id="add-form" enctype="multipart/form-data">
+                <form id="attrib-form" enctype="multipart/form-data">
                     <div id="attrib-inputs-wrapper">
                         <p> Attribute name </p>
                         <input type="text" class='text-input' id='attrib-name' name="attrib-dets" /> <br />
@@ -158,32 +158,33 @@ function getAttribContent(name, type) {
                     `;
     }
 
-    const attribsPage =
-        `
+    const attribsPage = `
     <div class="attrib-page-wrapper">
         <div class="header-color">Settings</div>
         <div class="product-attributes-wrapper"> 
             <h2> Edit product Attributes </h2>
 
             <div id='attribs-content'>
-                <div id="attrib-inputs-wrapper">
-                    <p> Attribute name </p>
-                    <input type="text" class='text-input' id='attrib-name' name="attrib-dets">${name}</input><br />
-                    
-                    <p> Attribute type </p>
-                    <select id="attrib-type" name="attrib-type">` +
-        options +
-        `</select>
-                </div>
-                <div id="attrib-btn-wrapper">
-                    <button id="attrib-save">Save</button>
-                    <button id="attrib-delete">Delete</button>
-                </div>
+                <form id="attrib-form" enctype="multipart/form-data">
+                    <div id="attrib-inputs-wrapper">
+                        <p> Attribute name </p>
+                        <input type="text" class='text-input' id='attrib-name' name="attrib-dets" value="${name}"/> <br />
+                        
+                        <p> Attribute type </p>
+                        <select id="attrib-type" name="attrib-type">
+                           `+options+` 
+                        </select>
+                    </div>
+                    <div id="attrib-btn-wrapper">
+                        <button type='submit' id="attrib-save">Save</button>
+                        <button type='button' id="attrib-delete">Delete</button>
+                    </div>
+                </form>
             </div>
 
         </div>
     </div>
-    `;
+`;
 
     return attribsPage;
 }
@@ -228,9 +229,10 @@ $(function () {
         var name = $("#attrib-name")[0];
         var type = $("#attrib-type")[0];
 
-        let data = new FormData($("#attrib-save")[0]);
+        const data = new FormData($("#attrib-form")[0]);
 
-        console.log(data);
+        for (const value of data.values())
+            console.log(value);
         $.ajax({
             url: "/addAttribute",
             data: data,
