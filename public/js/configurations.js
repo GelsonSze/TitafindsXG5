@@ -1,5 +1,5 @@
-let Attributes = []
-let Collections = []
+let Attributes = [];
+let Collections = [];
 
 /**
  * Request data from the server and if refreshGrid is true,
@@ -15,16 +15,9 @@ function getAllAttributes(refreshGrid = false) {
         success: function (item) {
             Attributes = [];
 
-            item.forEach(function(attr) {
-                Attributes.push(
-                    new attribute(
-                        item.name,
-                        item.dataType,
-                        item.options
-                    )
-                );
+            item.forEach(function (attr) {
+                Attributes.push(new attribute(item.name, item.dataType, item.options));
             });
-            
 
             if (refreshGrid) {
                 // Fix soon
@@ -99,15 +92,15 @@ const typePage = `
  * @param {String} attribID ID to base off of when calling in w2ui
  */
 function addAtrribute(attribID) {
-    w2ui["attrib-sidebar"].add('general',{ id: attribID, text: 'Untitled' })
+    w2ui["attrib-sidebar"].add("general", { id: attribID, text: "Untitled" });
 
-    w2ui["attrib-sidebar"].on('click', function(event) {
+    w2ui["attrib-sidebar"].on("click", function (event) {
         switch (event.target) {
             case attribID:
-                w2ui["attrib-grid"].html('main', attribsPage)
-                break
+                w2ui["attrib-grid"].html("main", attribsPage);
+                break;
         }
-    })
+    });
 }
 
 /**
@@ -115,62 +108,58 @@ function addAtrribute(attribID) {
  * @param {Object} attr object to base off of when calling in w2ui
  */
 function addExistingAtrribute(attr) {
-    w2ui["attrib-sidebar"].add('general',{ id: attr.name, text: attr.name })
+    w2ui["attrib-sidebar"].add("general", { id: attr.name, text: attr.name });
 
-    w2ui["attrib-sidebar"].on('click', function(event) {
+    w2ui["attrib-sidebar"].on("click", function (event) {
         switch (event.target) {
             case attr.name:
-                w2ui["attrib-grid"].html('main', getAttribContent(attr.name, attr.dataType))
-                break
+                w2ui["attrib-grid"].html("main", getAttribContent(attr.name, attr.dataType));
+                break;
         }
-    })
+    });
 }
-
 
 /**
  * A page template for existing attributes upon adding.
- * @param {String} name is name of attribute 
+ * @param {String} name is name of attribute
  * @param {String} type is based off of [String, Boolean, Number, Collection]
- * @returns 
+ * @returns
  */
 function getAttribContent(name, type) {
-
     let options = null;
 
-    if (type == 'String') {
-        options =   `  
+    if (type == "String") {
+        options = `  
                         <option value="String" selected>String</option>
                         <option value="Boolean">Boolean</option>
                         <option value="Number">Number</option>
                         <option value="Collection">Collection</option>
-                    `
-    }
-    else if (type == 'Boolean') {
-        options =   `  
+                    `;
+    } else if (type == "Boolean") {
+        options = `  
                         <option value="String">String</option>
                         <option value="Boolean" selected>Boolean</option>
                         <option value="Number">Number</option>
                         <option value="Collection">Collection</option>
-                    `
-    }
-    else if (type == 'Number') {
-        options =   `  
+                    `;
+    } else if (type == "Number") {
+        options = `  
                         <option value="String">String</option>
                         <option value="Boolean">Boolean</option>
                         <option value="Number" selected>Number</option>
                         <option value="Collection">Collection</option>
-                    `
-    }
-    else if (type == 'Collection') {
-        options =   `  
+                    `;
+    } else if (type == "Collection") {
+        options = `  
                         <option value="String">String</option>
                         <option value="Boolean">Boolean</option>
                         <option value="Number">Number</option>
                         <option value="Collection" selected>Collection</option>
-                    `
+                    `;
     }
-    
-    const attribsPage = `
+
+    const attribsPage =
+        `
     <div class="attrib-page-wrapper">
         <div class="header-color">Settings</div>
         <div class="product-attributes-wrapper"> 
@@ -182,10 +171,9 @@ function getAttribContent(name, type) {
                     <input type="text" class='text-input' id='attrib-name' name="attrib-dets">${name}</input><br />
                     
                     <p> Attribute type </p>
-                    <select id="attrib-type" name="attrib-type">`+
-                      options
-                        +
-                    `</select>
+                    <select id="attrib-type" name="attrib-type">` +
+        options +
+        `</select>
                 </div>
                 <div id="attrib-btn-wrapper">
                     <button id="attrib-save">Save</button>
@@ -197,151 +185,155 @@ function getAttribContent(name, type) {
     </div>
     `;
 
-    return attribsPage
+    return attribsPage;
 }
 
-$(function() {
+$(function () {
     // --------------------------------- First table ---------------------------------
-    $('#config-attrib-grid').w2layout({
-        name: 'attrib-grid',
+    $("#config-attrib-grid").w2layout({
+        name: "attrib-grid",
         padding: 0,
         panels: [
-            { type: 'left', size: 200, resizable: true, minSize: 120 },
-            { type: 'main', minSize: 550, overflow: 'hidden' }
+            { type: "left", size: 200, resizable: true, minSize: 120 },
+            { type: "main", minSize: 550, overflow: "hidden" },
         ],
-    })
+    });
 
-    $('#config-attrib-grid-sidebar').w2sidebar({
-        name: 'attrib-sidebar',
+    $("#config-attrib-grid-sidebar").w2sidebar({
+        name: "attrib-sidebar",
         nodes: [
-            { id: 'general', text: 'General', group: true, expanded: true, nodes: [
-                { id: 'html', text: 'Some HTML' }
-            ]}
+            {
+                id: "general",
+                text: "General",
+                group: true,
+                expanded: true,
+                nodes: [{ id: "html", text: "Some HTML" }],
+            },
         ],
         topHTML: '<div class="sidebar-top">Attributes</div>',
         onClick(event) {
             switch (event.target) {
-                case 'html':
-                    w2ui["attrib-grid"].html('main', attribsPage)
-                    break
+                case "html":
+                    w2ui["attrib-grid"].html("main", attribsPage);
+                    break;
             }
-        }
-    })
+        },
+    });
 
-    // Adds a listener to the buttons in the HTML panel
-    w2ui["attrib-sidebar"].on('click', function(event) {
-        $('#attrib-save').submit(function(e) {
-            e.preventDefault();
-            
-            console.log('Saving...')
-            var name = $('#attrib-name')[0]
-            var type = $('#attrib-type')[0]
+    // Adds a listener to the buttons in #config-attrib-grid
+    $("#config-attrib-grid").on("click", "#attrib-save", function (e) {
+        e.preventDefault();
 
-            let data = new FormData($("#attrib-save")[0]);
+        console.log("Saving...");
+        var name = $("#attrib-name")[0];
+        var type = $("#attrib-type")[0];
 
-            console.log(data)
-            $.ajax({
-                url: "/addAttribute",
-                data: data,
-                type: "POST",
-                processData: false,
-                contentType: "application/json; charset=utf-8",
+        let data = new FormData($("#attrib-save")[0]);
 
-                success: async function (foundData) {
-                    console.log("success");
-                    
-                },
+        console.log(data);
+        $.ajax({
+            url: "/addAttribute",
+            data: data,
+            type: "POST",
+            processData: false,
+            contentType: "application/json; charset=utf-8",
 
-                // error: async function (jqXHR, textStatus, errorThrown) {
-                //     message = jqXHR.responseJSON.message;
-                //     fields = jqXHR.responseJSON.fields;
+            success: async function (foundData) {
+                console.log("success");
+            },
 
-                //     if (fields) {
-                //         fields.forEach(async function (field) {
-                //             emptyFields.push($(`#${field}`)[0]);
-                //         });
+            // error: async function (jqXHR, textStatus, errorThrown) {
+            //     message = jqXHR.responseJSON.message;
+            //     fields = jqXHR.responseJSON.fields;
 
-                //         showError(error, message, emptyFields);
-                //     }
-                // },
-                
-            });
-            return false
-        })
-    })
+            //     if (fields) {
+            //         fields.forEach(async function (field) {
+            //             emptyFields.push($(`#${field}`)[0]);
+            //         });
 
-    w2ui["attrib-grid"].html('left', w2ui["attrib-sidebar"])
+            //         showError(error, message, emptyFields);
+            //     }
+            // },
+        });
+        return false;
+    });
 
+    w2ui["attrib-grid"].html("left", w2ui["attrib-sidebar"]);
 
     // --------------------------------- Second Table ---------------------------------
-   
-    $('#config-options-grid').w2layout({
-        name: 'options-grid',
+
+    $("#config-options-grid").w2layout({
+        name: "options-grid",
         padding: 0,
         panels: [
-            { type: 'left', size: 200, resizable: true, minSize: 120 },
-            { type: 'main', minSize: 550, overflow: 'hidden' }
+            { type: "left", size: 200, resizable: true, minSize: 120 },
+            { type: "main", minSize: 550, overflow: "hidden" },
         ],
-    })
+    });
 
-    $('#config-options-grid-sidebar').w2sidebar({
-        name: 'options-sidebar',
+    $("#config-options-grid-sidebar").w2sidebar({
+        name: "options-sidebar",
         nodes: [
-            { id: 'general', text: 'General', group: true, expanded: true, nodes: [
-                { id: 'html', text: 'Sample' }
-            ]}
+            {
+                id: "general",
+                text: "General",
+                group: true,
+                expanded: true,
+                nodes: [{ id: "html", text: "Sample" }],
+            },
         ],
         topHTML: '<div class="sidebar-top">Collection</div>',
         onClick(event) {
             switch (event.target) {
-                case 'html':
-                    w2ui["options-grid"].html('main', optionsPage)
-                    break
+                case "html":
+                    w2ui["options-grid"].html("main", optionsPage);
+                    break;
             }
-        }
-    })
+        },
+    });
 
-    w2ui["options-grid"].html('left', w2ui["options-sidebar"])
+    w2ui["options-grid"].html("left", w2ui["options-sidebar"]);
 
-    
     // --------------------------------- Third Table ---------------------------------
 
-    $('#config-type-grid').w2layout({
-        name: 'type-grid',
+    $("#config-type-grid").w2layout({
+        name: "type-grid",
         padding: 0,
         panels: [
-            { type: 'left', size: 200, resizable: true, minSize: 120 },
-            { type: 'main', minSize: 550, overflow: 'hidden' }
+            { type: "left", size: 200, resizable: true, minSize: 120 },
+            { type: "main", minSize: 550, overflow: "hidden" },
         ],
-    })
+    });
 
-    $('#config-type-grid-sidebar').w2sidebar({
-        name: 'type-sidebar',
+    $("#config-type-grid-sidebar").w2sidebar({
+        name: "type-sidebar",
         nodes: [
-            { id: 'general', text: 'General', group: true, expanded: true, nodes: [
-                { id: 'html', text: 'Some HTML'}
-            ]}
+            {
+                id: "general",
+                text: "General",
+                group: true,
+                expanded: true,
+                nodes: [{ id: "html", text: "Some HTML" }],
+            },
         ],
         topHTML: '<div class="sidebar-top">Type</div>',
         onClick(event) {
             switch (event.target) {
-                case 'html':
-                    w2ui["type-grid"].html('main', typePage)
-                    break
+                case "html":
+                    w2ui["type-grid"].html("main", typePage);
+                    break;
             }
-        }
-    })  
+        },
+    });
 
-    w2ui["type-grid"].html('left', w2ui["type-sidebar"])
+    w2ui["type-grid"].html("left", w2ui["type-sidebar"]);
 
     // ---- Other Functions ----
 
-    $('#new-attribute').click(function() {
-        let num = Attributes.size
-        let attribID = String(num)
-        addAtrribute(attribID)
-        Attributes.push(attribID)
-    })
-
-    
-})
+    $("#new-attribute").click(function () {
+        let num = Attributes.size;
+        let attribID = String(num);
+        addAtrribute(attribID);
+        Attributes.push(attribID);
+    });
+});
