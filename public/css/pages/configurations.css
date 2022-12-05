@@ -43,6 +43,7 @@
 }
 
 .add-btn {
+    margin-top: 10px;
     border-radius: 5px;
     border: none;
     font-family: 'Inter Bold';
@@ -61,8 +62,8 @@ h4 {font-family: 'Inter Bold' !important;}
     display: flex;
     flex-direction: column;
     width: 90%;
-
-    gap: 10px;
+    
+    gap: 20px;
 }
 
 label {

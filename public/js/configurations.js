@@ -273,6 +273,43 @@ $(function () {
         return false;
     });
 
+    // Adds a listener to the buttons in #config-attrib-grid
+    $("#config-attrib-grid").on("click", "#attrib-delete", function (e) {
+        e.preventDefault();
+
+        const data = new FormData($("#attrib-form")[0]);
+        data.append('dataType', $('#attrib-type option:selected').val())
+
+        for (var pair of data.entries()) {
+            console.log(pair[0] + ":" + pair[1]);
+        }
+        $.ajax({
+            url: "/deleteAttribute",
+            data: JSON.stringify(Object.fromEntries(data)),
+            type: "DELETE",
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+
+            success: async function (foundData) {
+                console.log("successfully deleted!");
+            },
+
+            // error: async function (jqXHR, textStatus, errorThrown) {
+            //     message = jqXHR.responseJSON.message;
+            //     fields = jqXHR.responseJSON.fields;
+
+            //     if (fields) {
+            //         fields.forEach(async function (field) {
+            //             emptyFields.push($(`#${field}`)[0]);
+            //         });
+
+            //         showError(error, message, emptyFields);
+            //     }
+            // },
+        });
+        return false;
+    });
+
     w2ui["attrib-grid"].html("left", w2ui["attrib-sidebar"]);
 
     getAllAttributes(true);
