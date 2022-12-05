@@ -27,8 +27,9 @@ function getAllAttributes(refreshGrid = false) {
             
 
             if (refreshGrid) {
-                w2ui["transaction-grid"].records = Transactions.reverse();
-                w2ui["transaction-grid"].refresh();
+                // Fix soon
+                // w2ui["attrib-grid"].records = Transactions.reverse();
+                // w2ui["transaction-grid"].refresh();
             }
         },
     });
@@ -71,6 +72,24 @@ const attribsPage = `
                 </form>
             </div>
 
+        </div>
+    </div>
+`;
+
+const optionsPage = `
+    <div class="options-page-wrapper">
+        <div class="header-color">Option</div>
+        <div id="options-wrapper">
+            <button class="option-row">Sample Option</button>
+        </div>
+    </div>
+`;
+
+const typePage = `
+    <div class="type-page-wrapper">
+        <p>X contains the following attributes: </p>
+        <div id="type-wrapper">
+            <input type="checkbox" name="option1" value="option1">
         </div>
     </div>
 `;
@@ -196,9 +215,10 @@ $(function() {
         name: 'attrib-sidebar',
         nodes: [
             { id: 'general', text: 'General', group: true, expanded: true, nodes: [
-                { id: 'html', text: 'Some HTML', icon: 'fa fa-list-alt' }
+                { id: 'html', text: 'Some HTML' }
             ]}
         ],
+        topHTML: '<div class="sidebar-top">Attributes</div>',
         onClick(event) {
             switch (event.target) {
                 case 'html':
@@ -207,8 +227,6 @@ $(function() {
             }
         }
     })
-
-    //let sidebar = new w2ui.w2sidebar(config.sidebar)
 
     // Adds a listener to the buttons in the HTML panel
     w2ui["attrib-sidebar"].on('click', function(event) {
@@ -227,7 +245,7 @@ $(function() {
                 data: data,
                 type: "POST",
                 processData: false,
-                contentType: false,
+                contentType: "application/json; charset=utf-8",
 
                 success: async function (foundData) {
                     console.log("success");
@@ -270,19 +288,51 @@ $(function() {
         name: 'options-sidebar',
         nodes: [
             { id: 'general', text: 'General', group: true, expanded: true, nodes: [
-                { id: 'html', text: 'Some HTML', icon: 'fa fa-list-alt' }
+                { id: 'html', text: 'Sample' }
             ]}
         ],
+        topHTML: '<div class="sidebar-top">Collection</div>',
         onClick(event) {
             switch (event.target) {
                 case 'html':
-                    w2ui["options-grid"].html('main', attribsPage)
+                    w2ui["options-grid"].html('main', optionsPage)
                     break
             }
         }
     })
 
+    w2ui["options-grid"].html('left', w2ui["options-sidebar"])
 
+    
+    // --------------------------------- Third Table ---------------------------------
+
+    $('#config-type-grid').w2layout({
+        name: 'type-grid',
+        padding: 0,
+        panels: [
+            { type: 'left', size: 200, resizable: true, minSize: 120 },
+            { type: 'main', minSize: 550, overflow: 'hidden' }
+        ],
+    })
+
+    $('#config-type-grid-sidebar').w2sidebar({
+        name: 'type-sidebar',
+        nodes: [
+            { id: 'general', text: 'General', group: true, expanded: true, nodes: [
+                { id: 'html', text: 'Some HTML'}
+            ]}
+        ],
+        topHTML: '<div class="sidebar-top">Type</div>',
+        onClick(event) {
+            switch (event.target) {
+                case 'html':
+                    w2ui["type-grid"].html('main', typePage)
+                    break
+            }
+        }
+    })  
+
+    w2ui["type-grid"].html('left', w2ui["type-sidebar"])
 
     // ---- Other Functions ----
 
