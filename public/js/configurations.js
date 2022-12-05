@@ -44,13 +44,13 @@ const attribsPage = `
             <h2> Edit product Attributes </h2>
 
             <div id='attribs-content'>
-                <form id="attrib-form" enctype="multipart/form-data">
+                <form id="attrib-form">
                     <div id="attrib-inputs-wrapper">
                         <p> Attribute name </p>
-                        <input type="text" class='text-input' id='attrib-name' name="attrib-dets" /> <br />
+                        <input type="text" class='text-input' id='attrib-name' name="name" /> <br />
                         
                         <p> Attribute type </p>
-                        <select id="attrib-type" name="attrib-type">
+                        <select id="attrib-type" name="dataType">
                             <option value="" disabled selected>Select</option>
                             <option value="String">String</option>
                             <option value="Boolean">Boolean</option>
@@ -158,21 +158,24 @@ function getAttribContent(name, type) {
                     `;
     }
 
-    const attribsPage = `
+    const attribsPage =
+        `
     <div class="attrib-page-wrapper">
         <div class="header-color">Settings</div>
         <div class="product-attributes-wrapper"> 
             <h2> Edit product Attributes </h2>
 
             <div id='attribs-content'>
-                <form id="attrib-form" enctype="multipart/form-data">
+                <form id="attrib-form">
                     <div id="attrib-inputs-wrapper">
                         <p> Attribute name </p>
-                        <input type="text" class='text-input' id='attrib-name' name="attrib-dets" value="${name}"/> <br />
+                        <input type="text" class='text-input' id='attrib-name' name="name" value="${name}"/> <br />
                         
                         <p> Attribute type </p>
-                        <select id="attrib-type" name="attrib-type">
-                           `+options+` 
+                        <select id="attrib-type" name="dataType">
+                           ` +
+        options +
+        ` 
                         </select>
                     </div>
                     <div id="attrib-btn-wrapper">
@@ -231,11 +234,12 @@ $(function () {
 
         const data = new FormData($("#attrib-form")[0]);
 
-        for (const value of data.values())
-            console.log(value);
+        for (var pair of data.entries()) {
+            console.log(pair[0] + ":" + pair[1]);
+        }
         $.ajax({
             url: "/addAttribute",
-            data: data,
+            data: JSON.stringify(Object.fromEntries(data)),
             type: "POST",
             processData: false,
             contentType: "application/json; charset=utf-8",
