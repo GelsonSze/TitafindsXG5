@@ -233,6 +233,7 @@ $(function () {
         var type = $("#attrib-type")[0];
 
         const data = new FormData($("#attrib-form")[0]);
+        data.append('dataType', $('#attrib-type option:selected').val())
 
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);

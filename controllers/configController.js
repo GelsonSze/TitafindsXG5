@@ -1,5 +1,5 @@
 //Controler for attributes
-// import Transaction from "../model/schemas/Transaction.js";
+import Attribute from "../model/schemas/Attribute.js";
 import db from "../model/db.js";
 
 const configController = {
@@ -19,7 +19,7 @@ const configController = {
         try {
             var newAttrib = {
                 name: req.body.name,
-                dataType: req.body.type,
+                dataType: req.body.dataType,
                 options: req.body.options,
             };
 
