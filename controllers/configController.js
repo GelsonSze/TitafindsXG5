@@ -81,6 +81,20 @@ const configController = {
         }
     },
 
+    getCollections: async function (req, res) {
+        try {
+            db.findMany(Attribute, {dataType: "Collection"}, null, function (data) {
+                res.status(200).json(data);
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Get Collections",
+                details: error.message,
+            });
+            return;
+        }
+    },
+
     
 
 };
