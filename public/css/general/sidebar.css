@@ -5,7 +5,8 @@
     box-sizing: border-box;
 }
 body {
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 .sidebar {
     /* For designer, change these colors */
