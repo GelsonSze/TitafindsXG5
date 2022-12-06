@@ -1,7 +1,9 @@
 let Attributes = [];
 let Collections = [];
 
-var curSelectedAttrib = null;
+var curSelectedAttribName = null;
+var curSelectedAttribType = null;
+var origAttrSize = 0;
 
 /**
  * Request data from the server and if refreshGrid is true,
@@ -28,10 +30,17 @@ function getAllAttributes(refreshGrid = false) {
                 var nd = [];
                 for (var i in w2ui['attrib-sidebar'].nodes) nd.push(w2ui['attrib-sidebar'].nodes[i].id);
                 w2ui['attrib-sidebar'].remove.apply(w2ui['attrib-sidebar'], nd);
+                origAttrSize = Attributes.size;
 
                 Attributes.forEach(function(attr) {
                     addExistingAtrribute(attr);
                 });
+
+                curSelectedAttribName = null;
+                curSelectedAttribType = null
+
+                w2ui['attrib-grid'].html('main', "")
+                
             }
         },
     });
@@ -227,13 +236,18 @@ $(function () {
         topHTML: '<div class="sidebar-top">Attributes</div>',
         onClick(event) {
             // Sets the selected attrib to this name
-            curSelectedAttrib = event.target;
+            curSelectedAttribName = event.target;
 
             switch (event.target) {
                 case "html":
                     w2ui["attrib-grid"].html("main", attribsPage);
                     break;
             }
+
+            // Sets current type to this to check before editing.
+            curSelectedAttribType = $('#attrib-type option:selected').val();
+            console.log('selected new!')
+            
         },
     });
 
@@ -247,13 +261,22 @@ $(function () {
 
         const data = new FormData($("#attrib-form")[0]);
         data.append('dataType', $('#attrib-type option:selected').val())
-        data.append('origName', curSelectedAttrib)
+        data.append('origName', curSelectedAttribName)
+
+        console.log(w2ui["attrib-sidebar"].selected);
 
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
 
-        if ( $('#attrib-name').val() == curSelectedAttrib) {
+        // Finds index of selected
+        // var selectedIndex = 0;
+        // for (var attr  of Attributes) {
+        //     if (attr.name == w2ui["attrib-sidebar"].selected) break;
+        //     selectedIndex++;
+        // }
+
+        if ( w2ui["attrib-sidebar"].selected == "undefined" ) {
             $.ajax({
                 url: "/addAttribute",
                 data: JSON.stringify(Object.fromEntries(data)),
@@ -263,6 +286,7 @@ $(function () {
     
                 success: async function (foundData) {
                     console.log("success");
+                    getAllAttributes(true)
                 },
     
                 // error: async function (jqXHR, textStatus, errorThrown) {
@@ -315,6 +339,7 @@ $(function () {
 
         const data = new FormData($("#attrib-form")[0]);
         data.append('dataType', $('#attrib-type option:selected').val())
+        data.append('origName', curSelectedAttribName)
 
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
@@ -328,6 +353,7 @@ $(function () {
 
             success: async function (foundData) {
                 console.log("successfully deleted!");
+                getAllAttributes(true);
             },
 
             // error: async function (jqXHR, textStatus, errorThrown) {

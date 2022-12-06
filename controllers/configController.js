@@ -40,7 +40,7 @@ const configController = {
     deleteAttribute: async function (req, res) {
         console.log(req.body)
         try {
-            db.deleteOne(Attribute, {name: req.body.name}, function (data) {
+            db.deleteOne(Attribute, {name: req.body.origName}, function (data) {
                 res.status(200).json(data);
             })
         } catch (error) {
@@ -55,7 +55,7 @@ const configController = {
     editAttribute: async function(req, res) {
         console.log(req.body)
         try {
-            db.updateOne(Attribute, {name: req.body.name}, {name: req.body.name, },function (data) {
+            db.updateOne(Attribute, {name: req.body.origName}, {name: req.body.name, },function (data) {
                 res.status(200).json(data);
             })
         } catch (error) {
