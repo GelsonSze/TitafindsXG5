@@ -252,6 +252,13 @@ function getAttribContent(name, type, collection) {
     return attribsPage;
 }
 
+function disableCollection(trigger) {
+    $("#options-new").prop('disabled', trigger)
+    $("#options-delete").prop('disabled', trigger)
+
+    $(".option-row").prop('disabled', trigger)
+}
+
 $(function () {
     // --------------------------------- First table ---------------------------------
     $("#config-attrib-grid").w2layout({
@@ -290,12 +297,10 @@ $(function () {
             console.log('selected new!')
 
             if (curSelectedAttribType == 'Collection') {
-                $("#options-new").prop('disabled', false)
-                $("#options-delete").prop('disabled', false)
+                disableCollection(false)
             }
             else {
-                $("#options-new").prop('disabled', true)
-                $("#options-delete").prop('disabled', true)
+                disableCollection(true)
             }
 
 
@@ -433,12 +438,10 @@ $(function () {
         let changedTo = this.value
         
         if (changedTo == "Collection") {
-            $("#options-new").prop('disabled', false)
-            $("#options-delete").prop('disabled', false)
+            disableCollection(false)
         }
         else {
-            $("#options-new").prop('disabled', true)
-            $("#options-delete").prop('disabled', true)
+            disableCollection(true)
         }
     })
 
