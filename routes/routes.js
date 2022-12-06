@@ -53,6 +53,7 @@ app.get("/configurations", checkAuth, configController.configurations);
 app.post("/addAttribute", configController.addAttribute);
 app.get("/getAttributes", configController.getAttributes);
 app.delete("/deleteAttribute", configController.deleteAttribute);
+app.put('/editAttribute', configController.editAttribute);
 
 // TO BE REMOVED
 // if (process.env.NODE_ENV === "development") {

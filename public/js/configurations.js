@@ -1,6 +1,8 @@
 let Attributes = [];
 let Collections = [];
 
+var curSelectedAttrib = null;
+
 /**
  * Request data from the server and if refreshGrid is true,
  * render it in the grid.
@@ -224,6 +226,9 @@ $(function () {
         ],
         topHTML: '<div class="sidebar-top">Attributes</div>',
         onClick(event) {
+            // Sets the selected attrib to this name
+            curSelectedAttrib = event.target;
+
             switch (event.target) {
                 case "html":
                     w2ui["attrib-grid"].html("main", attribsPage);
@@ -242,34 +247,65 @@ $(function () {
 
         const data = new FormData($("#attrib-form")[0]);
         data.append('dataType', $('#attrib-type option:selected').val())
+        data.append('origName', curSelectedAttrib)
 
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
-        $.ajax({
-            url: "/addAttribute",
-            data: JSON.stringify(Object.fromEntries(data)),
-            type: "POST",
-            processData: false,
-            contentType: "application/json; charset=utf-8",
 
-            success: async function (foundData) {
-                console.log("success");
-            },
-
-            // error: async function (jqXHR, textStatus, errorThrown) {
-            //     message = jqXHR.responseJSON.message;
-            //     fields = jqXHR.responseJSON.fields;
-
-            //     if (fields) {
-            //         fields.forEach(async function (field) {
-            //             emptyFields.push($(`#${field}`)[0]);
-            //         });
-
-            //         showError(error, message, emptyFields);
-            //     }
-            // },
-        });
+        if ( $('#attrib-name').val() == curSelectedAttrib) {
+            $.ajax({
+                url: "/addAttribute",
+                data: JSON.stringify(Object.fromEntries(data)),
+                type: "POST",
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+    
+                success: async function (foundData) {
+                    console.log("success");
+                },
+    
+                // error: async function (jqXHR, textStatus, errorThrown) {
+                //     message = jqXHR.responseJSON.message;
+                //     fields = jqXHR.responseJSON.fields;
+    
+                //     if (fields) {
+                //         fields.forEach(async function (field) {
+                //             emptyFields.push($(`#${field}`)[0]);
+                //         });
+    
+                //         showError(error, message, emptyFields);
+                //     }
+                // },
+            });
+        }
+        else {
+            $.ajax({
+                url: "/editAttribute",
+                data: JSON.stringify(Object.fromEntries(data)),
+                type: "PUT",
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+    
+                success: async function (foundData) {
+                    console.log("success edit!");
+                },
+    
+                // error: async function (jqXHR, textStatus, errorThrown) {
+                //     message = jqXHR.responseJSON.message;
+                //     fields = jqXHR.responseJSON.fields;
+    
+                //     if (fields) {
+                //         fields.forEach(async function (field) {
+                //             emptyFields.push($(`#${field}`)[0]);
+                //         });
+    
+                //         showError(error, message, emptyFields);
+                //     }
+                // },
+            });
+        }
+        
         return false;
     });
 
@@ -384,6 +420,10 @@ $(function () {
 
     // ---- Other Functions ----
 
+    /**
+     * Upon clicking new attribute, creates a new attribute with ID based on the cur index
+     * Adds the attribute to sidebar and pushes the ID to the Attributes array.
+     */
     $("#new-attribute").click(function () {
         let num = Attributes.size;
         let attribID = String(num);

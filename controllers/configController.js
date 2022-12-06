@@ -37,6 +37,36 @@ const configController = {
         }
     },
 
+    deleteAttribute: async function (req, res) {
+        console.log(req.body)
+        try {
+            db.deleteOne(Attribute, {name: req.body.name}, function (data) {
+                res.status(200).json(data);
+            })
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Delete Attribute",
+                details: error.message
+            });
+            return;
+        }
+    },
+
+    editAttribute: async function(req, res) {
+        console.log(req.body)
+        try {
+            db.updateOne(Attribute, {name: req.body.name}, {name: req.body.name, },function (data) {
+                res.status(200).json(data);
+            })
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Edit Attribute",
+                details: error.message
+            });
+            return;
+        }
+    },
+
     getAttributes: async function (req, res) {
         try {
             db.findMany(Attribute, {}, null, function (data) {
@@ -51,20 +81,7 @@ const configController = {
         }
     },
 
-    deleteAttribute: async function (req, res) {
-        console.log(req.body)
-        try {
-            db.deleteOne(Attribute, {name: req.body.name}, function (data) {
-                res.status(200).json(data);
-            })
-        } catch (error) {
-            res.status(500).json({
-                message: "Server Error: Get Attributes",
-                details: error.message
-            });
-            return;
-        }
-    }
+    
 
 };
 
