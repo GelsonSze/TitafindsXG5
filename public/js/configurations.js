@@ -317,6 +317,8 @@ function addExistingType(type) {
 }
 
 function getTypeContent(name, specs) {
+    console.log("SPECS")
+    console.log(specs)
     let parsedSpecs = specs.toString().split(',')
 
     let allAttributes = [];
@@ -336,14 +338,18 @@ function getTypeContent(name, specs) {
     let attrCheck = "";
 
     // Adds a check on necessary boxes
+
     for (var spec of parsedSpecs) {
         for (var attr of allAttributes) {
-            if (spec== attr) {
+            if (spec== attr.name) {
                 attr.checked = "checked>";
                 break;
             }
         }
     }
+
+    console.log("ATTRIBS")
+    console.log(allAttributes)
 
     for (var attr of allAttributes) {
         attrCheck += `
@@ -630,28 +636,35 @@ $(function () {
         console.log(typeName)
         console.log(curSelectedTypeName)
 
-        var configIndex = 0;
+        let configIndex = 0;
+
         for(var type of Configs)  {
             if (type.name == curSelectedTypeName) {
                 console.log('its real')
                 console.log(type.name)
+                console.log(configIndex)
+
                 let parsedSpecs = type.specifications.toString().split(",")
 
                 var indexItem = parsedSpecs.indexOf(typeName)
+                console.log(indexItem)
 
                 // If index exists
                 if (indexItem > -1) {
                     $(this).attr('checked', false); 
-                    parsedSpecs.slice(indexItem, 1)
-                    parsedSpecs = [parsedSpecs.join(',')]
+                    parsedSpecs = parsedSpecs.slice(indexItem, 1)
+                    if (parsedSpecs.size > 1)
+                        parsedSpecs = [parsedSpecs.join(',')]
 
                     // Update specs
                     Configs[configIndex].specifications = parsedSpecs 
 
                 } else {
                     $(this).attr('checked', true);
-                    parsedSpecs.push(curSelectedTypeName)
-                    parsedSpecs = [parsedSpecs.join(',')]
+                    parsedSpecs.push(typeName)
+
+                    if (parsedSpecs.size > 1)
+                        parsedSpecs = [parsedSpecs.join(',')]
 
                     // Update specs
                     Configs[configIndex].specifications = parsedSpecs 
@@ -659,8 +672,9 @@ $(function () {
 
                 break;
             }
+            configIndex++;
         }
-        configIndex++;
+        
     })
 
     w2ui["type-grid"].html("left", w2ui["type-sidebar"]);
