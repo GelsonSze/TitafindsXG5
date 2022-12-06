@@ -55,8 +55,9 @@
 .add-btn:hover { cursor:pointer;}
 
 h2 {font-family: 'Inter Bold' !important;}
-h4 {font-family: 'Inter Bold' !important;}
+h4 {font-family: 'Inter Bold' !important; margin-bottom: 10px;}
 
+.attrib-page-wrapper {height: 100%;}
 
 #configurations-wrapper {
     display: flex;
@@ -76,9 +77,34 @@ label {
     width: 100%;
 }
 
+#product-page {
+    display: flex;
+    flex-direction: row;
+    height:90%;
+}
+
 .product-attributes-wrapper {
+    width: 40%;
     padding: 20px;
     color: #5e5e5e;
+}
+
+.collections-page {
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    height:100%;
+}
+
+.options-info {
+    width: 20%;
+}
+
+.options-page-wrapper {
+    margin-left: 5px;
+    width: 80%;
+    border-left: 1px solid var(--clr-black-50);
+    height:100%;
 }
 
 #attribs-content  {margin-top: 20px;}
@@ -113,6 +139,23 @@ label {
 }
 
 button:hover {cursor:pointer;}
+
+.options-info .btn-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.options-info .btn-wrapper button{
+    border-radius: 5px;
+    border: none;
+    font-family: 'Inter Bold';
+    padding: 5px 4px;
+    width: 100%;
+    background-color: var(--clr-gray-100);
+}
+
+#options-wrapper { overflow-y: scroll; height:100%;}
 
 .option-row {
     width: 100%;

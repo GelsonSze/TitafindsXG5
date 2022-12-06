@@ -1,5 +1,4 @@
 let Attributes = [];
-let Collections = [];
 
 var curSelectedAttribName = null;
 var curSelectedAttribType = null;
@@ -57,31 +56,41 @@ function attribute(name, dataType, options) {
 const attribsPage = `
     <div class="attrib-page-wrapper">
         <div class="header-color">Settings</div>
-        <div class="product-attributes-wrapper"> 
-            <h2> Edit product Attributes </h2>
+        <div id="product-page">
+            <div class="product-attributes-wrapper"> 
+                <h2> Edit product Attributes </h2>
 
-            <div id='attribs-content'>
-                <form id="attrib-form">
-                    <div id="attrib-inputs-wrapper">
-                        <p> Attribute name </p>
-                        <input type="text" class='text-input' id='attrib-name' name="name" /> <br />
-                        
-                        <p> Attribute type </p>
-                        <select id="attrib-type" name="dataType">
-                            <option value="" disabled selected>Select</option>
-                            <option value="String">String</option>
-                            <option value="Boolean">Boolean</option>
-                            <option value="Number">Number</option>
-                            <option value="Collection">Collection</option>
-                        </select>
-                    </div>
-                    <div id="attrib-btn-wrapper">
-                        <button type='submit' id="attrib-save">Save</button>
-                        <button type='button' id="attrib-delete">Delete</button>
-                    </div>
-                </form>
+                <div id='attribs-content'>
+                    <form id="attrib-form">
+                        <div id="attrib-inputs-wrapper">
+                            <p> Attribute name </p>
+                            <input type="text" class='text-input' id='attrib-name' name="name" /> <br />
+                            
+                            <p> Attribute type </p>
+                            <select id="attrib-type" name="dataType">
+                                <option value="" disabled selected>Select</option>
+                                <option value="String">String</option>
+                                <option value="Boolean">Boolean</option>
+                                <option value="Number">Number</option>
+                                <option value="Collection">Collection</option>
+                            </select>
+                        </div>
+                        <div id="attrib-btn-wrapper">
+                            <button type='submit' id="attrib-save">Save</button>
+                            <button type='button' id="attrib-delete">Delete</button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
+            <div class="collections-page">
+                <h4> Edit Collection </h4>
+                <div class="options-page-wrapper">
+                    <div id="options-wrapper">
+                        <input type="text" class="option-row" value="Sample Option"></input>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 `;
@@ -181,29 +190,44 @@ function getAttribContent(name, type) {
         `
     <div class="attrib-page-wrapper">
         <div class="header-color">Settings</div>
-        <div class="product-attributes-wrapper"> 
-            <h2> Edit product Attributes </h2>
-
-            <div id='attribs-content'>
-                <form id="attrib-form">
-                    <div id="attrib-inputs-wrapper">
-                        <p> Attribute name </p>
-                        <input type="text" class='text-input' id='attrib-name' name="name" value="${name}"/> <br />
-                        
-                        <p> Attribute type </p>
-                        <select id="attrib-type" name="dataType">
-                           ` +
-        options +
-        ` 
-                        </select>
-                    </div>
-                    <div id="attrib-btn-wrapper">
-                        <button type='submit' id="attrib-save">Save</button>
-                        <button type='button' id="attrib-delete">Delete</button>
-                    </div>
-                </form>
+        <div id="product-page">
+            <div class="product-attributes-wrapper"> 
+                <h2> Edit product Attributes </h2>
+                <div id='attribs-content'>
+                    <form id="attrib-form">
+                        <div id="attrib-inputs-wrapper">
+                            <p> Attribute name </p>
+                            <input type="text" class='text-input' id='attrib-name' name="name" value="${name}"/> <br />
+                            
+                            <p> Attribute type </p>
+                            <select id="attrib-type" name="dataType">
+                            ` +
+                            options +
+                            ` 
+                            </select>
+                        </div>
+                        <div id="attrib-btn-wrapper">
+                            <button type='submit' id="attrib-save">Save</button>
+                            <button type='button' id="attrib-delete">Delete</button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
+            <div class="collections-page">
+                <div class="options-info">
+                    <h4> Edit Collection </h4>
+                    <div class="btn-wrapper">
+                        <button id="options-new">New Option</button>
+                        <button id="options-delete">Delete Option</button>
+
+                    </div>
+                </div>
+                <div class="options-page-wrapper">
+                    <div id="options-wrapper">
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 `;
@@ -247,6 +271,15 @@ $(function () {
             // Sets current type to this to check before editing.
             curSelectedAttribType = $('#attrib-type option:selected').val();
             console.log('selected new!')
+
+            if (curSelectedAttribType == 'Collection') {
+                $("#options-new").prop('disabled', false)
+                $("#options-delete").prop('disabled', false)
+            }
+            else {
+                $("#options-new").prop('disabled', true)
+                $("#options-delete").prop('disabled', true)
+            }
             
         },
     });
@@ -259,22 +292,25 @@ $(function () {
         var name = $("#attrib-name")[0];
         var type = $("#attrib-type")[0];
 
+        var collection = [];
+
+        $("#options-wrapper").find('input[type=text]').each(function() {
+            collection.push($(this).val())
+        })
+
+        console.log("COLLECTION ADDED:")
+        console.log(collection)
+
         const data = new FormData($("#attrib-form")[0]);
-        data.append('dataType', $('#attrib-type option:selected').val())
-        data.append('origName', curSelectedAttribName)
+        data.append('dataType', $('#attrib-type option:selected').val());
+        data.append('origName', curSelectedAttribName);
+        data.append('options', collection );
 
         console.log(w2ui["attrib-sidebar"].selected);
 
         for (var pair of data.entries()) {
             console.log(pair[0] + ":" + pair[1]);
         }
-
-        // Finds index of selected
-        // var selectedIndex = 0;
-        // for (var attr  of Attributes) {
-        //     if (attr.name == w2ui["attrib-sidebar"].selected) break;
-        //     selectedIndex++;
-        // }
 
         if ( w2ui["attrib-sidebar"].selected == "undefined" ) {
             $.ajax({
@@ -371,6 +407,33 @@ $(function () {
         });
         return false;
     });
+
+    // Adds a listener to the dropdown in #config-attrib-grid
+    $("#config-attrib-grid").on("change", "#attrib-type", function(e) {
+        let changedTo = this.value
+        
+        if (changedTo == "Collection") {
+            $("#options-new").prop('disabled', false)
+            $("#options-delete").prop('disabled', false)
+        }
+        else {
+            $("#options-new").prop('disabled', true)
+            $("#options-delete").prop('disabled', true)
+        }
+    })
+
+    // Adds a listener to add an option in collection
+    $("#config-attrib-grid").on("click", "#options-new", function(e) {
+        var newOption = `<input type="text" class="option-row" value="Sample Option"></input>`
+        $("#options-wrapper").append(newOption)
+    })
+
+    // Adds a listener to remove the option in collection
+    $("#config-attrib-grid").on("click", "#options-delete", function(e) {
+        if ($("#options-wrapper").children().length > 0) {
+            $("#options-wrapper input:last-child").remove()
+        }
+    })
 
     w2ui["attrib-grid"].html("left", w2ui["attrib-sidebar"]);
 
