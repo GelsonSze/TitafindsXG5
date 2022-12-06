@@ -328,7 +328,8 @@ $(function () {
         const data = new FormData($("#attrib-form")[0]);
         data.append('dataType', $('#attrib-type option:selected').val());
         data.append('origName', curSelectedAttribName);
-        data.append('options', collection );
+        if (curSelectedAttribType == 'Collection')
+            data.append('options', collection );
 
         console.log(w2ui["attrib-sidebar"].selected);
 
