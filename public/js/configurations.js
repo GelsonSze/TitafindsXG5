@@ -40,6 +40,9 @@ function getAllAttributes(refreshGrid = false) {
                 curSelectedAttribType = null
 
                 w2ui['attrib-grid'].html('main', "")
+
+                // Refreshes attributes at config
+                getAllConfigs(true);
                 
             }
         },
@@ -53,7 +56,7 @@ function getAllConfigs(refreshGrid = false) {
         processData: false,
         contentType: "application/json; charset=utf-8",
         success: function (item) {
-            Attributes = [];
+            Configs = [];
 
             item.forEach(function (config) {
                 Configs.push(new typeConfig(config.name, config.specifications));
@@ -310,8 +313,43 @@ function addExistingType(type) {
 }
 
 function getTypeContent(name, specs) {
-    let specifications = null;
     let parsedSpecs = specs.toString().split(',')
+
+    let allAttributes = [];
+    allAttributes.push({name:"Classification", checked:">"});
+    allAttributes.push({name:"Size",           checked:">"});
+    allAttributes.push({name:"Design",         checked:">"});
+
+    console.log("let's check  t")
+    console.log(Attributes)
+    for (var attr of Attributes) {
+        let parsedAttr = {
+            name: attr.name,
+            checked: ">"
+        };
+
+        allAttributes.push(parsedAttr);
+    }
+
+    let attrCheck = "";
+
+    // Adds a check on necessary boxes
+    for (var spec of parsedSpecs) {
+        for (var attr of allAttributes) {
+            if (spec== attr) {
+                attr.checked = "checked>";
+                break;
+            }
+        }
+    }
+
+    for (var attr of allAttributes) {
+        attrCheck += `
+            <div class="checkbox-row" id="check-${attr.name}">
+                <input type="checkbox" name="${attr.name}" value="${attr.name}"${attr.checked} ${attr.name}
+            </div>
+        `;
+    }
 
     const typePage = `
     <div class="type-page-wrapper">
@@ -319,15 +357,7 @@ function getTypeContent(name, specs) {
         <div id="type-page">
             <p><b>${name}</b> contains the following attributes: </p>
             <div id="type-wrapper">
-                <div class="checkbox-row">
-                    <input type="checkbox" name="classification" value="Classification">Classification
-                </div>
-                <div class="checkbox-row">    
-                    <input type="checkbox" name="size" value="Size/Length">Size/Length
-                </div>
-                <div class="checkbox-row">
-                    <input type="checkbox" name="design" value="Design">Design
-                </div>
+                `+attrCheck+`
             </div>
         </div>
     </div>
@@ -587,7 +617,7 @@ $(function () {
 
     w2ui["type-grid"].html("left", w2ui["type-sidebar"]);
 
-    getAllConfigs(true);
+    // getAllConfigs(true);
 
     // ---- Other Functions ----
 
