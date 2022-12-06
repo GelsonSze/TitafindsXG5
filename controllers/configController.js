@@ -55,7 +55,7 @@ const configController = {
     editAttribute: async function(req, res) {
         console.log(req.body)
         try {
-            db.updateOne(Attribute, {name: req.body.origName}, {name: req.body.name, },function (data) {
+            db.updateOne(Attribute, {name: req.body.origName}, {name: req.body.name, dataType: req.body.dataType, options: req.body.options},function (data) {
                 res.status(200).json(data);
             })
         } catch (error) {
