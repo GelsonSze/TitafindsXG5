@@ -84,10 +84,16 @@ const attribsPage = `
             </div>
 
             <div class="collections-page">
-                <h4> Edit Collection </h4>
+                <div class="options-info">
+                    <h4> Edit Collection </h4>
+                    <div class="btn-wrapper">
+                        <button id="options-new">New Option</button>
+                        <button id="options-delete">Delete Option</button>
+
+                    </div>
+                </div>
                 <div class="options-page-wrapper">
                     <div id="options-wrapper">
-                        <input type="text" class="option-row" value="Sample Option"></input>
                     </div>
                 </div>
             </div>
@@ -141,7 +147,7 @@ function addExistingAtrribute(attr) {
     w2ui["attrib-sidebar"].on("click", function (event) {
         switch (event.target) {
             case attr.name:
-                w2ui["attrib-grid"].html("main", getAttribContent(attr.name, attr.dataType));
+                w2ui["attrib-grid"].html("main", getAttribContent(attr.name, attr.dataType, attr.options));
                 break;
         }
     });
@@ -153,8 +159,17 @@ function addExistingAtrribute(attr) {
  * @param {String} type is based off of [String, Boolean, Number, Collection]
  * @returns
  */
-function getAttribContent(name, type) {
+function getAttribContent(name, type, collection) {
     let options = null;
+    let htmlCollections = "";
+
+    console.log(collection)
+    let parsedCollection = collection.toString().split(',')
+    console.log(parsedCollection)
+    for (var col of parsedCollection) {
+        htmlCollections += `<input type="text" class="option-row" value="${col}">`;
+    }
+    console.log(htmlCollections)
 
     if (type == "String") {
         options = `  
@@ -224,7 +239,9 @@ function getAttribContent(name, type) {
                     </div>
                 </div>
                 <div class="options-page-wrapper">
-                    <div id="options-wrapper">
+                    <div id="options-wrapper">`+
+                        htmlCollections
+                    +`
                     </div>
                 </div>
             </div>
@@ -280,6 +297,8 @@ $(function () {
                 $("#options-new").prop('disabled', true)
                 $("#options-delete").prop('disabled', true)
             }
+
+
             
         },
     });
@@ -349,6 +368,7 @@ $(function () {
     
                 success: async function (foundData) {
                     console.log("success edit!");
+                    getAllAttributes(true)
                 },
     
                 // error: async function (jqXHR, textStatus, errorThrown) {
