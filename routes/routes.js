@@ -55,7 +55,9 @@ app.get("/getAttributes", configController.getAttributes);
 app.delete("/deleteAttribute", configController.deleteAttribute);
 app.put('/editAttribute', configController.editAttribute);
 
-app.get("/getCollections", configController.getCollections);
+app.post("/addConfig", configController.addConfig);
+app.get('/getConfigs', configController.getConfigs);
+app.put("/editConfig", configController.editConfig);
 
 // TO BE REMOVED
 // if (process.env.NODE_ENV === "development") {

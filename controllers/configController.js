@@ -1,5 +1,6 @@
 //Controler for attributes
 import Attribute from "../model/schemas/Attribute.js";
+import Config from "../model/schemas/ConfigType.js";
 import db from "../model/db.js";
 
 const configController = {
@@ -81,19 +82,52 @@ const configController = {
         }
     },
 
-    getCollections: async function (req, res) {
+    addConfig: async function (req, res) {
         try {
-            db.findMany(Attribute, {dataType: "Collection"}, null, function (data) {
+            var newConfig = {
+                name: req.body.name,
+                specifications: req.body.specifications
+            };
+
+            db.insertOne(Config, newConfig, function (data) {
                 res.status(200).json(data);
             });
         } catch (error) {
             res.status(500).json({
-                message: "Server Error: Get Collections",
+                message: "Server Error: Add Config",
                 details: error.message,
             });
             return;
         }
     },
+
+    editConfig: async function (req, res) {
+        try {
+            db.updateOne(Config, {name: req.name}, {specifications: req.body.specifications},function (data) {
+                res.status(200).json(data);
+            })
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Edit Config",
+                details: error.message
+            });
+            return;
+        }
+    },
+
+    getConfigs: async function (req, res) {
+        try {
+            db.findMany(Config, {}, null, function (data) {
+                res.status(200).json(data);
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Get Configs",
+                details: error.message,
+            });
+            return;
+        }
+    }
 
     
 

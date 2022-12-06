@@ -9,6 +9,7 @@ const configTypeSchema = new mongoose.Schema({
 
     specifications: {
         type: Array,
-        required: true,
     },
 });
+
+export default mongoose.model("Config", configTypeSchema);
