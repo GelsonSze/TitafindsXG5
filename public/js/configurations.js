@@ -1,4 +1,5 @@
 let Attributes = [];
+let Configs = [];
 
 var curSelectedAttribName = null;
 var curSelectedAttribType = null;
@@ -45,11 +46,50 @@ function getAllAttributes(refreshGrid = false) {
     });
 }
 
+function getAllConfigs(refreshGrid = false) {
+    $.ajax({
+        url: "/getConfigs",
+        type: "GET",
+        processData: false,
+        contentType: "application/json; charset=utf-8",
+        success: function (item) {
+            Attributes = [];
+
+            item.forEach(function (config) {
+                Configs.push(new typeConfig(config.name, config.specifications));
+                console.log('Pushing config')
+                console.log(config)
+            });
+
+            if (refreshGrid) {
+                // Grabs each id of existing ID inside the sidebar and then removes all at once.
+                var nd = [];
+                for (var i in w2ui['type-sidebar'].nodes) nd.push(w2ui['type-sidebar'].nodes[i].id);
+                w2ui['type-sidebar'].remove.apply(w2ui['type-sidebar'], nd);
+
+                Configs.forEach(function(config) {
+                    addExistingType(config);
+                });
+
+                w2ui['type-grid'].html('main', "")
+                
+            }
+        },
+    });
+}
+
 function attribute(name, dataType, options) {
     return {
         name: name,
         dataType: dataType,
         options: options,
+    };
+}
+
+function typeConfig(name, specifications) {
+    return {
+        name: name,
+        specifications: specifications
     };
 }
 
@@ -101,20 +141,22 @@ const attribsPage = `
     </div>
 `;
 
-const optionsPage = `
-    <div class="options-page-wrapper">
-        <div class="header-color">Option</div>
-        <div id="options-wrapper">
-            <input type="text" class="option-row" value="Sample Option"></input>
-        </div>
-    </div>
-`;
-
 const typePage = `
     <div class="type-page-wrapper">
-        <p>X contains the following attributes: </p>
-        <div id="type-wrapper">
-            <input type="checkbox" name="option1" value="option1">
+        <div class="header-color">Attributes</div>
+        <div id="type-page">
+            <p><b>X</b> contains the following attributes: </p>
+            <div id="type-wrapper">
+                <div class="checkbox-row">
+                    <input type="checkbox" name="classification" value="Classification">Classification
+                </div>
+                <div class="checkbox-row">    
+                    <input type="checkbox" name="size" value="Size/Length">Size/Length
+                </div>
+                <div class="checkbox-row">
+                    <input type="checkbox" name="design" value="Design">Design
+                </div>
+            </div>
         </div>
     </div>
 `;
@@ -252,6 +294,54 @@ function getAttribContent(name, type, collection) {
     return attribsPage;
 }
 
+function addExistingType(type) {
+    console.log("Adding type! Node is: ");
+    console.log(type)
+
+    w2ui["type-sidebar"].add({ id:type.name, text: type.name});
+
+    w2ui["type-sidebar"].on("click", function( event) {
+        switch (event.target) {
+            case type.name:
+                w2ui["type-grid"].html("main", getTypeContent(type.name, type.specifications));
+                break;
+        }
+    })
+}
+
+function getTypeContent(name, specs) {
+    let specifications = null;
+    let parsedSpecs = specs.toString().split(',')
+
+    const typePage = `
+    <div class="type-page-wrapper">
+        <div class="header-color">Attributes</div>
+        <div id="type-page">
+            <p><b>${name}</b> contains the following attributes: </p>
+            <div id="type-wrapper">
+                <div class="checkbox-row">
+                    <input type="checkbox" name="classification" value="Classification">Classification
+                </div>
+                <div class="checkbox-row">    
+                    <input type="checkbox" name="size" value="Size/Length">Size/Length
+                </div>
+                <div class="checkbox-row">
+                    <input type="checkbox" name="design" value="Design">Design
+                </div>
+            </div>
+        </div>
+    </div>
+    `;
+
+    return typePage;
+}
+
+
+/**
+ * Simply disables/enables the collection. This is used when collection is the selected type of
+ * attribute, or not in order to disable it. This affects the buttons and input boxes of collection.
+ * @param {Boolean} trigger whether to disable or not the collection
+ */
 function disableCollection(trigger) {
     $("#options-new").prop('disabled', trigger)
     $("#options-delete").prop('disabled', trigger)
@@ -465,40 +555,6 @@ $(function () {
 
     // --------------------------------- Second Table ---------------------------------
 
-    $("#config-options-grid").w2layout({
-        name: "options-grid",
-        padding: 0,
-        panels: [
-            { type: "left", size: 200, resizable: true, minSize: 120 },
-            { type: "main", minSize: 550, overflow: "hidden" },
-        ],
-    });
-
-    $("#config-options-grid-sidebar").w2sidebar({
-        name: "options-sidebar",
-        nodes: [
-            {
-                id: "general",
-                text: "General",
-                group: true,
-                expanded: true,
-                nodes: [{ id: "html", text: "Sample" }],
-            },
-        ],
-        topHTML: '<div class="sidebar-top">Collection</div>',
-        onClick(event) {
-            switch (event.target) {
-                case "html":
-                    w2ui["options-grid"].html("main", optionsPage);
-                    break;
-            }
-        },
-    });
-
-    w2ui["options-grid"].html("left", w2ui["options-sidebar"]);
-
-    // --------------------------------- Third Table ---------------------------------
-
     $("#config-type-grid").w2layout({
         name: "type-grid",
         padding: 0,
@@ -531,6 +587,8 @@ $(function () {
 
     w2ui["type-grid"].html("left", w2ui["type-sidebar"]);
 
+    getAllConfigs(true);
+
     // ---- Other Functions ----
 
     /**
@@ -544,3 +602,105 @@ $(function () {
         Attributes.push(attribID);
     });
 });
+
+/**
+ * This is only for getting the initial types
+ */
+function postInitialTypes() {
+    
+    let data = {
+        name: "Necklace"
+    }
+
+    $.ajax({
+        url: "/addConfig",
+        data: JSON.stringify(data),
+        type: "POST",
+        processData: false,
+        contentType: "application/json; charset=utf-8",
+
+        success: async function (foundData) {
+            console.log("success");
+        }
+    });
+
+    data = {
+        name: "Chain"
+    }
+
+    $.ajax({
+        url: "/addConfig",
+        data: JSON.stringify(data),
+        type: "POST",
+        processData: false,
+        contentType: "application/json; charset=utf-8",
+
+        success: async function (foundData) {
+            console.log("success");
+        }
+    });
+
+    data = {
+        name: "Pendant"
+    }
+
+    $.ajax({
+        url: "/addConfig",
+        data: JSON.stringify(data),
+        type: "POST",
+        processData: false,
+        contentType: "application/json; charset=utf-8",
+
+        success: async function (foundData) {
+            console.log("success");
+        }
+    });
+
+    data = {
+        name: "Ring"
+    }
+
+    $.ajax({
+        url: "/addConfig",
+        data: JSON.stringify(data),
+        type: "POST",
+        processData: false,
+        contentType: "application/json; charset=utf-8",
+
+        success: async function (foundData) {
+            console.log("success");
+        }
+    });
+
+    data = {
+        name: "Bracelet"
+    }
+
+    $.ajax({
+        url: "/addConfig",
+        data: JSON.stringify(data),
+        type: "POST",
+        processData: false,
+        contentType: "application/json; charset=utf-8",
+
+        success: async function (foundData) {
+            console.log("success");
+        }
+    });
+
+    data = {
+        name: "Earrings"
+    }
+
+    $.ajax({
+        url: "/addConfig",
+        data: JSON.stringify(data),
+        type: "POST",
+        processData: false,
+        contentType: "application/json; charset=utf-8",
+
+        success: async function (foundData) {
+            console.log("success");
+        }
+    });
+}
