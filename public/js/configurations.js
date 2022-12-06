@@ -5,6 +5,8 @@ var curSelectedAttribName = null;
 var curSelectedAttribType = null;
 var origAttrSize = 0;
 
+var curSelectedTypeName = null;
+
 /**
  * Request data from the server and if refreshGrid is true,
  * render it in the grid.
@@ -73,6 +75,8 @@ function getAllConfigs(refreshGrid = false) {
                 Configs.forEach(function(config) {
                     addExistingType(config);
                 });
+
+                curSelectedTypeName = null;
 
                 w2ui['type-grid'].html('main', "")
                 
@@ -320,8 +324,6 @@ function getTypeContent(name, specs) {
     allAttributes.push({name:"Size",           checked:">"});
     allAttributes.push({name:"Design",         checked:">"});
 
-    console.log("let's check  t")
-    console.log(Attributes)
     for (var attr of Attributes) {
         let parsedAttr = {
             name: attr.name,
@@ -346,7 +348,7 @@ function getTypeContent(name, specs) {
     for (var attr of allAttributes) {
         attrCheck += `
             <div class="checkbox-row" id="check-${attr.name}">
-                <input type="checkbox" name="${attr.name}" value="${attr.name}"${attr.checked} ${attr.name}
+                <input class="checkbox-input" type="checkbox" name="${attr.name}" value="${attr.name}"${attr.checked} ${attr.name}
             </div>
         `;
     }
@@ -413,8 +415,6 @@ $(function () {
             }
 
             // Sets current type to this to check before editing.
-            curSelectedAttribType = $('#attrib-type option:selected').val();
-            console.log('selected new!')
 
             if (curSelectedAttribType == 'Collection') {
                 disableCollection(false)
@@ -607,6 +607,8 @@ $(function () {
         ],
         topHTML: '<div class="sidebar-top">Type</div>',
         onClick(event) {
+            curSelectedTypeName = event.target;
+
             switch (event.target) {
                 case "html":
                     w2ui["type-grid"].html("main", typePage);
@@ -615,9 +617,53 @@ $(function () {
         },
     });
 
-    w2ui["type-grid"].html("left", w2ui["type-sidebar"]);
+    // Adds change listener on checkboxes
+    $("#config-type-grid").on("change", ".checkbox-input", function(e) {
+        console.log('Changed checkbox!')
 
-    // getAllConfigs(true);
+        let typeName = $(this).parent().attr('id');
+        let checked = $(this).checked;
+
+        typeName = typeName.split('-')[1];
+        // Format of ID is check-VARIABLENAME
+
+        console.log(typeName)
+        console.log(curSelectedTypeName)
+
+        var configIndex = 0;
+        for(var type of Configs)  {
+            if (type.name == curSelectedTypeName) {
+                console.log('its real')
+                console.log(type.name)
+                let parsedSpecs = type.specifications.toString().split(",")
+
+                var indexItem = parsedSpecs.indexOf(typeName)
+
+                // If index exists
+                if (indexItem > -1) {
+                    $(this).attr('checked', false); 
+                    parsedSpecs.slice(indexItem, 1)
+                    parsedSpecs = [parsedSpecs.join(',')]
+
+                    // Update specs
+                    Configs[configIndex].specifications = parsedSpecs 
+
+                } else {
+                    $(this).attr('checked', true);
+                    parsedSpecs.push(curSelectedTypeName)
+                    parsedSpecs = [parsedSpecs.join(',')]
+
+                    // Update specs
+                    Configs[configIndex].specifications = parsedSpecs 
+                }
+
+                break;
+            }
+        }
+        configIndex++;
+    })
+
+    w2ui["type-grid"].html("left", w2ui["type-sidebar"]);
 
     // ---- Other Functions ----
 
