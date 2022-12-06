@@ -90,7 +90,7 @@ const optionsPage = `
     <div class="options-page-wrapper">
         <div class="header-color">Option</div>
         <div id="options-wrapper">
-            <button class="option-row">Sample Option</button>
+            <input type="text" class="option-row" value="Sample Option"></input>
         </div>
     </div>
 `;
