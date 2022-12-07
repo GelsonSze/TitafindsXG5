@@ -218,6 +218,22 @@ button:hover {cursor:pointer;}
     top: 0.5px;
 }
 
+#config-type-wrapper .btn-wrapper {
+    display: flex;
+    gap: 12px;
+    width: 15%;
+    margin-top: 10px;
+}
+
+#config-type-wrapper .btn-wrapper button{
+    border-radius: 5px;
+    border: none;
+    font-family: 'Inter Bold';
+    padding: 5px 4px;
+    width: 100%;
+    background-color: var(--clr-gray-100);
+}
+
 #config-attrib-grid {
     width: 100%;
     height: 300px;

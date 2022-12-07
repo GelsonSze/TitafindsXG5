@@ -691,6 +691,51 @@ $(function () {
         addAtrribute(attribID);
         Attributes.push(attribID);
     });
+
+    /**
+     * Saves the current configurations of all items.
+     */
+    $("#type-save").click(function() {
+        let data = {
+            name: "name",
+            specifications: []
+        }
+
+        $.ajax({
+            url: "/editConfig",
+            data: JSON.stringify(Object.fromEntries(data)),
+            type: "PUT",
+            processData: false,
+            contentType: "application/json; charset=utf-8",
+
+            success: async function (foundData) {
+                console.log("success edit!");
+                getAllConfigs(true)
+            },
+
+            // error: async function (jqXHR, textStatus, errorThrown) {
+            //     message = jqXHR.responseJSON.message;
+            //     fields = jqXHR.responseJSON.fields;
+
+            //     if (fields) {
+            //         fields.forEach(async function (field) {
+            //             emptyFields.push($(`#${field}`)[0]);
+            //         });
+
+            //         showError(error, message, emptyFields);
+            //     }
+            // },
+        });
+    })
+
+    /**
+     * Resets the current configurations of all items.
+     */
+    $("#type-reset").click( function() {
+
+    })
+
+    //postInitialTypes()
 });
 
 /**
@@ -699,6 +744,22 @@ $(function () {
 function postInitialTypes() {
     
     let data = {
+        name: "Watch"
+    }
+
+    $.ajax({
+        url: "/addConfig",
+        data: JSON.stringify(data),
+        type: "POST",
+        processData: false,
+        contentType: "application/json; charset=utf-8",
+
+        success: async function (foundData) {
+            console.log("success");
+        }
+    });
+    
+    data = {
         name: "Necklace"
     }
 
