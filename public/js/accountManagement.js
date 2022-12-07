@@ -137,6 +137,7 @@ $(function () {
 
     $("#create-popup").popup({
         blur: false,
+        transition: "all 0.3s",
         onclose: function () {
             $("#create-form").trigger("reset");
         },
@@ -228,6 +229,7 @@ $(function () {
 
     $("#update-popup").popup({
         blur: false,
+        transition: "all 0.3s",
         onclose: function () {
             $("#update-form").trigger("reset");
         },
@@ -483,6 +485,7 @@ $(function () {
 
     $("#reset-popup").popup({
         blur: false,
+        transition: "all 0.3s",
     });
 
     $("#reset-form .command :submit").on("click", function (e) {
@@ -529,6 +532,7 @@ $(function () {
 
     $("#suspend-popup").popup({
         blur: false,
+        transition: "all 0.3s",
     });
 
     $("#suspend-form .command :submit").on("click", function (e) {
@@ -575,6 +579,7 @@ $(function () {
 
     $("#resume-popup").popup({
         blur: false,
+        transition: "all 0.3s",
     });
 
     $("#resume-form .command :submit").on("click", function (e) {

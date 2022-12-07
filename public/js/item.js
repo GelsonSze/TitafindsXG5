@@ -1,10 +1,11 @@
-var page_item = null;
+var PageItem = null;
 var Transactions = [];
 
 /**
  * Constructor for the item file
  */
 function Item(
+    id,
     image,
     name,
     code,
@@ -19,6 +20,7 @@ function Item(
     sellingPrice
 ) {
     return {
+        id: id,
         image: image,
         name: name,
         code: code,
@@ -149,7 +151,8 @@ function getItem() {
         data: { code: item_code },
         success: function (item) {
             // Note from Erik: length is undefined ata sa database hence it being an outlier with system colors
-            page_item = new Item(
+            PageItem = new Item(
+                item._id,
                 item.image,
                 item.name,
                 item.code,
@@ -164,19 +167,20 @@ function getItem() {
                 item.sellingPrice
             );
 
-            var num_keys = Object.keys(page_item).length;
+            var num_keys = Object.keys(PageItem).length;
 
-            var fields = $.map(page_item, function (value, key) {
+            var fields = $.map(PageItem, function (value, key) {
                 return key;
             });
-            var values = $.map(page_item, function (value, key) {
+            var values = $.map(PageItem, function (value, key) {
                 return value;
             });
 
             // Changes image source of img element into the item image
             $("#left-wrapper img").attr("src", `../img/${item.image}`);
 
-            // Appends a field into the #fields-table
+            // Empties then appends a row into the #attributes-table
+            $("#table-body").empty();
             for (var i = 0; i < num_keys; i++) {
                 if (fields[i] == "type" || fields[i] == "sellingType") continue;
 
@@ -222,44 +226,59 @@ $(document).ready(function () {
         limit: 50,
         recordHeight: 60,
         columns: [
-            { field: "date", text: "Date", size: "35%", sortable: true },
+            { field: "date", text: "Date", size: "15%", sortable: true },
             { field: "type", text: "Type", size: "5%", sortable: true },
-            { field: "description", text: "Description", size: "40%", sortable: true },
-            { field: "quantity", text: "Quantity", size: "3%", sortable: true },
+            { field: "description", text: "Description", size: "30%", sortable: true },
+            { field: "quantity", text: "Quantity", size: "7%", sortable: true },
             {
                 field: "sellingPrice",
                 text: "Selling Price",
-                size: "6%",
+                size: "9%",
                 sortable: true,
                 render: function (record) {
                     return record.sellingPrice.toLocaleString("en-US");
                 },
             },
-            { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
+            { field: "transactedBy", text: "Transacted By", size: "10%", sortable: true },
         ],
         records: Transactions,
-        onDblClick: function (recid) {
-            // Redirects to item page
+    });
 
-            var record = w2ui["details-grid"].get(recid.recid);
+    $(document).on("click", (e) => {
+        // console.log(e.target);
+        if (e.target.closest(".edit-popup_open")) {
+            $("#edit-popup").popup("hide");
+            $("#name").val(PageItem.name);
+            $("#code").val(PageItem.code);
+            $("#type").val(PageItem.type);
+            $("#classification").val(PageItem.classification);
+            $("#length").val(PageItem.length);
+            $("#size").val(PageItem.size);
+            $("#weight").val(PageItem.weight);
+            $("#available").val(PageItem.available);
+            $("#sellingType").val(PageItem.sellingType);
+            $("#purchasePrice").val(PageItem.purchasePrice);
+            $("#sellingPrice").val(PageItem.sellingPrice);
+            $("#edit-popup").popup("show");
+        }
+    });
 
-            // Grabs the last string in description. This is the code.
-            var code = record.description.split(" ").pop();
-
-            window.location.href = "/item/" + code;
+    $("#edit-popup").popup({
+        blur: false,
+        transition: "all 0.3s",
+        transition: "all 0.3s",
+        onclose: function () {
+            $("#update-form").trigger("reset");
         },
     });
 
-    // //refresh grid when window is resized
-    // var resizeTimer;
-    // $(window).resize(function () {
-    //     clearTimeout(resizeTimer);
-    //     resizeTimer = setTimeout(function () {
-    //         // console.log("refresh/resize");
-    //         w2ui["details-grid"].refresh();
-    //     }, 510);
-    // });
-    $("#edit-popup").popup({
-        blur: false,
+    //refresh grid when window is resized
+    var resizeTimer;
+    $(window).resize(function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () {
+            // console.log("refresh/resize");
+            w2ui["details-grid"].refresh();
+        }, 510);
     });
 });

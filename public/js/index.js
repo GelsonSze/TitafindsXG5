@@ -371,6 +371,7 @@ $(function () {
 
     $("#sell-popup").popup({
         blur: false,
+        transition: "all 0.3s",
         onclose: function () {
             $("#sell-popup #sell-form")[0].reset();
         },
@@ -483,6 +484,7 @@ $(function () {
 
     $("#add-popup").popup({
         blur: false,
+        transition: "all 0.3s",
         onclose: function () {
             $("#add-popup #add-form")[0].reset();
             $("#image-preview").attr("src", "/img/product-images/default.png");

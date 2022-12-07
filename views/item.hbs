@@ -2,10 +2,12 @@
 <main class="main-section">
     <div id="item-page-wrapper">
         <div id="top-wrapper">
+            {{#if user.isAdmin}}
             <div id="commands">
                 <box-icon class="edit-popup_open icon-popup" type="solid" name="edit"></box-icon>
                 <box-icon class="delete-popup_open icon-popup" name="trash"></box-icon>
             </div>
+            {{/if}}
 
             <div id="left-wrapper">
                 {{!-- Image and Name --}}
@@ -54,7 +56,7 @@
         {{>editPopup}} {{!-- Transaction --}}
 
         <div id="bottom-wrapper">
-            Transactions {{!place code for the w2ui table here }}
+            <h1>Transactions</h1>
             <div id="details-grid" class="w2ui-grid-custom"></div>
         </div>
     </div>
