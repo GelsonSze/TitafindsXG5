@@ -95,8 +95,9 @@
     border: 1px solid #866a69;
     border-radius: 10px;
     font-family: "Inter Medium";
-    overflow: hidden;
+    overflow: scroll;
     color: #350705;
+    max-height: 810px;
 }
 
 #attributes-table thead {

@@ -224,7 +224,7 @@ function formatDate2(date) {
 }
 
 /**
- * Returns formatted date 'Day Mon dd yyyy, hh:mm {am|pm}'
+ * Returns formatted date 'yy/mm/dd hh:mm:ss {am|pm}'
  * @param  {Date} date - the date to be formatted
  */
 function formatDate(date) {

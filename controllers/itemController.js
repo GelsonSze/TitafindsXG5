@@ -31,6 +31,8 @@ const itemController = {
                 desc: data.description,
                 type: data.type,
                 sellingType: data.sellingType,
+                available: data.available ?? 0,
+                damaged: data.damaged ?? 0,
                 styles: ["pages/item.css", "general/w2ui-overrides.css", "general/popup.css"],
                 scripts: ["item.js"],
                 user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
@@ -144,6 +146,128 @@ const itemController = {
             return;
         }
     },
+
+    // edits item passed in a post request into the database
+    editItem: async function (req, res, next) {
+        try {
+            var image = "product-images/default.png";
+            var error = "";
+            var errorFields = [];
+
+            var codeExists = await Item.findOne({ code: req.body.code });
+
+            if (req.file) {
+                image = req.file;
+                image = image.destination.replaceAll("./public/img/", "") + image.filename;
+            }
+
+            var editedItem = {
+                image: image ?? "product-images/default.png",
+                code: req.body.code,
+                name: req.body.name,
+                description: req.body.description,
+                type: req.body.type,
+                brand: req.body.brand,
+                classification: req.body.classification,
+                design: req.body.design,
+                size: req.body.size,
+                // unit: req.body.unit,
+                weight: req.body.weight,
+                sellingType: req.body.sellingType,
+                purchasePrice: req.body.purchasePrice,
+                sellingPrice: req.body.sellingPrice,
+                dateUpdated: req.body.dateUpdated,
+            };
+            if (req.body.noEdit) delete editedItem.image;
+            //console.log(editedItem);
+
+            // Selling price default to 0 if field is empty and selling type is per design
+            if (editedItem.sellingType == "per design" && isEmptyOrSpaces(editedItem.sellingPrice))
+                editedItem.sellingPrice = "0";
+            //Selling price defaults to price * item weight if field is empty and selling type is per gram
+            else if (
+                editedItem.sellingType == "per gram" &&
+                isEmptyOrSpaces(editedItem.sellingPrice)
+            )
+                editedItem.sellingPrice = editedItem.weight * price;
+
+            // Purchase price is default to 0 if field is empty
+            if (isEmptyOrSpaces(editedItem.purchasePrice)) editedItem.purchasePrice = "0";
+
+            console.log(editedItem);
+            //  Errors
+            if (!req.body.noNewCode && codeExists) {
+                error = "Item code already exists";
+                errorFields = ["code"];
+            } else if (editedItem.code.length > 100) {
+                error = "Item code exceeds maximum character limit";
+                errorFields = ["code"];
+            } else if (editedItem.name.length > 255) {
+                error = "Name exceeds maximum character limit";
+                errorFields = ["name"];
+            } else if (editedItem.size != null && isNaN(editedItem.size)) {
+                error = "Size inputted is not a number";
+                errorFields = ["size"];
+            } else if (editedItem.weight != null && isNaN(editedItem.weight)) {
+                error = "Weight inputted is not a number";
+                errorFields = ["weight"];
+            } else if (editedItem.sellingPrice != null && isNaN(editedItem.sellingPrice)) {
+                error = "Selling price inputted is not a number";
+                errorFields = ["selling-price"];
+            } else if (editedItem.purchasePrice != null && isNaN(editedItem.purchasePrice)) {
+                error = "Purchase price inputted is not a number";
+                errorFields = ["purchase-price"];
+            } else {
+                db.updateOne(
+                    Item,
+                    {
+                        code: req.body.code,
+                    },
+                    editedItem,
+                    function (data) {
+                        // if (data) {
+                        //     req.body = {
+                        //         date: req.body.dateUpdated,
+                        //         type: "Edited",
+                        //         description: data._id.toString(),
+                        //         quantity: data.available,
+                        //         sellingPrice: data.sellingPrice,
+                        //         transactedBy: data.addedBy,
+                        //         code: req.body.code,
+                        //         name: req.body.name,
+                        //     };
+                        //     next();
+                        // }
+                        res.status(200).json({ message: "Item updated successfully" });
+                    }
+                );
+                return;
+            }
+            res.status(400).json({
+                message: error,
+                fields: errorFields,
+            });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Update Item",
+                details: error.message,
+            });
+            return;
+        }
+    },
+
+    //delete item from database
+    deleteItem: function (req, res) {
+        try {
+            db.deleteOne(Item, { code: req.params.code }, function (data) {
+                res.send(data);
+            });
+        } catch (error) {
+            res.status(500).json({ message: "Server Error: Delete Item", details: error.message });
+            return;
+        }
+    },
+
     getItems: function (req, res) {
         try {
             db.findMany(Item, {}, null, function (data) {

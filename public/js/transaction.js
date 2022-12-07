@@ -49,11 +49,15 @@ function pushTransaction(trans) {
         contentType: "application/json; charset=utf-8",
         success: function (item) {
             trans.date = formatDate(new Date(trans.date));
+            var tempItem = {
+                name: item ? item.name : "N/A",
+                code: item ? item.code : "N/A",
+            };
             Transactions.push(
                 new transaction(
                     trans.date,
                     trans.type,
-                    `Item ${trans.type} - ${item.name} (${item.code})`,
+                    `Item ${trans.type} - ${tempItem.name} (${tempItem.code})`,
                     trans.quantity,
                     trans.sellingPrice,
                     trans.transactedBy
@@ -157,7 +161,7 @@ $(function () {
             var str = strArray[strArray.length - 1];
             var code = str.substring(str.indexOf("(") + 1, str.lastIndexOf(")"));
 
-            window.open(`/item/${code}`, "_blank");
+            if (code != "N/A") window.open(`/item/${code}`, "_blank");
         },
     });
 

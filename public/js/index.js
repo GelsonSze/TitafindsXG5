@@ -495,6 +495,11 @@ $(function () {
         $("#add-popup").popup("hide");
     });
 
+    $(".remove-image").on("click", function () {
+        $("#image-preview").attr("src", `../img/product-images/default.png`);
+        $("#image").val("");
+    });
+
     $("#add-popup form .command :submit").on("click", function (e) {
         e.preventDefault();
 

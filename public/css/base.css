@@ -84,7 +84,8 @@
 
     --clr-btn-primary: var(--clr-gold);
     --clr-box-shadow-primary: rgb(225 211 205 / 70%);
-    --clr-box-shadow-primary-hover: rgb(225 211 205 / 90%);
+    --clr-box-shadow-primary-active: rgb(225 211 205 / 90%);
+    --clr-box-shadow-secondary: rgb(225 211 205 / 50%);
 
     --clr-select-color: var(--clr-black-100);
 
@@ -628,7 +629,6 @@ textarea.error,
 }
 
 /* TO BE REMOVED -note:
- item-grid must be kebab-case
  refactor/relocate code to a group */
 
 #main-body {
@@ -637,24 +637,4 @@ textarea.error,
 
 .w2ui-grid-custom {
     height: 100%;
-}
-
-#image-preview {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    object-position: 50% 50%;
-    border-radius: 5px;
-    border: 1px solid var(--clr-box-shadow-primary);
-}
-
-.sidebar-links {
-    float: left;
-    color: white;
-    text-indent: 0.8em;
-    font-size: 15px;
-    margin-right: 10%;
-    margin-left: 10%;
-    font-family: "Inter Regular";
-    padding: 10px;
 }

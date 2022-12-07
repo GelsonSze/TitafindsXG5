@@ -2,16 +2,25 @@ import express from "express";
 import itemController from "../controllers/itemController.js";
 import loginController from "../controllers/loginController.js";
 import adminController from "../controllers/adminController.js";
+import transactionController from "../controllers/transactionController.js";
 import { checkAuth, checkNoAuth, viewPage, adminOnly } from "../controllers/authController.js";
 import { upload } from "../utils/multer.js";
-import transactionController from "../controllers/transactionController.js";
 
 const app = express();
 
 // The inventory page (currently the home page)
 app.get("/", [viewPage, checkAuth, itemController.home]);
-app.post("/addItem", [checkAuth, upload.single("image"), itemController.addItem, transactionController.addTransaction]);
-app.post("/restockItem", [checkAuth, itemController.restockItem, transactionController.addTransaction]);
+app.post("/addItem", [
+    checkAuth,
+    upload.single("image"),
+    itemController.addItem,
+    transactionController.addTransaction,
+]);
+app.post("/restockItem", [
+    checkAuth,
+    itemController.restockItem,
+    transactionController.addTransaction,
+]);
 app.post("/sellItem", [checkAuth, itemController.sellItem, transactionController.addTransaction]);
 app.get("/getItems", [checkAuth, itemController.getItems]);
 
@@ -22,6 +31,8 @@ app.delete("/auth/logout", loginController.logoutUser);
 
 // The Item Page
 app.get("/item/:code", [viewPage, checkAuth, itemController.itemDetails]);
+app.post("/editItem=:code", [checkAuth, upload.single("image"), itemController.editItem]);
+app.delete("/deleteItem=:code", [checkAuth, itemController.deleteItem]);
 app.get("/getItem=:code", [checkAuth, itemController.getItem]);
 app.get("/getItemById=:id", [checkAuth, itemController.getItemById]);
 

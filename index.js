@@ -77,7 +77,8 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
-        maxAge: new Date(Date.now() + 3600000),
+        // expire 1 day
+        cookie: { maxAge: 24 * 60 * 60 * 1000 },
         store: connectMongo.create({ mongoUrl: process.env.MONGODB_URI }),
     })
 );
@@ -102,8 +103,6 @@ app.use((req, res, err) => {
 
 // Connect to MongoDB
 db.connectDB();
-
-//setup for image upload and indicates where image should be saved
 
 app.listen(port, function () {
     console.log("Server is running at port: " + port);

@@ -171,6 +171,34 @@
     display: flex;
     flex-direction: column;
     width: 200px;
+    position: relative;
+}
+
+#image-preview {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    object-position: 50% 50%;
+    border-radius: 5px;
+    border: 1px solid var(--clr-box-shadow-primary);
+}
+
+.remove-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: var(--clr-box-shadow-primary);
+    border-radius: 5px 0 5px 0;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.remove-image:hover {
+    background: var(--clr-box-shadow-secondary);
+}
+
+.remove-image:active {
+    background: var(--clr-box-shadow-primary-active);
 }
 
 .popup-label-image {

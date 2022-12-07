@@ -11,13 +11,15 @@ function Item(
     code,
     type,
     classification,
-    length,
     size,
     weight,
     available,
     sellingType,
     purchasePrice,
-    sellingPrice
+    sellingPrice,
+    dateAdded,
+    dateUpdated,
+    addedBy
 ) {
     return {
         id: id,
@@ -26,13 +28,15 @@ function Item(
         code: code,
         type: type,
         classification: classification,
-        length: length,
         size: size,
         weight: weight,
         available: available,
         sellingType: sellingType,
         purchasePrice: purchasePrice,
         sellingPrice: sellingPrice,
+        dateAdded: dateAdded,
+        dateUpdated: dateUpdated,
+        addedBy: addedBy,
     };
 }
 
@@ -119,11 +123,6 @@ function getTransactions(refreshGrid = false) {
                             )
                         );
                     });
-                    // transactions.forEach(function (trans) {
-                    //     dfd = dfd.then(function () {
-                    //         return pushTransaction(trans);
-                    //     });
-                    // });
 
                     dfd.done(function () {
                         if (refreshGrid) {
@@ -158,33 +157,34 @@ function getItem() {
                 item.code,
                 item.type,
                 item.classification,
-                item.length,
                 item.size,
                 item.weight,
                 item.available,
                 item.sellingType,
                 item.purchasePrice,
-                item.sellingPrice
+                item.sellingPrice,
+                formatDate(new Date(item.dateAdded)),
+                formatDate(new Date(item.dateUpdated)),
+                item.addedBy
             );
-
-            var num_keys = Object.keys(PageItem).length;
-
-            var fields = $.map(PageItem, function (value, key) {
-                return key;
-            });
-            var values = $.map(PageItem, function (value, key) {
-                return value;
-            });
 
             // Changes image source of img element into the item image
             $("#left-wrapper img").attr("src", `../img/${item.image}`);
 
             // Empties then appends a row into the #attributes-table
             $("#table-body").empty();
-            for (var i = 0; i < num_keys; i++) {
-                if (fields[i] == "type" || fields[i] == "sellingType") continue;
+            for (var attribute in PageItem) {
+                if (
+                    attribute == "type" ||
+                    attribute == "sellingType" ||
+                    attribute == "available" ||
+                    attribute == "damaged"
+                )
+                    continue;
 
-                $("#table-body").append(`<tr><td>${fields[i]}</td> <td>${values[i]}</td></tr>`);
+                $("#table-body").append(
+                    `<tr><td>${attribute}</td> <td>${PageItem[attribute]}</td></tr>`
+                );
             }
         },
     });
@@ -248,6 +248,7 @@ $(document).ready(function () {
         // console.log(e.target);
         if (e.target.closest(".edit-popup_open")) {
             $("#edit-popup").popup("hide");
+            $("#image-preview").attr("src", `../img/${PageItem.image}`);
             $("#name").val(PageItem.name);
             $("#code").val(PageItem.code);
             $("#type").val(PageItem.type);
@@ -256,20 +257,193 @@ $(document).ready(function () {
             $("#size").val(PageItem.size);
             $("#weight").val(PageItem.weight);
             $("#available").val(PageItem.available);
-            $("#sellingType").val(PageItem.sellingType);
-            $("#purchasePrice").val(PageItem.purchasePrice);
-            $("#sellingPrice").val(PageItem.sellingPrice);
+            $("#selling-type").val(PageItem.sellingType);
+            $("#purchase-price").val(PageItem.purchasePrice);
+            $("#selling-price").val(PageItem.sellingPrice);
             $("#edit-popup").popup("show");
         }
+    });
+
+    $(".remove-image").on("click", function () {
+        $("#image-preview").attr("src", `../img/product-images/default.png`);
+        $("#image").val("");
     });
 
     $("#edit-popup").popup({
         blur: false,
         transition: "all 0.3s",
-        transition: "all 0.3s",
         onclose: function () {
             $("#update-form").trigger("reset");
         },
+    });
+
+    $("#edit-form .command :reset").on("click", function () {
+        $("#edit-popup").popup("hide");
+    });
+
+    $("#edit-popup form .command :submit").on("click", function (e) {
+        e.preventDefault();
+
+        var name = $("#edit-popup #name")[0];
+        var code = $("#edit-popup #code")[0];
+        var type = $("#edit-popup #type")[0];
+        var sellingType = $("#edit-popup #selling-type")[0];
+        var weight = $("#edit-popup #weight")[0]; // required if selling type is per gram
+        var error = $("#edit-popup .text-error")[0];
+
+        let fields = [name, code, type, sellingType];
+        let emptyFields = [];
+        fields.forEach(async function (field) {
+            if (isEmptyOrSpaces(field.value)) {
+                emptyFields.push(field);
+            }
+        });
+
+        // If selling type is per gram, weight is required
+        if (sellingType.value == "per gram") {
+            if (isEmptyOrSpaces(weight.value)) {
+                emptyFields.push(weight);
+            }
+        }
+
+        if (emptyFields.length > 0) {
+            showError(error, "Please fill out all the fields", emptyFields);
+            return;
+        }
+
+        const data = new FormData($("#edit-form")[0]);
+        data.append("dateUpdated", new Date());
+
+        // if ($("#image-preview").attr("src") == "/img/product-images/default.png") {
+        //     data.append("noImage", true);
+        // }
+        let imagePreview = $("#image-preview").attr("src").replace("../img/", "");
+        if (imagePreview == PageItem.image) {
+            data.append("noEdit", true);
+        }
+        if (code.value == PageItem.code) {
+            data.append("noNewCode", true);
+        }
+
+        //TO BE REMOVED
+        for (var pair of data.entries()) {
+            console.log(pair[0] + ":" + pair[1]);
+        }
+
+        $.ajax({
+            url: `/editItem=${PageItem.code}`,
+            data: data,
+            type: "POST",
+            processData: false,
+            contentType: false,
+
+            success: async function (foundData) {
+                console.log("success");
+                let newCode = code.value;
+                $("#edit-popup").popup("hide");
+                $("#image-preview").attr("src", "/img/product-images/default.png");
+
+                swal({
+                    title: "Item edited!",
+                    text: "The page will now reload to view changes.",
+                    icon: "success",
+                }).then(() => {
+                    window.location.href = `/item/${newCode}`;
+                });
+                // SnackBar({
+                //     message: "Item edited successfully",
+                //     status: "success",
+                //     position: "br",
+                //     timeout: 5000,
+                //     fixed: true,
+                //     actions: [
+                //         {
+                //             text: "Reload",
+                //             function: () => {
+                //                 window.location.href = `/item/${newCode.value}`;
+                //             },
+                //         },
+                //     ],
+                // });
+            },
+
+            error: async function (jqXHR, textStatus, errorThrown) {
+                message = jqXHR.responseJSON.message;
+                fields = jqXHR.responseJSON.fields;
+
+                if (fields) {
+                    fields.forEach(async function (field) {
+                        emptyFields.push($(`#${field}`)[0]);
+                    });
+
+                    showError(error, message, emptyFields);
+                }
+            },
+        });
+    });
+
+    $(".delete-popup_open").on("click", function () {
+        swal({
+            title: "Are you sure?",
+            text: "This will permanently delete the item",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    url: `/deleteItem=${PageItem.code}`,
+                    type: "DELETE",
+                    success: function (foundData) {
+                        console.log("success");
+                        swal({
+                            title: "Item deleted!",
+                            text: "The page will now redirect to inventory.",
+                            icon: "success",
+                        }).then(() => {
+                            window.location.href = `/`;
+                        });
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log("error");
+                        console.log(jqXHR);
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    },
+                });
+            }
+        });
+    });
+
+    //on change of image
+    $("#image").on("change", function () {
+        try {
+            if (this.files[0]) {
+                //console.log(this.files[
+                if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
+                    if (this.files[0].size <= 1024 * 1024 * 5) {
+                        //add in here validation for size
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("#image-preview").attr("src", e.target.result);
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    } else {
+                        $("#edit-popup #image").val("");
+                        showError($("#edit-popup .text-error")[0], "Image file exceeds 5mb", [
+                            $("#image-preview")[0],
+                        ]);
+                    }
+                } else {
+                    $("#edit-popup #image").val("");
+                    showError($("#edit-popup .text-error")[0], "Please select an image file", [
+                        $("#image-preview")[0],
+                    ]);
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
     });
 
     //refresh grid when window is resized
