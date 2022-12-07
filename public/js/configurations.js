@@ -633,21 +633,17 @@ $(function () {
         typeName = typeName.split('-')[1];
         // Format of ID is check-VARIABLENAME
 
-        console.log(typeName)
-        console.log(curSelectedTypeName)
-
         let configIndex = 0;
 
         for(var type of Configs)  {
             if (type.name == curSelectedTypeName) {
-                console.log('its real')
-                console.log(type.name)
-                console.log(configIndex)
-
                 let parsedSpecs = type.specifications.toString().split(",")
+                // Removes empty string from array for specs with no starting checks.
+                if (parsedSpecs[0] == "")
+                    parsedSpecs.shift()
 
                 var indexItem = parsedSpecs.indexOf(typeName)
-                console.log(indexItem)
+                console.log(parsedSpecs)
 
                 // If index exists
                 if (indexItem > -1) {
@@ -696,43 +692,81 @@ $(function () {
      * Saves the current configurations of all items.
      */
     $("#type-save").click(function() {
-        let data = {
-            name: "name",
-            specifications: []
+        let listData = [];
+        
+        listData = Configs;
+
+        for (var data of listData) {
+            $.ajax({
+                url: "/editConfig",
+                data: JSON.stringify(data),
+                type: "PUT",
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+    
+                success: async function (foundData) {
+                    console.log("success edit!");
+                    getAllConfigs(true)
+                },
+    
+                // error: async function (jqXHR, textStatus, errorThrown) {
+                //     message = jqXHR.responseJSON.message;
+                //     fields = jqXHR.responseJSON.fields;
+    
+                //     if (fields) {
+                //         fields.forEach(async function (field) {
+                //             emptyFields.push($(`#${field}`)[0]);
+                //         });
+    
+                //         showError(error, message, emptyFields);
+                //     }
+                // },
+            });
         }
-
-        $.ajax({
-            url: "/editConfig",
-            data: JSON.stringify(Object.fromEntries(data)),
-            type: "PUT",
-            processData: false,
-            contentType: "application/json; charset=utf-8",
-
-            success: async function (foundData) {
-                console.log("success edit!");
-                getAllConfigs(true)
-            },
-
-            // error: async function (jqXHR, textStatus, errorThrown) {
-            //     message = jqXHR.responseJSON.message;
-            //     fields = jqXHR.responseJSON.fields;
-
-            //     if (fields) {
-            //         fields.forEach(async function (field) {
-            //             emptyFields.push($(`#${field}`)[0]);
-            //         });
-
-            //         showError(error, message, emptyFields);
-            //     }
-            // },
-        });
     })
 
     /**
      * Resets the current configurations of all items.
      */
     $("#type-reset").click( function() {
+        let listData = [];
+        
+        listData = Configs;
 
+        // Empties specs
+        for (var data of listData) {
+            data.specifications = [];
+        }
+
+        for (var data of listData) {
+            $.ajax({
+                url: "/editConfig",
+                data: JSON.stringify(data),
+                type: "PUT",
+                processData: false,
+                contentType: "application/json; charset=utf-8",
+    
+                success: async function (foundData) {
+                    console.log("success edit!");
+                    getAllConfigs(true)
+                },
+    
+                // error: async function (jqXHR, textStatus, errorThrown) {
+                //     message = jqXHR.responseJSON.message;
+                //     fields = jqXHR.responseJSON.fields;
+    
+                //     if (fields) {
+                //         fields.forEach(async function (field) {
+                //             emptyFields.push($(`#${field}`)[0]);
+                //         });
+    
+                //         showError(error, message, emptyFields);
+                //     }
+                // },
+            });
+        }
+
+        getAllAttributes();
     })
 
     //postInitialTypes()

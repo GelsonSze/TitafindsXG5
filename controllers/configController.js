@@ -103,7 +103,7 @@ const configController = {
 
     editConfig: async function (req, res) {
         try {
-            db.updateOne(Config, {name: req.name}, {specifications: req.body.specifications},function (data) {
+            db.updateOne(Config, {name: req.body.name}, {specifications: req.body.specifications},function (data) {
                 res.status(200).json(data);
             })
         } catch (error) {
