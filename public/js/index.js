@@ -631,6 +631,85 @@ $(function () {
         getSpecifiedItems(true, 0, 0, 0, 0, 0);
     });
 
+    $("#import-options-popup").popup({
+        blur: false,
+    });
+
+    $("#download-template").click(function () {
+        window.location.href = "files/Template.csv";
+    });
+
+    //on change of import
+    $("#import-csv").on("change", function () {
+        try {
+            if (this.files[0]) {
+                console.log(this.files[0]);
+                var filename = this.files[0].name;
+                var ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
+                console.log ($`ext is ${ext}`)
+                if(ext == ".csv"){
+                    var jsonData = [];
+                    try{
+                        var reader = new FileReader();
+                        reader.readAsBinaryString(this.files[0]);
+                        reader.onload = function(e){
+                            var headers = [];
+                            var rows = e.target.result.replace("ï»¿", "").split("\n");
+                            for (var i = 0; i <rows.length;i++){
+                                var cells = rows[i].split(",");
+                                var rowData = {};
+                                for(var j=0;j<cells.length;j++){
+                                    if(i==0){
+                                        var headerName = cells[j].trim();
+                                        headers.push(headerName);
+                                    }
+                                    else{
+                                        var key = headers[j];
+                                        var value = cells[j].trim()
+                                        if(value == 'null' || value == ''){
+                                            value == null;
+                                        }
+                                        if(key){
+                                            rowData[key] = value;
+                                        }
+                                    }
+                                }
+                                if(i!=0){
+                                    jsonData.push(rowData);
+                                }
+                            }
+                            var data = {};
+                            data["dateAdded"] = new Date();
+                            data["dateUpdated"] = new Date();
+                            var itemList = JSON.stringify(jsonData, null, 0);
+                            data["itemList"] = itemList;
+                            console.log(data);
+                            $.ajax({
+                                url: "/importFromCSV",
+                                data: JSON.stringify(data, null ,0),
+                                type: "POST",
+                                processData: false,
+                                contentType: "application/json; charset=UTF-8",
+
+                                success: async function () {
+                                    console.log("success");
+                                },
+                            });
+                        }
+                    }
+                    catch (e){
+                        console.log(e);
+                    }
+                }
+                else{
+                    console.log("Not a csv file.");
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
     //hover on image
     $(document).on("mouseover", "#w2ui-image", function (e) {
         // console.log(e.target.src);

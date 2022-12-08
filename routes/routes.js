@@ -29,6 +29,7 @@ app.post(
 );
 app.post("/sellItem", upload.any(), itemController.sellItem, transactionController.addTransaction);
 app.get("/getItems", itemController.getItems);
+app.post("/importFromCSV", upload.any(), itemController.importFromCSV)
 
 // The login page
 app.get("/login", checkNoAuth, userController.login);

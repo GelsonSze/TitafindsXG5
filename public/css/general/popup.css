@@ -18,7 +18,8 @@
 
 #add-popup,
 #restock-popup,
-#sell-popup {
+#sell-popup,
+#import-options-popup {
     border-radius: 8px;
     border-color: transparent;
     font-family: "Inter Bold";
@@ -27,14 +28,16 @@
 
 #add-popup h1,
 #restock-popup h1,
-#sell-popup h1 {
+#sell-popup h1,
+#import-options-popup h1 {
     text-align: center;
     color: black;
 }
 
 #add-popup label,
 #restock-popup label,
-#sell-popup label {
+#sell-popup label,
+#import-options-popup label {
     font-family: "Inter Medium";
     text-transform: none;
     font-size: 11px;
@@ -44,7 +47,8 @@
 
 #add-popup button,
 #restock-popup button,
-#sell-popup button {
+#sell-popup button,
+#import-options-popup button {
     border-radius: 8px;
     border-color: transparent;
     color: white;

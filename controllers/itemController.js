@@ -265,6 +265,45 @@ const itemController = {
             return;
         }
     },
+
+    // Adds item imported from the csv into the database
+    importFromCSV: async function (req, res) {
+        try {
+            console.log(">>BODY<<");
+            console.log(req.body);
+            var image = `${ImageDirectory}/default.png`;
+            console.log("before itemlist variable declaration");
+            var itemList = JSON.parse(req.body.itemList);
+            console.log("after itemlist");
+            console.log(itemList);
+            console.log("after itemlist print");
+            itemList.forEach(item =>{
+                var addedItem = {
+                    image: image,
+                    code: item.Code,
+                    name: item.Name,
+                    description: item.Description,
+                    type: item.Type,
+                    brand: item.Brand,
+                    classification: item.Classification,
+                    design: item.Design,
+                    size: item.Size,
+                    quantity: item.Quantity,
+                    sellingType: item.SellingType,
+                    purchasePrice: item.PurchasePrice,
+                    sellingPrice: item.SellingPrice,
+                    status: req.body.status ?? "Available",
+                    dateAdded: req.body.dateAdded,
+                    dateUpdated: req.body.dateUpdated,
+                    addedBy: req.session.user.username,
+                };
+                console.log(addedItem);
+            });
+        } catch (error) {
+            res.status(500).json({ message: "Server Error: Import From CSV", details: error.message });
+            return;
+        }
+    },
 };
 
 export default itemController;
