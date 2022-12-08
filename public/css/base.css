@@ -638,3 +638,19 @@ textarea.error,
 .w2ui-grid-custom {
     height: 100%;
 }
+
+.main-action {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 10px;
+    gap: 20px;
+}
+/* Main action button */
+.main-action button {
+    border-radius: 8px;
+    border-color: transparent;
+    color: var(--clr-burgundy-100);
+    font-family: "Inter Bold";
+    background: var(--clr-gold-70);
+    margin: 0;
+}
