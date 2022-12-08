@@ -8,12 +8,12 @@
                 {{! Product Name / Product Code / Product Image }}
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="name">Product Name</label><br />
+                        <label for="name">Product Name<span style="color: red;">*</span></label><br />
                         <input type="text" id="name" name="name" /><br />
                     </div>
 
                     <div class="item-wrapper">
-                        <label for="code">Product Code</label><br />
+                        <label for="code">Product Code<span style="color: red;">*</span></label><br />
                         <input type="text" id="code" name="code" /><br />
                     </div>
                 </div>
@@ -29,7 +29,7 @@
                 {{! Type / Classification / Brand }}
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="type">Type</label><br />
+                        <label for="type">Type<span style="color: red;">*</span></label><br />
                         <!-- change in db -->
                         <select id="type" name="type">
                             <option value="" disabled selected>Select</option>
@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="item-wrapper">
-                        <label for="selling-type">Selling Type</label><br />
+                        <label for="selling-type">Selling Type<span style="color: red;">*</span></label><br />
                         <select id="selling-type" name="sellingType">
                             <option value="" disabled selected>Select</option>
                             <option value="per design">per design</option>
