@@ -27,7 +27,7 @@ const itemController = {
             db.findOne(Item, { code: req.params.code }, {}, async function (data) {
                 if (data != null) {
                     res.render("item", {
-                        title: "Product",
+                        title: `${data.name} (${data.code})`,
                         name: data.name,
                         code: data.code,
                         desc: data.description,

@@ -167,6 +167,12 @@ $(function () {
 
     getAllTransactions(true);
 
+    $("#filter-search").on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            $("#table-filter-apply").click();
+        }
+    });
+
     $("#table-filter-refresh, #table-filter-apply").click(function () {
         filter();
     });
