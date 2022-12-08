@@ -20,7 +20,8 @@ function Item(
     sellingPrice,
     dateAdded,
     dateUpdated,
-    addedBy
+    addedBy,
+    mixed
 ) {
     return {
         id: id,
@@ -39,6 +40,7 @@ function Item(
         dateAdded: dateAdded,
         dateUpdated: dateUpdated,
         addedBy: addedBy,
+        mixed: mixed,
     };
 }
 
@@ -167,7 +169,8 @@ function getItem() {
                 item.sellingPrice,
                 formatDate(new Date(item.dateAdded)),
                 formatDate(new Date(item.dateUpdated)),
-                item.addedBy
+                item.addedBy,
+                item.mixed
             );
 
             // Changes image source of img element into the item image
@@ -184,9 +187,22 @@ function getItem() {
                 )
                     continue;
 
-                $("#table-body").append(
-                    `<tr><td>${attribute}</td> <td>${PageItem[attribute]}</td></tr>`
-                );
+
+                if (attribute == "mixed") {
+                    // If the attribute is mixed, it will loop through the object and append it to the table
+                    // as a new row. Since it's a JSON object, it will be dynamic.
+                    for (var dynamicAttr in PageItem[attribute]) {
+                        $("#table-body").append(
+                            `<tr><td>${dynamicAttr}</td> <td>${PageItem[attribute][dynamicAttr]}</td></tr>`
+                        );
+                    }
+
+                } else {
+                    $("#table-body").append(
+                        `<tr><td>${attribute}</td> <td>${PageItem[attribute]}</td></tr>`
+                    );
+                }
+                
             }
         },
     });
