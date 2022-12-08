@@ -265,6 +265,21 @@ const itemController = {
             return;
         }
     },
+
+    editDynamicAttributes: async function (req, res) {
+        try {
+            db.findOne(Item, { code: req.body.code }, {mixed: req.body.mixed}, async function (data) {
+                if (data) {
+                    res.status(200).json(await data);
+                } else {
+                    res.status(400).json({ message: "Invalid Product Code.", fields: ["code"] });
+                }
+            });
+        } catch (error) {
+            res.status(500).json({ message: "Server Error: Edit Item Dynamic Attributes", details: error.message });
+            return;
+        }
+    },
 };
 
 export default itemController;
