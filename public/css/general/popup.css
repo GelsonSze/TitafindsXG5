@@ -73,40 +73,9 @@
     margin-right: 0;
 }
 
-#add {
+#transaction-header {
     display: flex;
-    flex-wrap: nowrap;
-    margin: 10px;
-}
-
-#add button {
-    border-radius: 8px;
-    border-color: transparent;
-    color: #4b4b4b;
-    font-family: "Inter Bold";
-    background: #d9d9d9;
-    margin: 0;
-}
-
-#specific-add {
-    display: flex;
-    flex-wrap: nowrap;
-    margin: 10px;
-}
-
-#specific-add button {
-    border-radius: 8px;
-    border-color: transparent;
-    color: #350705;
-    font-family: "Inter Bold";
-    background: #ddc44d;
-    margin: 0;
-}
-
-.divide {
-    width: 10px;
-    height: auto;
-    display: inline-block;
+    justify-content: space-between;
 }
 
 #popup-form-wrapper {
