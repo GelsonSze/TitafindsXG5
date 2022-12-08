@@ -2,22 +2,70 @@
 <main class="main-section">
     <div id="item-page-wrapper">
         <div id="top-wrapper">
+            {{#if user.isAdmin}}
+            <div id="commands">
+                <box-icon class="edit-popup_open icon-popup" type="solid" name="edit"></box-icon>
+                <box-icon class="delete-popup_open icon-popup" name="trash"></box-icon>
+            </div>
+            {{/if}}
+
             <div id="left-wrapper">
                 {{!-- Image and Name --}}
-                <h2>Item Name</h2>
-                <img src="/img/product-images/default.png" />
+                <img id="product-img" src="/img/product-images/default.png" />
+
+                <div id="item-attributes-wrapper">
+                    <div class="main-attributes-wrapper"><span>Type:&nbsp;</span> {{type}}</div>
+                    <div class="main-attributes-wrapper">
+                        <span>Selling Type:&nbsp;</span> {{sellingType}}
+                    </div>
+                    <div class="main-attributes-wrapper">
+                        <span>Available Quantity:&nbsp;</span> {{available}}
+                    </div>
+                    <div class="main-attributes-wrapper">
+                        <span>Damaged Quantity:&nbsp;</span> {{damaged}}
+                    </div>
+                </div>
             </div>
 
             <div id="right-wrapper">
-                <span>Fields</span>
-                {{!-- Attributes / Descriptions --}}
+                <p id="item-code">{{code}}</p>
+
+                <p id="item-title">{{name}}</p>
+
+                <div id="description-wrapper">
+                    <span>Description</span>
+                    <p>{{desc}}</p>
+                </div>
+
+                <table id="attributes-table" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <td>Attributes</td>
+                            <td>Value</td>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        {{!-- Content from item.js --}}
+                    </tbody>
+                </table>
+
+                {{!-- Attributes / Descriptions --}} {{!--
                 <div id="fields-table"></div>
+                --}}
             </div>
         </div>
 
-        {{!-- Transaction --}}
+        {{>editPopup}} {{>sellPopup}} {{>restockPopup}} {{>removeDamagePopup}}
+
         <div id="bottom-wrapper">
-            Transactions {{!place code for the w2ui table here }}
+            <div id="transaction-header">
+                <h1>Transactions</h1>
+                <div class="main-action">
+                    <button class="restock-popup_open">Restock</button>
+                    <button class="sell-popup_open">Sell</button>
+                    <button class="remove-damage-popup_open">Remove Damage</button>
+                </div>
+            </div>
             <div id="details-grid" class="w2ui-grid-custom"></div>
         </div>
     </div>

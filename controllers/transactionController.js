@@ -58,7 +58,7 @@ const transactionController = {
     getItemTransactionsById: function (req, res) {
         try {
             db.findMany(Transaction, { description: req.params.id }, {}, async function (data) {
-                console.log(data);
+                // console.log(data);
                 res.status(200).json(data);
             });
         } catch (error) {
@@ -87,25 +87,24 @@ const transactionController = {
     },
 
     // UNTESTED
-    getTransaction: function (req, res) {
-        try {
-            db.findOne(
-                Transaction,
-                { description: { $regex: req.query.code, $options: "i" } },
-                {},
-                async function (data) {
-                    console.log(req.query);
-                    res.status(200).json(await data);
-                }
-            );
-        } catch (error) {
-            res.status(500).json({
-                message: "Server Error: Get Transaction",
-                details: error.message,
-            });
-            return;
-        }
-    },
+    // getTransaction: function (req, res) {
+    //     try {
+    //         db.findOne(
+    //             Transaction,
+    //             { description: { $regex: req.query.code, $options: "i" } },
+    //             {},
+    //             async function (data) {
+    //                 res.status(200).json(await data);
+    //             }
+    //         );
+    //     } catch (error) {
+    //         res.status(500).json({
+    //             message: "Server Error: Get Transaction",
+    //             details: error.message,
+    //         });
+    //         return;
+    //     }
+    // },
 
     searchTransactions: function (req, res) {
         try {
@@ -129,7 +128,7 @@ const transactionController = {
 
                     {},
                     function (data) {
-                        console.log(data);
+                        // console.log(data);
                         res.status(200).json(data);
                     }
                 );
@@ -151,7 +150,7 @@ const transactionController = {
 
                     {},
                     function (data) {
-                        console.log(data);
+                        // console.log(data);
                         res.status(200).json(data);
                     }
                 );

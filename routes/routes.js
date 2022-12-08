@@ -1,121 +1,61 @@
 import express from "express";
 import itemController from "../controllers/itemController.js";
-import userController from "../controllers/userController.js";
-import { checkAuth, checkNoAuth } from "../controllers/authController.js";
-import { generateItemCode } from "../utils/helper.js";
-import { upload } from "../utils/multer.js";
+import loginController from "../controllers/loginController.js";
+import adminController from "../controllers/adminController.js";
 import transactionController from "../controllers/transactionController.js";
+import { checkAuth, checkNoAuth, viewPage, adminOnly } from "../controllers/authController.js";
+import { upload } from "../utils/multer.js";
 
 const app = express();
 
-// Authentication and Authorization
-app.post("/auth/addUser", userController.addUser);
-app.post("/auth/login", userController.loginUser);
-app.delete("/auth/logout", userController.logoutUser);
-
-// The dashboard or inventory page
-app.get("/", checkAuth, itemController.home);
-app.post(
-    "/addItem",
+// The inventory page (currently the home page)
+app.get("/", [viewPage, checkAuth, itemController.home]);
+app.post("/addItem", [
+    checkAuth,
     upload.single("image"),
     itemController.addItem,
-    transactionController.addTransaction
-);
-app.post(
-    "/restockItem",
-    upload.any(),
+    transactionController.addTransaction,
+]);
+app.post("/restockItem", [
+    checkAuth,
     itemController.restockItem,
-    transactionController.addTransaction
-);
-app.post("/sellItem", upload.any(), itemController.sellItem, transactionController.addTransaction);
-app.get("/getItems", itemController.getItems);
+    transactionController.addTransaction,
+]);
+app.post("/sellItem", [checkAuth, itemController.sellItem, transactionController.addTransaction]);
+app.get("/getItems", [checkAuth, itemController.getItems]);
 app.post("/importFromCSV", upload.any(), itemController.importFromCSV)
 
 // The login page
-app.get("/login", checkNoAuth, userController.login);
+app.get("/login", [viewPage, checkNoAuth, loginController.login]);
+app.post("/auth/login", loginController.loginUser);
+app.delete("/auth/logout", loginController.logoutUser);
 
 // The Item Page
-app.get("/item/:code", checkAuth, itemController.itemDetails);
-app.get("/getItem=:code", itemController.getItem);
-app.get("/getItemById=:id", itemController.getItemById);
+app.get("/item/:code", [viewPage, checkAuth, itemController.itemDetails]);
+app.post("/editItem=:code", [checkAuth, upload.single("image"), itemController.editItem]);
+app.delete("/deleteItem=:code", [checkAuth, itemController.deleteItem]);
+app.get("/getItem=:code", [checkAuth, itemController.getItem]);
+app.get("/getItemById=:id", [checkAuth, itemController.getItemById]);
 
 // The transactions page
-app.get("/transactions", checkAuth, transactionController.transactions);
-app.get("/getTransactions", transactionController.getTransactions);
-app.get("/getItemTransactions=:id", transactionController.getItemTransactionsById);
-app.get("/getXTransactions=:code&:limit", transactionController.getXTransactions);
-app.post("/addTransaction", transactionController.addTransaction);
-app.get("/getTransaction", transactionController.getTransaction);
-app.get("/searchTransactions=:type&:search", transactionController.searchTransactions);
+app.get("/transactions", [viewPage, checkAuth, transactionController.transactions]);
+app.get("/getTransactions", [checkAuth, transactionController.getTransactions]);
+app.get("/getItemTransactions=:id", [checkAuth, transactionController.getItemTransactionsById]);
+app.get("/getXTransactions=:code&:limit", [checkAuth, transactionController.getXTransactions]);
+app.post("/addTransaction", [checkAuth, transactionController.addTransaction]);
+app.get("/searchTransactions=:type&:search", [checkAuth, transactionController.searchTransactions]);
 
-// TO BE REMOVED
-// if (process.env.NODE_ENV === "development") {
-//     //Add admin user to database
-//     console.log("Development mode: Adding admin user to database");
-//     userController.addAdmin();
+//The Account Management page
+app.get("/accountManagement", [viewPage, adminOnly, checkAuth, adminController.accountManagement]);
+app.get("/changePassword", [viewPage, checkAuth, adminController.changePassword]);
+app.put("/changeOwnPassword", [checkAuth, adminController.changeOwnPassword]);
 
-//     //Add sample items to database
-//     console.log("Development mode: Adding sample items to database");
-//     var samples = [
-//         {
-//             image: "items/default.png",
-//             code: generateItemCode("Necklace"),
-//             name: "Phoenix Necklace",
-//             type: "Necklace",
-//             brand: "Cartier",
-//             classification: "14 karat",
-//             design: "regular",
-//             size: 16,
-//             weight: 10,
-//             quantity: 100,
-//             sellingType: "per gram",
-//             purchasePrice: 5000,
-//             sellingPrice: 10000,
-//             status: "Available",
-//             dateAdded: "10/1/2022",
-//             dateUpdated: "10/31/2022",
-//             addedBy: "admin",
-//         },
-//         {
-//             image: "items/default.png",
-//             code: generateItemCode("Necklace"),
-//             name: "Saudi Gold Tiffany Necklace",
-//             type: "Necklace",
-//             brand: "Tiffany",
-//             classification: "18 karat",
-//             design: "regular",
-//             size: 18,
-//             weight: 20,
-//             quantity: 140,
-//             sellingType: "per gram",
-//             purchasePrice: 8000,
-//             sellingPrice: 18000,
-//             status: "Available",
-//             dateAdded: "10/2/2022",
-//             dateUpdated: "10/31/2022",
-//             addedBy: "admin",
-//         },
-//         {
-//             image: "items/default.png",
-//             code: generateItemCode("Chain"),
-//             name: "VVsplChristian Dior Saudi Gold Cadena Chain",
-//             type: "Chain",
-//             brand: "Swarovski",
-//             classification: "18 karat",
-//             design: "regular",
-//             size: 22,
-//             weight: 18,
-//             quantity: 0,
-//             sellingType: "per gram",
-//             purchasePrice: 20000,
-//             sellingPrice: 40000,
-//             status: "Unvailable",
-//             dateAdded: "10/21/2022",
-//             dateUpdated: "10/31/2022",
-//             addedBy: "admin",
-//         },
-//     ];
-//     itemController.addItemSamples(samples);
-// }
+app.get("/auth/getUsers", [adminOnly, checkAuth, adminController.getUsers]);
+app.get("/auth/getUser=:id", [adminOnly, checkAuth, adminController.getUser]);
+app.post("/auth/addUser", [adminOnly, checkAuth, adminController.addUser]);
+app.put("/auth/updateUser", [adminOnly, checkAuth, adminController.updateUser]);
+app.put("/auth/suspendUser", [adminOnly, checkAuth, adminController.suspendUser]);
+app.put("/auth/resumeUser", [adminOnly, checkAuth, adminController.resumeUser]);
+app.put("/auth/resetPassword", [adminOnly, checkAuth, adminController.resetPassword]);
 
 export default app;

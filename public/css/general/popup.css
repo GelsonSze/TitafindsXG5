@@ -5,39 +5,28 @@
     background: white;
 }
 
-.itemFirst {
-    float: left;
-    clear: left;
-    margin: 10px;
-}
+.popup {
+    /* Change this colors */
+    --label-color: #000;
+    --text-highlight-color: brown;
+    --create-button-color: #000;
+    --update-button-color: #000;
+    --reset-button-color: #000;
+    --suspend-button-color: #000;
+    --resume-button-color: #000;
 
-.item {
-    float: left;
-    margin: 10px;
-}
-
-#add-popup,
-#restock-popup,
-#sell-popup,
-#import-options-popup {
     border-radius: 8px;
     border-color: transparent;
     font-family: "Inter Bold";
     color: black;
 }
 
-#add-popup h1,
-#restock-popup h1,
-#sell-popup h1,
-#import-options-popup h1 {
+.popup h1 {
     text-align: center;
     color: black;
 }
 
-#add-popup label,
-#restock-popup label,
-#sell-popup label,
-#import-options-popup label {
+.popup label {
     font-family: "Inter Medium";
     text-transform: none;
     font-size: 11px;
@@ -45,19 +34,18 @@
     margin-bottom: 4px;
 }
 
-#add-popup button,
-#restock-popup button,
-#sell-popup button,
-#import-options-popup button {
+.popup input[type="text"] {
+    padding: 5px;
+}
+
+.popup button {
     border-radius: 8px;
     border-color: transparent;
     color: white;
     background: #716f6f;
 }
 
-#add-popup textarea,
-#restock-popup textarea,
-#sell-popup textarea {
+.popup textarea {
     resize: vertical;
     padding: 5px;
     height: 50px;
@@ -71,7 +59,6 @@
     flex-direction: column;
     margin-top: 30px;
     width: 300px;
-    height: 100px;
     gap: 15px;
 }
 
@@ -82,19 +69,13 @@
     height: 0;
 }
 
-#add {
-    display: flex;
-    flex-wrap: nowrap;
-    margin: 10px;
+.restock-sell-common .item-wrapper {
+    margin-right: 0;
 }
 
-#add button {
-    border-radius: 8px;
-    border-color: transparent;
-    color: #4b4b4b;
-    font-family: "Inter Bold";
-    background: #d9d9d9;
-    margin: 0;
+#transaction-header {
+    display: flex;
+    justify-content: space-between;
 }
 
 #popup-form-wrapper {
@@ -140,7 +121,8 @@
     font-weight: normal;
     font-size: 12px;
 
-    color: #a8a8a8;
+    /* TO BE REMOVED */
+    /* color: #a8a8a8; */
     padding: 5px;
     flex-shrink: 2;
 }
@@ -165,10 +147,7 @@
     justify-content: space-between;
 }
 
-#quantity,
-#sell-quantity,
-#restock-quantity {
-    /* width: 50px; */
+#available {
     margin: 0 2px;
 }
 
@@ -182,6 +161,34 @@
     display: flex;
     flex-direction: column;
     width: 200px;
+    position: relative;
+}
+
+#image-preview {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    object-position: 50% 50%;
+    border-radius: 5px;
+    border: 1px solid var(--clr-box-shadow-primary);
+}
+
+.remove-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: var(--clr-box-shadow-primary);
+    border-radius: 5px 0 5px 0;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.remove-image:hover {
+    background: var(--clr-box-shadow-secondary);
+}
+
+.remove-image:active {
+    background: var(--clr-box-shadow-primary-active);
 }
 
 .popup-label-image {
@@ -192,11 +199,10 @@ button:hover {
     cursor: pointer;
 }
 
-.add-popup_close,
-.restock-popup_close,
-.sell-popup_close {
+.popup-close {
     border-radius: 50%;
-    float: right;
+    position: absolute;
+    right: 25px;
 }
 
 .command {
@@ -210,8 +216,91 @@ button:hover {
     margin: 0 10px;
 }
 
-#add-popup input[type="text"],
-#restock-popup input[type="text"],
-#sell-popup input[type="text"] {
-    padding: 5px;
+.confirm-type-form {
+    padding: 20px 10px 0;
+}
+
+.confirm-type-form .popup-row-wrapper {
+    align-items: center;
+}
+
+.confirm-type-form .command {
+    margin-top: 20px;
+}
+
+.confirm-type-text-highlight {
+    /*Adjust color of username in reset popup and suspend popup*/
+    color: var(--text-highlight-color);
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.confirm-type-symbol {
+    color: white;
+    background-color: black;
+    border-radius: 100%;
+    padding: 7px;
+    font-size: 45px;
+    margin-right: 5px;
+}
+
+#certainty-text {
+    font-size: 15px;
+    width: 270px;
+}
+
+#create-user-button {
+    background-color: var(--create-button-color);
+}
+
+#update-user-button {
+    background-color: var(--update-button-color);
+}
+
+#reset-user-button,
+#replay-symbol {
+    background-color: var(--reset-button-color);
+}
+
+#suspend-user-button,
+#block-symbol {
+    background-color: var(--suspend-button-color);
+}
+
+#resume-user-button,
+#play-symbol {
+    background-color: var(--resume-button-color);
+}
+
+.create-update-form {
+    width: 50%;
+    inset: 0;
+    margin: auto;
+    margin-top: 2vh;
+}
+
+.create-update-form .item-wrapper {
+    margin: 0;
+}
+
+.create-update-form .text-error {
+    margin-bottom: 1vh;
+}
+
+.create-update-input {
+    margin-bottom: 2vh;
+}
+
+/* #username-label, #first-name-label, #last-name-label,
+#password-label, #confirm-password-label */
+.create-update-label {
+    color: var(--label-color);
+}
+
+#reset {
+    background-color: black;
+}
+
+#suspend {
+    background-color: black;
 }

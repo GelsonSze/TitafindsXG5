@@ -34,6 +34,14 @@ function getAllItems(refreshGrid = false) {
         });
     } catch (error) {
         console.log(error);
+        SnackBar({
+            message: "Error: Getting all items failed",
+            status: "error",
+            icon: "error",
+            position: "br",
+            timeout: 5000,
+            fixed: true,
+        });
     }
 }
 
@@ -44,11 +52,11 @@ function item(
     type,
     classification,
     size,
+    unit,
     weight,
-    quantity,
+    available,
     sellingPrice,
-    purchasePrice,
-    status
+    purchasePrice
 ) {
     return {
         recid: Items.length + 1,
@@ -58,11 +66,11 @@ function item(
         type: type,
         classification: classification,
         size: size,
+        unit: unit,
         weight: weight,
-        quantity: quantity,
+        available: available,
         purchasePrice: purchasePrice,
         sellingPrice: sellingPrice,
-        status: status,
     };
 }
 
@@ -77,11 +85,11 @@ function pushItem(product) {
             product.type,
             product.classification,
             product.size,
+            product.unit,
             product.weight,
-            product.quantity,
+            product.available,
             product.sellingPrice,
-            product.purchasePrice,
-            product.status
+            product.purchasePrice
         )
     );
 
@@ -90,9 +98,9 @@ function pushItem(product) {
     return dfd.promise();
 }
 
-function getSpecifiedItems(refreshGrid = false, classification, type, status, weight, size) {
+function getSpecifiedItems(refreshGrid = false, classification, type, weight, size) {
     /*Records it as 0 if the user did not select a category*/
-    var Specified = [];
+    Items = [];
     var check = $("#filter-search").val().toLowerCase();
 
     /*Process gets all items given a specific condition, which is if the item has the following category. The ==0 condition
@@ -108,7 +116,7 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
                     (product.type == $("#dropdown-type-select").text().trim() || type == 0) &&
                     (product.classification == $("#dropdown-classification-select").text().trim() ||
                         classification == 0) &&
-                    (product.status == $("#dropdown-status-select").text().trim() || status == 0) &&
+                    //(product.status == $("#dropdown-status-select").text().trim() || status == 0) &&
                     ((product.weight >= $("#weight-min").val() &&
                         product.weight <= $("#weight-max").val()) ||
                         weight == 0) &&
@@ -119,26 +127,12 @@ function getSpecifiedItems(refreshGrid = false, classification, type, status, we
                         product.code.toLowerCase().search(check) != -1) //||
                     //check == ""
                 ) {
-                    Specified.push(
-                        new item(
-                            product.image,
-                            product.name,
-                            product.code,
-                            product.type,
-                            product.classification,
-                            product.size,
-                            product.weight,
-                            product.quantity,
-                            product.sellingPrice,
-                            product.purchasePrice,
-                            product.status
-                        )
-                    );
+                    pushItem(product);
                 }
             }
             if (refreshGrid) {
                 w2ui["item-grid"].clear();
-                w2ui["item-grid"].records = Specified;
+                w2ui["item-grid"].records = Items;
                 w2ui["item-grid"].refresh();
             }
         },
@@ -198,11 +192,7 @@ $(function () {
                 text: "Name",
                 size: "10%",
                 render: function (record, extra) {
-                    var html =
-                        '<p style="white-space: normal; word-wrap: break-word">' +
-                        record.name +
-                        "</p>";
-                    // var html = '<p>' + record.name + '</p>';
+                    var html = `<a href="/item/${record.code}" target="_blank" class="item-anchor-link">${record.name}</a>`;
                     return html;
                 },
                 sortable: true,
@@ -215,22 +205,36 @@ $(function () {
                 size: "5%",
                 sortable: true,
             },
-            { field: "size", text: "Size", size: "3%", sortable: true },
+            {
+                field: "size",
+                text: "Size",
+                size: "3%",
+                sortable: true,
+                render: function (record) {
+                    return record.size == undefined ? "" : `${record.size} ${record.unit}`;
+                },
+            },
             { field: "weight", text: "Weight", size: "3%", sortable: true },
-            { field: "quantity", text: "Quantity", size: "3%", sortable: true },
+            { field: "available", text: "Available", size: "3%", sortable: true },
             {
                 field: "sellingPrice",
                 text: "Selling Price",
                 size: "5%",
                 sortable: true,
+                render: function (record) {
+                    return record.sellingPrice.toLocaleString("en-US");
+                },
             },
             {
                 field: "purchasePrice",
                 text: "Purchase Price",
                 size: "6%",
                 sortable: true,
+                render: function (record) {
+                    return record.purchasePrice.toLocaleString("en-US");
+                },
             },
-            { field: "status", text: "Status", size: "7%", sortable: true },
+            //{ field: "status", text: "Status", size: "7%", sortable: true },
             // {
             //     field: "edit",
             //     size: "5%",
@@ -252,304 +256,6 @@ $(function () {
 
             window.open(`/item/${record.code}`, "_blank");
         },
-    });
-
-    $("#restock-popup").popup({
-        blur: false /* pop-up must be only closed with X button, not by clicking outside */,
-        onclose: function () {
-            $("#restock-popup #restock-form")[0].reset();
-        },
-    });
-
-    $("#restock-popup form .command :reset").on("click", async function () {
-        $("#restock-popup").popup("hide");
-    });
-
-    $("#restock-popup form .command :submit").on("click", function (e) {
-        e.preventDefault();
-
-        var codeField = $("#restock-popup #restock-code")[0];
-        var quantityField = $("#restock-popup #restock-quantity")[0];
-        var error = $("#restock-popup .text-error")[0];
-
-        var fields = [codeField, quantityField];
-        var emptyFields = [];
-
-        fields.forEach(async function (field) {
-            if (isEmptyOrSpaces(field.value)) {
-                emptyFields.push(field);
-            }
-        });
-
-        if (emptyFields.length > 0) {
-            showError(error, "Please fill out all the fields.", emptyFields);
-            return;
-        }
-
-        const code = $("#restock-popup #restock-code").val();
-        const data = new FormData($("#restock-form")[0]);
-        data.append("dateRestocked", new Date());
-
-        var recID = w2ui["item-grid"].find({ code: code });
-        recID = recID[0];
-
-        $.ajax({
-            url: `/getItem=${code}`,
-            type: "GET",
-            processData: false,
-            contentType: false,
-
-            success: async function (foundData) {
-                $.ajax({
-                    url: "/restockItem",
-                    data: data,
-                    type: "POST",
-                    processData: false,
-                    contentType: false,
-
-                    success: async function (foundData) {
-                        $.ajax({
-                            url: `/getItem=${code}`,
-                            type: "GET",
-                            processData: false,
-                            contentType: false,
-
-                            success: async function (foundData) {
-                                w2ui["item-grid"].set(recID, { quantity: foundData.quantity });
-                            },
-                        });
-
-                        $("#restock-popup #restock-form")[0].reset();
-                        $("#restock-popup").popup("hide");
-                    },
-
-                    error: async function (jqXHR, textStatus, errorThrown) {
-                        message = jqXHR.responseJSON.message;
-                        fields = jqXHR.responseJSON.fields;
-
-                        if (fields) {
-                            fields.forEach(async function (field) {
-                                emptyFields.push($(`#${field}`)[0]);
-                            });
-
-                            showError(error, message, emptyFields);
-                        }
-                    },
-                });
-            },
-
-            error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                fields = jqXHR.responseJSON.fields;
-
-                if (fields) {
-                    fields.forEach(async function (field) {
-                        if (field == "code") {
-                            field = `restock-${field}`;
-                        }
-                        emptyFields.push($(`#${field}`)[0]);
-                    });
-
-                    showError(error, message, emptyFields);
-                }
-            },
-        });
-    });
-
-    $("#sell-popup").popup({
-        blur: false,
-        onclose: function () {
-            $("#sell-popup #sell-form")[0].reset();
-        },
-    });
-
-    $("#sell-popup form .command :reset").on("click", function () {
-        $("#sell-popup").popup("hide");
-    });
-
-    $("#sell-popup form .command :submit").on("click", function (e) {
-        e.preventDefault();
-
-        var codeField = $("#sell-popup #sell-code")[0];
-        var quantityField = $("#sell-popup #sell-quantity")[0];
-        var error = $("#sell-popup .text-error")[0];
-
-        var fields = [codeField, quantityField];
-        var emptyFields = [];
-
-        fields.forEach(async function (field) {
-            if (isEmptyOrSpaces(field.value)) {
-                emptyFields.push(field);
-            }
-        });
-
-        if (emptyFields.length > 0) {
-            showError(error, "Please fill out all the fields.", emptyFields);
-            return;
-        }
-
-        const code = $("#sell-popup #sell-code").val();
-        const data = new FormData($("#sell-form")[0]);
-        data.append("dateSold", new Date());
-        var recID = w2ui["item-grid"].find({ code: code });
-        recID = recID[0];
-
-        $.ajax({
-            url: `/getItem=${code}`,
-            type: "GET",
-            processData: false,
-            contentType: false,
-
-            success: async function (foundData) {
-                $.ajax({
-                    url: "/sellItem",
-                    data: data,
-                    type: "POST",
-                    processData: false,
-                    contentType: false,
-
-                    success: async function (foundData) {
-                        $.ajax({
-                            url: `/getItem=${code}`,
-                            type: "GET",
-                            processData: false,
-                            contentType: false,
-
-                            success: async function (foundData) {
-                                w2ui["item-grid"].set(recID, { quantity: foundData.quantity });
-                            },
-                        });
-                        $("#sell-popup #sell-form")[0].reset();
-                        $("#sell-popup").popup("hide");
-                    },
-
-                    error: async function (jqXHR, textStatus, errorThrown) {
-                        message = jqXHR.responseJSON.message;
-                        fields = jqXHR.responseJSON.fields;
-
-                        if (fields) {
-                            fields.forEach(async function (field) {
-                                emptyFields.push($(`#${field}`)[0]);
-                            });
-
-                            showError(error, message, emptyFields);
-                        }
-                    },
-                });
-            },
-
-            error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                fields = jqXHR.responseJSON.fields;
-
-                if (fields) {
-                    fields.forEach(async function (field) {
-                        if (field == "code") {
-                            field = `sell-${field}`;
-                        }
-                        emptyFields.push($(`#${field}`)[0]);
-                    });
-
-                    showError(error, message, emptyFields);
-                }
-            },
-        });
-    });
-
-    /* pop-up must be only closed with X button, not by clicking outside */
-    $("#add-popup").popup({
-        blur: false,
-        onclose: function () {
-            $("#add-popup #add-form")[0].reset();
-            $("#image-preview").attr("src", "/img/product-images/default.png");
-        },
-    });
-
-    $("#add-popup form .command :reset").on("click", function (e) {
-        $("#add-popup").popup("hide");
-    });
-
-    $("#add-popup form .command :submit").on("click", function (e) {
-        e.preventDefault();
-
-        var name = $("#add-popup #name")[0];
-        var code = $("#add-popup #code")[0];
-        var type = $("#add-popup #type")[0];
-        var sellingType = $("#add-popup #selling-type")[0];
-        var weight = $("#add-popup #weight")[0]; // required if selling type is per gram
-        var quantity = $("#add-popup #quantity")[0];
-        var error = $("#add-popup .text-error")[0];
-
-        let fields = [name, code, type, sellingType, quantity];
-
-        let emptyFields = [];
-
-        fields.forEach(async function (field) {
-            if (isEmptyOrSpaces(field.value)) {
-                emptyFields.push(field);
-            }
-        });
-
-        // If selling type is per gram, weight is required
-        if (sellingType.value == "per gram") {
-            if (isEmptyOrSpaces(weight.value)) {
-                emptyFields.push(weight);
-            }
-        }
-
-        if (emptyFields.length > 0) {
-            showError(error, "Please fill out all the fields.", emptyFields);
-            return;
-        }
-
-        const data = new FormData($("#add-form")[0]);
-        data.append("dateAdded", new Date());
-        data.append("dateUpdated", new Date());
-
-        const trans_data = {
-            date: new Date(),
-            type: "Added",
-            name: $("#name").val(),
-            desc: "Item added " + $("#code").val(),
-            qty: parseInt($("#quantity").val()),
-            sellingPrice: parseInt($("#selling-price").val()),
-            transactedBy: "Someone",
-        };
-
-        //TO BE REMOVED
-        for (var pair of data.entries()) {
-            console.log(pair[0] + ":" + pair[1]);
-        }
-        $.ajax({
-            url: "/addItem",
-            data: data,
-            type: "POST",
-            processData: false,
-            contentType: false,
-
-            success: async function (foundData) {
-                console.log("success");
-                Items = [];
-                getAllItems(true);
-                console.log("reloaded");
-                $("#add-popup #add-form")[0].reset();
-                $("#add-popup").popup("hide");
-                $("#image-preview").attr("src", "/img/product-images/default.png");
-            },
-
-            error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                fields = jqXHR.responseJSON.fields;
-
-                if (fields) {
-                    fields.forEach(async function (field) {
-                        emptyFields.push($(`#${field}`)[0]);
-                    });
-
-                    showError(error, message, emptyFields);
-                }
-            },
-        });
     });
     //on change of image
     $("#image").on("change", function () {
@@ -592,10 +298,16 @@ $(function () {
         $("#dropdown-classification-select").html(text);
     });
 
-    $(".dropdown-status").click(function () {
-        var text = $(this).html();
-        console.log(text);
-        $("#dropdown-status-select").html(text);
+    // $(".dropdown-status").click(function () {
+    //     var text = $(this).html();
+    //     console.log(text);
+    //     $("#dropdown-status-select").html(text);
+    // });
+
+    $("#filter-search").on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            $("#table-filter-apply").click();
+        }
     });
 
     $("#table-filter-apply").click(function () {
@@ -605,9 +317,9 @@ $(function () {
         if ($("#dropdown-classification-select").text().trim() == "Classification") {
             var classification = 0;
         }
-        if ($("#dropdown-status-select").text().trim() == "Status") {
-            var status = 0;
-        }
+        // if ($("#dropdown-status-select").text().trim() == "Status") {
+        //     var status = 0;
+        // }
         if ($("#weight-min").val() == "" || $("#weight-max").val() == "") {
             var weight = 0;
         }
@@ -615,14 +327,14 @@ $(function () {
             var size = 0;
         }
 
-        getSpecifiedItems(true, classification, type, status, weight, size);
+        getSpecifiedItems(true, classification, type, weight, size);
     });
 
     $("#table-filter-clear").click(function () {
         /*Records it as 0 if the user did not select a category*/
         $("#dropdown-type-select").html("Type");
         $("#dropdown-classification-select").html("Classification");
-        $("#dropdown-status-select").html("Status");
+        // $("#dropdown-status-select").html("Status");
         $("#weight-min").val(0);
         $("#size-min").val(0);
         $("#weight-max").val("");

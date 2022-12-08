@@ -77,6 +77,7 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 #table-filters-wrapper {
@@ -106,16 +107,14 @@ main {
 }
 
 #table-filters-wrapper select {
-    height: none;
-
     max-height: 28px;
     min-width: 100px;
 
     font-family: "Inter Regular";
     font-weight: normal;
     font-size: 12px;
-
-    color: #a8a8a8;
+    /* TO BE REMOVED 
+    color: #a8a8a8; */
     padding: 3px;
     flex-shrink: 2;
 
@@ -281,73 +280,12 @@ h1 {
     border: 0.5vh solid black;
 }
 
-#inner-sidebar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 300px;
-    height: 100%;
-    background-color: #5d3937;
-    display: none;
-    z-index: 99;
+.item-anchor-link {
+    white-space: normal;
+    word-wrap: break-word;
+    font-weight: bold;
 }
 
-#outer-sidebar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 60px;
-    height: 100%;
-    background-color: #5d3937;
-}
-
-#toggle-sidebar {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    width: 35px;
-    font-size: 30px;
-    background-color: #5d3937;
-    color: white;
-    background: none;
-    outline: none;
-    border: none;
-}
-
-#close-sidebar {
-    background-color: #815251;
-    border: #815251;
-    font-size: 20px;
-    position: absolute;
-    top: 5px;
-    right: 7px;
-    color: white;
-}
-
-#outer-icon:hover {
-    background-color: #260504;
-}
-
-#brand-img {
-    margin-right: 10%;
-    margin-left: 28%;
-    margin-top: 12%;
-    max-width: 35%;
-    max-height: 45%;
-}
-
-#brand-title-img {
-    margin-right: 10%;
-    margin-left: 15%;
-    max-width: 60%;
-    max-height: 60%;
-    margin-bottom: 5%;
-}
-
-#outer-sidebar-icons {
-    position: relative;
-    top: 40%;
-    color: white;
-    margin-right: 10%;
-    margin-left: 28%;
+.item-anchor-link:hover {
+    text-decoration: underline;
 }
