@@ -27,7 +27,9 @@ function getAllTransactions(refreshGrid = false) {
                     w2ui["transaction-grid"].records = Transactions.reverse();
                     w2ui["transaction-grid"].refresh();
                 }
-
+                $("#table-last-refresh-text").html(
+                    `<b>Last Refresh:</b> ${new Date().toLocaleString()}`
+                );
                 $("#table-filter-apply").attr("disabled", false);
             });
         },
@@ -47,14 +49,17 @@ function pushTransaction(trans) {
         contentType: "application/json; charset=utf-8",
         success: function (item) {
             trans.date = formatDate(new Date(trans.date));
+            let newCode = "deleted";
+            if (item) newCode = item.code;
             Transactions.push(
                 new transaction(
                     trans.date,
                     trans.type,
-                    `Item ${trans.type} - ${item.name} (${item.code})`,
+                    `Item ${trans.type} - ${trans.name} (${trans.code})`,
                     trans.quantity,
                     trans.sellingPrice,
-                    trans.transactedBy
+                    trans.transactedBy,
+                    newCode
                 )
             );
             dfd.resolve();
@@ -133,24 +138,36 @@ $(function () {
             { field: "type", text: "Type", size: "7%", sortable: true },
             { field: "description", text: "Description", size: "50%", sortable: true },
             { field: "quantity", text: "Quantity", size: "5%", sortable: true },
-            { field: "sellingPrice", text: "Selling Price", size: "6%", sortable: true },
+            {
+                field: "sellingPrice",
+                text: "Selling Price",
+                size: "6%",
+                sortable: true,
+                render: function (record) {
+                    return record.sellingPrice.toLocaleString("en-US");
+                },
+            },
             { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
         ],
         records: Transactions,
-        onDblClick: function (recid) {
-            // Redirects to item page
-
-            var record = w2ui["transaction-grid"].get(recid.recid);
-
-            var strArray = record.description.split(" ");
-            var str = strArray[strArray.length - 1];
-            var code = str.substring(str.indexOf("(") + 1, str.lastIndexOf(")"));
-
-            window.open(`/item/${code}`, "_blank");
+        onDblClick: function (record) {
+            // var record = w2ui["transaction-grid"].get(recid.recid);
+            // // Grabs the last string in description. This is the code.
+            // var strArray = record.description.split(" ");
+            // var str = strArray[strArray.length - 1];
+            // var code = str.substring(str.indexOf("(") + 1, str.lastIndexOf(")"));
+            var code = record.newCode;
+            if (code != "deleted") window.open(`/item/${code}`, "_blank");
         },
     });
 
     getAllTransactions(true);
+
+    $("#filter-search").on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            $("#table-filter-apply").click();
+        }
+    });
 
     $("#table-filter-refresh, #table-filter-apply").click(function () {
         filter();

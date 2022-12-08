@@ -12,24 +12,41 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
 
-    email: {
+    image: {
         type: String,
-        required: true,
-        unique: true,
+        default: "default.png",
     },
 
     firstName: {
         type: String,
-        required: true,
     },
 
     lastName: {
         type: String,
-        required: true,
     },
 
     isAdmin: {
         type: Boolean,
+        default: false,
+    },
+
+    isSuspended: {
+        type: Boolean,
+        default: false,
+    },
+
+    dateCreated: {
+        type: String,
+    },
+
+    dateUpdated: {
+        type: String,
+        default: null,
+    },
+
+    lastLogin: {
+        type: String,
+        default: null,
     },
 });
 

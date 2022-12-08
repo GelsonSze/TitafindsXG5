@@ -80,10 +80,14 @@
 
     --clr-table-bg: var(--clr-burgundy-80);
     --clr-table-color: #f5f5f5;
+    --clr-table-column-line: var(--clr-burgundy-100);
 
     --clr-btn-primary: var(--clr-gold);
     --clr-box-shadow-primary: rgb(225 211 205 / 70%);
-    --clr-box-shadow-primary-hover: rgb(225 211 205 / 90%);
+    --clr-box-shadow-primary-active: rgb(225 211 205 / 90%);
+    --clr-box-shadow-secondary: rgb(225 211 205 / 50%);
+
+    --clr-select-color: var(--clr-black-100);
 
     --clr-txt-primary: hsl(3, 83%, 11%);
     --clr-txt-secondary: hsla(21, 71%, 38%, 0.892);
@@ -189,7 +193,7 @@ label {
 select {
     font-family: var(--font-type2);
     font-weight: bold;
-    color: var(--clr-txt-secondary);
+    color: var(--clr-select-color);
     border: 1px solid var(--clr-gray);
     border-radius: 5px;
     padding: 10px 5px;
@@ -475,13 +479,13 @@ main {
 
 .goback-text:hover,
 .goback-text:hover + .icon-return {
-    color: var(--clr-blue);
+    color: var(--clr-gold-100);
     cursor: pointer;
 }
 
 .goback-text:active,
 .goback-text:active + .icon-return {
-    color: var(--clr-blue-500);
+    color: var(--clr-gold-dark);
 }
 
 #text-title {
@@ -625,7 +629,6 @@ textarea.error,
 }
 
 /* TO BE REMOVED -note:
- item-grid must be kebab-case
  refactor/relocate code to a group */
 
 #main-body {
@@ -636,22 +639,18 @@ textarea.error,
     height: 100%;
 }
 
-#image-preview {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    object-position: 50% 50%;
-    border-radius: 5px;
-    border: 1px solid var(--clr-box-shadow-primary);
+.main-action {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 10px;
+    gap: 20px;
 }
-
-.sidebar-links {
-    float: left;
-    color: white;
-    text-indent: 0.8em;
-    font-size: 15px;
-    margin-right: 10%;
-    margin-left: 10%;
-    font-family: "Inter Regular";
-    padding: 10px;
+/* Main action button */
+.main-action button {
+    border-radius: 8px;
+    border-color: transparent;
+    color: var(--clr-burgundy-100);
+    font-family: "Inter Bold";
+    background: var(--clr-gold-70);
+    margin: 0;
 }

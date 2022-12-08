@@ -1,8 +1,8 @@
-<section id="add-popup" class="popup">
-    <button class="add-popup_close popup-close">X</button>
-    <h1>Add New Item</h1>
+<section id="edit-popup" class="popup">
+    <button class="edit-popup_close popup-close">X</button>
+    <h1>Edit Item</h1>
 
-    <form id="add-form" enctype="multipart/form-data">
+    <form id="edit-form" enctype="multipart/form-data">
         <div id="popup-form-wrapper">
             <div id="popup-left-wrapper">
                 {{! Product Name / Product Code / Product Image }}
@@ -121,6 +121,7 @@
                         </div>
                     </div>
 
+                    {{!--
                     <div class="item-wrapper">
                         <label for="stock-subtract">Stock Quantity</label><br />
                         <div class="qty-wrapper-wrapper">
@@ -136,6 +137,7 @@
                             <button onclick="increase()" type="button" id="stock-add">+</button>
                         </div>
                     </div>
+                    --}}
                 </div>
 
                 {{! Weight / Stock Qty / Selling Price / Purchase Price }}
@@ -178,7 +180,7 @@
 
         <div class="command">
             <button type="reset">Cancel</button>
-            <button type="submit" id="add-item-button">Add</button>
+            <button type="submit" id="edit-item-button">Save</button>
         </div>
     </form>
 </section>

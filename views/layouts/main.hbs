@@ -5,30 +5,35 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <link rel="stylesheet" type="text/css" href="http://w2ui.com/src/w2ui-1.5.min.css" />
         <link rel="shortcut icon" href="/img/site-icon/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="/css/base.css" />
-        <link rel="stylesheet" href="/css/general/sidebar.css" />
+
         <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined"
         />
         <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" />
+        <link rel="stylesheet" type="text/css" href="http://w2ui.com/src/w2ui-1.5.min.css" />
+        <link rel="stylesheet" href="/css/base.css" />
+        <link rel="stylesheet" href="/css/general/js-snackbar.min.css" />
+        <link rel="stylesheet" href="/css/general/sidebar.css" />
         {{#each styles}}
         <link rel="stylesheet" href="/css/{{this}}" />
         {{/each}}
 
+        <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
         <script src="https://kit.fontawesome.com/e5cabd2361.js" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="http://w2ui.com/src/w2ui-1.5.min.js"></script>
         <script src="https://cdn.jsdelivr.net/gh/vast-engineering/jquery-popup-overlay@2/jquery.popupoverlay.min.js"></script>
+        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script src="/js/utils.js"></script>
         <script src="/js/base.js"></script>
+        <script src="/js/js-snackbar.min.js"></script>
         {{#each scripts}}
         <script src="/js/{{this}}"></script>
         {{/each}}
-        <title>TitaFinds {{title}}</title>
+        <title>{{title}} - TitaFinds Inventory</title>
     </head>
     <body>
         {{{body}}}

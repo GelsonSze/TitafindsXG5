@@ -1,10 +1,15 @@
+.w2ui-grid {
+    border-width: 2px !important;
+    border-radius: 10px !important;
+}
+
 .w2ui-reset table tr td,
 .w2ui-reset table tr th {
     font-family: "Inter Regular";
-    font-size: 11px;
+    font-size: 13px;
 }
 
-/*  */
+/* Removes the gradient (and box-shadow) */
 .w2ui-grid .w2ui-grid-body .w2ui-grid-columns,
 .w2ui-grid .w2ui-grid-body .w2ui-grid-fcolumns {
     overflow: hidden;
@@ -29,14 +34,9 @@
 
     background-color: var(--clr-table-bg);
     color: var(--clr-table-color);
-
     border-right: none;
+    /* border-right: 1px solid var(--clr-table-column-line); */
     border-bottom: none;
-
-    background-image: none;
-    background-image: none;
-    background-image: none;
-    background-image: none;
     background-image: none;
 }
 
@@ -70,25 +70,27 @@
 .w2ui-col-header {
     /*This is for the css div of the column names itself and modifies the design of it (Ex: Classification)*/
 }
+.w2ui-col-number {
+    /*This is for the css of the column number of the grid or the number that tells you what item it is*/
+}
+.w2ui-sort-down {
+    /*Modifies the sort button (arrow) of the columns*/
+}
+.w2ui-reset .w2ui-grid .w2ui-inactive {
+    margin-left: 60px;
+}
+
+/* For item-grid */
+
 #grid_item-grid_toolbar .w2ui-grid-toolbar .w2ui-reset .w2ui-toolbar {
     /*This is for the css of the toolbar with the search button and reload button*/
 }
 #grid_item-grid_footer .w2ui-grid-footer {
     /*This is for the css of the footer of the grid (The most bottom part of the grid)*/
 }
-.w2ui-col-number {
-    /*This is for the css of the column number of the grid or the number that tells you what item it is*/
-}
 #grid_item-grid_search_all .w2ui-search-all .w2field .w2ui-input {
     /*This is for the css of the search bar in the grid*/
 }
 #tb_item-grid_toolbar_right {
     /*This is for the css of the empty space beside the search bar(deleting this would shift the items on the left to the right)*/
-}
-.w2ui-sort-down {
-    /*Modifies the sort button (arrow) of the columns*/
-}
-
-.w2ui-reset .w2ui-grid .w2ui-inactive {
-    margin-left: 60px;
 }

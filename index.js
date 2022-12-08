@@ -9,7 +9,9 @@ import helmet from "helmet";
 import { expressCspHeader } from "express-csp-header";
 import session from "express-session";
 import passport from "passport";
+import connectMongo from "connect-mongo";
 import mongoSanitize from "express-mongo-sanitize";
+import { EventEmitter } from "events";
 
 // Database module
 import db from "./model/db.js";
@@ -20,6 +22,9 @@ import { dirname } from "path";
 
 //Route modules
 import routes from "./routes/routes.js";
+
+//limit EventEmitter to 100
+EventEmitter.defaultMaxListeners = 100;
 
 const app = express();
 
@@ -72,6 +77,9 @@ app.use(
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
+        // expire 1 day
+        cookie: { maxAge: 24 * 60 * 60 * 1000 },
+        store: connectMongo.create({ mongoUrl: process.env.MONGODB_URI }),
     })
 );
 
@@ -85,10 +93,16 @@ app.use(mongoSanitize());
 // Assign routes
 app.use("/", routes);
 
+// 404 not found page
+app.use((req, res, err) => {
+    res.status(404).render("404", {
+        title: "404 Not Found",
+        styles: ["pages/404.css"],
+    });
+});
+
 // Connect to MongoDB
 db.connectDB();
-
-//setup for image upload and indicates where image should be saved
 
 app.listen(port, function () {
     console.log("Server is running at port: " + port);

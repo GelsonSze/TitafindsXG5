@@ -1,7 +1,8 @@
 #item-page-wrapper {
     display: flex;
     flex-direction: column;
-
+    margin: 0 100px;
+    gap: 20px;
     width: 100%;
     height: 100%;
 }
@@ -14,7 +15,67 @@
 #left-wrapper {
     display: flex;
     flex-direction: column;
-    width: 30%;
+    width: auto;
+    padding-left: 20px;
+    margin-right: 40px;
+}
+
+#product-img {
+    height: 400px;
+    width: 400px;
+    border-radius: 10px;
+}
+
+#item-attributes-wrapper {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-attributes-wrapper {
+    font-family: "Inter Regular";
+    font-size: 14px;
+    margin: 5px 0;
+    display: flex;
+}
+
+.main-attributes-wrapper span {
+    font-family: "Inter Bold";
+}
+
+#item-title {
+    font-family: "Inter Bold";
+    font-size: 45px;
+    margin: 0;
+
+    color: #5d3937;
+}
+
+#item-code {
+    font-family: "Inter Bold";
+    font-size: 30px;
+    margin: 0;
+
+    color: #866a69;
+}
+
+#description-wrapper {
+    margin-top: 10px;
+}
+
+#description-wrapper span {
+    color: #866a69;
+    font-family: "Inter Bold";
+    font-size: 14px;
+    margin: 0;
+}
+
+#description-wrapper p {
+    color: #350705;
+    font-family: "Inter Medium";
+    font-size: 16px;
+    margin: 0;
+    margin-bottom: 10px;
 }
 
 #right-wrapper {
@@ -30,6 +91,57 @@
     width: 100%;
 }
 
+#attributes-table {
+    border: 1px solid #866a69;
+    border-radius: 10px;
+    font-family: "Inter Medium";
+    overflow: scroll;
+    color: #350705;
+    max-height: 810px;
+}
+
+#attributes-table thead {
+    background-color: #fae1d7;
+    overflow: hidden;
+    margin: 10px;
+    height: 25px;
+
+    font-family: "Inter Bold";
+    font-size: 15px;
+}
+
+#attributes-table tbody {
+    font-size: 14px;
+}
+
+#attributes-table td {
+    padding: 5px 0px 5px 10px;
+}
+
+#attributes-table td:nth-child(2) {
+    border-left: 1px solid #866a69;
+    border-bottom: 1px solid #dedede;
+}
+
 #bottom-wrapper {
-    height: 370px;
+    height: 500px;
+}
+
+#details-grid {
+    height: 100%;
+}
+
+#commands {
+    gap: 25px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 27px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+.icon-popup {
+    border: #350705;
+    cursor: pointer;
 }

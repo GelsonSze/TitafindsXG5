@@ -19,10 +19,10 @@ const testController = {
             const admin = new User({
                 username: "admin",
                 password: "admin",
-                email: "admin@gmail.com",
                 firstName: "admin",
                 lastName: "admin",
                 isAdmin: true,
+                dateCreated: new Date(),
             });
 
             //Hash the password
@@ -51,7 +51,7 @@ const testController = {
                             type: "Added",
                             name: sampleItem.name,
                             description: item.id,
-                            quantity: sampleItem.quantity,
+                            quantity: sampleItem.available,
                             sellingPrice: sampleItem.sellingPrice,
                             transactedBy: sampleItem.addedBy,
                             code: sampleItem.code,

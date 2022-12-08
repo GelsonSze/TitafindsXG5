@@ -41,13 +41,26 @@ const itemSchema = new mongoose.Schema({
         type: Number,
     },
 
+    unit: {
+        type: String,
+        default: "cm",
+    },
+
     weight: {
         type: Number,
     },
 
-    quantity: {
+    available: {
         type: Number,
         required: true,
+    },
+
+    sold: {
+        type: Number,
+    },
+
+    damaged: {
+        type: Number,
     },
 
     sellingType: {
@@ -63,11 +76,6 @@ const itemSchema = new mongoose.Schema({
         type: Number,
     },
 
-    status: {
-        type: String,
-        required: true,
-    },
-
     dateAdded: {
         type: String,
         required: true,
@@ -75,6 +83,7 @@ const itemSchema = new mongoose.Schema({
 
     dateUpdated: {
         type: String,
+        default: null,
     },
 
     addedBy: {
