@@ -1,5 +1,5 @@
-<section class ="popup" id="import-options-popup">
-    <button class="import-options-popup_close">X</button>
+<section class="popup" id="import-options-popup">
+    <button class="import-options-popup_close popup-close">X</button>
     <h1>Import Options</h1>
 
     <div class="popup-row-wrapper">
@@ -12,6 +12,12 @@
                 Import CSV
                 <input type="file" id="import-csv" accept="" accept=".csv" name="import-csv" />
             </label>
+        </div>
+    </div>
+    <div class="popup-row-wrapper" id="import-loading">
+        <div class="item-wrapper">
+            <p>Importing</p>
+            <box-icon name="loader-alt" animation="spin"></box-icon>
         </div>
     </div>
 </section>

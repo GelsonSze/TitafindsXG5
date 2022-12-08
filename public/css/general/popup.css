@@ -73,11 +73,6 @@
     margin-right: 0;
 }
 
-#transaction-header {
-    display: flex;
-    justify-content: space-between;
-}
-
 #popup-form-wrapper {
     display: flex;
     flex-direction: row;
@@ -291,8 +286,6 @@ button:hover {
     margin-bottom: 2vh;
 }
 
-/* #username-label, #first-name-label, #last-name-label,
-#password-label, #confirm-password-label */
 .create-update-label {
     color: var(--label-color);
 }
@@ -303,4 +296,38 @@ button:hover {
 
 #suspend {
     background-color: black;
+}
+
+#import-options-popup {
+    position: relative;
+}
+
+#import-options-popup .popup-row-wrapper {
+    margin: 25px;
+}
+
+#import-options-popup .item-wrapper {
+    width: auto;
+}
+
+#import-loading {
+    margin: 0 !important;
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    right: 0;
+}
+
+#import-loading.show {
+    opacity: 1;
+}
+
+#import-loading .item-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
 }
