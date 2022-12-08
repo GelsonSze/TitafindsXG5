@@ -479,13 +479,13 @@ main {
 
 .goback-text:hover,
 .goback-text:hover + .icon-return {
-    color: var(--clr-blue);
+    color: var(--clr-gold-100);
     cursor: pointer;
 }
 
 .goback-text:active,
 .goback-text:active + .icon-return {
-    color: var(--clr-blue-500);
+    color: var(--clr-gold-dark);
 }
 
 #text-title {

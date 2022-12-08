@@ -42,7 +42,6 @@ app.get("/getTransactions", [checkAuth, transactionController.getTransactions]);
 app.get("/getItemTransactions=:id", [checkAuth, transactionController.getItemTransactionsById]);
 app.get("/getXTransactions=:code&:limit", [checkAuth, transactionController.getXTransactions]);
 app.post("/addTransaction", [checkAuth, transactionController.addTransaction]);
-app.get("/getTransaction", [checkAuth, transactionController.getTransaction]);
 app.get("/searchTransactions=:type&:search", [checkAuth, transactionController.searchTransactions]);
 
 //The Account Management page

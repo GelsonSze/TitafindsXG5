@@ -118,7 +118,7 @@ function getTransactions(refreshGrid = false) {
                             new transaction(
                                 trans.date,
                                 trans.type,
-                                `Item ${trans.type} - ${item.name} (${item.code})`,
+                                `Item ${trans.type} - ${trans.name} (${trans.code})`,
                                 trans.quantity,
                                 trans.sellingPrice,
                                 trans.transactedBy
