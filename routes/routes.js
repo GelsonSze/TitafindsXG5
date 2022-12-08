@@ -46,15 +46,15 @@ app.post("/addTransaction", [checkAuth, transactionController.addTransaction]);
 app.get("/searchTransactions=:type&:search", [checkAuth, transactionController.searchTransactions]);
 
 // Configure Attributes page
-app.get("/configurations", checkAuth, configController.configurations);
-app.post("/addAttribute", configController.addAttribute);
-app.get("/getAttributes", configController.getAttributes);
-app.delete("/deleteAttribute", configController.deleteAttribute);
-app.put('/editAttribute', configController.editAttribute);
+app.get("/configurations", [viewPage, checkAuth, configController.configurations]);
+app.post("/addAttribute", [checkAuth, configController.addAttribute]);
+app.get("/getAttributes", [checkAuth, configController.getAttributes]);
+app.delete("/deleteAttribute", [checkAuth, configController.deleteAttribute]);
+app.put('/editAttribute', [checkAuth, configController.editAttribute]);
 
-app.post("/addConfig", configController.addConfig);
-app.get('/getConfigs', configController.getConfigs);
-app.put("/editConfig", configController.editConfig);
+app.post("/addConfig", [checkAuth, configController.addConfig]);
+app.get('/getConfigs', [checkAuth, configController.getConfigs]);
+app.put("/editConfig", [checkAuth, configController.editConfig]);
 
 //The Account Management page
 app.get("/accountManagement", [viewPage, adminOnly, checkAuth, adminController.accountManagement]);
