@@ -17,28 +17,47 @@ const itemController = {
             title: "Inventory",
             styles: ["pages/index.css", "general/w2ui-overrides.css", "general/popup.css"],
             scripts: ["index.js", "restockpopup.js", "sellpopup.js", "addpopup.js"],
+            inventory: true,
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
             error: error,
         });
     },
 
     itemDetails: function (req, res) {
-        db.findOne(Item, { code: req.params.code }, {}, async function (data) {
-            res.render("item", {
-                title: "Product",
-                name: data.name,
-                code: data.code,
-                desc: data.description,
-                type: data.type,
-                sellingType: data.sellingType,
-                available: data.available ?? 0,
-                damaged: data.damaged ?? 0,
-                inventory: true,
-                styles: ["pages/item.css", "general/w2ui-overrides.css", "general/popup.css"],
-                scripts: ["item.js", "restockpopup.js", "sellpopup.js", "removedamagepopup.js"],
-                user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
+        try {
+            db.findOne(Item, { code: req.params.code }, {}, async function (data) {
+                if (data != null) {
+                    res.render("item", {
+                        title: `${data.name} (${data.code})`,
+                        name: data.name,
+                        code: data.code,
+                        desc: data.description,
+                        type: data.type,
+                        sellingType: data.sellingType,
+                        available: data.available ?? 0,
+                        damaged: data.damaged ?? 0,
+                        styles: [
+                            "pages/item.css",
+                            "general/w2ui-overrides.css",
+                            "general/popup.css",
+                        ],
+                        scripts: ["item.js", "restockpopup.js", "sellpopup.js", "removedamagepopup.js"],
+                        user: {
+                            isAdmin: req.session.user.isAdmin,
+                            username: req.session.user.username,
+                        },
+                    });
+                } else {
+                    res.redirect("/");
+                }
             });
-        });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Get Item Details",
+                details: error.message,
+            });
+            return;
+        }
     },
 
     // Adds item passed in a post request into the database
@@ -72,6 +91,7 @@ const itemController = {
                 classification: req.body.classification,
                 design: req.body.design,
                 size: req.body.size,
+                unit: req.body.unit,
                 weight: req.body.weight,
                 available: req.body.available,
                 sellingType: req.body.sellingType,
@@ -172,7 +192,7 @@ const itemController = {
                 classification: req.body.classification,
                 design: req.body.design,
                 size: req.body.size,
-                // unit: req.body.unit,
+                unit: req.body.unit,
                 weight: req.body.weight,
                 sellingType: req.body.sellingType,
                 purchasePrice: req.body.purchasePrice,
@@ -222,24 +242,11 @@ const itemController = {
                 db.updateOne(
                     Item,
                     {
-                        code: req.body.code,
+                        code: req.params.code,
                     },
                     editedItem,
                     function (data) {
-                        // if (data) {
-                        //     req.body = {
-                        //         date: req.body.dateUpdated,
-                        //         type: "Edited",
-                        //         description: data._id.toString(),
-                        //         quantity: data.available,
-                        //         sellingPrice: data.sellingPrice,
-                        //         transactedBy: data.addedBy,
-                        //         code: req.body.code,
-                        //         name: req.body.name,
-                        //     };
-                        //     next();
-                        // }
-                        res.status(200).json({ message: "Item updated successfully" });
+                        res.status(200).json({ message: "Item edited successfully" });
                     }
                 );
                 return;
@@ -300,7 +307,7 @@ const itemController = {
             console.log("in item id");
             console.log(req.params.id);
             db.findById(Item, req.params.id, "name code", async function (data) {
-                console.log(data);
+                // console.log(data);
                 res.status(200).json(data);
             });
         } catch (error) {

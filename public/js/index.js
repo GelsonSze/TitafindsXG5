@@ -52,6 +52,7 @@ function item(
     type,
     classification,
     size,
+    unit,
     weight,
     available,
     sellingPrice,
@@ -65,6 +66,7 @@ function item(
         type: type,
         classification: classification,
         size: size,
+        unit: unit,
         weight: weight,
         available: available,
         purchasePrice: purchasePrice,
@@ -83,6 +85,7 @@ function pushItem(product) {
             product.type,
             product.classification,
             product.size,
+            product.unit,
             product.weight,
             product.available,
             product.sellingPrice,
@@ -124,20 +127,7 @@ function getSpecifiedItems(refreshGrid = false, classification, type, weight, si
                         product.code.toLowerCase().search(check) != -1) //||
                     //check == ""
                 ) {
-                    Items.push(
-                        new item(
-                            product.image,
-                            product.name,
-                            product.code,
-                            product.type,
-                            product.classification,
-                            product.size,
-                            product.weight,
-                            product.available,
-                            product.sellingPrice,
-                            product.purchasePrice
-                        )
-                    );
+                    pushItem(product);
                 }
             }
             if (refreshGrid) {
@@ -215,7 +205,15 @@ $(function () {
                 size: "5%",
                 sortable: true,
             },
-            { field: "size", text: "Size", size: "3%", sortable: true },
+            {
+                field: "size",
+                text: "Size",
+                size: "3%",
+                sortable: true,
+                render: function (record) {
+                    return record.size == undefined ? "" : `${record.size} ${record.unit}`;
+                },
+            },
             { field: "weight", text: "Weight", size: "3%", sortable: true },
             { field: "available", text: "Available", size: "3%", sortable: true },
             {
