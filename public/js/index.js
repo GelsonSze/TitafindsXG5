@@ -222,7 +222,11 @@ $(function () {
                 size: "5%",
                 sortable: true,
                 render: function (record) {
-                    return record.sellingPrice.toLocaleString("en-US");
+                    if(record.sellingPrice != null)
+                        return record.sellingPrice.toLocaleString("en-US");
+                    else{
+                        return record.sellingPrice
+                    }
                 },
             },
             {
@@ -231,7 +235,11 @@ $(function () {
                 size: "6%",
                 sortable: true,
                 render: function (record) {
-                    return record.purchasePrice.toLocaleString("en-US");
+                    if(record.purchasePrice != null)
+                        return record.purchasePrice.toLocaleString("en-US");
+                    else{
+                        return record.purchasePrice
+                    }
                 },
             },
             //{ field: "status", text: "Status", size: "7%", sortable: true },
@@ -372,7 +380,7 @@ $(function () {
                                 var rowData = {};
                                 for(var j=0;j<cells.length;j++){
                                     if(i==0){
-                                        var headerName = cells[j].trim();
+                                        var headerName = cells[j].trim().replaceAll(' ', '');
                                         headers.push(headerName);
                                     }
                                     else{
@@ -404,6 +412,8 @@ $(function () {
                                 contentType: "application/json; charset=UTF-8",
 
                                 success: async function () {
+                                    getAllItems(true);
+                                    $("#import-options-popup").popup("hide");
                                     console.log("success");
                                 },
                             });

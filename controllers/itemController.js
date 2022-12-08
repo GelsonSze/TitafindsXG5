@@ -1,5 +1,6 @@
 //Controller for items
 import Item from "../model/schemas/Item.js";
+import Transaction from "../model/schemas/Transaction.js";
 import db from "../model/db.js";
 import { generateItemCode, isEmptyOrSpaces } from "../utils/helper.js";
 import { ImageDirectory } from "../utils/multer.js";
@@ -70,7 +71,7 @@ const itemController = {
 
             // Placeholder for price value in global config setting
             var price = 1;
-            var image = "product-images/default.png";
+            var image = `${ImageDirectory}/default.png`;
             var error = "";
             var errorFields = [];
 
@@ -82,7 +83,7 @@ const itemController = {
             }
 
             var addedItem = {
-                image: image ?? "product-images/default.png",
+                image: image,
                 code: req.body.code,
                 name: req.body.name,
                 description: req.body.description,
@@ -171,7 +172,7 @@ const itemController = {
     // edits item passed in a post request into the database
     editItem: async function (req, res, next) {
         try {
-            var image = "product-images/default.png";
+            var image = `${ImageDirectory}/default.png`;
             var error = "";
             var errorFields = [];
 
@@ -183,7 +184,7 @@ const itemController = {
             }
 
             var editedItem = {
-                image: image ?? "product-images/default.png",
+                image: image,
                 code: req.body.code,
                 name: req.body.name,
                 description: req.body.description,
@@ -437,14 +438,25 @@ const itemController = {
     },
 
     // Adds item imported from the csv into the database
-    importFromCSV: async function (req, res) {
+    importFromCSV: async function (req, res, next) {
         try {
             console.log(">>BODY<<");
             console.log(req.body);
             var image = `${ImageDirectory}/default.png`;
             var itemList = JSON.parse(req.body.itemList);
-            itemList.forEach(item =>{
+            var dateAdded = req.body.dateAdded;
+            var dateUpdated = req.body.dateUpdated;
+            var errorLines = [];
+            var successLines = [];
+            var errorFlag = false;
+            var errorMessage = "";
+            itemList.splice(-1); // Removes excess json object the file reader adds ({code: ""} at the end of the json list)
+            for await (const [index, item] of itemList.entries()) {
+                var codeExists = await Item.findOne({ code: item.Code,});
+                errorFlag = false;
+                errorMessage = "";
                 var addedItem = {
+                    image: image,
                     code: item.Code,
                     description: item.Description,
                     name: item.Name,
@@ -461,12 +473,79 @@ const itemController = {
                     sellingType: item.SellingType,
                     purchasePrice: item.PurchasePrice,
                     sellingPrice: item.SellingPrice,
-                    dateAdded: req.body.dateAdded,
-                    dateUpdated: req.body.dateUpdated,
+                    dateAdded: dateAdded,
+                    dateUpdated: dateUpdated,
                     addedBy: req.session.user.username,
                 };
-                console.log(addedItem);
-            });
+                // Placeholder for price value in global config setting
+                var price = 1;
+
+                // Selling price default to 0 if field is empty and selling type is per design
+                if (addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
+                    addedItem.sellingPrice = "0";
+
+                //Selling price defaults to price * item weight if field is empty and selling type is per gram
+                else if (addedItem.sellingType == "per gram" && isEmptyOrSpaces(addedItem.sellingPrice))
+                    addedItem.sellingPrice = addedItem.weight * price;
+
+                // Purchase price is default to 0 if field is empty
+                if (isEmptyOrSpaces(addedItem.purchasePrice)) addedItem.purchasePrice = "0";
+
+                if (codeExists) {
+                    errorMessage = "Item code already exists";
+                    errorFlag = true;
+                } else if (String(addedItem.code.length) > 100) {
+                    errorMessage = "Item code exceeds maximum character limit";
+                    errorFlag = true;
+                } else if (String(addedItem.name.length) > 255) {
+                    errorMessage = "Name exceeds maximum character limit";
+                    errorFlag = true;
+                } else if (addedItem.size != null && isNaN(addedItem.size)) {
+                    errorMessage = "Size inputted is not a number";
+                    errorFlag = true;
+                } else if (addedItem.weight != null && isNaN(addedItem.weight)) {
+                    errorMessage = "Weight inputted is not a number";
+                    errorFlag = true;
+                } else if (isNaN(addedItem.available)) {
+                    errorMessage = "Available quantity inputted is not a number";
+                    errorFlag = true;
+                } else if (!isNaN(addedItem.available) && addedItem.available % 1 != 0) {
+                    errorMessage = "Available quantity inputted is not a whole number";
+                    errorFlag = true;
+                } else if (addedItem.sellingPrice != null && isNaN(addedItem.sellingPrice)) {
+                    errorMessage = "Selling price inputted is not a number";
+                    errorFlag = true;
+                } else if (addedItem.purchasePrice != null && isNaN(addedItem.purchasePrice)) {
+                    errorMessage = "Purchase price inputted is not a number";
+                    errorFlag = true;
+                } else {
+                    db.insertOne(Item, addedItem, function (data) {
+                        if (data) {
+                            var transItem = {
+                                date: dateAdded,
+                                type: "Added",
+                                description: data._id.toString(),
+                                quantity: data.available,
+                                sellingPrice: data.sellingPrice,
+                                transactedBy: data.addedBy,
+                                code: data.code,
+                                name: data.name,
+                            };
+
+                            db.insertOne(Transaction, transItem, function(data){
+
+                            }); 
+                        }
+                    });
+                    successLines.push(index);
+                }
+                if(errorFlag){
+                    errorLines.push({line: index, message: errorMessage});
+                }
+            };
+            console.log(successLines);
+            console.log(errorLines);
+            res.status(200).json({success: successLines, errors: errorLines})
         } catch (error) {
             res.status(500).json({ message: "Server Error: Import From CSV", details: error.message });
             return;
