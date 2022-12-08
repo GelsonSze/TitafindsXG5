@@ -55,6 +55,9 @@ const configController = {
 
     editAttribute: async function(req, res) {
         console.log(req.body)
+        // req.body.options is an array received as a string, so we need to parse it
+        // e.g.: req.body.options = "["option1", "option2"]" so we parse to remove the quotes
+        req.body.options = JSON.parse(req.body.options)
         try {
             db.updateOne(Attribute, {name: req.body.origName}, {name: req.body.name, dataType: req.body.dataType, options: req.body.options},function (data) {
                 res.status(200).json(data);
@@ -102,6 +105,7 @@ const configController = {
     },
 
     editConfig: async function (req, res) {
+        console.log(req.body)
         try {
             db.updateOne(Config, {name: req.body.name}, {attributes: req.body.attributes},function (data) {
                 res.status(200).json(data);

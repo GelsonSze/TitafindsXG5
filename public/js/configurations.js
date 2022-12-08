@@ -23,8 +23,8 @@ function getAllAttributes(refreshGrid = false) {
 
             item.forEach(function (attr) {
                 Attributes.push(new attribute(attr.name, attr.dataType, attr.options));
-                console.log('Pushing attribute')
-                console.log(attr)
+                // console.log('Pushing attribute')
+                // console.log(attr)
             });
 
             if (refreshGrid) {
@@ -39,7 +39,7 @@ function getAllAttributes(refreshGrid = false) {
                 });
 
                 curSelectedAttribName = null;
-                curSelectedAttribType = null
+                curSelectedAttribType = null;
 
                 w2ui['attrib-grid'].html('main', "")
 
@@ -62,8 +62,8 @@ function getAllConfigs(refreshGrid = false) {
 
             item.forEach(function (config) {
                 Configs.push(new typeConfig(config.name, config.attributes));
-                console.log('Pushing config')
-                console.log(config)
+                // console.log('Pushing config')
+                // console.log(config)
             });
 
             if (refreshGrid) {
@@ -189,8 +189,9 @@ function addAtrribute(attribID) {
  * @param {Object} attr object to base off of when calling in w2ui
  */
 function addExistingAtrribute(attr) {
-    console.log("Adding! Node is: ");
-    console.log(attr)
+    // console.log("Adding! Node is: ");
+    // console.log(attr)
+
     w2ui["attrib-sidebar"].add({ id: attr.name, text: attr.name });
 
     w2ui["attrib-sidebar"].on("click", function (event) {
@@ -213,12 +214,14 @@ function getAttribContent(name, type, collection) {
     let htmlCollections = "";
 
     console.log(collection)
-    let parsedCollection = collection.toString().split(',')
+    let parsedCollection = collection
     console.log(parsedCollection)
     for (var col of parsedCollection) {
         htmlCollections += `<input type="text" class="option-row" value="${col}">`;
     }
     console.log(htmlCollections)
+
+    curSelectedAttribType = type;
 
     if (type == "String") {
         options = `  
@@ -299,8 +302,8 @@ function getAttribContent(name, type, collection) {
 }
 
 function addExistingType(type) {
-    console.log("Adding type! Node is: ");
-    console.log(type)
+    // console.log("Adding type! Node is: ");
+    // console.log(type)
 
     w2ui["type-sidebar"].add({ id:type.name, text: type.name});
 
@@ -451,8 +454,10 @@ $(function () {
         const data = new FormData($("#attrib-form")[0]);
         data.append('dataType', $('#attrib-type option:selected').val());
         data.append('origName', curSelectedAttribName);
+
+        console.log(curSelectedAttribType)
         if (curSelectedAttribType == 'Collection')
-            data.append('options', collection );
+            data.append('options', JSON.stringify(collection));
 
         console.log(w2ui["attrib-sidebar"].selected);
 
@@ -560,6 +565,7 @@ $(function () {
     // Adds a listener to the dropdown in #config-attrib-grid
     $("#config-attrib-grid").on("change", "#attrib-type", function(e) {
         let changedTo = this.value
+        curSelectedAttribType = this.value
         
         if (changedTo == "Collection") {
             disableCollection(false)
