@@ -16,7 +16,7 @@ const itemController = {
         res.render("index", {
             title: "Inventory",
             styles: ["pages/index.css", "general/w2ui-overrides.css", "general/popup.css"],
-            scripts: ["index.js", "restockpopup.js", "sellpopup.js", "addpopup.js"],
+            scripts: ["index.js", "restockPopup.js", "sellPopup.js", "addPopup.js"],
             inventory: true,
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
             error: error,
