@@ -265,9 +265,7 @@ function getAttribContent(name, type, collection) {
                             
                             <p> Attribute type </p>
                             <select id="attrib-type" name="dataType">
-                            ` +
-                            options +
-                            ` 
+                                ${options}
                             </select>
                         </div>
                         <div id="attrib-btn-wrapper">
@@ -288,9 +286,8 @@ function getAttribContent(name, type, collection) {
                     </div>
                 </div>
                 <div class="options-page-wrapper">
-                    <div id="options-wrapper">`+
-                        htmlCollections
-                    +`
+                    <div id="options-wrapper">
+                        ${htmlCollections}
                     </div>
                 </div>
             </div>
@@ -365,7 +362,7 @@ function getTypeContent(name, specs) {
         <div id="type-page">
             <p><b>${name}</b> contains the following attributes: </p>
             <div id="type-wrapper">
-                `+attrCheck+`
+                ${attrCheck}
             </div>
         </div>
     </div>
