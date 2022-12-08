@@ -41,7 +41,7 @@ const itemController = {
                             "general/w2ui-overrides.css",
                             "general/popup.css",
                         ],
-                        scripts: ["item.js", "restockpopup.js", "sellpopup.js", "removedamagepopup.js"],
+                        scripts: ["item.js", "restockPopup.js", "sellPopup.js", "removeDamagedPopup.js"],
                         user: {
                             isAdmin: req.session.user.isAdmin,
                             username: req.session.user.username,
@@ -401,10 +401,10 @@ const itemController = {
             } else if (quantity == 0) {
                 error = "Quantity is 0";
                 errorFields = ["sell-quantity"];
-            } else if (item.quantity == 0) {
+            } else if (item.available == 0) {
                 error = "No available stock";
                 errorFields = ["sell-quantity"];
-            } else if (item.quantity - quantity < 0) {
+            } else if (item.available - quantity < 0) {
                 error = "Insufficient stock";
                 errorFields = ["sell-quantity"];
             } else {
