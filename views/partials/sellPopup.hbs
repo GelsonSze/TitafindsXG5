@@ -6,11 +6,12 @@
         <p class="text-error"></p>
 
         <div class="popup-row-wrapper">
+            {{#if inventory}}
             <div class="item-wrapper">
                 <label for="code">Product Code</label><br />
                 <input type="text" id="sell-code" name="code" /><br />
             </div>
-
+            {{/if}}
             <div class="item-wrapper">
                 <label for="sell-quantity">Quantity</label><br />
                 <input type="text" id="sell-quantity" name="quantity" /><br />

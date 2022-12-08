@@ -16,7 +16,7 @@ const itemController = {
         res.render("index", {
             title: "Inventory",
             styles: ["pages/index.css", "general/w2ui-overrides.css", "general/popup.css"],
-            scripts: ["index.js"],
+            scripts: ["index.js", "restockpopup.js", "sellpopup.js", "addpopup.js"],
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
             error: error,
         });
@@ -33,8 +33,9 @@ const itemController = {
                 sellingType: data.sellingType,
                 available: data.available ?? 0,
                 damaged: data.damaged ?? 0,
+                inventory: true,
                 styles: ["pages/item.css", "general/w2ui-overrides.css", "general/popup.css"],
-                scripts: ["item.js"],
+                scripts: ["item.js", "restockpopup.js", "sellpopup.js", "removedamagepopup.js"],
                 user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
             });
         });

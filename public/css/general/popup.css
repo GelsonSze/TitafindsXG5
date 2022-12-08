@@ -88,6 +88,27 @@
     margin: 0;
 }
 
+#specific-add {
+    display: flex;
+    flex-wrap: nowrap;
+    margin: 10px;
+}
+
+#specific-add button {
+    border-radius: 8px;
+    border-color: transparent;
+    color: #350705;
+    font-family: "Inter Bold";
+    background: #ddc44d;
+    margin: 0;
+}
+
+.divide {
+    width: 10px;
+    height: auto;
+    display: inline-block;
+}
+
 #popup-form-wrapper {
     display: flex;
     flex-direction: row;

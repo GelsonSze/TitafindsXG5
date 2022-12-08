@@ -55,12 +55,19 @@
             </div>
         </div>
 
-        {{>editPopup}} {{!-- Transaction --}}
+        {{>editPopup}} {{>sellPopup}} {{>restockPopup}} {{>removeDamagePopup}}
 
         <div id="bottom-wrapper">
             <div>
                 <h1>Transactions</h1>
-                <div>{{!-- Restock Sell and Remove Damage --}}</div>
+                <div id="specific-add">
+                    <button class="restock-popup_open">Restock</button>
+                    <div class="divide"></div>
+
+                    <button class="sell-popup_open">Sell</button>
+                    <div class="divide"></div>
+                    <button class="remove-damage-popup_open">Remove Damage</button>
+                </div>
             </div>
             <div id="details-grid" class="w2ui-grid-custom"></div>
         </div>
