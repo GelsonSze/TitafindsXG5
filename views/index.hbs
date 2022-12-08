@@ -32,19 +32,7 @@
                         </div>
                     </div>
 
-                    {{!
-                    <select>
-                        <option disabled selected value>Type</option>
-                        <option>Chain</option>
-                        <option>Braceclet</option>
-                        <option>Earrings</option>
-                        <option>Necklace</option>
-                        <option>Pendant</option>
-                        <option>Ring</option>
-                        <option>Set</option>
-                        <option>Watch</option>
-                    </select>
-                    }} {{! Classification }}
+                    {{! Classification }}
                     <div class="dropdown-select-wrapper">
                         <select disabled>
                             <option id="dropdown-classification-select" disabled selected value>
@@ -61,14 +49,7 @@
                         </div>
                     </div>
 
-                    {{!
-                    <select>
-                        <option disabled selected value>Classification</option>
-                        <option>10 karat</option>
-                        <option>14 karat</option>
-                        <option>18 karat</option>
-                    </select>
-                    }} {{! Status }}
+                    {{! Status }} {{!--
                     <div class="dropdown-select-wrapper">
                         <select disabled>
                             <option id="dropdown-status-select" disabled selected value>
@@ -81,8 +62,7 @@
                             <button class="dropdown-status" type="button">Sold Out</button>
                         </div>
                     </div>
-
-                    {{!
+                    --}} {{!
                     <select>
                         <option disabled selected value>Status</option>
                     </select>
@@ -124,18 +104,14 @@
                         Clear Filter
                     </button>
                 </div>
-
-                <div id="add">
+                <div class="main-action">
                     <button class="restock-popup_open">Restock Item</button>
-                </div>
 
-                <div id="add">
                     <button class="sell-popup_open">Sell Item</button>
-                </div>
-
-                <div id="add">
-                    <button class="add-popup_open">Add Item</button>
-                    <button class="export">+</button>
+                    <div>
+                        <button class="add-popup_open">Add Item</button>
+                        <button class="export">+</button>
+                    </div>
                 </div>
             </div>
         </section>

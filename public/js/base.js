@@ -1,11 +1,22 @@
 const limit = 4,
     contentLimit = 170;
-const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
-
-//source: https://laasyasettyblog.hashnode.dev/validating-username-using-regex
-const usernameRegex = RegExp(/^[A-Za-z][A-Za-z0-9_]{4,29}$/);
+// const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/);
 
 $(function () {
+    setTimeout(function () {
+        var error = $(".profile-details").data("error");
+        if (error) {
+            SnackBar({
+                message: error,
+                status: "error",
+                icon: "exclamation",
+                position: "br",
+                timeout: 5000,
+                fixed: true,
+            });
+        }
+    }, 500);
+
     let sidebar = document.querySelector(".sidebar");
     let sidebarBtn = document.querySelector("#sidebar-toggle");
 

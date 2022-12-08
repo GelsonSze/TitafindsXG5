@@ -1,0 +1,18 @@
+#user-grid {
+    height: 100%;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 1vw;
+}
+
+.admin-actions button {
+    background-color: #866a69;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #e9e9e9;
+    font-size: 10px;
+    padding: 5px;
+}
