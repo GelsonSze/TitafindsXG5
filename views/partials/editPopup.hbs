@@ -120,30 +120,12 @@
                             </select>
                         </div>
                     </div>
-
-                    {{!--
-                    <div class="item-wrapper">
-                        <label for="stock-subtract">Stock Quantity</label><br />
-                        <div class="qty-wrapper-wrapper">
-                            <button onclick="decrease()" type="button" id="stock-subtract">
-                                -
-                            </button>
-                            <input
-                                type="text"
-                                id="available"
-                                name="available"
-                                maxlength="15"
-                            /><br />
-                            <button onclick="increase()" type="button" id="stock-add">+</button>
-                        </div>
-                    </div>
-                    --}}
                 </div>
 
                 {{! Weight / Stock Qty / Selling Price / Purchase Price }}
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="weight">Weight</label><br />
+                        <label for="weight">Weight<span style="color: red;">*</span></label><br />
                         <input type="text" id="weight" name="weight" /><br />
                         <span>GRAMS</span>
                     </div>
