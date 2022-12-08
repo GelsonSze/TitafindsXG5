@@ -12,6 +12,7 @@ function Item(
     type,
     classification,
     size,
+    unit,
     weight,
     available,
     sellingType,
@@ -29,6 +30,7 @@ function Item(
         type: type,
         classification: classification,
         size: size,
+        unit: unit,
         weight: weight,
         available: available,
         sellingType: sellingType,
@@ -149,7 +151,6 @@ function getItem() {
         contentType: "application/json; charset=utf-8",
         data: { code: item_code },
         success: function (item) {
-            // Note from Erik: length is undefined ata sa database hence it being an outlier with system colors
             PageItem = new Item(
                 item._id,
                 item.image,
@@ -158,6 +159,7 @@ function getItem() {
                 item.type,
                 item.classification,
                 item.size,
+                item.unit,
                 item.weight,
                 item.available,
                 item.sellingType,
@@ -255,6 +257,7 @@ $(document).ready(function () {
             $("#classification").val(PageItem.classification);
             $("#length").val(PageItem.length);
             $("#size").val(PageItem.size);
+            $("#unit").val(PageItem.unit);
             $("#weight").val(PageItem.weight);
             $("#available").val(PageItem.available);
             $("#selling-type").val(PageItem.sellingType);

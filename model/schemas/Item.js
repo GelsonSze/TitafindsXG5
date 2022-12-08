@@ -43,6 +43,7 @@ const itemSchema = new mongoose.Schema({
 
     unit: {
         type: String,
+        default: "cm",
     },
 
     weight: {

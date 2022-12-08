@@ -71,6 +71,7 @@ const itemController = {
                 classification: req.body.classification,
                 design: req.body.design,
                 size: req.body.size,
+                unit: req.body.unit,
                 weight: req.body.weight,
                 available: req.body.available,
                 sellingType: req.body.sellingType,
@@ -171,7 +172,7 @@ const itemController = {
                 classification: req.body.classification,
                 design: req.body.design,
                 size: req.body.size,
-                // unit: req.body.unit,
+                unit: req.body.unit,
                 weight: req.body.weight,
                 sellingType: req.body.sellingType,
                 purchasePrice: req.body.purchasePrice,
@@ -299,7 +300,7 @@ const itemController = {
             console.log("in item id");
             console.log(req.params.id);
             db.findById(Item, req.params.id, "name code", async function (data) {
-                console.log(data);
+                // console.log(data);
                 res.status(200).json(data);
             });
         } catch (error) {
