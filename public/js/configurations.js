@@ -61,7 +61,7 @@ function getAllConfigs(refreshGrid = false) {
             Configs = [];
 
             item.forEach(function (config) {
-                Configs.push(new typeConfig(config.name, config.specifications));
+                Configs.push(new typeConfig(config.name, config.attributes));
                 console.log('Pushing config')
                 console.log(config)
             });
@@ -93,10 +93,10 @@ function attribute(name, dataType, options) {
     };
 }
 
-function typeConfig(name, specifications) {
+function typeConfig(name, attributes) {
     return {
         name: name,
-        specifications: specifications
+        attributes: attributes
     };
 }
 
@@ -307,7 +307,7 @@ function addExistingType(type) {
     w2ui["type-sidebar"].on("click", function( event) {
         switch (event.target) {
             case type.name:
-                w2ui["type-grid"].html("main", getTypeContent(type.name, type.specifications));
+                w2ui["type-grid"].html("main", getTypeContent(type.name, type.attributes));
                 break;
         }
     })
@@ -634,7 +634,7 @@ $(function () {
 
         for(var type of Configs)  {
             if (type.name == curSelectedTypeName) {
-                let parsedSpecs = type.specifications.toString().split(",")
+                let parsedSpecs = type.attributes.toString().split(",")
                 // Removes empty string from array for specs with no starting checks.
                 if (parsedSpecs[0] == "")
                     parsedSpecs.shift()
@@ -650,7 +650,7 @@ $(function () {
                         parsedSpecs = [parsedSpecs.join(',')]
 
                     // Update specs
-                    Configs[configIndex].specifications = parsedSpecs 
+                    Configs[configIndex].attributes = parsedSpecs 
 
                 } else {
                     $(this).attr('checked', true);
@@ -660,7 +660,7 @@ $(function () {
                         parsedSpecs = [parsedSpecs.join(',')]
 
                     // Update specs
-                    Configs[configIndex].specifications = parsedSpecs 
+                    Configs[configIndex].attributes = parsedSpecs 
                 }
 
                 break;
@@ -732,7 +732,7 @@ $(function () {
 
         // Empties specs
         for (var data of listData) {
-            data.specifications = [];
+            data.attributes = [];
         }
 
         for (var data of listData) {

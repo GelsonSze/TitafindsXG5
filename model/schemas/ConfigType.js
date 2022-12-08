@@ -7,7 +7,7 @@ const configTypeSchema = new mongoose.Schema({
         unique: true,
     },
 
-    specifications: {
+    attributes: {
         type: Array,
     },
 });
