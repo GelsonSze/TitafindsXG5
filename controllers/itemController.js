@@ -41,7 +41,12 @@ const itemController = {
                             "general/w2ui-overrides.css",
                             "general/popup.css",
                         ],
-                        scripts: ["item.js", "restockPopup.js", "sellPopup.js", "removeDamagedPopup.js"],
+                        scripts: [
+                            "item.js",
+                            "restockPopup.js",
+                            "sellPopup.js",
+                            "removeDamagedPopup.js",
+                        ],
                         user: {
                             isAdmin: req.session.user.isAdmin,
                             username: req.session.user.username,
@@ -324,12 +329,13 @@ const itemController = {
             var error = "";
             var quantity = req.body.quantity;
             var item = await Item.findOne({ code: req.body.code });
-            console.log(quantity);
 
             if (isNaN(quantity)) {
                 error = "Quantity inputted is not a number";
             } else if (!isNaN(quantity) && quantity % 1 != 0) {
                 error = "Quantity inputted is not a whole number";
+            } else if (quantity < 0) {
+                error = "Quantity is negative";
             } else if (quantity == 0) {
                 error = "Quantity is 0";
             } else {
@@ -358,7 +364,6 @@ const itemController = {
             res.status(500).json({ message: "Server Error: Restock Item", details: error.message });
             return;
         }
-        res.status(400).json({ message: error, fields: ["quantity"] });
     },
 
     getItemById: function (req, res) {
@@ -386,13 +391,7 @@ const itemController = {
             var item = await Item.findOne({ code: req.body.code });
 
             //validation for selling price
-            if (isNaN(sellingPrice)) {
-                error = "Selling price inputted is not a number";
-                errorFields = ["sell-selling-price"];
-            } else if (sellingPrice < 0) {
-                error = "Selling price is negative";
-                errorFields = ["sell-selling-price"];
-            } else if (isNaN(quantity)) {
+            if (isNaN(quantity)) {
                 error = "Quantity inputted is not a number";
                 errorFields = ["sell-quantity"];
             } else if (!isNaN(quantity) && quantity % 1 != 0) {
@@ -401,6 +400,15 @@ const itemController = {
             } else if (quantity == 0) {
                 error = "Quantity is 0";
                 errorFields = ["sell-quantity"];
+            } else if (quantity < 0) {
+                error = "Quantity is negative";
+                errorFields = ["sell-quantity"];
+            } else if (isNaN(sellingPrice)) {
+                error = "Selling price inputted is not a number";
+                errorFields = ["sell-selling-price"];
+            } else if (sellingPrice < 0) {
+                error = "Selling price is negative";
+                errorFields = ["sell-selling-price"];
             } else if (item.available == 0) {
                 error = "No available stock";
                 errorFields = ["sell-quantity"];

@@ -14,15 +14,21 @@
                 <img id="product-img" src="/img/product-images/default.png" />
 
                 <div id="item-attributes-wrapper">
-                    <div class="main-attributes-wrapper"><span>Type:&nbsp;</span> {{type}}</div>
                     <div class="main-attributes-wrapper">
-                        <span>Selling Type:&nbsp;</span> {{sellingType}}
+                        <span>Type:&nbsp;</span>
+                        <p id="main-attributes-type">{{type}}</p>
                     </div>
                     <div class="main-attributes-wrapper">
-                        <span>Available Quantity:&nbsp;</span> {{available}}
+                        <span>Selling Type:&nbsp;</span>
+                        <p id="main-attributes-selling-type">{{sellingType}}</p>
                     </div>
                     <div class="main-attributes-wrapper">
-                        <span>Damaged Quantity:&nbsp;</span> {{damaged}}
+                        <span>Available Quantity:&nbsp;</span>
+                        <p id="main-attributes-available">{{available}}</p>
+                    </div>
+                    <div class="main-attributes-wrapper">
+                        <span>Damaged Quantity:&nbsp;</span>
+                        <p id="main-attributes-damaged">{{damaged}}</p>
                     </div>
                 </div>
             </div>

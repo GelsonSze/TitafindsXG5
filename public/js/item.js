@@ -422,7 +422,6 @@ $(document).ready(function () {
     $("#image").on("change", function () {
         try {
             if (this.files[0]) {
-                //console.log(this.files[
                 if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
                     if (this.files[0].size <= 1024 * 1024 * 5) {
                         //add in here validation for size

@@ -21,7 +21,7 @@ $(function () {
         var emptyFields = [];
 
         fields.forEach(async function (field) {
-            if (isEmptyOrSpaces(field.value)) {
+            if (typeof field !== "undefined" && field !== null && isEmptyOrSpaces(field.value)) {
                 emptyFields.push(field);
             }
         });
@@ -81,7 +81,10 @@ $(function () {
 
                         if (fields) {
                             fields.forEach(async function (field) {
-                                emptyFields.push($(`#${field}`)[0]);
+                                let element = $(`#${field}`);
+                                if (typeof element !== "undefined" && element !== null) {
+                                    emptyFields.push(element[0]);
+                                }
                             });
 
                             showError(error, message, emptyFields);
