@@ -6,6 +6,7 @@ var Users = [];
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
  */
 function getAllUsers(refreshGrid = false) {
+    Users = [];
     $.ajax({
         url: "/auth/getUsers",
         type: "GET",
@@ -74,6 +75,54 @@ function user(
     };
 }
 
+function getSpecifiedUsers(refreshGrid = false) {
+    Users = [];
+    var name = $("#search-user").val().toLowerCase();
+
+    $.ajax({
+        url: `/auth/getUsers`,
+        type: "GET",
+        processData: false,
+        contentType: false,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        success: function (users) {
+            for (var account of users) {
+                if (
+                    account.username.toLowerCase().includes(name) ||
+                    account.firstName.toLowerCase().includes(name) ||
+                    account.lastName.toLowerCase().includes(name)
+                ) {
+                    account.dateCreated = formatDate(new Date(account.dateCreated));
+                    if (account.dateUpdated != null)
+                        account.dateUpdated = formatDate(new Date(account.dateUpdated));
+                    if (account.lastLogin != null)
+                        account.lastLogin = formatDate(new Date(account.lastLogin));
+                    account = new user(
+                        account._id,
+                        account.username,
+                        account.password,
+                        account.firstName,
+                        account.lastName,
+                        account.isAdmin,
+                        account.isSuspended,
+                        account.dateCreated,
+                        account.dateUpdated,
+                        account.lastLogin
+                    );
+                    Users.push(account);
+                }
+            }
+            if (refreshGrid) {
+                w2ui["user-grid"].clear();
+                w2ui["user-grid"].records = Users;
+                w2ui["user-grid"].refresh();
+            }
+        },
+    });
+}
+
 $(function () {
     getAllUsers(true);
 
@@ -133,6 +182,24 @@ $(function () {
                 },
             },
         ],
+    });
+
+    $("#search-user").on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            $("#table-filter-apply").click();
+        }
+    });
+
+    $("#table-filter-apply").click(function () {
+        if (isEmptyOrSpaces($("#search-user").val())) {
+            getAllUsers(true);
+            return;
+        }
+        getSpecifiedUsers(true);
+    });
+
+    $("#table-filter-clear").click(function () {
+        getAllUsers(true);
     });
 
     $("#create-popup").popup({

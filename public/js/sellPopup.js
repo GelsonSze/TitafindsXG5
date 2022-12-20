@@ -73,16 +73,18 @@ $(function () {
 
                                 success: async function (newData) {
                                     w2ui["item-grid"].set(recID, {
-                                        available:
-                                            newData.available /*, sellingPrice: newData.sellingPrice*/,
+                                        available: newData.available,
+                                        sold: newData.sold,
                                     });
                                 },
                             });
                         }
 
                         if (itemPage) {
-                            // var newTotalValue = parseInt($("#main-attributes-available").text()) + parseInt(quantityField.value);
-                            // $("#main-attributes-available").text(newTotalValue);
+                            var newTotalValue =
+                                parseInt($("#main-attributes-available").text()) -
+                                parseInt(quantityField.value);
+                            $("#main-attributes-available").text(newTotalValue);
                             getTransactions(true);
                         }
 

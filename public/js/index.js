@@ -55,6 +55,8 @@ function item(
     unit,
     weight,
     available,
+    sold,
+    damaged,
     sellingPrice,
     purchasePrice
 ) {
@@ -69,6 +71,8 @@ function item(
         unit: unit,
         weight: weight,
         available: available,
+        sold: sold,
+        damaged: damaged,
         purchasePrice: purchasePrice,
         sellingPrice: sellingPrice,
     };
@@ -88,6 +92,8 @@ function pushItem(product) {
             product.unit,
             product.weight,
             product.available,
+            product.sold,
+            product.damaged,
             product.sellingPrice,
             product.purchasePrice
         )
@@ -175,7 +181,7 @@ $(function () {
             {
                 field: "image",
                 text: "Image",
-                size: "7%",
+                size: "5%",
                 render: function (record, extra) {
                     var html =
                         '<img id="w2ui-image" src="/img/' +
@@ -185,7 +191,6 @@ $(function () {
                         '">';
                     return html;
                 },
-                sortable: true,
             },
             {
                 field: "name",
@@ -199,12 +204,7 @@ $(function () {
             },
             { field: "code", text: "Code", size: "5%", sortable: true },
             { field: "type", text: "Type", size: "5%", sortable: true },
-            {
-                field: "classification",
-                text: "Classifications",
-                size: "5%",
-                sortable: true,
-            },
+            { field: "classification", text: "Classifications", size: "5%", sortable: true },
             {
                 field: "size",
                 text: "Size",
@@ -216,6 +216,8 @@ $(function () {
             },
             { field: "weight", text: "Weight", size: "3%", sortable: true },
             { field: "available", text: "Available", size: "3%", sortable: true },
+            { field: "sold", text: "Sold", size: "2 %", sortable: true },
+            { field: "damaged", text: "Damaged", size: "3%", sortable: true },
             {
                 field: "sellingPrice",
                 text: "Selling Price",

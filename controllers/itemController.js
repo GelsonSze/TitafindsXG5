@@ -420,7 +420,7 @@ const itemController = {
                 db.updateOne(
                     Item,
                     { code: req.body.code },
-                    { $inc: { available: quantity } },
+                    { $inc: { available: quantity, sold: req.body.quantity } },
                     function (data) {
                         req.body = {
                             date: req.body.dateSold,
@@ -440,6 +440,22 @@ const itemController = {
             res.status(400).json({ message: error, fields: errorFields });
         } catch (error) {
             res.status(500).json({ message: "Server Error: Sell Item", details: error.message });
+            return;
+        }
+    },
+
+    //remove damage item
+    removeDamagedItem: async function (req, res, next) {
+        try {
+            var error = "";
+            var errorFields = [];
+            var quantity = req.body.quantity;
+            var item = await Item.findOne({ code: req.body.code });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Remove Damaged Item",
+                details: error.message,
+            });
             return;
         }
     },

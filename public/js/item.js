@@ -350,6 +350,7 @@ $(document).ready(function () {
                     title: "Item edited!",
                     text: "The page will now reload to view changes.",
                     icon: "success",
+                    button: "Reload",
                 }).then(() => {
                     window.location.href = `/item/${newCode}`;
                 });
@@ -403,6 +404,7 @@ $(document).ready(function () {
                             title: "Item deleted!",
                             text: "The page will now redirect to inventory.",
                             icon: "success",
+                            button: "Go to inventory",
                         }).then(() => {
                             window.location.href = `/`;
                         });

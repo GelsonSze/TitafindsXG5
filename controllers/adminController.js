@@ -13,7 +13,7 @@ const adminController = {
                 "general/w2ui-overrides.css",
                 "general/popup.css",
             ],
-            scripts: ["accountManagement.js", "index.js"],
+            scripts: ["accountManagement.js"],
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });
     },
@@ -132,7 +132,7 @@ const adminController = {
             }
             //Check if the username already exists
             const username = await User.findOne({ username: req.body.username });
-            if (username) {
+            if (username && username._id != req.body.id) {
                 res.status(403).json({
                     message: "Username already exists",
                     fields: ["update-username"],
