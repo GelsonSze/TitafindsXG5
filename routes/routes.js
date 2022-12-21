@@ -23,7 +23,7 @@ app.post("/restockItem", [
 ]);
 app.post("/sellItem", [checkAuth, itemController.sellItem, transactionController.addTransaction]);
 app.get("/getItems", [checkAuth, itemController.getItems]);
-app.post("/importFromCSV", itemController.importFromCSV, transactionController.addTransaction);
+app.post("/importFromCSV", itemController.importFromCSV);
 
 // The login page
 app.get("/login", [viewPage, checkNoAuth, loginController.login]);

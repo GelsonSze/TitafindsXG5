@@ -42,7 +42,12 @@ const itemController = {
                             "general/w2ui-overrides.css",
                             "general/popup.css",
                         ],
-                        scripts: ["item.js", "restockPopup.js", "sellPopup.js", "removeDamagedPopup.js"],
+                        scripts: [
+                            "item.js",
+                            "restockPopup.js",
+                            "sellPopup.js",
+                            "removeDamagedPopup.js",
+                        ],
                         user: {
                             isAdmin: req.session.user.isAdmin,
                             username: req.session.user.username,
@@ -438,7 +443,7 @@ const itemController = {
     },
 
     // Adds item imported from the csv into the database
-    importFromCSV: async function (req, res, next) {
+    importFromCSV: async function (req, res) {
         try {
             console.log(">>BODY<<");
             console.log(req.body);
@@ -452,7 +457,7 @@ const itemController = {
             var errorMessage = "";
             itemList.splice(-1); // Removes excess json object the file reader adds ({code: ""} at the end of the json list)
             for await (const [index, item] of itemList.entries()) {
-                var codeExists = await Item.findOne({ code: item.Code,});
+                var codeExists = await Item.findOne({ code: item.Code });
                 errorFlag = false;
                 errorMessage = "";
                 var addedItem = {
@@ -481,11 +486,16 @@ const itemController = {
                 var price = 1;
 
                 // Selling price default to 0 if field is empty and selling type is per design
-                if (addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
+                if (
+                    addedItem.sellingType == "per design" &&
+                    isEmptyOrSpaces(addedItem.sellingPrice)
+                )
                     addedItem.sellingPrice = "0";
-
                 //Selling price defaults to price * item weight if field is empty and selling type is per gram
-                else if (addedItem.sellingType == "per gram" && isEmptyOrSpaces(addedItem.sellingPrice))
+                else if (
+                    addedItem.sellingType == "per gram" &&
+                    isEmptyOrSpaces(addedItem.sellingPrice)
+                )
                     addedItem.sellingPrice = addedItem.weight * price;
 
                 // Purchase price is default to 0 if field is empty
@@ -532,22 +542,23 @@ const itemController = {
                                 name: data.name,
                             };
 
-                            db.insertOne(Transaction, transItem, function(data){
-
-                            }); 
+                            db.insertOne(Transaction, transItem, function (data) {});
                         }
                     });
                     successLines.push(index);
                 }
-                if(errorFlag){
-                    errorLines.push({line: index, message: errorMessage});
+                if (errorFlag) {
+                    errorLines.push({ line: index, message: errorMessage });
                 }
-            };
+            }
             console.log(successLines);
             console.log(errorLines);
-            res.status(200).json({success: successLines, errors: errorLines})
+            res.status(200).json({ success: successLines, errors: errorLines });
         } catch (error) {
-            res.status(500).json({ message: "Server Error: Import From CSV", details: error.message });
+            res.status(500).json({
+                message: "Server Error: Import From CSV",
+                details: error.message,
+            });
             return;
         }
     },

@@ -222,10 +222,10 @@ $(function () {
                 size: "5%",
                 sortable: true,
                 render: function (record) {
-                    if(record.sellingPrice != null)
+                    if (record.sellingPrice != null)
                         return record.sellingPrice.toLocaleString("en-US");
-                    else{
-                        return record.sellingPrice
+                    else {
+                        return record.sellingPrice;
                     }
                 },
             },
@@ -235,10 +235,10 @@ $(function () {
                 size: "6%",
                 sortable: true,
                 render: function (record) {
-                    if(record.purchasePrice != null)
+                    if (record.purchasePrice != null)
                         return record.purchasePrice.toLocaleString("en-US");
-                    else{
-                        return record.purchasePrice
+                    else {
+                        return record.purchasePrice;
                     }
                 },
             },
@@ -355,6 +355,10 @@ $(function () {
         blur: false,
     });
 
+    $("#import-results-popup").popup({
+        blur: false,
+    });
+
     $("#download-template").click(function () {
         window.location.href = "files/Template.csv";
     });
@@ -366,35 +370,34 @@ $(function () {
                 console.log(this.files[0]);
                 var filename = this.files[0].name;
                 var ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
-                console.log ($`ext is ${ext}`)
-                if(ext == ".csv"){
+                console.log($`ext is ${ext}`);
+                if (ext == ".csv") {
                     var jsonData = [];
-                    try{
+                    try {
                         var reader = new FileReader();
                         reader.readAsBinaryString(this.files[0]);
-                        reader.onload = function(e){
+                        reader.onload = function (e) {
                             var headers = [];
                             var rows = e.target.result.replace("ï»¿", "").split("\n");
-                            for (var i = 0; i <rows.length;i++){
+                            for (var i = 0; i < rows.length; i++) {
                                 var cells = rows[i].split(",");
                                 var rowData = {};
-                                for(var j=0;j<cells.length;j++){
-                                    if(i==0){
-                                        var headerName = cells[j].trim().replaceAll(' ', '');
+                                for (var j = 0; j < cells.length; j++) {
+                                    if (i == 0) {
+                                        var headerName = cells[j].trim().replaceAll(" ", "");
                                         headers.push(headerName);
-                                    }
-                                    else{
+                                    } else {
                                         var key = headers[j];
-                                        var value = cells[j].trim()
-                                        if(value == 'null' || value == ''){
+                                        var value = cells[j].trim();
+                                        if (value == "null" || value == "") {
                                             value == null;
                                         }
-                                        if(key){
+                                        if (key) {
                                             rowData[key] = value;
                                         }
                                     }
                                 }
-                                if(i!=0){
+                                if (i != 0) {
                                     jsonData.push(rowData);
                                 }
                             }
@@ -406,24 +409,37 @@ $(function () {
                             console.log(data);
                             $.ajax({
                                 url: "/importFromCSV",
-                                data: JSON.stringify(data, null ,0),
+                                data: JSON.stringify(data, null, 0),
                                 type: "POST",
                                 processData: false,
                                 contentType: "application/json; charset=UTF-8",
 
-                                success: async function () {
+                                success: async function (data) {
                                     getAllItems(true);
                                     $("#import-options-popup").popup("hide");
-                                    console.log("success");
+                                    $("#import-results-popup").popup("show");
+                                    let errorhtml = "<br>";
+                                    let successhtml = "<br>";
+                                    data.errors.forEach(function (error) {
+                                        //error line + 2 to match the number in the csv
+                                        errorhtml = errorhtml.concat(
+                                            `<p> Error line ${error.line + 2} : ${
+                                                error.message
+                                            } </p> <br>`
+                                        );
+                                    });
+                                    successhtml = successhtml.concat(
+                                        `<p> Number of successful imports: ${data.success.length}`
+                                    );
+                                    $("#import-results-popup #error-span").html(errorhtml);
+                                    $("#import-results-popup #success-span").html(successhtml);
                                 },
                             });
-                        }
-                    }
-                    catch (e){
+                        };
+                    } catch (e) {
                         console.log(e);
                     }
-                }
-                else{
+                } else {
                     console.log("Not a csv file.");
                 }
             }
