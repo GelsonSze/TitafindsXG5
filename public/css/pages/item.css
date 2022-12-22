@@ -48,7 +48,7 @@
     font-size: 45px;
     margin: 0;
 
-    color: #5d3937;
+    color: var(--clr-burgundy-80);
 }
 
 #item-code {
@@ -56,7 +56,7 @@
     font-size: 30px;
     margin: 0;
 
-    color: #866a69;
+    color: var(--clr-burgundy-60);
 }
 
 #description-wrapper {
@@ -64,14 +64,14 @@
 }
 
 #description-wrapper span {
-    color: #866a69;
+    color: var(--clr-burgundy-60);
     font-family: "Inter Bold";
     font-size: 14px;
     margin: 0;
 }
 
 #description-wrapper p {
-    color: #350705;
+    color: var(--clr-burgundy-100);
     font-family: "Inter Medium";
     font-size: 16px;
     margin: 0;
@@ -92,16 +92,16 @@
 }
 
 #attributes-table {
-    border: 1px solid #866a69;
+    border: 1px solid var(--clr-burgundy-60);
     border-radius: 10px;
     font-family: "Inter Medium";
     overflow: scroll;
-    color: #350705;
+    color: var(--clr-burgundy-100);
     max-height: 810px;
 }
 
 #attributes-table thead {
-    background-color: #fae1d7;
+    background-color: var(--clr-pink-50);
     overflow: hidden;
     margin: 10px;
     height: 25px;
@@ -119,7 +119,7 @@
 }
 
 #attributes-table td:nth-child(2) {
-    border-left: 1px solid #866a69;
+    border-left: 1px solid var(--clr-burgundy-60);
     border-bottom: 1px solid #dedede;
 }
 
@@ -142,6 +142,7 @@
 }
 
 .icon-popup {
-    border: #350705;
+    font-size: 30px;
+    color: var(--clr-burgundy-100);
     cursor: pointer;
 }

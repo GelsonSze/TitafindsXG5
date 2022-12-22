@@ -144,21 +144,16 @@ function getSpecifiedItems(refreshGrid = false, classification, type, weight, si
         },
     });
 }
-function increase() {
-    AddPopupQuantity = $("#add-popup #quantity").val();
-    if (!isNaN(AddPopupQuantity)) {
-        AddPopupQuantity = Number(AddPopupQuantity);
-        AddPopupQuantity += 1;
-        $("#add-popup #quantity").val(AddPopupQuantity);
+function increase(input) {
+    if (!isNaN(input.value)) {
+        if (input.value <= 0) input.value = 0;
+        input.value = parseInt(input.value) + 1;
     }
 }
 
-function decrease() {
-    AddPopupQuantity = $("#add-popup #quantity").val();
-    if (!isNaN(AddPopupQuantity) && AddPopupQuantity > 0) {
-        AddPopupQuantity = Number($("#add-popup #quantity").val());
-        AddPopupQuantity -= 1;
-        $("#add-popup #quantity").val(AddPopupQuantity);
+function decrease(input) {
+    if (!isNaN(input.value) && input.value > 0) {
+        input.value = parseInt(input.value) - 1;
     }
 }
 
@@ -259,36 +254,6 @@ $(function () {
             window.open(`/item/${record.code}`, "_blank");
         },
     });
-    //on change of image
-    $("#image").on("change", function () {
-        try {
-            if (this.files[0]) {
-                //console.log(this.files[
-                if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
-                    if (this.files[0].size <= 1024 * 1024 * 5) {
-                        //add in here validation for size
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            $("#image-preview").attr("src", e.target.result);
-                        };
-                        reader.readAsDataURL(this.files[0]);
-                    } else {
-                        $("#add-popup #image").val("");
-                        showError($("#add-popup .text-error")[0], "Image file exceeds 5mb", [
-                            $("#image-preview")[0],
-                        ]);
-                    }
-                } else {
-                    $("#add-popup #image").val("");
-                    showError($("#add-popup .text-error")[0], "Please select an image file", [
-                        $("#image-preview")[0],
-                    ]);
-                }
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    });
 
     $(".dropdown-type").click(function () {
         var text = $(this).html();
@@ -349,20 +314,23 @@ $(function () {
     $(document).on("mouseover", "#w2ui-image", function (e) {
         // console.log(e.target.src);
         $("#w2ui-enlarged-image").attr("src", e.target.src);
-        $("#w2ui-enlarged-image").css("display", "block");
+        $("#w2ui-enlarged-image").fadeIn(150);
     });
     //leave hover on image
     $(document).on("mouseleave", "#w2ui-image", function (e) {
         // console.log("leave");
-        $("#w2ui-enlarged-image").css("display", "none");
+        $("#w2ui-enlarged-image").fadeOut(150);
     });
     //refresh grid when window is resized
     var resizeTimer;
-    $(window).resize(function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function () {
-            // console.log("refresh/resize");
-            w2ui["item-grid"].refresh();
-        }, 510);
-    });
+    window.addEventListener(
+        "resize",
+        function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                w2ui["item-grid"].refresh();
+            }, 510);
+        },
+        { passive: true }
+    );
 });

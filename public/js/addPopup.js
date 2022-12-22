@@ -96,4 +96,35 @@ $(function () {
             },
         });
     });
+
+    //on change of image
+    $("#image").on("change", function () {
+        try {
+            if (this.files[0]) {
+                //console.log(this.files[
+                if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
+                    if (this.files[0].size <= 1024 * 1024 * 5) {
+                        //add in here validation for size
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            $("#image-preview").attr("src", e.target.result);
+                        };
+                        reader.readAsDataURL(this.files[0]);
+                    } else {
+                        $("#add-popup #image").val("");
+                        showError($("#add-popup .text-error")[0], "Image file exceeds 5mb", [
+                            $("#image-preview")[0],
+                        ]);
+                    }
+                } else {
+                    $("#add-popup #image").val("");
+                    showError($("#add-popup .text-error")[0], "Please select an image file", [
+                        $("#image-preview")[0],
+                    ]);
+                }
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    });
 });

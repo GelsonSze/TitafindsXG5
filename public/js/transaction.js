@@ -185,8 +185,15 @@ $(function () {
         $("#dropdown-selected").html("Type");
     });
 
-    $(window).resize(function () {
-        console.log("refresh/resize");
-        w2ui["transaction-grid"].refresh();
-    });
+    var resizeTimer;
+    window.addEventListener(
+        "resize",
+        function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                w2ui["transaction-grid"].refresh();
+            }, 510);
+        },
+        { passive: true }
+    );
 });

@@ -56,7 +56,7 @@ main {
 }
 
 .table-edit-btn {
-    background-color: #866a69;
+    background-color: var(--clr-burgundy-60);
 
     border: none;
     border-radius: 8px;
@@ -103,7 +103,6 @@ main {
     font-weight: normal;
 
     padding: 5px;
-    flex-grow: 2;
 }
 
 #table-filters-wrapper select {
@@ -116,13 +115,12 @@ main {
     /* TO BE REMOVED 
     color: #a8a8a8; */
     padding: 3px;
-    flex-shrink: 2;
 
     cursor: pointer;
 }
 
 .table-filter {
-    background-color: #866a69;
+    background-color: var(--clr-burgundy-60);
 
     border: none;
     border-radius: 8px;
@@ -172,7 +170,7 @@ main {
 
 .dropdown-select-content button {
     background-color: #fcede7;
-    color: #866a69;
+    color: var(--clr-burgundy-60);
 
     border: none;
     width: 100%;

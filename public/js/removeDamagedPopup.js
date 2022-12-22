@@ -1,21 +1,24 @@
 $(function () {
-    $("#remove-popup").popup({
-        blur: false /* pop-up must be only closed with X button, not by clicking outside */,
+    $("#remove-damaged-popup").popup({
+        blur: false,
+        transition: "all 0.3s",
         onclose: function () {
-            $("#remove-popup #remove-form")[0].reset();
+            $("#remove-damaged-popup #remove-form")[0].reset();
         },
     });
 
-    $("#remove-popup form .command :reset").on("click", async function () {
-        $("#remove-popup").popup("hide");
+    $("#remove-damaged-popup form .command :reset").on("click", async function () {
+        $("#remove-damaged-popup").popup("hide");
     });
 
-    $("#remove-popup form .command :submit").on("click", function (e) {
+    $("#remove-damaged-popup form .command :submit").on("click", function (e) {
         e.preventDefault();
 
-        var codeField = $("#remove-popup #remove-code")[0];
-        var quantityField = $("#remove-popup #remove-quantity")[0];
-        var error = $("#remove-popup .text-error")[0];
+        var itemPage = window.location.pathname.includes("/item/");
+
+        var codeField = $("#remove-damaged-popup #remove-code")[0];
+        var quantityField = $("#remove-damaged-popup #remove-quantity")[0];
+        var error = $("#remove-damaged-popup .text-error")[0];
 
         var fields = [codeField, quantityField];
         var emptyFields = [];
@@ -31,11 +34,17 @@ $(function () {
             return;
         }
 
-        const code = $("#remove-popup #remove-code").val();
+        const code = !itemPage
+            ? $("#remove-damaged-popup #remove-code").val()
+            : window.location.pathname.split("/", 3)[2];
         const data = new FormData($("#remove-form")[0]);
+        //if code does not exist in data, add it
+        if (!data.has("code")) {
+            data.append("code", code);
+        }
         data.append("dateRemoved", new Date());
 
-        var recID = w2ui["item-grid"].find({ code: code });
+        var recID = !itemPage ? w2ui["item-grid"].find({ code: code }) : [null];
         recID = recID[0];
 
         $.ajax({
@@ -46,28 +55,39 @@ $(function () {
 
             success: async function (foundData) {
                 $.ajax({
-                    url: "/removeDamage",
+                    url: "/removeDamagedItem",
                     data: JSON.stringify(Object.fromEntries(data)),
                     type: "POST",
                     processData: false,
                     contentType: "application/json; charset=utf-8",
 
                     success: async function (foundData) {
-                        $.ajax({
-                            url: `/getItem=${code}`,
-                            type: "GET",
-                            processData: false,
-                            contentType: false,
+                        if (recID != null) {
+                            $.ajax({
+                                url: `/getItem=${code}`,
+                                type: "GET",
+                                processData: false,
+                                contentType: false,
 
-                            success: async function (newData) {
-                                w2ui["item-grid"].set(recID, { available: newData.available });
-                            },
-                        });
+                                success: async function (newData) {
+                                    w2ui["item-grid"].set(recID, { available: newData.available });
+                                },
+                            });
+                        }
 
-                        $("#remove-popup #remove-form")[0].reset();
-                        $("#remove-popup").popup("hide");
+                        if (itemPage) {
+                            var newTotalValue =
+                                parseInt($("#main-attributes-damaged").text()) -
+                                parseInt(quantityField.value);
+                            $("#main-attributes-damaged").text(newTotalValue);
+
+                            getTransactions(true);
+                        }
+
+                        $("#remove-damaged-popup #remove-form")[0].reset();
+                        $("#remove-damaged-popup").popup("hide");
                         SnackBar({
-                            message: "Item removed successfully",
+                            message: "Damaged item removed successfully",
                             status: "success",
                             position: "br",
                             timeout: 5000,

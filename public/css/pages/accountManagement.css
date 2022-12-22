@@ -8,7 +8,7 @@
 }
 
 .admin-actions button {
-    background-color: #866a69;
+    background-color: var(--clr-burgundy-60);
     border: none;
     border-radius: 8px;
     cursor: pointer;

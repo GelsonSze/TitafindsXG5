@@ -31,6 +31,7 @@ app.delete("/auth/logout", loginController.logoutUser);
 
 // The Item Page
 app.get("/item/:code", [viewPage, checkAuth, itemController.itemDetails]);
+app.post("/removeDamagedItem", [checkAuth, itemController.removeDamagedItem]);
 app.post("/editItem=:code", [checkAuth, upload.single("image"), itemController.editItem]);
 app.delete("/deleteItem=:code", [checkAuth, itemController.deleteItem]);
 app.get("/getItem=:code", [checkAuth, itemController.getItem]);

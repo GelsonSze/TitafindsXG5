@@ -1,25 +1,24 @@
 <section id="restock-popup" class="popup">
-    <button class="restock-popup_close popup-close">X</button>
+    <button class="restock-popup_close popup-close"><i class="bx bx-x"></i></button>
     <h1>Restock Item</h1>
 
-    <form id="restock-form" class="restock-sell-common" enctype="multipart/form-data">
-        <p class="text-error"></p>
+    <form id="restock-form" class="restock-sell-remove-common" enctype="multipart/form-data">
         <div class="popup-row-wrapper">
             {{#if inventory}}
             <div class="item-wrapper">
-                <label for="code">Product Code</label><br />
-                <input type="text" id="restock-code" name="code" /><br />
+                <label for="code">Product Code</label>
+                <input type="text" id="restock-code" name="code" />
             </div>
             {{/if}}
             <div class="item-wrapper">
-                <label for="restock-quantity">Quantity</label><br />
-                <input type="text" id="restock-quantity" name="quantity" /><br />
+                <label for="restock-quantity">Quantity</label>
+                <input type="text" id="restock-quantity" name="quantity" />
             </div>
         </div>
-
+        <p class="text-error"></p>
         <div class="command">
             <button type="reset">Cancel</button>
-            <button type="submit" id="restock">Restock Item</button>
+            <button type="submit" id="restock-item-button">Restock Item</button>
         </div>
     </form>
 </section>

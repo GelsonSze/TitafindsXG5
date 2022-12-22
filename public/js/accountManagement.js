@@ -693,11 +693,14 @@ $(function () {
 
     //refresh grid when window is resized
     var resizeTimer;
-    $(window).resize(function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function () {
-            // console.log("refresh/resize");
-            w2ui["user-grid"].refresh();
-        }, 510);
-    });
+    window.addEventListener(
+        "resize",
+        function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                w2ui["user-grid"].refresh();
+            }, 510);
+        },
+        { passive: true }
+    );
 });
