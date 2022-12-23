@@ -305,3 +305,23 @@ String.prototype.removeNewlinesAndTags = function () {
 //         },
 //     });
 // }
+
+/**
+ * Converts a camelCase string to Sentence Case.
+ *
+ * @param {string} camelCase - The camelCase string to be converted.
+ * @return {string} The Sentence Case version of the input string.
+ *
+ * @example
+ * const sentenceCaseString = camelToSentence('sellingPrice');
+ * console.log(sentenceCaseString); // Output: "Selling Price"
+ */
+function camelToSentence(camelCase) {
+    // // Split the camelCase string into an array of words
+    // const words = camelCase.split(/(?=[A-Z])/);
+    // // Capitalize the first letter of each word
+    // const sentence = words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+
+    // Oneliner
+    return camelCase.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); });
+}

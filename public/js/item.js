@@ -108,7 +108,7 @@ function getTransactions(refreshGrid = false) {
                 processData: false,
                 contentType: "application/json; charset=utf-8",
                 success: function (transactions) {
-                    console.log(transactions);
+                    // console.log(transactions);
                     Transactions = [];
 
                     var dfd = $.Deferred().resolve();
@@ -183,9 +183,15 @@ function getItem() {
                     attribute == "damaged"
                 )
                     continue;
+                // Omit 'product-images/' path in image
+                if (attribute == "image")
+                    PageItem[attribute] = PageItem[attribute].replace("product-images/", "")
+
+                // Formats the attribute name to be more readable
+                let attributeFormatted = (attribute == "id") ? "ID" : camelToSentence(attribute);
 
                 $("#table-body").append(
-                    `<tr><td>${attribute}</td> <td>${PageItem[attribute]}</td></tr>`
+                    `<tr><td>${attributeFormatted}</td> <td>${PageItem[attribute]}</td></tr>`
                 );
             }
         },
