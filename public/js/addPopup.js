@@ -185,4 +185,25 @@ $(function () {
             $("#drag-drop-text").fadeOut(100);
         }
     });
+
+    // Shortcuts for "Shift+N" and "Shift+I" keys
+    $(document).keydown(function (e) {
+        if (e.shiftKey) {
+            if (e.which == "78") {
+                e.preventDefault();
+                // Show the "Add Item" popup
+                $("#add-popup").popup("show");
+            } else if (e.which == "73") {
+                e.preventDefault();
+                // Show the "Import Items" popup
+                // $("#import-popup").popup("show");
+            }
+        } else if (e.which == "27" && counter > 0) {
+            e.preventDefault();
+            // Cancel the image drag and drop
+            $("#add-form").css("opacity", "1");
+            $("#drag-drop-text").fadeOut(100);
+            counter = 0;
+        }
+    });
 });

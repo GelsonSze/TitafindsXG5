@@ -205,4 +205,20 @@ $(function () {
             $("#drag-drop-text").fadeOut(100);
         }
     });
+
+    $(document).keydown(function (e) {
+        if (e.shiftKey) {
+            if (e.which == "69") {
+                e.preventDefault();
+                // Show the "Edit Item" popup
+                $("#edit-popup").popup("show");
+            }
+        } else if (e.which == "27" && counter > 0) {
+            e.preventDefault();
+            // Cancel the image drag
+            $("#add-form").css("opacity", "1");
+            $("#drag-drop-text").fadeOut(100);
+            counter = 0;
+        }
+    });
 });
