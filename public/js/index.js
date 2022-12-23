@@ -246,12 +246,12 @@ $(function () {
         ],
         records: Items,
         onDblClick: function (recid) {
-            // Redirects to item page
-
-            var record = w2ui["item-grid"].get(recid.recid);
-            //console.log(record)
-
-            window.open(`/item/${record.code}`, "_blank");
+            try {
+                var record = w2ui["item-grid"].get(recid.recid);
+                window.open(`/item/${record.code}`, "_blank");
+            } catch (error) {
+                console.log(error);
+            }
         },
     });
 

@@ -70,7 +70,7 @@ function user(
         dateUpdated: dateUpdated,
         lastLogin: lastLogin,
         w2ui: {
-            style: `background-color: ${isSuspended ? "#f76f72" : "white"}`,
+            style: `${isSuspended ? "background-color: #f76f72;" : ""}`,
         },
     };
 }
@@ -223,7 +223,7 @@ $(function () {
         var password = $("#create-password")[0];
         var confirm = $("#create-confirm-password")[0];
         var error = $(".create-text-error")[0];
-        let fields = [username, firstName, lastName, password];
+        let fields = [username, firstName, lastName, password, confirm];
         let emptyFields = [];
         let wrongFields = [];
         fields.forEach(async function (field) {

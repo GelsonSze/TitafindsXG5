@@ -1,58 +1,9 @@
-/* need to finalize */
-body {
-    background-color: var(--clr-white);
-    position: relative;
-}
-
-header {
-    background-color: var(--clr-white);
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    padding: 10px 30px;
-}
-
-nav {
-    justify-content: space-between;
-}
-
-header ul {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-}
-header ul li {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
-}
-header ul li a {
-    color: var(--clr-txt-primary);
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 500;
-}
-header ul li a:hover {
-    color: var(--clr-gold);
-    cursor: pointer;
-}
-header ul li a:active {
-    color: var(--clr-gold-500);
-}
-
 main {
     --padding-t: 1rem;
     --padding-rbl: 2rem;
     display: block;
     padding: var(--padding-t) var(--padding-rbl) var(--padding-rbl);
     height: calc(100% - (var(--padding-t) + var(--padding-rbl)));
-}
-
-#main-control {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 }
 
 .table-edit-btn {
@@ -253,15 +204,10 @@ main {
     font-size: 6;
 }
 
-h1 {
-    font-family: "Inter Bold";
-    color: #484848;
-    font-size: 1.5rem;
-}
-
 /* HOVER FOR IMAGE IN W2UI */
 #w2ui-image {
     height: 100px;
+    border-radius: 5px;
 }
 
 #w2ui-enlarged-image {
@@ -278,6 +224,7 @@ h1 {
     border: 0.5vh solid black;
 }
 
+/* HOVER FOR PRODUCT NAME IN W2UI */
 .item-anchor-link {
     white-space: normal;
     word-wrap: break-word;

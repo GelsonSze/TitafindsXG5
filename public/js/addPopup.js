@@ -17,6 +17,16 @@ $(function () {
         $("#image").val("");
     });
 
+    $("#add-popup #selling-type").change(function () {
+        var $weight = $("#add-popup #weight");
+        var selectedItem = $(this).val();
+        if (selectedItem === "per gram") {
+            $weight.prev().append('<span style="color: red">*</span>');
+        } else {
+            $weight.prev().find("span").remove();
+        }
+    });
+
     $("#add-popup form .command :submit").on("click", function (e) {
         e.preventDefault();
 

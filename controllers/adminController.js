@@ -268,7 +268,7 @@ const adminController = {
     changePassword: function (req, res) {
         res.render("changePassword", {
             title: "Change Password",
-            styles: ["pages/changePassword.css", "general/sidebar.css"],
+            styles: ["pages/changePassword.css"],
             scripts: ["changePassword.js"],
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });

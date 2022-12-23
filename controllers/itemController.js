@@ -366,9 +366,9 @@ const itemController = {
             var item = await Item.findOne({ code: req.body.code });
 
             if (isNaN(quantity)) {
-                error = "Quantity inputted is not a number";
+                error = "Quantity is not a number";
             } else if (!isNaN(quantity) && quantity % 1 != 0) {
-                error = "Quantity inputted is not a whole number";
+                error = "Quantity is not a whole number";
             } else if (quantity < 0) {
                 error = "Quantity is negative";
             } else if (quantity == 0) {
@@ -411,10 +411,10 @@ const itemController = {
 
             //validation for selling price
             if (isNaN(quantity)) {
-                error = "Quantity inputted is not a number";
+                error = "Quantity is not a number";
                 errorFields = ["sell-quantity"];
             } else if (!isNaN(quantity) && quantity % 1 != 0) {
-                error = "Quantity inputted is not a whole number";
+                error = "Quantity is not a whole number";
                 errorFields = ["sell-quantity"];
             } else if (quantity == 0) {
                 error = "Quantity is 0";
@@ -423,7 +423,7 @@ const itemController = {
                 error = "Quantity is negative";
                 errorFields = ["sell-quantity"];
             } else if (isNaN(sellingPrice)) {
-                error = "Selling price inputted is not a number";
+                error = "Selling price is not a number";
                 errorFields = ["sell-selling-price"];
             } else if (sellingPrice < 0) {
                 error = "Selling price is negative";
@@ -470,9 +470,9 @@ const itemController = {
             var item = await Item.findOne({ code: req.body.code });
 
             if (isNaN(quantity)) {
-                error = "Quantity inputted is not a number";
+                error = "Quantity is not a number";
             } else if (!isNaN(quantity) && quantity % 1 != 0) {
-                error = "Quantity inputted is not a whole number";
+                error = "Quantity is not a whole number";
             } else if (quantity < 0) {
                 error = "Quantity is negative";
             } else if (quantity == 0) {

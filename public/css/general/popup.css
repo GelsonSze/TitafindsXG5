@@ -1,19 +1,25 @@
+/* Override jquery-popup-overlay style */
 .popup_content {
-    margin: 5%;
     padding: 20px;
     border: 2px solid #444;
     background: white;
 }
 
 .popup {
-    /* Change this colors */
     --label-color: #000;
-    --text-highlight-color: brown;
-    --create-button-color: #000;
-    --update-button-color: #000;
-    --reset-button-color: #000;
-    --suspend-button-color: #000;
-    --resume-button-color: #000;
+    --text-highlight-color: var(--clr-orange-dark);
+
+    --reset-button-color: var(--clr-gold-100);
+    --reset-button-color-hover: var(--clr-gold-70);
+    --reset-button-color-active: var(--clr-gold-dark);
+
+    --suspend-button-color: var(--clr-orange-80);
+    --suspend-button-color-hover: var(--clr-orange-60);
+    --suspend-button-color-active: var(--clr-orange-100);
+
+    --resume-button-color: var(--clr-orange-80);
+    --resume-button-color-hover: var(--clr-orange-60);
+    --resume-button-color-active: var(--clr-orange-100);
 
     border-radius: 8px;
     border-color: transparent;
@@ -24,6 +30,7 @@
 .popup h1 {
     text-align: center;
     color: black;
+    font-size: 1.5rem;
 }
 
 .popup label {
@@ -42,7 +49,34 @@
     border-radius: 8px;
     border-color: transparent;
     color: white;
-    background: #716f6f;
+    background: var(--clr-burgundy-80);
+    padding: 5px 10px;
+}
+
+.popup button:hover {
+    background: var(--clr-burgundy-60);
+}
+
+.popup button:active {
+    background: var(--clr-burgundy-100);
+}
+
+.popup button[type="reset"] {
+    color: #555;
+    background-color: #efefef;
+}
+
+.popup button[type="reset"]:hover {
+    background-color: #e8e8e8;
+}
+
+.popup button[type="reset"]:active {
+    background-color: #d7d7d7;
+}
+
+/* focus */
+.popup input[type="text"]:focus {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(116 136 150 / 29%);
 }
 
 .popup textarea {
@@ -74,7 +108,7 @@
 
 .restock-sell-remove-common .text-error {
     position: absolute;
-    bottom: 29px;
+    bottom: 38px;
     left: 0;
     right: 0;
 }
@@ -101,7 +135,7 @@
 }
 
 #popup-left-wrapper {
-    width: 560px;
+    width: 500px;
 }
 
 #popup-right-wrapper {
@@ -217,19 +251,18 @@ button:hover {
 }
 
 .popup-close .bx-x {
-    margin: -5.5px -10.5px;
+    margin: -9px -20.5px;
     font-size: 30px;
 }
 
 .command {
     display: flex;
     justify-content: center;
+    gap: 10px;
 }
 
 .command button {
     font-family: "Inter Bold";
-    background-color: #9e9e9e;
-    margin: 0 10px;
 }
 
 .confirm-type-form {
@@ -265,17 +298,17 @@ button:hover {
     width: 270px;
 }
 
-#create-user-button {
-    background-color: var(--create-button-color);
-}
-
-#update-user-button {
-    background-color: var(--update-button-color);
-}
-
 #reset-user-button,
 #replay-symbol {
     background-color: var(--reset-button-color);
+}
+
+#reset-user-button:hover {
+    background-color: var(--reset-button-color-hover);
+}
+
+#reset-user-button:active {
+    background-color: var(--reset-button-color-active);
 }
 
 #suspend-user-button,
@@ -283,9 +316,25 @@ button:hover {
     background-color: var(--suspend-button-color);
 }
 
+#suspend-user-button:hover {
+    background-color: var(--suspend-button-color-hover);
+}
+
+#suspend-user-button:active {
+    background-color: var(--suspend-button-color-active);
+}
+
 #resume-user-button,
 #play-symbol {
     background-color: var(--resume-button-color);
+}
+
+#resume-user-button:hover {
+    background-color: var(--resume-button-color-hover);
+}
+
+#resume-user-button:active {
+    background-color: var(--resume-button-color-active);
 }
 
 .create-update-form {
@@ -307,16 +356,6 @@ button:hover {
     margin-bottom: 2vh;
 }
 
-/* #username-label, #first-name-label, #last-name-label,
-#password-label, #confirm-password-label */
 .create-update-label {
     color: var(--label-color);
-}
-
-#reset {
-    background-color: black;
-}
-
-#suspend {
-    background-color: black;
 }

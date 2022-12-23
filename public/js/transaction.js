@@ -156,8 +156,12 @@ $(function () {
             // var strArray = record.description.split(" ");
             // var str = strArray[strArray.length - 1];
             // var code = str.substring(str.indexOf("(") + 1, str.lastIndexOf(")"));
-            var code = record.newCode;
-            if (code != "deleted") window.open(`/item/${code}`, "_blank");
+            try {
+                var code = record.newCode;
+                if (code != "deleted") window.open(`/item/${code}`, "_blank");
+            } catch (error) {
+                console.log(error);
+            }
         },
     });
 
