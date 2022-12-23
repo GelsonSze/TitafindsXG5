@@ -32,6 +32,7 @@
 }
 
 :root {
+    /* Old Color Palette */
     --clr-white: white;
     --clr-red: hsl(354, 71%, 54%);
     --clr-red-500: hsl(354, 60%, 45%);
@@ -113,10 +114,13 @@
 }
 
 /* common transition */
+form,
 button,
 input,
 textarea,
-select {
+select,
+.button-primary,
+.button-secondary {
     transition: var(--slow);
 }
 
@@ -223,6 +227,10 @@ input[type="date"]:focus-visible {
     box-shadow: none;
     outline: none;
     /* background-color: var(--clr-white); */
+}
+
+button:focus {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(116 136 150 / 29%);
 }
 
 button:disabled {
@@ -403,6 +411,14 @@ textarea.error,
     background: var(--clr-gold-70);
     margin: 0;
     padding: 5px 10px;
+}
+
+.main-action button:hover {
+    background: var(--clr-gold-50);
+}
+
+.main-action button:active {
+    background: var(--clr-gold-100);
 }
 
 /* Override swal button confirm */

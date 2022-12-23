@@ -260,9 +260,9 @@ button:hover {
     font-family: "Inter Bold";
 }
 
-.command button:focus {
+/* .command button:focus {
     box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(116 136 150 / 29%);
-}
+} */
 
 .confirm-type-form {
     padding: 20px 10px 0;
@@ -357,4 +357,17 @@ button:hover {
 
 .create-update-label {
     color: var(--label-color);
+}
+
+/* Drag and drop */
+
+#drag-drop-text {
+    font-family: "Inter Bold";
+    font-size: 3rem;
+    color: var(--text-burgundy-100);
+    position: absolute;
+    inset: 0;
+    top: 40%;
+    text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    display: none;
 }

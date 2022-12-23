@@ -24,6 +24,7 @@
     height: 400px;
     width: 400px;
     border-radius: 10px;
+    object-fit: cover;
 }
 
 #item-attributes-wrapper {
@@ -145,4 +146,21 @@
     font-size: 30px;
     color: var(--clr-burgundy-100);
     cursor: pointer;
+    transition: var(--fast);
+}
+
+.icon-popup.bx-edit:hover {
+    color: var(--clr-burgundy-80);
+}
+
+.icon-popup.bx-edit:active {
+    color: var(--clr-burgundy-60);
+}
+
+.icon-popup.bx-trash:hover {
+    color: var(--clr-red);
+}
+
+.icon-popup.bx-trash:active {
+    color: var(--clr-red-500);
 }

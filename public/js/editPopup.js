@@ -157,4 +157,52 @@ $(function () {
             console.log(error);
         }
     });
+
+    // preventing page from redirecting
+    $("html").on("dragover", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+    $("html").on("drop", function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
+    // Drag over
+    $("#edit-popup_wrapper").on("dragover", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+    });
+    var counter = 0;
+    // Drag enter
+    $("#edit-popup_wrapper").on("dragenter", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        counter++;
+        $("#edit-form").css("opacity", "0.5");
+        $("#drag-drop-text").fadeIn(100);
+    });
+    // Drop
+    $("#edit-popup_wrapper").on("drop", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        $("#image").prop("files", e.originalEvent.dataTransfer.files);
+        $("#image").trigger("change");
+
+        if ($("#drag-drop-text").is(":visible")) {
+            $("#edit-form").css("opacity", "1");
+            $("#drag-drop-text").fadeOut(100);
+        }
+    });
+    // Drag leave
+    $("#edit-popup_wrapper").on("dragleave", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        counter--;
+        if (counter == 0) {
+            $("#edit-form").css("opacity", "1");
+            $("#drag-drop-text").fadeOut(100);
+        }
+    });
 });
