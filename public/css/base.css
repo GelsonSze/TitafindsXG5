@@ -131,16 +131,17 @@ html {
 }
 
 ::-webkit-scrollbar {
-    width: 4px;
+    width: 5px;
 }
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
 ::-webkit-scrollbar-thumb {
-    background: #888;
+    background: var(--clr-burgundy-60);
+    transition: var(--fast);
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: var(--clr-burgundy-80);
 }
 
 body {
