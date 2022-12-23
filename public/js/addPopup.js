@@ -188,8 +188,11 @@ $(function () {
 
     // Shortcuts for "Shift+N" and "Shift+I" keys
     $(document).keydown(function (e) {
+        console.log("keydown");
         if (e.shiftKey) {
+            console.log(e.which);
             if (e.which == "78") {
+                console.log("shift+n");
                 e.preventDefault();
                 // Show the "Add Item" popup
                 $("#add-popup").popup("show");
