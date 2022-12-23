@@ -1,7 +1,7 @@
 $(function () {
     function loadEditPopup() {
         $("#edit-popup").popup("hide");
-        $("#image-preview").attr("src", `../img/${PageItem.image}`);
+        $("#image-preview").attr("src", `../img/product-images/${PageItem.image}`);
         $("#name").val(PageItem.name);
         $("#code").val(PageItem.code);
         $("#type").val(PageItem.type);
