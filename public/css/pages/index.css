@@ -211,14 +211,11 @@ main {
 }
 
 #w2ui-enlarged-image {
-    --size: 40;
-    --height: calc(1vh * var(--size));
-    --width: calc(1vw * var(--size));
     display: none;
     position: fixed;
     inset: 0;
     margin: auto;
-    width: var(--width);
+    height: 95%;
     object-fit: contain;
     border: 0.5vh solid black;
 }
