@@ -216,8 +216,7 @@ main {
     --width: calc(1vw * var(--size));
     display: none;
     position: fixed;
-    top: calc(48vh - var(--height));
-    left: calc(50% - (var(--width) / 2));
+    inset: 0;
     margin: auto;
     width: var(--width);
     object-fit: contain;
