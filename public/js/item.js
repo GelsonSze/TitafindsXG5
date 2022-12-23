@@ -246,32 +246,6 @@ $(document).ready(function () {
         records: Transactions,
     });
 
-    $(document).on("click", (e) => {
-        // console.log(e.target);
-        if (e.target.closest(".edit-popup_open")) {
-            $("#edit-popup").popup("hide");
-            $("#image-preview").attr("src", `../img/${PageItem.image}`);
-            $("#name").val(PageItem.name);
-            $("#code").val(PageItem.code);
-            $("#type").val(PageItem.type);
-            $("#classification").val(PageItem.classification);
-            $("#length").val(PageItem.length);
-            $("#size").val(PageItem.size);
-            $("#unit").val(PageItem.unit);
-            $("#weight").val(PageItem.weight);
-            $("#available").val(PageItem.available);
-            $("#selling-type").val(PageItem.sellingType);
-            $("#purchase-price").val(PageItem.purchasePrice);
-            $("#selling-price").val(PageItem.sellingPrice);
-            $("#edit-popup").popup("show");
-
-            // add red asterisk to weight label if sellingType is 'per gram'
-            if (PageItem.sellingType == "per gram") {
-                $("#weight").prev().append("<span style='color:red'>*</span>");
-            }
-        }
-    });
-
     $(".delete-popup_open").on("click", function () {
         swal({
             title: "Are you sure?",

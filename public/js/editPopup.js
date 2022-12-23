@@ -1,4 +1,33 @@
 $(function () {
+    function loadEditPopup() {
+        $("#edit-popup").popup("hide");
+        $("#image-preview").attr("src", `../img/${PageItem.image}`);
+        $("#name").val(PageItem.name);
+        $("#code").val(PageItem.code);
+        $("#type").val(PageItem.type);
+        $("#classification").val(PageItem.classification);
+        $("#length").val(PageItem.length);
+        $("#size").val(PageItem.size);
+        $("#unit").val(PageItem.unit);
+        $("#weight").val(PageItem.weight);
+        $("#available").val(PageItem.available);
+        $("#selling-type").val(PageItem.sellingType);
+        $("#purchase-price").val(PageItem.purchasePrice);
+        $("#selling-price").val(PageItem.sellingPrice);
+        $("#edit-popup").popup("show");
+
+        // add red asterisk to weight label if sellingType is 'per gram'
+        if (PageItem.sellingType == "per gram") {
+            $("#weight").prev().append("<span style='color:red'>*</span>");
+        }
+    }
+
+    $(document).on("click", (e) => {
+        if (e.target.closest(".edit-popup_open")) {
+            loadEditPopup();
+        }
+    });
+
     $(".remove-image").on("click", function () {
         $("#image-preview").attr("src", `../img/product-images/default.png`);
         $("#image").val("");
@@ -211,7 +240,7 @@ $(function () {
             if (e.which == "69") {
                 e.preventDefault();
                 // Show the "Edit Item" popup
-                $("#edit-popup").popup("show");
+                loadEditPopup();
             }
         } else if (e.which == "27" && counter > 0) {
             e.preventDefault();
