@@ -16,6 +16,7 @@ main {
     display: flex;
     flex-direction: row-reverse;
     justify-content: center;
+    align-items: center;
     gap: 5px;
     color: var(--clr-txt-secondary);
 }
