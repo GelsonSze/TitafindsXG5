@@ -264,6 +264,11 @@ $(document).ready(function () {
             $("#purchase-price").val(PageItem.purchasePrice);
             $("#selling-price").val(PageItem.sellingPrice);
             $("#edit-popup").popup("show");
+
+            // add red asterisk to weight label if sellingType is 'per gram'
+            if (PageItem.sellingType == "per gram") {
+                $("#weight").prev().append("<span style='color:red'>*</span>");
+            }
         }
     });
 

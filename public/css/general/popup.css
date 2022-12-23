@@ -74,11 +74,6 @@
     background-color: #d7d7d7;
 }
 
-/* focus */
-.popup input[type="text"]:focus {
-    box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(116 136 150 / 29%);
-}
-
 .popup textarea {
     resize: vertical;
     padding: 5px;
@@ -263,6 +258,10 @@ button:hover {
 
 .command button {
     font-family: "Inter Bold";
+}
+
+.command button:focus {
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(116 136 150 / 29%);
 }
 
 .confirm-type-form {

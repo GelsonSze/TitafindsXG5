@@ -1,7 +1,7 @@
 //Controller for items
 import Item from "../model/schemas/Item.js";
 import db from "../model/db.js";
-import { generateItemCode, isEmptyOrSpaces } from "../utils/helper.js";
+import { validateItem, isEmptyOrSpaces } from "../utils/helper.js";
 import { ImageDirectory } from "../utils/multer.js";
 
 const itemController = {
@@ -123,68 +123,14 @@ const itemController = {
             if (isEmptyOrSpaces(addedItem.purchasePrice)) addedItem.purchasePrice = 0;
 
             console.log(addedItem);
-            //  Check code and name for errors
+            var validation = validateItem(addedItem);
+            //  Check item code if it already exists
             if (codeExists) {
                 error = "Item code already exists";
                 errorFields = ["code"];
-            } else if (addedItem.code.length > 100) {
-                error = "Item code exceeds maximum character limit";
-                errorFields = ["code"];
-            } else if (
-                addedItem.code.includes("/") ||
-                addedItem.code.includes("\\") ||
-                addedItem.code.includes(" ")
-            ) {
-                error = "Item code contains  invalid characters (/, \\, or space)";
-                errorFields = ["code"];
-            } else if (addedItem.name.length > 255) {
-                error = "Name exceeds maximum character limit";
-                errorFields = ["name"];
-            }
-            // Check if number inputs are not numbers
-            else if (addedItem.size != null && isNaN(addedItem.size)) {
-                error = "Size inputted is not a number";
-                errorFields = ["size"];
-            } else if (addedItem.weight != null && isNaN(addedItem.weight)) {
-                error = "Weight inputted is not a number";
-                errorFields = ["weight"];
-            } else if (addedItem.available != null && isNaN(addedItem.available)) {
-                error = "Available quantity inputted is not a number";
-                errorFields = ["available"];
-            } else if (addedItem.sold != null && isNaN(addedItem.sold)) {
-                error = "Sold quantity inputted is not a number";
-                errorFields = ["sold"];
-            } else if (addedItem.damaged != null && isNaN(addedItem.damaged)) {
-                error = "Damaged quantity inputted is not a number";
-                errorFields = ["damaged"];
-            } else if (addedItem.sellingPrice != null && isNaN(addedItem.sellingPrice)) {
-                error = "Selling price inputted is not a number";
-                errorFields = ["selling-price"];
-            } else if (addedItem.purchasePrice != null && isNaN(addedItem.purchasePrice)) {
-                error = "Purchase price inputted is not a number";
-                errorFields = ["purchase-price"];
-            }
-            // Check if quantities are not whole numbers
-            else if (!isNaN(addedItem.available) && addedItem.available % 1 != 0) {
-                error = "Available quantity inputted is not a whole number";
-                errorFields = ["available"];
-            } else if (!isNaN(addedItem.sold) && addedItem.sold % 1 != 0) {
-                error = "Sold quantity inputted is not a whole number";
-                errorFields = ["sold"];
-            } else if (!isNaN(addedItem.damaged) && addedItem.damaged % 1 != 0) {
-                error = "Damaged quantity inputted is not a whole number";
-                errorFields = ["damaged"];
-            }
-            // Check if quantities are below 0
-            else if (addedItem.available < 0) {
-                error = "Available quantity inputted is below 0";
-                errorFields = ["available"];
-            } else if (addedItem.sold < 0) {
-                error = "Sold quantity inputted is below 0";
-                errorFields = ["sold"];
-            } else if (addedItem.damaged < 0) {
-                error = "Damaged quantity inputted is below 0";
-                errorFields = ["damaged"];
+            } else if (!validation.passed) {
+                error = validation.error;
+                errorFields = validation.errorFields;
             } else {
                 db.insertOne(Item, addedItem, function (data) {
                     if (data) {
@@ -242,7 +188,6 @@ const itemController = {
                 dateUpdated: req.body.dateUpdated,
             };
             if (req.body.noEdit) delete editedItem.image;
-            //console.log(editedItem);
 
             // Selling price default to 0 if field is empty and selling type is per design
             if (editedItem.sellingType == "per design" && isEmptyOrSpaces(editedItem.sellingPrice))
@@ -258,28 +203,14 @@ const itemController = {
             if (isEmptyOrSpaces(editedItem.purchasePrice)) editedItem.purchasePrice = "0";
 
             console.log(editedItem);
+            var validation = validateItem(editedItem);
             //  Errors
             if (!req.body.noNewCode && codeExists) {
                 error = "Item code already exists";
                 errorFields = ["code"];
-            } else if (editedItem.code.length > 100) {
-                error = "Item code exceeds maximum character limit";
-                errorFields = ["code"];
-            } else if (editedItem.name.length > 255) {
-                error = "Name exceeds maximum character limit";
-                errorFields = ["name"];
-            } else if (editedItem.size != null && isNaN(editedItem.size)) {
-                error = "Size inputted is not a number";
-                errorFields = ["size"];
-            } else if (editedItem.weight != null && isNaN(editedItem.weight)) {
-                error = "Weight inputted is not a number";
-                errorFields = ["weight"];
-            } else if (editedItem.sellingPrice != null && isNaN(editedItem.sellingPrice)) {
-                error = "Selling price inputted is not a number";
-                errorFields = ["selling-price"];
-            } else if (editedItem.purchasePrice != null && isNaN(editedItem.purchasePrice)) {
-                error = "Purchase price inputted is not a number";
-                errorFields = ["purchase-price"];
+            } else if (!validation.passed) {
+                error = validation.error;
+                errorFields = validation.errorFields;
             } else {
                 db.updateOne(
                     Item,
