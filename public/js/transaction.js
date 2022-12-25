@@ -83,7 +83,7 @@ function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
 
 function filter() {
     var searchBar = $("#filter-search").val();
-    var typeBar = $("#dropdown-selected").html();
+    var typeBar = $("#filter-type").val();
 
     $("#table-filter-apply").attr("disabled", true);
 
@@ -92,7 +92,7 @@ function filter() {
         searchBar = "empty";
     }
 
-    if (searchBar == "empty" && typeBar == "Type") {
+    if ((searchBar == "empty" && typeBar == "Type") || typeBar == "All") {
         getAllTransactions(true);
     } else {
         $.ajax({
@@ -177,16 +177,16 @@ $(function () {
         filter();
     });
 
-    $(".dropdown-type").click(function () {
-        var text = $(this).html();
-        if (text != "Any") $("#dropdown-selected").html(text);
-        else $("#dropdown-selected").html("Type");
-    });
+    // $(".dropdown-type").click(function () {
+    //     var text = $(this).html();
+    //     if (text != "Any") $("#dropdown-selected").html(text);
+    //     else $("#dropdown-selected").html("Type");
+    // });
 
     // Clears table filters
     $("#table-filter-clear").click(function () {
         $("#filter-search").val("");
-        $("#dropdown-selected").html("Type");
+        $("#filter-type").val("Type");
     });
 
     var resizeTimer;

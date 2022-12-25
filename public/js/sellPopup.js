@@ -140,4 +140,12 @@ $(function () {
             },
         });
     });
+
+    // Shortcuts for "Shift+S"
+    $(document).on("keydown", function (e) {
+        if (e.which == 83 && e.shiftKey) {
+            e.preventDefault();
+            $("#sell-popup").popup("show");
+        }
+    });
 });

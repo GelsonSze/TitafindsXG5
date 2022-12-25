@@ -56,6 +56,7 @@ body {
 .sidebar.close .logo-details :not(:last-child) {
     opacity: 0;
     transition: 0.2s ease all;
+    visibility: hidden;
 }
 
 .sidebar .logo-details i {
@@ -89,6 +90,7 @@ body {
 .sidebar.close .logo-details .logo-name {
     transition-delay: 0s;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
 }
 .sidebar .nav-links {
@@ -250,6 +252,10 @@ body {
 .sidebar.close .profile-details {
     width: 78px;
     background: none;
+}
+
+.sidebar.close .profile-details .name-role {
+    visibility: hidden;
 }
 .sidebar .profile-details .profile-content {
     display: flex;

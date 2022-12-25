@@ -9,7 +9,7 @@ main {
 
 .goback-text,
 .icon-return {
-    transition: var(--slow);
+    transition: var(--fast);
 }
 
 #goback-container {

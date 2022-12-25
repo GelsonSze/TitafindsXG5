@@ -185,10 +185,10 @@ function getItem() {
                     continue;
                 // Omit 'product-images/' path in image
                 if (attribute == "image")
-                    PageItem[attribute] = PageItem[attribute].replace("product-images/", "")
+                    PageItem[attribute] = PageItem[attribute].replace("product-images/", "");
 
                 // Formats the attribute name to be more readable
-                let attributeFormatted = (attribute == "id") ? "ID" : camelToSentence(attribute);
+                let attributeFormatted = attribute == "id" ? "ID" : camelToTitle(attribute);
 
                 $("#table-body").append(
                     `<tr><td>${attributeFormatted}</td> <td>${PageItem[attribute]}</td></tr>`

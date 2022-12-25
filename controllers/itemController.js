@@ -394,6 +394,51 @@ const itemController = {
         }
     },
 
+    addDamagedItem: async function (req, res, next) {
+        try {
+            var error = "";
+            var quantity = req.body.quantity;
+            var item = await Item.findOne({ code: req.body.code });
+
+            if (isNaN(quantity)) {
+                error = "Quantity is not a number";
+            } else if (!isNaN(quantity) && quantity % 1 != 0) {
+                error = "Quantity is not a whole number";
+            } else if (quantity < 0) {
+                error = "Quantity is negative";
+            } else if (quantity == 0) {
+                error = "Quantity is 0";
+            } else {
+                db.updateOne(
+                    Item,
+                    { code: req.body.code },
+                    { $inc: { damaged: req.body.quantity } },
+                    function (data) {
+                        req.body = {
+                            date: req.body.dateDamaged,
+                            type: "Added Damaged",
+                            description: item._id.toString(),
+                            quantity: quantity,
+                            sellingPrice: item.sellingPrice,
+                            transactedBy: req.session.user.username,
+                            code: item.code,
+                            name: item.name,
+                        };
+                        next();
+                    }
+                );
+                return;
+            }
+            res.status(400).json({ message: error, fields: ["add-quantity"] });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Add Damaged Item",
+                details: error.message,
+            });
+            return;
+        }
+    },
+
     removeDamagedItem: async function (req, res, next) {
         try {
             var error = "";

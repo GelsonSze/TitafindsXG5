@@ -313,15 +313,17 @@ String.prototype.removeNewlinesAndTags = function () {
  * @return {string} The Sentence Case version of the input string.
  *
  * @example
- * const sentenceCaseString = camelToSentence('sellingPrice');
+ * const sentenceCaseString = camelToTitle('sellingPrice');
  * console.log(sentenceCaseString); // Output: "Selling Price"
  */
-function camelToSentence(camelCase) {
+function camelToTitle(camelCase) {
     // // Split the camelCase string into an array of words
     // const words = camelCase.split(/(?=[A-Z])/);
     // // Capitalize the first letter of each word
     // const sentence = words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
 
-    // Oneliner
-    return camelCase.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); });
+    // One-liner
+    return camelCase.replace(/([A-Z])/g, " $1").replace(/^./, function (str) {
+        return str.toUpperCase();
+    });
 }

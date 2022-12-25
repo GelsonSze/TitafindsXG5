@@ -73,6 +73,7 @@
     --clr-black-80: #484848;
     --clr-black-75: #9a9a9a;
     --clr-black-50: #c0c0c0;
+    --clr-black-25: #e0e0e0;
     --clr-offwhite: #faf9f6;
     --clr-white: #ffffff;
 
@@ -91,7 +92,7 @@
     --clr-select-color: var(--clr-black-100);
 
     --clr-txt-primary: var(--clr-burgundy-dark);
-    --clr-txt-secondary: hsla(21, 71%, 38%, 0.892);
+    --clr-txt-secondary: #a64c1ce3;
     --clr-txt-secondary-2: hsl(22, 89%, 40%);
 
     /* Extra colors */
@@ -121,7 +122,7 @@ textarea,
 select,
 .button-primary,
 .button-secondary {
-    transition: var(--slow);
+    transition: var(--fast);
 }
 
 /* common styling */
@@ -175,12 +176,11 @@ label {
 }
 
 select {
-    font-family: var(--font-type2);
-    font-weight: bold;
+    font-family: var(--font-type);
     color: var(--clr-select-color);
     border: 1px solid var(--clr-gray);
     border-radius: 5px;
-    padding: 10px 5px;
+    padding: 5px;
 }
 
 textarea {
@@ -194,7 +194,6 @@ textarea {
 
 input::placeholder {
     font-family: var(--font-type);
-    color: var(--clr-txt-secondary);
 }
 
 input[type="file"] {
@@ -224,10 +223,38 @@ input[type="tel"]:focus,
 input[type="date"]:focus-visible {
     /* need to finalize */
     border-color: var(--clr-txt-secondary);
-    -webkit-box-shadow: none;
     box-shadow: none;
     outline: none;
-    /* background-color: var(--clr-white); */
+}
+
+button {
+    border-radius: 8px;
+    border-color: transparent;
+    color: white;
+    background: var(--clr-burgundy-80);
+    font-family: var(--font-type);
+    /* padding: 5px 10px; */
+}
+
+button:hover {
+    background: var(--clr-burgundy-60);
+}
+
+button:active {
+    background: var(--clr-burgundy-100);
+}
+
+button[type="reset"] {
+    color: #555;
+    background-color: #efefef;
+}
+
+button[type="reset"]:hover {
+    background-color: #e8e8e8;
+}
+
+button[type="reset"]:active {
+    background-color: #d7d7d7;
 }
 
 button:focus {
@@ -410,8 +437,6 @@ textarea.error,
     color: var(--clr-burgundy-100);
     font-family: "Inter Bold";
     background: var(--clr-gold-70);
-    margin: 0;
-    padding: 5px 10px;
 }
 
 .main-action button:hover {

@@ -136,4 +136,12 @@ $(function () {
             },
         });
     });
+
+    // Shortcuts for "Shift+R"
+    $(document).on("keydown", function (e) {
+        if (e.keyCode == 82 && e.shiftKey) {
+            e.preventDefault();
+            $("#restock-popup").popup("show");
+        }
+    });
 });

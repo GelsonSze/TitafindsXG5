@@ -1,24 +1,35 @@
 $(function () {
     function loadEditPopup() {
+        // hide popup
         $("#edit-popup").popup("hide");
-        $("#image-preview").attr("src", `../img/product-images/${PageItem.image}`);
-        $("#name").val(PageItem.name);
-        $("#code").val(PageItem.code);
-        $("#type").val(PageItem.type);
-        $("#classification").val(PageItem.classification);
-        $("#length").val(PageItem.length);
-        $("#size").val(PageItem.size);
-        $("#unit").val(PageItem.unit);
-        $("#weight").val(PageItem.weight);
-        $("#available").val(PageItem.available);
-        $("#selling-type").val(PageItem.sellingType);
-        $("#purchase-price").val(PageItem.purchasePrice);
-        $("#selling-price").val(PageItem.sellingPrice);
-        $("#edit-popup").popup("show");
 
-        // add red asterisk to weight label if sellingType is 'per gram'
-        if (PageItem.sellingType == "per gram") {
-            $("#weight").prev().append("<span style='color:red'>*</span>");
+        if (PageItem) {
+            // set image src
+            $("#image-preview").attr("src", `../img/product-images/${PageItem.image}`);
+
+            // set form values
+            $("#name").val(PageItem.name);
+            $("#code").val(PageItem.code);
+            $("#type").val(PageItem.type);
+            $("#classification").val(PageItem.classification);
+            $("#length").val(PageItem.length);
+            $("#size").val(PageItem.size);
+            $("#unit").val(PageItem.unit);
+            $("#weight").val(PageItem.weight);
+            $("#available").val(PageItem.available);
+            $("#selling-type").val(PageItem.sellingType);
+            $("#purchase-price").val(PageItem.purchasePrice);
+            $("#selling-price").val(PageItem.sellingPrice);
+
+            // show popup
+            $("#edit-popup").popup("show");
+
+            // add red asterisk to weight label if sellingType is 'per gram'
+            if (PageItem.sellingType == "per gram") {
+                $("#weight").prev().append("<span style='color:red'>*</span>");
+            }
+        } else {
+            console.log("No product or item found");
         }
     }
 

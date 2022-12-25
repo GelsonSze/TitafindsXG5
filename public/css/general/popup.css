@@ -45,35 +45,6 @@
     padding: 5px;
 }
 
-.popup button {
-    border-radius: 8px;
-    border-color: transparent;
-    color: white;
-    background: var(--clr-burgundy-80);
-    padding: 5px 10px;
-}
-
-.popup button:hover {
-    background: var(--clr-burgundy-60);
-}
-
-.popup button:active {
-    background: var(--clr-burgundy-100);
-}
-
-.popup button[type="reset"] {
-    color: #555;
-    background-color: #efefef;
-}
-
-.popup button[type="reset"]:hover {
-    background-color: #e8e8e8;
-}
-
-.popup button[type="reset"]:active {
-    background-color: #d7d7d7;
-}
-
 .popup textarea {
     resize: vertical;
     padding: 5px;
@@ -103,7 +74,8 @@
 
 .restock-sell-remove-common .text-error {
     position: absolute;
-    bottom: 38px;
+    bottom: 29px;
+    /* bottom: 38px; */
     left: 0;
     right: 0;
 }
@@ -171,7 +143,7 @@
 .item-wrapper span {
     font-family: "Inter Bold";
     font-size: 10px;
-    color: #a8a8a8;
+    color: var(--clr-black-75);
 }
 
 .item-wrapper-wrapper {
@@ -242,23 +214,20 @@ button:hover {
 }
 
 .popup-close .bx-x {
-    margin: -9px -20.5px;
+    margin: -5px -20.5px;
+    /* margin: -9px -20.5px;  */
     font-size: 30px;
 }
 
 .command {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 15px;
 }
 
 .command button {
     font-family: "Inter Bold";
 }
-
-/* .command button:focus {
-    box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgb(116 136 150 / 29%);
-} */
 
 .confirm-type-form {
     padding: 20px 10px 0;
