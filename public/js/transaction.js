@@ -69,7 +69,7 @@ function pushTransaction(trans) {
     return dfd.promise();
 }
 
-function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
+function transaction(date, type, desc, quantity, sellingPrice, transactedBy, newCode) {
     return {
         recid: Transactions.length + 1,
         date: date,
@@ -78,6 +78,7 @@ function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
         quantity: quantity,
         sellingPrice: sellingPrice,
         transactedBy: transactedBy,
+        newCode: newCode,
     };
 }
 
@@ -150,13 +151,14 @@ $(function () {
             { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
         ],
         records: Transactions,
-        onDblClick: function (record) {
+        onDblClick: function (recid) {
             // var record = w2ui["transaction-grid"].get(recid.recid);
             // // Grabs the last string in description. This is the code.
             // var strArray = record.description.split(" ");
             // var str = strArray[strArray.length - 1];
             // var code = str.substring(str.indexOf("(") + 1, str.lastIndexOf(")"));
             try {
+                var record = w2ui["transaction-grid"].get(recid.recid);
                 var code = record.newCode;
                 if (code != "deleted") window.open(`/item/${code}`, "_blank");
             } catch (error) {
