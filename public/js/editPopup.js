@@ -106,7 +106,9 @@ $(function () {
         // if ($("#image-preview").attr("src") == "/img/product-images/default.png") {
         //     data.append("noImage", true);
         // }
-        let imagePreview = $("#image-preview").attr("src").replace("../img/", "");
+        let imagePreview = $("#image-preview").attr("src").replace("../img/product-images/", "");
+        console.log(imagePreview);
+        console.log(PageItem.image);
         if (imagePreview == PageItem.image) {
             data.append("noEdit", true);
         }
