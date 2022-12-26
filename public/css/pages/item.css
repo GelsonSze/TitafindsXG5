@@ -12,7 +12,7 @@
 #top-wrapper {
     display: flex;
     flex-direction: row;
-    max-height: 530px;
+    max-height: 540px;
 }
 
 #left-wrapper {
@@ -121,7 +121,7 @@
 
 /* Attributes table */
 
-#table-wrapper{
+#table-wrapper {
     border: 1px solid var(--clr-burgundy-60);
     border-radius: 10px;
     font-family: "Inter Medium";
@@ -129,7 +129,7 @@
     overflow: hidden;
 }
 
-#table-content{
+#table-content {
     overflow: auto;
     height: 100%;
 }
@@ -142,7 +142,7 @@
     text-align: left;
     position: sticky;
     top: 0;
-   
+
     background-color: var(--clr-pink-50);
     overflow: hidden;
     margin: 10px;
@@ -162,7 +162,7 @@
 }
 
 #attributes-table th:nth-child(2),
-#attributes-table td:nth-child(2) { 
+#attributes-table td:nth-child(2) {
     border-left: 1px solid var(--clr-burgundy-60);
     border-bottom: 1px solid #dedede;
 }

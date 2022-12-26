@@ -81,10 +81,15 @@ $(function () {
                         }
 
                         if (itemPage) {
-                            var newTotalValue =
+                            var newAvailableValue =
                                 parseInt($("#main-attributes-available").text()) -
                                 parseInt(quantityField.value);
-                            $("#main-attributes-available").text(newTotalValue);
+                            $("#main-attributes-available").text(newAvailableValue);
+
+                            var newSoldValue =
+                                parseInt($("#main-attributes-sold").text()) +
+                                parseInt(quantityField.value);
+                            $("#main-attributes-sold").text(newSoldValue);
                             getTransactions(true);
                         }
 

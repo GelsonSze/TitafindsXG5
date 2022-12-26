@@ -35,6 +35,7 @@ const itemController = {
                         type: data.type,
                         sellingType: data.sellingType,
                         available: data.available ?? 0,
+                        sold: data.sold ?? 0,
                         damaged: data.damaged ?? 0,
                         styles: [
                             "pages/item.css",
