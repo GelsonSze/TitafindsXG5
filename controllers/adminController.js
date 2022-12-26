@@ -67,10 +67,6 @@ const adminController = {
             firstName = firstName.replace(/\s\s+/g, " ");
             lastName = lastName.replace(/\s\s+/g, " ");
 
-            console.log("After trim and replace");
-            console.log(firstName);
-            console.log(lastName);
-
             //Create a new user
             const newUser = {
                 username: req.body.username,

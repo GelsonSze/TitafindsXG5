@@ -37,10 +37,6 @@ main {
     gap: 5px;
 }
 
-#login-form input::placeholder {
-    color: var(--clr-txt-secondary);
-}
-
 .text-error {
     bottom: 221px;
     right: 40px;

@@ -84,7 +84,9 @@
     --clr-table-color: #f5f5f5;
     --clr-table-column-line: var(--clr-burgundy-100);
 
-    --clr-btn-primary: var(--clr-gold);
+    --clr-btn-primary: var(--clr-gold-70);
+    --clr-btn-primary-hover: var(--clr-gold-50);
+    --clr-btn-primary-active: var(--clr-gold-100);
     --clr-box-shadow-primary: rgb(225 211 205 / 70%);
     --clr-box-shadow-primary-active: rgb(225 211 205 / 90%);
     --clr-box-shadow-secondary: rgb(225 211 205 / 50%);
@@ -339,19 +341,6 @@ textarea.error,
     border-color: var(--clr-tag-red) !important;
 }
 
-#scaffold {
-    display: grid;
-    justify-items: center;
-    min-height: 1px;
-    max-width: 800px;
-    width: 65vw;
-    gap: 15px;
-}
-
-#scaffold img {
-    max-width: 275px;
-}
-
 .def-container {
     display: flex;
     border-radius: 5px;
@@ -363,31 +352,32 @@ textarea.error,
     border: none;
     border-radius: 5px;
     background-color: var(--clr-btn-primary);
-    font-family: var(--font-type2);
+    font-family: var(--font-type);
+    font-weight: bolder;
     font-size: 14px;
-    color: var(--clr-white);
+    color: var(--clr-burgundy-80);
     padding: 10px;
     box-shadow: 0 2px 10px var(--clr-box-shadow-primary);
     cursor: pointer;
     text-align: center;
 }
 
-.button-primary.red {
-    background-color: var(--clr-red);
+.button-primary:hover {
+    background-color: var(--clr-btn-primary-hover);
 }
 
-.button-primary:hover {
-    box-shadow: 0 2px 10px var(--clr-box-shadow-primary-hover);
+.button-primary:active {
+    color: var(--clr-burgundy-100);
+    background-color: var(--clr-btn-primary-active);
+}
+
+.button-primary.red {
+    background-color: var(--clr-red);
 }
 
 .button-primary.red:hover {
     box-shadow: 0 2px 10px rgb(221, 54, 71, 0.7);
 }
-
-.button-primary:active {
-    background-color: var(--clr-gold-500);
-}
-
 .button-primary.red:active {
     background-color: var(--clr-red-500);
 }

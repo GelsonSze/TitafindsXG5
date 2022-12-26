@@ -277,12 +277,12 @@ $(function () {
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                fields = jqXHR.responseJSON.fields;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let fields = jqXHR.responseJSON.fields;
+                let details = jqXHR.responseJSON.details;
 
                 if (fields) {
-                    wrongFields = [];
+                    let wrongFields = [];
                     fields.forEach(async function (field) {
                         wrongFields.push($(`#${field}`)[0]);
                     });
@@ -330,12 +330,12 @@ $(function () {
                     }
                 },
                 error: async function (jqXHR, textStatus, errorThrown) {
-                    message = jqXHR.responseJSON.message;
-                    fields = jqXHR.responseJSON.fields;
-                    details = jqXHR.responseJSON.details;
+                    let message = jqXHR.responseJSON.message;
+                    let fields = jqXHR.responseJSON.fields;
+                    let details = jqXHR.responseJSON.details;
 
                     if (fields) {
-                        wrongFields = [];
+                        let wrongFields = [];
                         fields.forEach(async function (field) {
                             wrongFields.push($(`#${field}`)[0]);
                         });
@@ -364,12 +364,12 @@ $(function () {
                     }
                 },
                 error: async function (jqXHR, textStatus, errorThrown) {
-                    message = jqXHR.responseJSON.message;
-                    fields = jqXHR.responseJSON.fields;
-                    details = jqXHR.responseJSON.details;
+                    let message = jqXHR.responseJSON.message;
+                    let fields = jqXHR.responseJSON.fields;
+                    let details = jqXHR.responseJSON.details;
 
                     if (fields) {
-                        wrongFields = [];
+                        let wrongFields = [];
                         fields.forEach(async function (field) {
                             wrongFields.push($(`#${field}`)[0]);
                         });
@@ -424,12 +424,12 @@ $(function () {
                     }
                 },
                 error: async function (jqXHR, textStatus, errorThrown) {
-                    message = jqXHR.responseJSON.message;
-                    fields = jqXHR.responseJSON.fields;
-                    details = jqXHR.responseJSON.details;
+                    let message = jqXHR.responseJSON.message;
+                    let fields = jqXHR.responseJSON.fields;
+                    let details = jqXHR.responseJSON.details;
 
                     if (fields) {
-                        wrongFields = [];
+                        let wrongFields = [];
                         fields.forEach(async function (field) {
                             wrongFields.push($(`#${field}`)[0]);
                         });
@@ -460,12 +460,12 @@ $(function () {
                     }
                 },
                 error: async function (jqXHR, textStatus, errorThrown) {
-                    message = jqXHR.responseJSON.message;
-                    fields = jqXHR.responseJSON.fields;
-                    details = jqXHR.responseJSON.details;
+                    let message = jqXHR.responseJSON.message;
+                    let fields = jqXHR.responseJSON.fields;
+                    let details = jqXHR.responseJSON.details;
 
                     if (fields) {
-                        wrongFields = [];
+                        let wrongFields = [];
                         fields.forEach(async function (field) {
                             wrongFields.push($(`#${field}`)[0]);
                         });
@@ -533,12 +533,12 @@ $(function () {
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                fields = jqXHR.responseJSON.fields;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let fields = jqXHR.responseJSON.fields;
+                let details = jqXHR.responseJSON.details;
 
                 if (fields) {
-                    wrongFields = [];
+                    let wrongFields = [];
                     fields.forEach(async function (field) {
                         wrongFields.push($(`#${field}`)[0]);
                     });
@@ -583,8 +583,8 @@ $(function () {
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let details = jqXHR.responseJSON.details;
 
                 if (details) console.log(details);
                 SnackBar({
@@ -630,8 +630,8 @@ $(function () {
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let details = jqXHR.responseJSON.details;
 
                 if (details) console.log(details);
                 SnackBar({
@@ -677,8 +677,8 @@ $(function () {
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let details = jqXHR.responseJSON.details;
 
                 if (details) console.log(details);
                 SnackBar({

@@ -50,7 +50,6 @@ function item(
     image,
     name,
     code,
-    description,
     type,
     classification,
     size,
@@ -67,7 +66,6 @@ function item(
         image: image,
         name: name,
         code: code,
-        description: description,
         type: type,
         classification: classification,
         size: size,
@@ -89,7 +87,6 @@ function pushItem(product) {
             product.image,
             product.name,
             product.code,
-            product.description,
             product.type,
             product.classification,
             product.size,
@@ -137,7 +134,8 @@ function getSpecifiedItems(refreshGrid = false, classification, type, weight, si
                         sellingPrice == 0) &&
                     (product.name.toLowerCase().search(check) != -1 ||
                         product.code.toLowerCase().search(check) != -1 ||
-                        product.description.toLowerCase().search(check) != -1)
+                        (product.description &&
+                            product.description.toLowerCase().search(check) != -1))
                 ) {
                     pushItem(product);
                 }
@@ -331,7 +329,6 @@ $(function () {
     });
     //leave hover on image
     $(document).on("mouseleave", "#w2ui-image", function (e) {
-        // console.log("leave");
         $("#w2ui-enlarged-image").fadeOut(150);
     });
     //refresh grid when window is resized

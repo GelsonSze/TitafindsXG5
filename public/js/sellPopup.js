@@ -108,8 +108,8 @@ $(function () {
 
                     error: async function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.hasOwnProperty("responseJSON")) {
-                            message = jqXHR.responseJSON.message;
-                            fields = jqXHR.responseJSON.fields;
+                            let message = jqXHR.responseJSON.message;
+                            let fields = jqXHR.responseJSON.fields;
 
                             if (fields) {
                                 fields.forEach(async function (field) {
@@ -129,8 +129,8 @@ $(function () {
 
             error: async function (jqXHR, textStatus, errorThrown) {
                 if (jqXHR.hasOwnProperty("responseJSON")) {
-                    message = jqXHR.responseJSON.message;
-                    fields = jqXHR.responseJSON.fields;
+                    let message = jqXHR.responseJSON.message;
+                    let fields = jqXHR.responseJSON.fields;
 
                     if (fields) {
                         fields.forEach(async function (field) {
