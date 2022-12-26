@@ -1,3 +1,4 @@
+"use strict";
 $(function () {
     $("#remove-damaged-popup").popup({
         blur: false,

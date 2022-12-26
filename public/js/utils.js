@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Returns true if str is empty or has spaces
  * @param  {string} str

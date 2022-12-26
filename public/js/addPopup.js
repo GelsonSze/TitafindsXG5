@@ -1,3 +1,4 @@
+"use strict";
 $(function () {
     $("#add-popup").popup({
         blur: false,

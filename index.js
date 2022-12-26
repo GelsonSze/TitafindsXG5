@@ -1,3 +1,4 @@
+"use strict";
 // Environment module
 import "dotenv/config";
 

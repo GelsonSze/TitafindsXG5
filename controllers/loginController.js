@@ -1,3 +1,4 @@
+"use strict";
 //Controller for user
 import User from "../model/schemas/User.js";
 import bcrypt from "bcrypt";
@@ -50,8 +51,7 @@ const loginController = {
                         res.sendStatus(200);
                     }
                 );
-            }
-            else res.sendStatus(200);
+            } else res.sendStatus(200);
             return;
         } catch (error) {
             res.status(500).json({ message: "Server error: Login user", details: err });

@@ -1,3 +1,4 @@
+"use strict";
 import User from "../model/schemas/User.js";
 import { isEqual } from "../utils/helper.js";
 

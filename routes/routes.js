@@ -1,3 +1,4 @@
+"use strict";
 import express from "express";
 import itemController from "../controllers/itemController.js";
 import loginController from "../controllers/loginController.js";

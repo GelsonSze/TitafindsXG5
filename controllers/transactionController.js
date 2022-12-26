@@ -1,3 +1,4 @@
+"use strict";
 //Controller for items
 import Transaction from "../model/schemas/Transaction.js";
 import db from "../model/db.js";

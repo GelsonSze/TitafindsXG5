@@ -1,3 +1,4 @@
+"use strict";
 $(document).ready(function () {
     const error = $(".text-error")[0];
     if (!isEmptyOrSpaces(error.innerHTML)) {

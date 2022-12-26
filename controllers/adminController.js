@@ -1,3 +1,4 @@
+"use strict";
 //Controller for admin
 import User from "../model/schemas/User.js";
 import bcrypt from "bcrypt";

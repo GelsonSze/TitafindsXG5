@@ -1,3 +1,4 @@
+"use strict";
 $(function () {
     $("#restock-popup").popup({
         blur: false,

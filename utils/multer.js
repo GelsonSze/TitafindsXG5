@@ -1,3 +1,4 @@
+"use strict";
 import multer from "multer";
 export const ImageDirectory = "product-images";
 /**

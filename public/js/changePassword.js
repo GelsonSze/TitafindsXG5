@@ -1,3 +1,4 @@
+"use strict";
 $(function () {
     var newPassField = $("#new-password")[0];
     var confirmPassField = $("#confirm-password")[0];

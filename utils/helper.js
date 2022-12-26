@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Returns true if both objects's keys have the same values
  * @param  {Object} obj1
