@@ -139,9 +139,12 @@ $(function () {
     });
 
     // Shortcuts for "Shift+R"
-    $(document).on("keydown", function (e) {
-        if (e.keyCode == 82 && e.shiftKey) {
+    $(window).on("keydown", function (e) {
+        if (e.keyCode == 82 && e.shiftKey && e.altKey) {
             e.preventDefault();
+            // If .popup_wrapper_visible is present anywhere in the document, then return
+            if ($(".popup_wrapper_visible").length) return;
+
             $("#restock-popup").popup("show");
         }
     });

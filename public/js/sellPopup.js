@@ -148,9 +148,12 @@ $(function () {
     });
 
     // Shortcuts for "Shift+S"
-    $(document).on("keydown", function (e) {
-        if (e.which == 83 && e.shiftKey) {
+    $(window).on("keydown", function (e) {
+        if (e.which == 83 && e.shiftKey && e.altKey) {
             e.preventDefault();
+            // If .popup_wrapper_visible is present anywhere in the document, then return
+            if ($(".popup_wrapper_visible").length) return;
+
             $("#sell-popup").popup("show");
         }
     });

@@ -24,11 +24,12 @@ main {
 #table-filters-wrapper > div:first-child {
     display: flex;
     gap: 3px;
+    align-items: center;
 }
 
-#table-filters-wrapper > label[for="filter-search"] {
+#table-filters-wrapper label[for="filter-search"] {
     position: relative;
-    top: 3px;
+    top: 2px;
     font-size: 18px;
     cursor: pointer;
     text-transform: none;
@@ -37,18 +38,26 @@ main {
 }
 
 #table-filters-wrapper input {
-    height: 26px;
+    height: 29px;
     padding: 10px 5px;
 }
 
 #filter-search {
-    width: 15vw;
-    max-width: 200px;
-    min-width: 100px;
+    width: 13vw;
+    max-width: 250px;
+    min-width: 70px;
 }
 
-#table-filters-wrapper select {
-    width: 125px;
+#filter-type {
+    width: 8vw !important;
+    max-width: 180px;
+    min-width: 75px;
+}
+
+#filter-classification {
+    width: 8vw !important;
+    max-width: 180px;
+    min-width: 120px;
 }
 
 #table-filter-refresh {

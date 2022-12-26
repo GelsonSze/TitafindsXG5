@@ -187,15 +187,22 @@ $(function () {
         }
     });
 
-    // Shortcuts for "Shift+N" and "Shift+I" keys
-    $(document).keydown(function (e) {
-        if (e.shiftKey) {
+    // Shortcuts for "Alt+Shift+N" and "Alt+Shift+I" keys
+    $(window).keydown(function (e) {
+        if (e.shiftKey && e.altKey) {
             if (e.which == "78") {
                 e.preventDefault();
+                // If .popup_wrapper_visible is present anywhere in the document, then return
+                if ($(".popup_wrapper_visible").length) return;
+
                 // Show the "Add Item" popup
                 $("#add-popup").popup("show");
             } else if (e.which == "73") {
                 e.preventDefault();
+                // If .popup_wrapper_visible is present anywhere in the document, then return
+                if ($(".popup_wrapper_visible").length) return;
+
+                console.log("Import Items");
                 // Show the "Import Items" popup
                 // $("#import-popup").popup("show");
             }

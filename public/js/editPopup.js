@@ -247,10 +247,13 @@ $(function () {
         }
     });
 
-    $(document).keydown(function (e) {
-        if (e.shiftKey) {
+    $(window).keydown(function (e) {
+        if (e.shiftKey && e.altKey) {
             if (e.which == "69") {
                 e.preventDefault();
+                // If .popup_wrapper_visible is present anywhere in the document, then return
+                if ($(".popup_wrapper_visible").length) return;
+
                 // Show the "Edit Item" popup
                 loadEditPopup();
             }
