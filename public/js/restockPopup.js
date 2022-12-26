@@ -138,7 +138,7 @@ $(function () {
         });
     });
 
-    // Shortcuts for "Shift+R"
+    // Shortcuts for "Shift+Alt+R"
     $(window).on("keydown", function (e) {
         if (e.keyCode == 82 && e.shiftKey && e.altKey) {
             e.preventDefault();

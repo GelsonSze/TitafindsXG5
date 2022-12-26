@@ -187,10 +187,10 @@ $(function () {
         }
     });
 
-    // Shortcuts for "Alt+Shift+N" and "Alt+Shift+I" keys
+    // Shortcuts for "Shift+Alt+A" and "Shift+Alt+I" keys
     $(window).keydown(function (e) {
         if (e.shiftKey && e.altKey) {
-            if (e.which == "78") {
+            if (e.which == "65") {
                 e.preventDefault();
                 // If .popup_wrapper_visible is present anywhere in the document, then return
                 if ($(".popup_wrapper_visible").length) return;
