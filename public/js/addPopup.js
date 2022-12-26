@@ -21,7 +21,7 @@ $(function () {
     $("#add-popup #selling-type").change(function () {
         var $weight = $("#add-popup #weight");
         var selectedItem = $(this).val();
-        if (selectedItem === "per gram") {
+        if (selectedItem === "per gram" && $weight.prev().find("span").length == 0) {
             $weight.prev().append('<span style="color: red">*</span>');
         } else {
             $weight.prev().find("span").remove();

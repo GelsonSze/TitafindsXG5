@@ -25,8 +25,11 @@ $(function () {
             // show popup
             $("#edit-popup").popup("show");
 
-            // add red asterisk to weight label if sellingType is 'per gram'
-            if (PageItem.sellingType == "per gram") {
+            // add red asterisk to weight label if sellingType is 'per gram' and asterisk is not yet added
+            if (
+                PageItem.sellingType == "per gram" &&
+                $("#weight").prev().find("span").length == 0
+            ) {
                 $("#weight").prev().append("<span style='color:red'>*</span>");
             }
         } else {
