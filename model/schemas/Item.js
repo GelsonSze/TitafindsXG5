@@ -57,10 +57,12 @@ const itemSchema = new mongoose.Schema({
 
     sold: {
         type: Number,
+        default: 0,
     },
 
     damaged: {
         type: Number,
+        default: 0,
     },
 
     sellingType: {

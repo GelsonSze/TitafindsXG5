@@ -122,6 +122,10 @@ const itemController = {
             // Purchase price is default to 0 if field is empty
             if (isEmptyOrSpaces(addedItem.purchasePrice)) addedItem.purchasePrice = 0;
 
+            if (isEmptyOrSpaces(addedItem.sold)) addedItem.sold = 0;
+
+            if (isEmptyOrSpaces(addedItem.damaged)) addedItem.damaged = 0;
+
             console.log(addedItem);
             var validation = validateItem(addedItem);
             //  Check item code if it already exists
