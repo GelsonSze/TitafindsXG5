@@ -1,3 +1,4 @@
+"use strict";
 var Transactions = [];
 
 /**
@@ -69,7 +70,7 @@ function pushTransaction(trans) {
     return dfd.promise();
 }
 
-function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
+function transaction(date, type, desc, quantity, sellingPrice, transactedBy, newCode) {
     return {
         recid: Transactions.length + 1,
         date: date,
@@ -78,12 +79,13 @@ function transaction(date, type, desc, quantity, sellingPrice, transactedBy) {
         quantity: quantity,
         sellingPrice: sellingPrice,
         transactedBy: transactedBy,
+        newCode: newCode,
     };
 }
 
 function filter() {
     var searchBar = $("#filter-search").val();
-    var typeBar = $("#dropdown-selected").html();
+    var typeBar = $("#filter-type").val();
 
     $("#table-filter-apply").attr("disabled", true);
 
@@ -92,7 +94,7 @@ function filter() {
         searchBar = "empty";
     }
 
-    if (searchBar == "empty" && typeBar == "Type") {
+    if ((searchBar == "empty" && typeBar == "Type") || typeBar == "All") {
         getAllTransactions(true);
     } else {
         $.ajax({
@@ -144,23 +146,27 @@ $(function () {
                 size: "6%",
                 sortable: true,
                 render: function (record) {
-                    if(record.sellingPrice != null)
+                    if (record.sellingPrice != null)
                         return record.sellingPrice.toLocaleString("en-US");
-                    else
-                        return record.sellingPrice
+                    else return record.sellingPrice;
                 },
             },
             { field: "transactedBy", text: "Transacted By", size: "7%", sortable: true },
         ],
         records: Transactions,
-        onDblClick: function (record) {
+        onDblClick: function (recid) {
             // var record = w2ui["transaction-grid"].get(recid.recid);
             // // Grabs the last string in description. This is the code.
             // var strArray = record.description.split(" ");
             // var str = strArray[strArray.length - 1];
             // var code = str.substring(str.indexOf("(") + 1, str.lastIndexOf(")"));
-            var code = record.newCode;
-            if (code != "deleted") window.open(`/item/${code}`, "_blank");
+            try {
+                var record = w2ui["transaction-grid"].get(recid.recid);
+                var code = record.newCode;
+                if (code != "deleted") window.open(`/item/${code}`, "_blank");
+            } catch (error) {
+                console.log(error);
+            }
         },
     });
 
@@ -176,20 +182,27 @@ $(function () {
         filter();
     });
 
-    $(".dropdown-type").click(function () {
-        var text = $(this).html();
-        if (text != "Any") $("#dropdown-selected").html(text);
-        else $("#dropdown-selected").html("Type");
-    });
+    // $(".dropdown-type").click(function () {
+    //     var text = $(this).html();
+    //     if (text != "Any") $("#dropdown-selected").html(text);
+    //     else $("#dropdown-selected").html("Type");
+    // });
 
     // Clears table filters
     $("#table-filter-clear").click(function () {
         $("#filter-search").val("");
-        $("#dropdown-selected").html("Type");
+        $("#filter-type").val("Type");
     });
 
-    $(window).resize(function () {
-        console.log("refresh/resize");
-        w2ui["transaction-grid"].refresh();
-    });
+    var resizeTimer;
+    window.addEventListener(
+        "resize",
+        function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                w2ui["transaction-grid"].refresh();
+            }, 510);
+        },
+        { passive: true }
+    );
 });

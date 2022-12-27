@@ -1,3 +1,4 @@
+"use strict";
 var Items = [];
 var AddPopupQuantity = 0;
 
@@ -55,6 +56,8 @@ function item(
     unit,
     weight,
     available,
+    sold,
+    damaged,
     sellingPrice,
     purchasePrice
 ) {
@@ -69,6 +72,8 @@ function item(
         unit: unit,
         weight: weight,
         available: available,
+        sold: sold,
+        damaged: damaged,
         purchasePrice: purchasePrice,
         sellingPrice: sellingPrice,
     };
@@ -88,6 +93,8 @@ function pushItem(product) {
             product.unit,
             product.weight,
             product.available,
+            product.sold,
+            product.damaged,
             product.sellingPrice,
             product.purchasePrice
         )
@@ -98,7 +105,7 @@ function pushItem(product) {
     return dfd.promise();
 }
 
-function getSpecifiedItems(refreshGrid = false, classification, type, weight, size) {
+function getSpecifiedItems(refreshGrid = false, classification, type, weight, size, sellingPrice) {
     /*Records it as 0 if the user did not select a category*/
     Items = [];
     var check = $("#filter-search").val().toLowerCase();
@@ -113,19 +120,22 @@ function getSpecifiedItems(refreshGrid = false, classification, type, weight, si
         success: function (items) {
             for (var product of items) {
                 if (
-                    (product.type == $("#dropdown-type-select").text().trim() || type == 0) &&
-                    (product.classification == $("#dropdown-classification-select").text().trim() ||
+                    (product.type == $("#filter-type").val() || type == 0) &&
+                    (product.classification == $("#filter-classification").val() ||
                         classification == 0) &&
-                    //(product.status == $("#dropdown-status-select").text().trim() || status == 0) &&
                     ((product.weight >= $("#weight-min").val() &&
                         product.weight <= $("#weight-max").val()) ||
                         weight == 0) &&
                     ((product.size >= $("#size-min").val() &&
                         product.size <= $("#size-max").val()) ||
                         size == 0) &&
+                    ((product.sellingPrice >= $("#selling-price-min").val() &&
+                        product.sellingPrice <= $("#selling-price-max").val()) ||
+                        sellingPrice == 0) &&
                     (product.name.toLowerCase().search(check) != -1 ||
-                        product.code.toLowerCase().search(check) != -1) //||
-                    //check == ""
+                        product.code.toLowerCase().search(check) != -1 ||
+                        (product.description &&
+                            product.description.toLowerCase().search(check) != -1))
                 ) {
                     pushItem(product);
                 }
@@ -138,21 +148,16 @@ function getSpecifiedItems(refreshGrid = false, classification, type, weight, si
         },
     });
 }
-function increase() {
-    AddPopupQuantity = $("#add-popup #quantity").val();
-    if (!isNaN(AddPopupQuantity)) {
-        AddPopupQuantity = Number(AddPopupQuantity);
-        AddPopupQuantity += 1;
-        $("#add-popup #quantity").val(AddPopupQuantity);
+function increase(input) {
+    if (!isNaN(input.value)) {
+        if (input.value <= 0) input.value = 0;
+        input.value = parseInt(input.value) + 1;
     }
 }
 
-function decrease() {
-    AddPopupQuantity = $("#add-popup #quantity").val();
-    if (!isNaN(AddPopupQuantity) && AddPopupQuantity > 0) {
-        AddPopupQuantity = Number($("#add-popup #quantity").val());
-        AddPopupQuantity -= 1;
-        $("#add-popup #quantity").val(AddPopupQuantity);
+function decrease(input) {
+    if (!isNaN(input.value) && input.value > 0) {
+        input.value = parseInt(input.value) - 1;
     }
 }
 
@@ -175,17 +180,16 @@ $(function () {
             {
                 field: "image",
                 text: "Image",
-                size: "7%",
+                size: "5%",
                 render: function (record, extra) {
                     var html =
-                        '<img id="w2ui-image" src="/img/' +
+                        '<img draggable="false" id="w2ui-image" src="/img/' +
                         record.image +
                         '" alt="' +
                         record.image +
                         '">';
                     return html;
                 },
-                sortable: true,
             },
             {
                 field: "name",
@@ -199,12 +203,7 @@ $(function () {
             },
             { field: "code", text: "Code", size: "5%", sortable: true },
             { field: "type", text: "Type", size: "5%", sortable: true },
-            {
-                field: "classification",
-                text: "Classifications",
-                size: "5%",
-                sortable: true,
-            },
+            { field: "classification", text: "Classifications", size: "5%", sortable: true },
             {
                 field: "size",
                 text: "Size",
@@ -216,6 +215,8 @@ $(function () {
             },
             { field: "weight", text: "Weight", size: "3%", sortable: true },
             { field: "available", text: "Available", size: "3%", sortable: true },
+            { field: "sold", text: "Sold", size: "2 %", sortable: true },
+            { field: "damaged", text: "Damaged", size: "3%", sortable: true },
             {
                 field: "sellingPrice",
                 text: "Selling Price",
@@ -257,97 +258,74 @@ $(function () {
         ],
         records: Items,
         onDblClick: function (recid) {
-            // Redirects to item page
-
-            var record = w2ui["item-grid"].get(recid.recid);
-            //console.log(record)
-
-            window.open(`/item/${record.code}`, "_blank");
+            try {
+                var record = w2ui["item-grid"].get(recid.recid);
+                window.open(`/item/${record.code}`, "_blank");
+            } catch (error) {
+                console.log(error);
+            }
         },
     });
-    //on change of image
-    $("#image").on("change", function () {
-        try {
-            if (this.files[0]) {
-                //console.log(this.files[
-                if (this.files[0].type.match(/image.(jpg|png|jpeg)/)) {
-                    if (this.files[0].size <= 1024 * 1024 * 5) {
-                        //add in here validation for size
-                        var reader = new FileReader();
-                        reader.onload = function (e) {
-                            $("#image-preview").attr("src", e.target.result);
-                        };
-                        reader.readAsDataURL(this.files[0]);
-                    } else {
-                        $("#add-popup #image").val("");
-                        showError($("#add-popup .text-error")[0], "Image file exceeds 5mb", [
-                            $("#image-preview")[0],
-                        ]);
-                    }
-                } else {
-                    $("#add-popup #image").val("");
-                    showError($("#add-popup .text-error")[0], "Please select an image file", [
-                        $("#image-preview")[0],
-                    ]);
-                }
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    });
 
-    $(".dropdown-type").click(function () {
-        var text = $(this).html();
-        $("#dropdown-type-select").html(text);
-    });
-
-    $(".dropdown-classification").click(function () {
-        var text = $(this).html();
-        $("#dropdown-classification-select").html(text);
-    });
-
-    // $(".dropdown-status").click(function () {
+    // $(".dropdown-type").click(function () {
     //     var text = $(this).html();
-    //     console.log(text);
-    //     $("#dropdown-status-select").html(text);
+    //     $("#dropdown-type-select").html(text);
+    // });
+
+    // $(".dropdown-classification").click(function () {
+    //     var text = $(this).html();
+    //     $("#dropdown-classification-select").html(text);
     // });
 
     $("#filter-search").on("keydown", function (e) {
         if (e.keyCode == 13) {
+            // If the user did not type anything in search, get all items.
+            var check = $("#filter-search").val();
+            if (check == "") {
+                getAllItems(true);
+                return;
+            }
             $("#table-filter-apply").click();
         }
     });
 
     $("#table-filter-apply").click(function () {
-        if ($("#dropdown-type-select").text().trim() == "Type") {
+        /*Records it as 0 if the user did not select a category*/
+        if ($("#filter-type").val() == null) {
             var type = 0;
         }
-        if ($("#dropdown-classification-select").text().trim() == "Classification") {
+        if ($("#filter-classification").val() == null) {
             var classification = 0;
         }
-        // if ($("#dropdown-status-select").text().trim() == "Status") {
-        //     var status = 0;
-        // }
         if ($("#weight-min").val() == "" || $("#weight-max").val() == "") {
             var weight = 0;
         }
         if ($("#size-min").val() == "" || $("#size-max").val() == "") {
             var size = 0;
         }
+        if ($("#selling-price-min").val() == "" || $("#selling-price-max").val() == "") {
+            var sellingPrice = 0;
+        }
 
-        getSpecifiedItems(true, classification, type, weight, size);
+        if (DropdownContent) {
+            DropdownContent.removeClass("show");
+        }
+        getSpecifiedItems(true, classification, type, weight, size, sellingPrice);
     });
 
     $("#table-filter-clear").click(function () {
-        /*Records it as 0 if the user did not select a category*/
-        $("#dropdown-type-select").html("Type");
-        $("#dropdown-classification-select").html("Classification");
-        // $("#dropdown-status-select").html("Status");
+        $("#filter-type").val("Type");
+        $("#filter-classification").val("Classification");
         $("#weight-min").val(0);
         $("#size-min").val(0);
+        $("#selling-price-min").val(0);
         $("#weight-max").val("");
         $("#size-max").val("");
+        $("#selling-price-max").val("");
         $("#filter-search").val("");
+        if (DropdownContent) {
+            DropdownContent.removeClass("show");
+        }
         getSpecifiedItems(true, 0, 0, 0, 0, 0);
     });
 
@@ -452,20 +430,22 @@ $(function () {
     $(document).on("mouseover", "#w2ui-image", function (e) {
         // console.log(e.target.src);
         $("#w2ui-enlarged-image").attr("src", e.target.src);
-        $("#w2ui-enlarged-image").css("display", "block");
+        $("#w2ui-enlarged-image").fadeIn(150);
     });
     //leave hover on image
     $(document).on("mouseleave", "#w2ui-image", function (e) {
-        // console.log("leave");
-        $("#w2ui-enlarged-image").css("display", "none");
+        $("#w2ui-enlarged-image").fadeOut(150);
     });
     //refresh grid when window is resized
     var resizeTimer;
-    $(window).resize(function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function () {
-            // console.log("refresh/resize");
-            w2ui["item-grid"].refresh();
-        }, 510);
-    });
+    window.addEventListener(
+        "resize",
+        function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                w2ui["item-grid"].refresh();
+            }, 510);
+        },
+        { passive: true }
+    );
 });

@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Returns true if str is empty or has spaces
  * @param  {string} str
@@ -61,6 +62,7 @@ function showError(error, message, inputs = []) {
  * Shows the success message for 5 seconds.
  * @param {HTMLElement} success
  * @param {string} message
+ * @deprecated - use SnackBar instead
  */
 
 function showSuccess(success, message) {
@@ -274,11 +276,11 @@ String.prototype.removeNewlinesAndTags = function () {
     return this.replace(/(\r\n|\n|\r)/gm, "").replace(/(<([^>]+)>)/gi, "");
 };
 
-/**
- * This function pushes the transaction of the item in the transaction array
- * @param {Array} Transactions - Transactions global variable array
- * @param {Object} trans - transaction object
- */
+// /**
+//  * This function pushes the transaction of the item in the transaction array
+//  * @param {Array} Transactions - Transactions global variable array
+//  * @param {Object} trans - transaction object
+//  */
 // function pushTransaction(Transactions, trans) {
 //     $.ajax({
 //         url: `/getItemById=${trans.description}`,
@@ -305,3 +307,25 @@ String.prototype.removeNewlinesAndTags = function () {
 //         },
 //     });
 // }
+
+/**
+ * Converts a camelCase string to Sentence Case.
+ *
+ * @param {string} camelCase - The camelCase string to be converted.
+ * @return {string} The Sentence Case version of the input string.
+ *
+ * @example
+ * const sentenceCaseString = camelToTitle('sellingPrice');
+ * console.log(sentenceCaseString); // Output: "Selling Price"
+ */
+function camelToTitle(camelCase) {
+    // // Split the camelCase string into an array of words
+    // const words = camelCase.split(/(?=[A-Z])/);
+    // // Capitalize the first letter of each word
+    // const sentence = words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+
+    // One-liner
+    return camelCase.replace(/([A-Z])/g, " $1").replace(/^./, function (str) {
+        return str.toUpperCase();
+    });
+}

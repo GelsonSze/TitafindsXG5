@@ -4,25 +4,35 @@
         <div id="top-wrapper">
             {{#if user.isAdmin}}
             <div id="commands">
-                <box-icon class="edit-popup_open icon-popup" type="solid" name="edit"></box-icon>
-                <box-icon class="delete-popup_open icon-popup" name="trash"></box-icon>
+                <i class="bx bx-edit edit-popup_open icon-popup"></i>
+                <i class="bx bx-trash delete-popup_open icon-popup"></i>
             </div>
             {{/if}}
 
             <div id="left-wrapper">
                 {{!-- Image and Name --}}
-                <img id="product-img" src="/img/product-images/default.png" />
+                <img draggable="false" id="product-image" src="/img/product-images/default.png" />
 
                 <div id="item-attributes-wrapper">
-                    <div class="main-attributes-wrapper"><span>Type:&nbsp;</span> {{type}}</div>
                     <div class="main-attributes-wrapper">
-                        <span>Selling Type:&nbsp;</span> {{sellingType}}
+                        <span>Type:&nbsp;</span>
+                        <p id="main-attributes-type">{{type}}</p>
                     </div>
                     <div class="main-attributes-wrapper">
-                        <span>Available Quantity:&nbsp;</span> {{available}}
+                        <span>Selling Type:&nbsp;</span>
+                        <p id="main-attributes-selling-type">{{sellingType}}</p>
                     </div>
                     <div class="main-attributes-wrapper">
-                        <span>Damaged Quantity:&nbsp;</span> {{damaged}}
+                        <span>Available Quantity:&nbsp;</span>
+                        <p id="main-attributes-available">{{available}}</p>
+                    </div>
+                    <div class="main-attributes-wrapper">
+                        <span>Sold Quantity:&nbsp;</span>
+                        <p id="main-attributes-sold">{{sold}}</p>
+                    </div>
+                    <div class="main-attributes-wrapper">
+                        <span>Damaged Quantity:&nbsp;</span>
+                        <p id="main-attributes-damaged">{{damaged}}</p>
                     </div>
                 </div>
             </div>
@@ -36,26 +46,25 @@
                     <span>Description</span>
                     <p>{{desc}}</p>
                 </div>
-
-                <table id="attributes-table" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <td>Attributes</td>
-                            <td>Value</td>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        {{!-- Content from item.js --}}
-                    </tbody>
-                </table>
-
-                {{!-- Attributes / Descriptions --}} {{!--
-                <div id="fields-table"></div>
-                --}}
+                <div id="table-wrapper">
+                    <div id="table-content">
+                        <table id="attributes-table" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Attributes</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-body">
+                                {{!-- Content from item.js --}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
 
-        {{>editPopup}} {{>sellPopup}} {{>restockPopup}} {{>removeDamagePopup}}
+        {{>editPopup}} {{>sellPopup}} {{>restockPopup}} {{>removeDamagedPopup}}
 
         <div id="bottom-wrapper">
             <div id="transaction-header">
@@ -63,7 +72,7 @@
                 <div class="main-action">
                     <button class="restock-popup_open">Restock</button>
                     <button class="sell-popup_open">Sell</button>
-                    <button class="remove-damage-popup_open">Remove Damage</button>
+                    <button class="remove-damaged-popup_open">Remove Damaged</button>
                 </div>
             </div>
             <div id="details-grid" class="w2ui-grid-custom"></div>

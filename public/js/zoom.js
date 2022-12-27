@@ -1,3 +1,4 @@
+"use strict";
 (function () {
     if (typeof $ !== "function") throw Error("JQuery is not present.");
 

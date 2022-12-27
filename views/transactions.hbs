@@ -7,25 +7,33 @@
             <div id="table-actions-wrapper">
                 <div id="table-filters-wrapper">
                     {{! Search }}
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                    <input
-                        class="input-field"
-                        type="text"
-                        placeholder="Search"
-                        id="filter-search"
-                    />
+                    <div>
+                        <label for="filter-search"><i class="bx bx-search"></i></label>
+                        <input
+                            class="input-field"
+                            type="text"
+                            placeholder="Search"
+                            id="filter-search"
+                        />
+                    </div>
 
                     {{! Type }}
                     <div class="dropdown-select-wrapper">
-                        <select disabled>
-                            <option id="dropdown-selected" disabled selected value>Type</option>
+                        <select id="filter-type">
+                            <option disabled selected hidden>Type</option>
+                            <option>Restock</option>
+                            <option>Added</option>
+                            <option>Sell</option>
+                            <option>All</option>
                         </select>
+                        {{!--
                         <div class="dropdown-select-content">
                             <button class="dropdown-type" type="button">Restock</button>
                             <button class="dropdown-type" type="button">Added</button>
                             <button class="dropdown-type" type="button">Sell</button>
                             <button class="dropdown-type" type="button">Any</button>
                         </div>
+                        --}}
                     </div>
 
                     {{! Apply Button }}

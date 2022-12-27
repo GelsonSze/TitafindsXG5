@@ -1,32 +1,31 @@
 <section id="sell-popup" class="popup">
-    <button class="sell-popup_close popup-close">X</button>
+    <button class="sell-popup_close popup-close"><i class="bx bx-x"></i></button>
     <h1>Sell Item</h1>
 
-    <form id="sell-form" class="restock-sell-common" enctype="multipart/form-data">
-        <p class="text-error"></p>
-
+    <form id="sell-form" class="restock-sell-remove-common" enctype="multipart/form-data">
         <div class="popup-row-wrapper">
             {{#if inventory}}
             <div class="item-wrapper">
-                <label for="code">Product Code</label><br />
-                <input type="text" id="sell-code" name="code" /><br />
+                <label for="code">Product Code</label>
+                <input type="text" id="sell-code" name="code" />
             </div>
             {{/if}}
             <div class="item-wrapper">
-                <label for="sell-quantity">Quantity</label><br />
-                <input type="text" id="sell-quantity" name="quantity" /><br />
+                <label for="sell-quantity">Quantity</label>
+                <input type="text" id="sell-quantity" name="quantity" />
             </div>
         </div>
         <div class="popup-row-wrapper">
             <div class="item-wrapper">
-                <label for="sell-selling-price">Selling Price (per item)</label><br />
-                <input type="text" id="sell-selling-price" name="sellingPrice" /><br />
+                <label for="sell-selling-price">Selling Price (per item)</label>
+                <input type="text" id="sell-selling-price" name="sellingPrice" />
             </div>
         </div>
+        <p class="text-error"></p>
 
         <div class="command">
             <button type="reset">Cancel</button>
-            <button type="submit" id="sell">Sell Item</button>
+            <button type="submit" id="sell-item-button">Sell Item</button>
         </div>
     </form>
 </section>

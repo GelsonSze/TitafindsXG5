@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Returns true if both objects's keys have the same values
  * @param  {Object} obj1
@@ -270,4 +271,89 @@ export function generateItemCode(type) {
     }
 
     return itemCode;
+}
+
+/**
+ * Validates item object
+ * @param {object} item - the item object to be validated
+ * @returns {Object} - the object with the validation result
+ */
+export function validateItem(item) {
+    var error = "";
+    var errorFields = [];
+
+    if (item.code.length > 100) {
+        error = "Item code exceeds maximum character limit";
+        errorFields = ["code"];
+    } else if (item.code.includes("/") || item.code.includes("\\") || item.code.includes(" ")) {
+        error = "Item code contains  invalid characters (/, \\, or space)";
+        errorFields = ["code"];
+    } else if (item.name.length > 255) {
+        error = "Name exceeds maximum character limit";
+        errorFields = ["name"];
+    }
+    // Check if number inputs are not numbers
+    else if (item.size != null && isNaN(item.size)) {
+        error = "Size is not a number";
+        errorFields = ["size"];
+    } else if (item.weight != null && isNaN(item.weight)) {
+        error = "Weight is not a number";
+        errorFields = ["weight"];
+    } else if (item.sellingPrice != null && isNaN(item.sellingPrice)) {
+        error = "Selling price is not a number";
+        errorFields = ["selling-price"];
+    } else if (item.purchasePrice != null && isNaN(item.purchasePrice)) {
+        error = "Purchase price is not a number";
+        errorFields = ["purchase-price"];
+    } else if (item.available != null && isNaN(item.available)) {
+        error = "Available quantity is not a number";
+        errorFields = ["available"];
+    } else if (item.sold != null && isNaN(item.sold)) {
+        error = "Sold quantity is not a number";
+        errorFields = ["sold"];
+    } else if (item.damaged != null && isNaN(item.damaged)) {
+        error = "Damaged quantity is not a number";
+        errorFields = ["damaged"];
+    }
+    // Check if number inputs are below 0
+    else if (item.size < 0) {
+        error = "Size is below 0";
+        errorFields = ["size"];
+    } else if (item.weight < 0) {
+        error = "Weight is below 0";
+        errorFields = ["weight"];
+    } else if (item.sellingPrice < 0) {
+        error = "Selling price is below 0";
+        errorFields = ["selling-price"];
+    } else if (item.purchasePrice < 0) {
+        error = "Purchase price is below 0";
+        errorFields = ["purchase-price"];
+    } else if (item.available < 0) {
+        error = "Available quantity is below 0";
+        errorFields = ["available"];
+    } else if (item.sold < 0) {
+        error = "Sold quantity is below 0";
+        errorFields = ["sold"];
+    } else if (item.damaged < 0) {
+        error = "Damaged quantity is below 0";
+        errorFields = ["damaged"];
+    }
+    // Check if quantities are not whole numbers
+    else if (!isNaN(item.available) && item.available % 1 != 0) {
+        error = "Available quantity is not a whole number";
+        errorFields = ["available"];
+    } else if (!isNaN(item.sold) && item.sold % 1 != 0) {
+        error = "Sold quantity is not a whole number";
+        errorFields = ["sold"];
+    } else if (!isNaN(item.damaged) && item.damaged % 1 != 0) {
+        error = "Damaged quantity is not a whole number";
+        errorFields = ["damaged"];
+    }
+
+    // Return object with validation result
+    return {
+        error: error,
+        errorFields: errorFields,
+        passed: error === "" && errorFields.length === 0,
+    };
 }

@@ -1,8 +1,9 @@
+"use strict";
 $(function () {
     var newPassField = $("#new-password")[0];
     var confirmPassField = $("#confirm-password")[0];
 
-    $("#change").on("click", function (e) {
+    $("#password-form :submit").on("click", function (e) {
         e.preventDefault();
 
         let fields = [newPassField, confirmPassField];
@@ -46,12 +47,12 @@ $(function () {
                 $("#password-form")[0].reset();
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                fields = jqXHR.responseJSON.fields;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let fields = jqXHR.responseJSON.fields;
+                let details = jqXHR.responseJSON.details;
 
                 if (fields) {
-                    wrongFields = [];
+                    let wrongFields = [];
                     fields.forEach(async function (field) {
                         wrongFields.push($(`#${field}`)[0]);
                     });

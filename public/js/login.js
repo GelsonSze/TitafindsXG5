@@ -1,3 +1,4 @@
+"use strict";
 $(document).ready(function () {
     const error = $(".text-error")[0];
     if (!isEmptyOrSpaces(error.innerHTML)) {
@@ -37,9 +38,9 @@ $(document).ready(function () {
                 window.location.replace(window.location.origin + "/");
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                fields = jqXHR.responseJSON.fields;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let fields = jqXHR.responseJSON.fields;
+                let details = jqXHR.responseJSON.details;
 
                 if (fields) {
                     fields.forEach(async function (field) {
@@ -48,7 +49,7 @@ $(document).ready(function () {
                     showError(error, message, emptyFields);
                 } else if (details) {
                     showError(error, message, []);
-                    console.log(details);
+                    console.table(details);
                 }
             },
         });

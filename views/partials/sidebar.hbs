@@ -1,7 +1,7 @@
 <nav class="sidebar close">
     <div class="logo-details">
         <div class="logo-column">
-            <img src="/img/logos/icon.png" class="logo-icon" />
+            <img draggable="false" src="/img/logos/icon.png" class="logo-icon" />
             <span class="logo-name">TitaFinds</span>
         </div>
         <i class="bx bx-menu" id="sidebar-toggle"></i>
@@ -145,7 +145,7 @@
         <li>
             <div class="profile-details" data-error="{{error}}">
                 <div class="profile-content">
-                    <img src={{#if
+                    <img draggable="false" src={{#if
                     user.isAdmin}}"/img/avatars/admin.png"{{else}}"/img/avatars/regular-user.png"{{/if}}
                     alt="profileImg" />
                 </div>

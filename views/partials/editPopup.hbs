@@ -1,36 +1,35 @@
 <section id="edit-popup" class="popup">
-    <button class="edit-popup_close popup-close">X</button>
+    <button class="edit-popup_close popup-close"><i class="bx bx-x"></i></button>
     <h1>Edit Item</h1>
 
     <form id="edit-form" enctype="multipart/form-data">
         <div id="popup-form-wrapper">
-            <div id="popup-left-wrapper">
+            <div id="popup-left-wrapper" class="popup-default-wrapper">
                 {{! Product Name / Product Code / Product Image }}
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="name">Product Name</label><br />
-                        <input type="text" id="name" name="name" /><br />
+                        <label for="name">Product Name<span style="color: red">*</span></label>
+                        <input type="text" id="name" name="name" />
                     </div>
 
                     <div class="item-wrapper">
-                        <label for="code">Product Code</label><br />
-                        <input type="text" id="code" name="code" /><br />
+                        <label for="code">Product Code<span style="color: red">*</span></label>
+                        <input type="text" id="code" name="code" />
                     </div>
                 </div>
 
                 {{! Product Description}}
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="description">Product Description</label><br />
-                        <textarea id="description" name="description"></textarea><br />
+                        <label for="description">Product Description</label>
+                        <textarea id="description" name="description"></textarea>
                     </div>
                 </div>
 
-                {{! Type / Classification / Brand }}
+                {{! Type / Selling Type / Brand }}
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="type">Type</label><br />
-                        <!-- change in db -->
+                        <label for="type">Type<span style="color: red">*</span></label>
                         <select id="type" name="type">
                             <option value="" disabled selected>Select</option>
                             <option value="Bracelet">Bracelet</option>
@@ -41,37 +40,32 @@
                             <option value="Ring">Ring</option>
                             <option value="Watch">Watch</option>
                         </select>
-                        <br />
                     </div>
 
                     <div class="item-wrapper">
-                        <label for="classification">Classification</label><br />
-                        <select id="classification" name="classification">
+                        <label for="selling-type"
+                            >Selling Type<span style="color: red">*</span></label
+                        >
+                        <select id="selling-type" name="sellingType">
                             <option value="" disabled selected>Select</option>
-                            <option value="10 karat">10 karat</option>
-                            <option value="14 karat">14 karat</option>
-                            <option value="18 karat">18 karat</option>
-                            <option value="21 karat">21 karat</option>
-                            <option value="22 karat">22 karat</option>
-                            <option value="24 karat">24 karat</option>
+                            <option value="per design">per design</option>
+                            <option value="per gram">per gram</option>
                         </select>
-                        <br />
                     </div>
 
                     <div class="item-wrapper">
-                        <label for="brand">Brand</label><br />
+                        <label for="brand">Brand</label>
                         <select id="brand" name="brand">
                             <option value="Unbranded">Unbranded</option>
                             <option value="Branded">Branded</option>
                         </select>
-                        <br />
                     </div>
                 </div>
 
-                {{! Design / Selling Type / Item Status }}
+                {{! Design / Classification / Size or Length }}
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="design">Design</label><br />
+                        <label for="design">Design</label>
                         <select id="design" name="design">
                             <option value="" disabled selected>Select</option>
                             <option value="Regular">Regular</option>
@@ -83,33 +77,20 @@
                     </div>
 
                     <div class="item-wrapper">
-                        <label for="selling-type">Selling Type</label><br />
-                        <select id="selling-type" name="sellingType">
+                        <label for="classification">Classification</label>
+                        <select id="classification" name="classification">
                             <option value="" disabled selected>Select</option>
-                            <option value="per design">per design</option>
-                            <option value="per gram">per gram</option>
+                            <option value="10 karat">10 karat</option>
+                            <option value="14 karat">14 karat</option>
+                            <option value="18 karat">18 karat</option>
+                            <option value="21 karat">21 karat</option>
+                            <option value="22 karat">22 karat</option>
+                            <option value="24 karat">24 karat</option>
                         </select>
-                        <br />
                     </div>
 
-                    {{!--
                     <div class="item-wrapper">
-                        <label for="status">Item Status</label><br />
-                        <select id="status" name="status">
-                            <!-- change in db -->
-                            <option value="Available">Available</option>
-                            <option value="Damaged">Damaged</option>
-                            <option value="Sold Out">Sold Out</option>
-                        </select>
-                        <br />
-                    </div>
-                    --}}
-                </div>
-
-                {{! Length / Size }}
-                <div class="popup-row-wrapper">
-                    <div class="item-wrapper">
-                        <label for="size">Size/Length</label><br />
+                        <label for="size">Size/Length</label>
                         <div class="item-wrapper-wrapper">
                             <input type="text" id="size" name="size" />
                             <select id="unit" name="unit">
@@ -120,48 +101,29 @@
                             </select>
                         </div>
                     </div>
-
-                    {{!--
-                    <div class="item-wrapper">
-                        <label for="stock-subtract">Stock Quantity</label><br />
-                        <div class="qty-wrapper-wrapper">
-                            <button onclick="decrease()" type="button" id="stock-subtract">
-                                -
-                            </button>
-                            <input
-                                type="text"
-                                id="available"
-                                name="available"
-                                maxlength="15"
-                            /><br />
-                            <button onclick="increase()" type="button" id="stock-add">+</button>
-                        </div>
-                    </div>
-                    --}}
                 </div>
-
-                {{! Weight / Stock Qty / Selling Price / Purchase Price }}
+                {{! Weight / Selling Price / Purchase Price }}
                 <div class="popup-row-wrapper">
                     <div class="item-wrapper">
-                        <label for="weight">Weight</label><br />
-                        <input type="text" id="weight" name="weight" /><br />
+                        <label for="weight">Weight</label>
+                        <input type="text" id="weight" name="weight" />
                         <span>GRAMS</span>
                     </div>
 
                     <div class="item-wrapper">
-                        <label for="selling-price">Selling Price</label><br />
-                        <input type="text" id="selling-price" name="sellingPrice" /><br />
+                        <label for="selling-price">Selling Price</label>
+                        <input type="text" id="selling-price" name="sellingPrice" />
                     </div>
 
                     <div class="item-wrapper">
-                        <label for="purchase-price">Purchase Price</label><br />
-                        <input type="text" id="purchase-price" name="purchasePrice" /><br />
+                        <label for="purchase-price">Purchase Price</label>
+                        <input type="text" id="purchase-price" name="purchasePrice" />
                     </div>
                 </div>
             </div>
 
-            <div id="popup-right-wrapper">
-                <img id="image-preview" src="/img/product-images/default.png" />
+            <div id="popup-right-wrapper" class="popup-default-wrapper">
+                <img draggable="false" id="image-preview" src="/img/product-images/default.png" />
                 <i class="bx bx-x remove-image"></i>
                 <label for="image" class="popup-label-image">Product Image</label>
                 <label for="image" class="button-secondary">
@@ -180,7 +142,8 @@
 
         <div class="command">
             <button type="reset">Cancel</button>
-            <button type="submit" id="edit-item-button">Save</button>
+            <button type="submit" id="edit-item-button">Save Edits</button>
         </div>
     </form>
+    <h1 id="drag-drop-text">Drop image anywhere</h1>
 </section>

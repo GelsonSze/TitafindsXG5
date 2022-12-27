@@ -1,8 +1,9 @@
+"use strict";
 //Controller for items
 import Item from "../model/schemas/Item.js";
 import Transaction from "../model/schemas/Transaction.js";
 import db from "../model/db.js";
-import { generateItemCode, isEmptyOrSpaces } from "../utils/helper.js";
+import { validateItem, isEmptyOrSpaces } from "../utils/helper.js";
 import { ImageDirectory } from "../utils/multer.js";
 
 const itemController = {
@@ -36,6 +37,7 @@ const itemController = {
                         type: data.type,
                         sellingType: data.sellingType,
                         available: data.available ?? 0,
+                        sold: data.sold ?? 0,
                         damaged: data.damaged ?? 0,
                         styles: [
                             "pages/item.css",
@@ -46,6 +48,7 @@ const itemController = {
                             "item.js",
                             "restockPopup.js",
                             "sellPopup.js",
+                            "editPopup.js",
                             "removeDamagedPopup.js",
                         ],
                         user: {
@@ -100,6 +103,8 @@ const itemController = {
                 unit: req.body.unit,
                 weight: req.body.weight,
                 available: req.body.available,
+                sold: req.body.sold,
+                damaged: req.body.damaged,
                 sellingType: req.body.sellingType,
                 purchasePrice: req.body.purchasePrice,
                 sellingPrice: req.body.sellingPrice,
@@ -112,43 +117,27 @@ const itemController = {
 
             // Selling price default to 0 if field is empty and selling type is per design
             if (addedItem.sellingType == "per design" && isEmptyOrSpaces(addedItem.sellingPrice))
-                addedItem.sellingPrice = "0";
+                addedItem.sellingPrice = 0;
             //Selling price defaults to price * item weight if field is empty and selling type is per gram
             else if (addedItem.sellingType == "per gram" && isEmptyOrSpaces(addedItem.sellingPrice))
                 addedItem.sellingPrice = addedItem.weight * price;
 
             // Purchase price is default to 0 if field is empty
-            if (isEmptyOrSpaces(addedItem.purchasePrice)) addedItem.purchasePrice = "0";
+            if (isEmptyOrSpaces(addedItem.purchasePrice)) addedItem.purchasePrice = 0;
+
+            if (isEmptyOrSpaces(addedItem.sold)) addedItem.sold = 0;
+
+            if (isEmptyOrSpaces(addedItem.damaged)) addedItem.damaged = 0;
 
             console.log(addedItem);
-            //  Errors
+            var validation = validateItem(addedItem);
+            //  Check item code if it already exists
             if (codeExists) {
                 error = "Item code already exists";
                 errorFields = ["code"];
-            } else if (addedItem.code.length > 100) {
-                error = "Item code exceeds maximum character limit";
-                errorFields = ["code"];
-            } else if (addedItem.name.length > 255) {
-                error = "Name exceeds maximum character limit";
-                errorFields = ["name"];
-            } else if (addedItem.size != null && isNaN(addedItem.size)) {
-                error = "Size inputted is not a number";
-                errorFields = ["size"];
-            } else if (addedItem.weight != null && isNaN(addedItem.weight)) {
-                error = "Weight inputted is not a number";
-                errorFields = ["weight"];
-            } else if (isNaN(addedItem.available)) {
-                error = "Available quantity inputted is not a number";
-                errorFields = ["available"];
-            } else if (!isNaN(addedItem.available) && addedItem.available % 1 != 0) {
-                error = "Available quantity inputted is not a whole number";
-                errorFields = ["available"];
-            } else if (addedItem.sellingPrice != null && isNaN(addedItem.sellingPrice)) {
-                error = "Selling price inputted is not a number";
-                errorFields = ["selling-price"];
-            } else if (addedItem.purchasePrice != null && isNaN(addedItem.purchasePrice)) {
-                error = "Purchase price inputted is not a number";
-                errorFields = ["purchase-price"];
+            } else if (!validation.passed) {
+                error = validation.error;
+                errorFields = validation.errorFields;
             } else {
                 db.insertOne(Item, addedItem, function (data) {
                     if (data) {
@@ -206,7 +195,6 @@ const itemController = {
                 dateUpdated: req.body.dateUpdated,
             };
             if (req.body.noEdit) delete editedItem.image;
-            //console.log(editedItem);
 
             // Selling price default to 0 if field is empty and selling type is per design
             if (editedItem.sellingType == "per design" && isEmptyOrSpaces(editedItem.sellingPrice))
@@ -222,28 +210,14 @@ const itemController = {
             if (isEmptyOrSpaces(editedItem.purchasePrice)) editedItem.purchasePrice = "0";
 
             console.log(editedItem);
+            var validation = validateItem(editedItem);
             //  Errors
             if (!req.body.noNewCode && codeExists) {
                 error = "Item code already exists";
                 errorFields = ["code"];
-            } else if (editedItem.code.length > 100) {
-                error = "Item code exceeds maximum character limit";
-                errorFields = ["code"];
-            } else if (editedItem.name.length > 255) {
-                error = "Name exceeds maximum character limit";
-                errorFields = ["name"];
-            } else if (editedItem.size != null && isNaN(editedItem.size)) {
-                error = "Size inputted is not a number";
-                errorFields = ["size"];
-            } else if (editedItem.weight != null && isNaN(editedItem.weight)) {
-                error = "Weight inputted is not a number";
-                errorFields = ["weight"];
-            } else if (editedItem.sellingPrice != null && isNaN(editedItem.sellingPrice)) {
-                error = "Selling price inputted is not a number";
-                errorFields = ["selling-price"];
-            } else if (editedItem.purchasePrice != null && isNaN(editedItem.purchasePrice)) {
-                error = "Purchase price inputted is not a number";
-                errorFields = ["purchase-price"];
+            } else if (!validation.passed) {
+                error = validation.error;
+                errorFields = validation.errorFields;
             } else {
                 db.updateOne(
                     Item,
@@ -310,8 +284,6 @@ const itemController = {
 
     getItemById: function (req, res) {
         try {
-            console.log("in item id");
-            console.log(req.params.id);
             db.findById(Item, req.params.id, "name code", async function (data) {
                 // console.log(data);
                 res.status(200).json(data);
@@ -330,12 +302,13 @@ const itemController = {
             var error = "";
             var quantity = req.body.quantity;
             var item = await Item.findOne({ code: req.body.code });
-            console.log(quantity);
 
             if (isNaN(quantity)) {
-                error = "Quantity inputted is not a number";
+                error = "Quantity is not a number";
             } else if (!isNaN(quantity) && quantity % 1 != 0) {
-                error = "Quantity inputted is not a whole number";
+                error = "Quantity is not a whole number";
+            } else if (quantity < 0) {
+                error = "Quantity is negative";
             } else if (quantity == 0) {
                 error = "Quantity is 0";
             } else {
@@ -364,23 +337,6 @@ const itemController = {
             res.status(500).json({ message: "Server Error: Restock Item", details: error.message });
             return;
         }
-        res.status(400).json({ message: error, fields: ["quantity"] });
-    },
-
-    getItemById: function (req, res) {
-        try {
-            if (!req.session.user) {
-                res.status(400).json({ error: "User not logged in" });
-                return;
-            }
-            db.findById(Item, req.params.id, "name code", async function (data) {
-                console.log(data);
-                res.status(200).json(data);
-            });
-        } catch (err) {
-            res.status(500).json({ message: "Server Error: Get Item By Id", details: err });
-            return;
-        }
     },
 
     sellItem: async function (req, res, next) {
@@ -392,21 +348,24 @@ const itemController = {
             var item = await Item.findOne({ code: req.body.code });
 
             //validation for selling price
-            if (isNaN(sellingPrice)) {
-                error = "Selling price inputted is not a number";
-                errorFields = ["sell-selling-price"];
-            } else if (sellingPrice < 0) {
-                error = "Selling price is negative";
-                errorFields = ["sell-selling-price"];
-            } else if (isNaN(quantity)) {
-                error = "Quantity inputted is not a number";
+            if (isNaN(quantity)) {
+                error = "Quantity is not a number";
                 errorFields = ["sell-quantity"];
             } else if (!isNaN(quantity) && quantity % 1 != 0) {
-                error = "Quantity inputted is not a whole number";
+                error = "Quantity is not a whole number";
                 errorFields = ["sell-quantity"];
             } else if (quantity == 0) {
                 error = "Quantity is 0";
                 errorFields = ["sell-quantity"];
+            } else if (quantity < 0) {
+                error = "Quantity is negative";
+                errorFields = ["sell-quantity"];
+            } else if (isNaN(sellingPrice)) {
+                error = "Selling price is not a number";
+                errorFields = ["sell-selling-price"];
+            } else if (sellingPrice < 0) {
+                error = "Selling price is negative";
+                errorFields = ["sell-selling-price"];
             } else if (item.available == 0) {
                 error = "No available stock";
                 errorFields = ["sell-quantity"];
@@ -418,7 +377,7 @@ const itemController = {
                 db.updateOne(
                     Item,
                     { code: req.body.code },
-                    { $inc: { available: quantity } },
+                    { $inc: { available: quantity, sold: req.body.quantity } },
                     function (data) {
                         req.body = {
                             date: req.body.dateSold,
@@ -557,6 +516,102 @@ const itemController = {
         } catch (error) {
             res.status(500).json({
                 message: "Server Error: Import From CSV",
+                details: error.message,
+            });
+            return;
+        }
+    },
+
+    addDamagedItem: async function (req, res, next) {
+        try {
+            var error = "";
+            var quantity = req.body.quantity;
+            var item = await Item.findOne({ code: req.body.code });
+
+            if (isNaN(quantity)) {
+                error = "Quantity is not a number";
+            } else if (!isNaN(quantity) && quantity % 1 != 0) {
+                error = "Quantity is not a whole number";
+            } else if (quantity < 0) {
+                error = "Quantity is negative";
+            } else if (quantity == 0) {
+                error = "Quantity is 0";
+            } else {
+                db.updateOne(
+                    Item,
+                    { code: req.body.code },
+                    { $inc: { damaged: req.body.quantity } },
+                    function (data) {
+                        req.body = {
+                            date: req.body.dateDamaged,
+                            type: "Added Damaged",
+                            description: item._id.toString(),
+                            quantity: quantity,
+                            sellingPrice: item.sellingPrice,
+                            transactedBy: req.session.user.username,
+                            code: item.code,
+                            name: item.name,
+                        };
+                        next();
+                    }
+                );
+                return;
+            }
+            res.status(400).json({ message: error, fields: ["add-quantity"] });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Add Damaged Item",
+                details: error.message,
+            });
+            return;
+        }
+    },
+
+    removeDamagedItem: async function (req, res, next) {
+        try {
+            var error = "";
+            var quantity = req.body.quantity;
+            var item = await Item.findOne({ code: req.body.code });
+
+            if (isNaN(quantity)) {
+                error = "Quantity is not a number";
+            } else if (!isNaN(quantity) && quantity % 1 != 0) {
+                error = "Quantity is not a whole number";
+            } else if (quantity < 0) {
+                error = "Quantity is negative";
+            } else if (quantity == 0) {
+                error = "Quantity is 0";
+            } else if (item.damaged == 0 || item.damaged == null) {
+                error = "No available damaged items";
+            } else if (item.damaged - quantity < 0) {
+                error = "Insufficient damaged items";
+            } else {
+                quantity = -Math.abs(req.body.quantity);
+                db.updateOne(
+                    Item,
+                    { code: req.body.code },
+                    { $inc: { damaged: quantity } },
+                    function (data) {
+                        // req.body = {
+                        //     date: req.body.dateRestocked,
+                        //     type: "Remove Damaged",
+                        //     description: item._id.toString(),
+                        //     quantity: quantity,
+                        //     sellingPrice: item.sellingPrice,
+                        //     transactedBy: req.session.user.username,
+                        //     code: item.code,
+                        //     name: item.name,
+                        // };
+                        // next();
+                        res.status(200).json({ message: "Damaged item removed successfully" });
+                    }
+                );
+                return;
+            }
+            res.status(400).json({ message: error, fields: ["remove-quantity"] });
+        } catch (error) {
+            res.status(500).json({
+                message: "Server Error: Remove Damaged Item",
                 details: error.message,
             });
             return;

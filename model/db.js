@@ -1,3 +1,4 @@
+"use strict";
 // Database model
 import mongoose from "mongoose";
 

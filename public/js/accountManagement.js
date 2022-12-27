@@ -1,3 +1,4 @@
+"use strict";
 var Users = [];
 
 /**
@@ -6,6 +7,7 @@ var Users = [];
  * @param  {boolean} [refreshGrid=false] - If true, render the data in the grid.
  */
 function getAllUsers(refreshGrid = false) {
+    Users = [];
     $.ajax({
         url: "/auth/getUsers",
         type: "GET",
@@ -69,9 +71,57 @@ function user(
         dateUpdated: dateUpdated,
         lastLogin: lastLogin,
         w2ui: {
-            style: `background-color: ${isSuspended ? "#f76f72" : "white"}`,
+            style: `${isSuspended ? "background-color: #f76f72;" : ""}`,
         },
     };
+}
+
+function getSpecifiedUsers(refreshGrid = false) {
+    Users = [];
+    var name = $("#search-user").val().toLowerCase();
+
+    $.ajax({
+        url: `/auth/getUsers`,
+        type: "GET",
+        processData: false,
+        contentType: false,
+        headers: {
+            "Content-Type": "application/json",
+        },
+        success: function (users) {
+            for (var account of users) {
+                if (
+                    account.username.toLowerCase().includes(name) ||
+                    account.firstName.toLowerCase().includes(name) ||
+                    account.lastName.toLowerCase().includes(name)
+                ) {
+                    account.dateCreated = formatDate(new Date(account.dateCreated));
+                    if (account.dateUpdated != null)
+                        account.dateUpdated = formatDate(new Date(account.dateUpdated));
+                    if (account.lastLogin != null)
+                        account.lastLogin = formatDate(new Date(account.lastLogin));
+                    account = new user(
+                        account._id,
+                        account.username,
+                        account.password,
+                        account.firstName,
+                        account.lastName,
+                        account.isAdmin,
+                        account.isSuspended,
+                        account.dateCreated,
+                        account.dateUpdated,
+                        account.lastLogin
+                    );
+                    Users.push(account);
+                }
+            }
+            if (refreshGrid) {
+                w2ui["user-grid"].clear();
+                w2ui["user-grid"].records = Users;
+                w2ui["user-grid"].refresh();
+            }
+        },
+    });
 }
 
 $(function () {
@@ -135,6 +185,24 @@ $(function () {
         ],
     });
 
+    $("#search-user").on("keydown", function (e) {
+        if (e.keyCode == 13) {
+            $("#table-filter-apply").click();
+        }
+    });
+
+    $("#table-filter-apply").click(function () {
+        if (isEmptyOrSpaces($("#search-user").val())) {
+            getAllUsers(true);
+            return;
+        }
+        getSpecifiedUsers(true);
+    });
+
+    $("#table-filter-clear").click(function () {
+        getAllUsers(true);
+    });
+
     $("#create-popup").popup({
         blur: false,
         transition: "all 0.3s",
@@ -156,7 +224,7 @@ $(function () {
         var password = $("#create-password")[0];
         var confirm = $("#create-confirm-password")[0];
         var error = $(".create-text-error")[0];
-        let fields = [username, firstName, lastName, password];
+        let fields = [username, firstName, lastName, password, confirm];
         let emptyFields = [];
         let wrongFields = [];
         fields.forEach(async function (field) {
@@ -209,12 +277,12 @@ $(function () {
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                fields = jqXHR.responseJSON.fields;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let fields = jqXHR.responseJSON.fields;
+                let details = jqXHR.responseJSON.details;
 
                 if (fields) {
-                    wrongFields = [];
+                    let wrongFields = [];
                     fields.forEach(async function (field) {
                         wrongFields.push($(`#${field}`)[0]);
                     });
@@ -262,12 +330,12 @@ $(function () {
                     }
                 },
                 error: async function (jqXHR, textStatus, errorThrown) {
-                    message = jqXHR.responseJSON.message;
-                    fields = jqXHR.responseJSON.fields;
-                    details = jqXHR.responseJSON.details;
+                    let message = jqXHR.responseJSON.message;
+                    let fields = jqXHR.responseJSON.fields;
+                    let details = jqXHR.responseJSON.details;
 
                     if (fields) {
-                        wrongFields = [];
+                        let wrongFields = [];
                         fields.forEach(async function (field) {
                             wrongFields.push($(`#${field}`)[0]);
                         });
@@ -296,12 +364,12 @@ $(function () {
                     }
                 },
                 error: async function (jqXHR, textStatus, errorThrown) {
-                    message = jqXHR.responseJSON.message;
-                    fields = jqXHR.responseJSON.fields;
-                    details = jqXHR.responseJSON.details;
+                    let message = jqXHR.responseJSON.message;
+                    let fields = jqXHR.responseJSON.fields;
+                    let details = jqXHR.responseJSON.details;
 
                     if (fields) {
-                        wrongFields = [];
+                        let wrongFields = [];
                         fields.forEach(async function (field) {
                             wrongFields.push($(`#${field}`)[0]);
                         });
@@ -356,12 +424,12 @@ $(function () {
                     }
                 },
                 error: async function (jqXHR, textStatus, errorThrown) {
-                    message = jqXHR.responseJSON.message;
-                    fields = jqXHR.responseJSON.fields;
-                    details = jqXHR.responseJSON.details;
+                    let message = jqXHR.responseJSON.message;
+                    let fields = jqXHR.responseJSON.fields;
+                    let details = jqXHR.responseJSON.details;
 
                     if (fields) {
-                        wrongFields = [];
+                        let wrongFields = [];
                         fields.forEach(async function (field) {
                             wrongFields.push($(`#${field}`)[0]);
                         });
@@ -392,12 +460,12 @@ $(function () {
                     }
                 },
                 error: async function (jqXHR, textStatus, errorThrown) {
-                    message = jqXHR.responseJSON.message;
-                    fields = jqXHR.responseJSON.fields;
-                    details = jqXHR.responseJSON.details;
+                    let message = jqXHR.responseJSON.message;
+                    let fields = jqXHR.responseJSON.fields;
+                    let details = jqXHR.responseJSON.details;
 
                     if (fields) {
-                        wrongFields = [];
+                        let wrongFields = [];
                         fields.forEach(async function (field) {
                             wrongFields.push($(`#${field}`)[0]);
                         });
@@ -465,12 +533,12 @@ $(function () {
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                fields = jqXHR.responseJSON.fields;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let fields = jqXHR.responseJSON.fields;
+                let details = jqXHR.responseJSON.details;
 
                 if (fields) {
-                    wrongFields = [];
+                    let wrongFields = [];
                     fields.forEach(async function (field) {
                         wrongFields.push($(`#${field}`)[0]);
                     });
@@ -515,8 +583,8 @@ $(function () {
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let details = jqXHR.responseJSON.details;
 
                 if (details) console.log(details);
                 SnackBar({
@@ -562,8 +630,8 @@ $(function () {
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let details = jqXHR.responseJSON.details;
 
                 if (details) console.log(details);
                 SnackBar({
@@ -609,8 +677,8 @@ $(function () {
                 }
             },
             error: async function (jqXHR, textStatus, errorThrown) {
-                message = jqXHR.responseJSON.message;
-                details = jqXHR.responseJSON.details;
+                let message = jqXHR.responseJSON.message;
+                let details = jqXHR.responseJSON.details;
 
                 if (details) console.log(details);
                 SnackBar({
@@ -626,11 +694,14 @@ $(function () {
 
     //refresh grid when window is resized
     var resizeTimer;
-    $(window).resize(function () {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(function () {
-            // console.log("refresh/resize");
-            w2ui["user-grid"].refresh();
-        }, 510);
-    });
+    window.addEventListener(
+        "resize",
+        function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+                w2ui["user-grid"].refresh();
+            }, 510);
+        },
+        { passive: true }
+    );
 });

@@ -64,7 +64,7 @@
     border-radius: 3px;
     color: #eee;
     font-size: 16px;
-    background-color: #262626;
+    background-color: var(--clr-burgundy-dark);
     vertical-align: bottom;
     box-shadow: 0 0 4px 0 #000;
     margin: 0 10px;

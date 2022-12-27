@@ -1,3 +1,4 @@
+"use strict";
 import testController from "./testController.js";
 
 var samples = [

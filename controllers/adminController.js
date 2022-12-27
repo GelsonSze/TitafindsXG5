@@ -1,3 +1,4 @@
+"use strict";
 //Controller for admin
 import User from "../model/schemas/User.js";
 import bcrypt from "bcrypt";
@@ -13,7 +14,7 @@ const adminController = {
                 "general/w2ui-overrides.css",
                 "general/popup.css",
             ],
-            scripts: ["accountManagement.js", "index.js"],
+            scripts: ["accountManagement.js"],
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });
     },
@@ -65,10 +66,6 @@ const adminController = {
             //Removes multiple spaces in between
             firstName = firstName.replace(/\s\s+/g, " ");
             lastName = lastName.replace(/\s\s+/g, " ");
-
-            console.log("After trim and replace");
-            console.log(firstName);
-            console.log(lastName);
 
             //Create a new user
             const newUser = {
@@ -132,7 +129,7 @@ const adminController = {
             }
             //Check if the username already exists
             const username = await User.findOne({ username: req.body.username });
-            if (username) {
+            if (username && username._id != req.body.id) {
                 res.status(403).json({
                     message: "Username already exists",
                     fields: ["update-username"],
@@ -268,7 +265,7 @@ const adminController = {
     changePassword: function (req, res) {
         res.render("changePassword", {
             title: "Change Password",
-            styles: ["pages/changePassword.css", "general/sidebar.css"],
+            styles: ["pages/changePassword.css"],
             scripts: ["changePassword.js"],
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
         });

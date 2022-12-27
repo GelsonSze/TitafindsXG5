@@ -1,0 +1,24 @@
+<section id="remove-damaged-popup" class="popup">
+    <button class="remove-damaged-popup_close popup-close"><i class="bx bx-x"></i></button>
+    <h1>Remove Damaged Item</h1>
+
+    <form id="remove-form" class="restock-sell-remove-common">
+        <div class="popup-row-wrapper">
+            {{#if inventory}}
+            <div class="item-wrapper">
+                <label for="code">Product Code</label>
+                <input type="text" id="remove-code" name="code" />
+            </div>
+            {{/if}}
+            <div class="item-wrapper">
+                <label for="remove-quantity">Quantity</label>
+                <input type="text" id="remove-quantity" name="quantity" />
+            </div>
+        </div>
+        <p class="text-error"></p>
+        <div class="command">
+            <button type="reset">Cancel</button>
+            <button type="submit" id="remove-damaged-item-button">Remove Damaged Item</button>
+        </div>
+    </form>
+</section>

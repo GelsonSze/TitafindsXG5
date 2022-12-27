@@ -7,101 +7,140 @@
             <div id="table-actions-wrapper">
                 <div id="table-filters-wrapper">
                     {{! Search }}
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                    <input
-                        class="input-field"
-                        type="text"
-                        placeholder="Search"
-                        id="filter-search"
-                    />
+                    <div>
+                        <label for="filter-search"><i class="bx bx-search"></i></label>
+                        <input
+                            class="input-field"
+                            type="text"
+                            placeholder="Search"
+                            id="filter-search"
+                        />
+                    </div>
 
                     {{! Type }}
                     <div class="dropdown-select-wrapper">
-                        <select disabled>
-                            <option id="dropdown-type-select" disabled selected value>Type</option>
+                        <select id="filter-type">
+                            <option disabled selected hidden>Type</option>
+                            <option>Chain</option>
+                            <option>Bracelet</option>
+                            <option>Earrings</option>
+                            <option>Necklace</option>
+                            <option>Pendant</option>
+                            <option>Ring</option>
+                            <option>Set</option>
+                            <option>Watch</option>
                         </select>
+                        {{!--
                         <div class="dropdown-select-content">
                             <button class="dropdown-type" type="button">Chain</button>
-                            <button class="dropdown-type" type="button">Bracelet</button>
-                            <button class="dropdown-type" type="button">Earrings</button>
-                            <button class="dropdown-type" type="button">Necklace</button>
-                            <button class="dropdown-type" type="button">Pendant</button>
-                            <button class="dropdown-type" type="button">Ring</button>
-                            <button class="dropdown-type" type="button">Set</button>
-                            <button class="dropdown-type" type="button">Watch</button>
+                            ...
                         </div>
+                        --}}
                     </div>
 
                     {{! Classification }}
                     <div class="dropdown-select-wrapper">
-                        <select disabled>
-                            <option id="dropdown-classification-select" disabled selected value>
+                        <select id="filter-classification">
+                            <option id="dropdown-classification-select" disabled selected hidden>
                                 Classification
                             </option>
+                            <option>10 karat</option>
+                            <option>14 karat</option>
+                            <option>18 karat</option>
+                            <option>21 karat</option>
+                            <option>22 karat</option>
+                            <option>24 karat</option>
                         </select>
+                        {{!--
                         <div class="dropdown-select-content">
                             <button class="dropdown-classification" type="button">10 karat</button>
-                            <button class="dropdown-classification" type="button">14 karat</button>
-                            <button class="dropdown-classification" type="button">18 karat</button>
-                            <button class="dropdown-classification" type="button">21 karat</button>
-                            <button class="dropdown-classification" type="button">22 karat</button>
-                            <button class="dropdown-classification" type="button">24 karat</button>
+                            ...
                         </div>
+                        --}}
                     </div>
 
-                    {{! Status }} {{!--
-                    <div class="dropdown-select-wrapper">
-                        <select disabled>
-                            <option id="dropdown-status-select" disabled selected value>
-                                Status
-                            </option>
-                        </select>
-                        <div class="dropdown-select-content">
-                            <button class="dropdown-status" type="button">Available</button>
-                            <button class="dropdown-status" type="button">Damaged</button>
-                            <button class="dropdown-status" type="button">Sold Out</button>
-                        </div>
-                    </div>
-                    --}} {{!
-                    <select>
-                        <option disabled selected value>Status</option>
-                    </select>
-                    }} {{! Weight }}
-                    <div class="dropdown-btn">
-                        <span>WEIGHT RANGE</span>
-                        <div class="range-wrapper">
-                            <div class="gram-wrapper">
-                                <input type="text" class="input-field" id="weight-min" size="2" />
-                                <span>GRAMS</span>
+                    {{! Weight }}
+                    <div>
+                        <button class="dropdown-button" type="button">Weight</button>
+                        <div class="dropdown-content" data-attribute="weight">
+                            <label for="weight-min">Weight Range</label>
+                            <div class="range-wrapper">
+                                <div class="gram-wrapper">
+                                    <input
+                                        type="text"
+                                        class="input-field"
+                                        id="weight-min"
+                                        size="2"
+                                        value="0"
+                                    />
+                                </div>
+                                <span>to</span>
+                                <div class="gram-wrapper">
+                                    <input
+                                        type="text"
+                                        class="input-field"
+                                        id="weight-max"
+                                        size="2"
+                                    />
+                                </div>
                             </div>
-                            <span>to</span>
-                            <div class="gram-wrapper">
-                                <input type="text" class="input-field" id="weight-max" size="2" />
-                                <span>GRAMS</span>
-                            </div>
+                            <span>GRAMS</span>
                         </div>
                     </div>
 
                     {{! Size }}
-                    <div class="dropdown-btn">
-                        <span>SIZE RANGE</span>
-                        <div class="range-wrapper">
-                            <input type="text" class="input-field" id="size-min" size="2" />
-                            <span>to</span>
-                            <input type="text" class="input-field" id="size-max" size="2" />
+                    <div>
+                        <button class="dropdown-button" type="button">Size</button>
+                        <div class="dropdown-content" data-attribute="size">
+                            <label for="size-min">Size Range</label>
+                            <div class="range-wrapper">
+                                <input
+                                    type="text"
+                                    class="input-field"
+                                    id="size-min"
+                                    size="2"
+                                    value="0"
+                                />
+                                <span>to</span>
+                                <input type="text" class="input-field" id="size-max" size="2" />
+                            </div>
+                            <select>
+                                <option selected>cm</option>
+                                <option>inches</option>
+                            </select>
                         </div>
-                        <select>
-                            <option selected>cm</option>
-                            <option>inches</option>
-                        </select>
+                    </div>
+
+                    {{! Selling Price }}
+                    <div>
+                        <button class="dropdown-button" type="button">Selling Price</button>
+                        <div class="dropdown-content" data-attribute="sellingPrice">
+                            <label for="selling-price-min">Selling Price Range</label>
+                            <div class="range-wrapper">
+                                <input
+                                    type="text"
+                                    class="input-field"
+                                    id="selling-price-min"
+                                    size="3"
+                                    value="0"
+                                />
+                                <span>to</span>
+                                <input
+                                    type="text"
+                                    class="input-field"
+                                    id="selling-price-max"
+                                    size="3"
+                                />
+                            </div>
+                        </div>
                     </div>
 
                     {{! Apply Button }}
                     <button type="button" class="table-filter" id="table-filter-apply">
-                        Apply Filter
+                        Apply
                     </button>
                     <button type="button" class="table-filter" id="table-filter-clear">
-                        Clear Filter
+                        Clear
                     </button>
                 </div>
                 <div class="main-action">
@@ -126,4 +165,4 @@
     </section>
 </main>
 
-<img id="w2ui-enlarged-image" src="/img/product-images/default.png" />
+<img draggable="false" id="w2ui-enlarged-image" src="/img/product-images/default.png" />

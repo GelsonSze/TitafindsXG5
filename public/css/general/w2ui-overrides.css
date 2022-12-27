@@ -9,6 +9,13 @@
     font-size: 13px;
 }
 
+/* Change selected row color */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr td.w2ui-selected,
+.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-selected,
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr td.w2ui-selected,
+.w2ui-grid .w2ui-grid-body .w2ui-grid-records table tr.w2ui-selected {
+    background-color: var(--clr-pink-30) !important;
+}
 /* Removes the gradient (and box-shadow) */
 .w2ui-grid .w2ui-grid-body .w2ui-grid-columns,
 .w2ui-grid .w2ui-grid-body .w2ui-grid-fcolumns {
@@ -33,22 +40,26 @@
     padding: 0;
 
     background-color: var(--clr-table-bg);
+    background-image: none;
     color: var(--clr-table-color);
     border-right: none;
-    /* border-right: 1px solid var(--clr-table-column-line); */
     border-bottom: none;
-    background-image: none;
+    /* border-right: 1px solid var(--clr-table-column-line); */
 }
 
+/* Removes the border on the right in the body */
 .w2ui-grid .w2ui-grid-body table td {
-    /* Removes the border on the right in the body */
     border-right: none;
-    border-bottom: 0 solid #d6d5d7;
-    cursor: default;
-    overflow: hidden;
 }
 
 /*--  Rows -- */
+
+/* Set column number (records) styling */
+.w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table .w2ui-col-number {
+    font-weight: bold;
+    font-size: 14px;
+    /* background-color: #fff; */
+}
 
 /* ODD */
 .w2ui-grid .w2ui-grid-body .w2ui-grid-frecords table tr.w2ui-odd,
