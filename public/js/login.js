@@ -49,7 +49,7 @@ $(document).ready(function () {
                     showError(error, message, emptyFields);
                 } else if (details) {
                     showError(error, message, []);
-                    console.log(details);
+                    console.table(details);
                 }
             },
         });
