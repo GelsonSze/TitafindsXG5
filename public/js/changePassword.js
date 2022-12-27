@@ -3,7 +3,7 @@ $(function () {
     var newPassField = $("#new-password")[0];
     var confirmPassField = $("#confirm-password")[0];
 
-    $("#change").on("click", function (e) {
+    $("#password-form :submit").on("click", function (e) {
         e.preventDefault();
 
         let fields = [newPassField, confirmPassField];
