@@ -19,7 +19,7 @@ const apiLimiter = rateLimit({
     requestPropertyName: "rateLimitDetails",
     handler: function (req, res, next, options) {
         res.status(options.statusCode).json({
-            message: `Try again in ${new Intl.RelativeTimeFormat("en", { numeric: "auto" }).format(
+            message: `Try again ${new Intl.RelativeTimeFormat("en", { numeric: "auto" }).format(
                 (req.rateLimitDetails.resetTime - Date.now()) / 1000,
                 "minutes"
             )}"`,
@@ -40,7 +40,7 @@ const loginLimiter = rateLimit({
     requestPropertyName: "rateLimitDetails",
     handler: function (req, res, next, options) {
         res.status(options.statusCode).json({
-            message: `Try again in ${new Intl.RelativeTimeFormat("en", { numeric: "auto" }).format(
+            message: `Try again ${new Intl.RelativeTimeFormat("en", { numeric: "auto" }).format(
                 Math.floor((req.rateLimitDetails.resetTime - Date.now()) / 1000),
                 "seconds"
             )}`,
@@ -97,7 +97,11 @@ app.get("/getItemById=:id", [checkAuth, itemController.getItemById]);
 // The Transactions page
 app.get("/transactions", [viewPage, checkAuth, transactionController.transactions]);
 app.get("/getTransactions", [apiLimiter, checkAuth, transactionController.getTransactions]);
-app.get("/getItemTransactions=:id", [apiLimiter, checkAuth, transactionController.getItemTransactionsById ]);
+app.get("/getItemTransactions=:id", [
+    apiLimiter,
+    checkAuth,
+    transactionController.getItemTransactionsById,
+]);
 app.post("/addTransaction", [apiLimiter, checkAuth, transactionController.addTransaction]);
 app.get("/searchTransactions=:type&:search", [
     apiLimiter,

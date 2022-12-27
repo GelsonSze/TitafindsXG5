@@ -62,6 +62,7 @@ function showError(error, message, inputs = []) {
  * Shows the success message for 5 seconds.
  * @param {HTMLElement} success
  * @param {string} message
+ * @deprecated - use SnackBar instead
  */
 
 function showSuccess(success, message) {
@@ -275,11 +276,11 @@ String.prototype.removeNewlinesAndTags = function () {
     return this.replace(/(\r\n|\n|\r)/gm, "").replace(/(<([^>]+)>)/gi, "");
 };
 
-/**
- * This function pushes the transaction of the item in the transaction array
- * @param {Array} Transactions - Transactions global variable array
- * @param {Object} trans - transaction object
- */
+// /**
+//  * This function pushes the transaction of the item in the transaction array
+//  * @param {Array} Transactions - Transactions global variable array
+//  * @param {Object} trans - transaction object
+//  */
 // function pushTransaction(Transactions, trans) {
 //     $.ajax({
 //         url: `/getItemById=${trans.description}`,
