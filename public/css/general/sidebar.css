@@ -82,13 +82,14 @@ body {
     height: 80px;
 }
 
-.sidebar .logo-details .logo-name {
+/* .sidebar .logo-details .logo-name {
     font-size: 2rem;
     color: #fff;
     font-weight: 600;
-}
+} */
+
 .sidebar.close .logo-details .logo-name {
-    transition-delay: 0s;
+    transition-delay: 1s;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;

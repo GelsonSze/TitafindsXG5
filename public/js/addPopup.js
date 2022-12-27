@@ -5,6 +5,7 @@ $(function () {
         transition: "all 0.3s",
         onclose: function () {
             $("#add-popup #add-form")[0].reset();
+            $("#add-popup #weight").prev().find("span").remove();
             $("#image-preview").attr("src", "/img/product-images/default.png");
         },
     });
@@ -21,8 +22,9 @@ $(function () {
     $("#add-popup #selling-type").change(function () {
         var $weight = $("#add-popup #weight");
         var selectedItem = $(this).val();
-        if (selectedItem === "per gram" && $weight.prev().find("span").length == 0) {
-            $weight.prev().append('<span style="color: red">*</span>');
+        if (selectedItem === "per gram") {
+            if ($weight.prev().find("span").length == 0)
+                $weight.prev().append('<span style="color: red">*</span>');
         } else {
             $weight.prev().find("span").remove();
         }

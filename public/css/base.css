@@ -1,17 +1,4 @@
 @font-face {
-    font-family: "Omnes";
-    src:   /* IE6-IE8 */ url("font/Omnes.eot") format("embedded-opentype"),
-        url("font/Omnes.woff") format("woff"),
-        /* Modern Browsers */ url("font/Omnes.woff2") format("woff2"),
-        /* Safari, Android, iOS */ url("font/Omnes.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Omnes Medium";
-    src: url("font/Omnes Medium.otf") format("opentype");
-}
-
-@font-face {
     font-family: "Inter Regular";
     src: url("font/Inter-Regular.ttf") format("truetype");
 }
@@ -29,6 +16,30 @@
 @font-face {
     font-family: "Inter Bold";
     src: url("font/Inter-Bold.ttf") format("truetype");
+}
+
+/* JosefinSans-Regular */
+@font-face {
+    font-family: "Josefin Sans";
+    src: url("font/JosefinSans-Regular.ttf") format("truetype");
+}
+
+/* JosefinSans-Medium */
+@font-face {
+    font-family: "Josefin Sans Medium";
+    src: url("font/JosefinSans-Medium.ttf") format("truetype");
+}
+
+/* JosefinSans-SemiBold */
+@font-face {
+    font-family: "Josefin Sans SemiBold";
+    src: url("font/JosefinSans-SemiBold.ttf") format("truetype");
+}
+
+/* JosefinSans-Bold */
+@font-face {
+    font-family: "Josefin Sans Bold";
+    src: url("font/JosefinSans-Bold.ttf") format("truetype");
 }
 
 :root {
@@ -109,7 +120,8 @@
 
     --font-type: "Inter Regular", Poppins, "Segoe UI", Tahoma, Geneva, Verdana,
         sans-serif;
-    --font-type2: "Omnes Medium", var(--font-type);
+    --font-title: "Constantia", var(--font-type);
+    --font-title2: "Josefin Sans SemiBold", "Josefin Sans", var(--font-type);
 
     /* Transition types */
     --slow: all 0.3s ease;
@@ -279,12 +291,29 @@ main {
     height: 80%;
 }
 
-#text-title {
-    font-weight: bold;
-    font-size: 30px;
-    font-family: var(--font-type2);
-    color: var(--clr-txt-primary);
-    margin: 5px 0 0;
+#text-title,
+.logo-name {
+    font-weight: normal;
+    font-size: 50px;
+    font-family: var(--font-title);
+    color: var(--clr-gold);
+    letter-spacing: -2px;
+}
+
+.logo-name {
+    position: relative;
+}
+
+.logo-name::after {
+    position: absolute;
+    content: "Luxury";
+    font-size: 15px;
+    font-family: var(--font-title2);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--clr-gold);
+    bottom: -10px;
+    right: 0;
 }
 
 #text-subtitle {
