@@ -133,9 +133,7 @@ function getSpecifiedItems(refreshGrid = false, classification, type, weight, si
                         product.sellingPrice <= $("#selling-price-max").val()) ||
                         sellingPrice == 0) &&
                     (product.name.toLowerCase().search(check) != -1 ||
-                        product.code.toLowerCase().search(check) != -1 ||
-                        (product.description &&
-                            product.description.toLowerCase().search(check) != -1))
+                        product.code.toLowerCase().search(check) != -1)
                 ) {
                     pushItem(product);
                 }
@@ -223,7 +221,11 @@ $(function () {
                 size: "5%",
                 sortable: true,
                 render: function (record) {
-                    return record.sellingPrice.toLocaleString("en-US");
+                    if (record.sellingPrice != null)
+                        return record.sellingPrice.toLocaleString("en-US");
+                    else {
+                        return record.sellingPrice;
+                    }
                 },
             },
             {
@@ -232,7 +234,11 @@ $(function () {
                 size: "6%",
                 sortable: true,
                 render: function (record) {
-                    return record.purchasePrice.toLocaleString("en-US");
+                    if (record.purchasePrice != null)
+                        return record.purchasePrice.toLocaleString("en-US");
+                    else {
+                        return record.purchasePrice;
+                    }
                 },
             },
             //{ field: "status", text: "Status", size: "7%", sortable: true },

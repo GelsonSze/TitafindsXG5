@@ -163,7 +163,7 @@ $(function () {
         e.preventDefault();
         counter++;
         $("#add-form").css("opacity", "0.5");
-        $("#drag-drop-text").fadeIn(100);
+        $("#add-popup .drag-drop-text").fadeIn(100);
     });
     // Drop
     $("#add-popup_wrapper").on("drop", function (e) {
@@ -173,9 +173,9 @@ $(function () {
         $("#image").prop("files", e.originalEvent.dataTransfer.files);
         $("#image").trigger("change");
 
-        if ($("#drag-drop-text").is(":visible")) {
+        if ($("#add-popup .drag-drop-text").is(":visible")) {
             $("#add-form").css("opacity", "1");
-            $("#drag-drop-text").fadeOut(100);
+            $("#add-popup .drag-drop-text").fadeOut(100);
         }
     });
     // Drag leave
@@ -185,11 +185,11 @@ $(function () {
         counter--;
         if (counter == 0) {
             $("#add-form").css("opacity", "1");
-            $("#drag-drop-text").fadeOut(100);
+            $("#add-popup .drag-drop-text").fadeOut(100);
         }
     });
 
-    // Shortcuts for "Shift+Alt+A" and "Shift+Alt+I" keys
+    // Shortcuts for "Shift+Alt+A" key
     $(window).keydown(function (e) {
         if (e.shiftKey && e.altKey) {
             if (e.which == "65") {
@@ -199,20 +199,12 @@ $(function () {
 
                 // Show the "Add Item" popup
                 $("#add-popup").popup("show");
-            } else if (e.which == "73") {
-                e.preventDefault();
-                // If .popup_wrapper_visible is present anywhere in the document, then return
-                if ($(".popup_wrapper_visible").length) return;
-
-                console.log("Import Items");
-                // Show the "Import Items" popup
-                // $("#import-popup").popup("show");
             }
         } else if (e.which == "27" && counter > 0) {
             e.preventDefault();
             // Cancel the image drag and drop
             $("#add-form").css("opacity", "1");
-            $("#drag-drop-text").fadeOut(100);
+            $("#add-popup .drag-drop-text").fadeOut(100);
             counter = 0;
         }
     });

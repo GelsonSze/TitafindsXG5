@@ -75,6 +75,7 @@ app.post("/sellItem", [
     transactionController.addTransaction,
 ]);
 app.get("/getItems", [apiLimiter, checkAuth, itemController.getItems]);
+app.post("/importFromCSV", [apiLimiter, checkAuth, itemController.importFromCSV]);
 
 // The login page
 app.get("/login", [viewPage, checkNoAuth, loginController.login]);

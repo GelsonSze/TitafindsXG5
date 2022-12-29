@@ -1,0 +1,26 @@
+<section class="popup" id="import-options-popup">
+    <button class="import-options-popup_close popup-close"><i class="bx bx-x"></i></button>
+    <h1>Import Options</h1>
+
+    <div class="popup-default-wrapper">
+        <form id="import-options-form">
+            <div class="popup-row-wrapper">
+                <div class="item-wrapper">
+                    <button id="download-template">
+                        <i class="bx bx-download"></i> CSV template
+                    </button>
+                </div>
+                <div class="item-wrapper">
+                    <label for="import-csv" class="button-secondary">
+                        <i class="bx bxs-file-import"></i> Import CSV
+                        <input type="file" id="import-csv" accept=".csv" name="import-csv" />
+                    </label>
+                </div>
+            </div>
+            <div class="popup-row-wrapper">
+                <progress id="import-loading" value="0" max="100"></progress>
+            </div>
+        </form>
+    </div>
+    <h1 class="drag-drop-text">Drop file anywhere</h1>
+</section>

@@ -23,6 +23,16 @@
     margin-right: 40px;
 }
 
+#commands {
+    gap: 25px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 27px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
 .icon-popup {
     font-size: 30px;
     color: var(--clr-burgundy-100);
@@ -179,14 +189,9 @@
     align-items: center;
 }
 
-#commands {
-    gap: 25px;
+#transaction-header {
     display: flex;
-    flex-direction: column;
-    margin-top: 27px;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-items: stretch;
+    justify-content: space-between;
 }
 
 #details-grid {

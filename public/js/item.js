@@ -245,7 +245,9 @@ $(document).ready(function () {
                 size: "9%",
                 sortable: true,
                 render: function (record) {
-                    return record.sellingPrice.toLocaleString("en-US");
+                    if (record.sellingPrice != null)
+                        return record.sellingPrice.toLocaleString("en-US");
+                    else return record.sellingPrice;
                 },
             },
             { field: "transactedBy", text: "Transacted By", size: "10%", sortable: true },

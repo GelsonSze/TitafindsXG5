@@ -326,13 +326,40 @@ button:hover {
 
 /* Drag and drop */
 
-#drag-drop-text {
+.drag-drop-text {
     font-family: "Inter Bold";
-    font-size: 3rem;
+    font-size: 3rem !important;
     color: var(--text-burgundy-100);
     position: absolute;
     inset: 0;
     top: 40%;
     text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+#import-options-popup {
+    position: relative;
+}
+
+#import-options-popup .popup-default-wrapper {
+    align-items: center;
+    margin: 25px;
+    width: 400px;
+}
+
+#import-options-popup .popup-row-wrapper {
+    width: auto;
+}
+
+#import-options-popup .item-wrapper {
+    width: auto;
+    margin: 0;
+}
+
+#import-loading {
+    margin: 0 !important;
+    pointer-events: none;
+    user-select: none;
+    width: 100%;
     display: none;
 }
