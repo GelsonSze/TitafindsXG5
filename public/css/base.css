@@ -304,9 +304,8 @@ main {
     position: relative;
 }
 
-.logo-name::after {
+.logo-name > span {
     position: absolute;
-    content: "Luxury";
     font-size: 15px;
     font-family: var(--font-title2);
     text-transform: uppercase;

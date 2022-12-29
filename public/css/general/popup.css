@@ -326,9 +326,9 @@ button:hover {
 
 /* Drag and drop */
 
-#drag-drop-text {
+.drag-drop-text {
     font-family: "Inter Bold";
-    font-size: 3rem;
+    font-size: 3rem !important;
     color: var(--text-burgundy-100);
     position: absolute;
     inset: 0;
@@ -341,32 +341,25 @@ button:hover {
     position: relative;
 }
 
-#import-options-popup .popup-row-wrapper {
+#import-options-popup .popup-default-wrapper {
+    align-items: center;
     margin: 25px;
+    width: 400px;
+}
+
+#import-options-popup .popup-row-wrapper {
+    width: auto;
 }
 
 #import-options-popup .item-wrapper {
     width: auto;
+    margin: 0;
 }
 
 #import-loading {
     margin: 0 !important;
-    opacity: 0;
     pointer-events: none;
     user-select: none;
-    position: absolute;
-    bottom: -12px;
-    left: 0;
-    right: 0;
-}
-
-#import-loading.show {
-    opacity: 1;
-}
-
-#import-loading .item-wrapper {
-    display: flex;
-    align-items: center;
     width: 100%;
-    justify-content: center;
+    display: none;
 }

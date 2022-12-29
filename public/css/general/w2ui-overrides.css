@@ -1,8 +1,17 @@
+/* Change border settings */
 .w2ui-grid {
     border-width: 2px !important;
     border-radius: 10px !important;
 }
 
+.w2ui-sort-down {
+    border-top-color: var(--clr-gold-50) !important;
+}
+.w2ui-sort-up {
+    border-bottom-color: var(--clr-gold-50) !important;
+}
+
+/* Change font properties */
 .w2ui-reset table tr td,
 .w2ui-reset table tr th {
     font-family: "Inter Regular";

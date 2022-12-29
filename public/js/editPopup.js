@@ -226,7 +226,7 @@ $(function () {
         e.preventDefault();
         counter++;
         $("#edit-form").css("opacity", "0.5");
-        $("#drag-drop-text").fadeIn(100);
+        $("#edit-popup .drag-drop-text").fadeIn(100);
     });
     // Drop
     $("#edit-popup_wrapper").on("drop", function (e) {
@@ -236,9 +236,9 @@ $(function () {
         $("#image").prop("files", e.originalEvent.dataTransfer.files);
         $("#image").trigger("change");
 
-        if ($("#drag-drop-text").is(":visible")) {
+        if ($("#edit-popup .drag-drop-text").is(":visible")) {
             $("#edit-form").css("opacity", "1");
-            $("#drag-drop-text").fadeOut(100);
+            $("#edit-popup .drag-drop-text").fadeOut(100);
         }
     });
     // Drag leave
@@ -248,7 +248,7 @@ $(function () {
         counter--;
         if (counter == 0) {
             $("#edit-form").css("opacity", "1");
-            $("#drag-drop-text").fadeOut(100);
+            $("#edit-popup .drag-drop-text").fadeOut(100);
         }
     });
 
@@ -266,7 +266,7 @@ $(function () {
             e.preventDefault();
             // Cancel the image drag
             $("#add-form").css("opacity", "1");
-            $("#drag-drop-text").fadeOut(100);
+            $("#edit-popup .drag-drop-text").fadeOut(100);
             counter = 0;
         }
     });

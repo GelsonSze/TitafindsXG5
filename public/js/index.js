@@ -133,9 +133,7 @@ function getSpecifiedItems(refreshGrid = false, classification, type, weight, si
                         product.sellingPrice <= $("#selling-price-max").val()) ||
                         sellingPrice == 0) &&
                     (product.name.toLowerCase().search(check) != -1 ||
-                        product.code.toLowerCase().search(check) != -1 ||
-                        (product.description &&
-                            product.description.toLowerCase().search(check) != -1))
+                        product.code.toLowerCase().search(check) != -1)
                 ) {
                     pushItem(product);
                 }
@@ -327,103 +325,6 @@ $(function () {
             DropdownContent.removeClass("show");
         }
         getSpecifiedItems(true, 0, 0, 0, 0, 0);
-    });
-
-    $("#import-options-popup").popup({
-        blur: false,
-    });
-
-    $("#import-results-popup").popup({
-        blur: false,
-    });
-
-    $("#download-template").click(function () {
-        window.location.href = "files/Template.csv";
-    });
-
-    //on change of import
-    $("#import-csv").on("change", function () {
-        try {
-            if (this.files[0]) {
-                console.log(this.files[0]);
-                var filename = this.files[0].name;
-                var ext = filename.substring(filename.lastIndexOf(".")).toLowerCase();
-                console.log($`ext is ${ext}`);
-                if (ext == ".csv") {
-                    var jsonData = [];
-                    try {
-                        var reader = new FileReader();
-                        reader.readAsBinaryString(this.files[0]);
-                        reader.onload = function (e) {
-                            var headers = [];
-                            var rows = e.target.result.replace("ï»¿", "").split("\n");
-                            for (var i = 0; i < rows.length; i++) {
-                                var cells = rows[i].split(",");
-                                var rowData = {};
-                                for (var j = 0; j < cells.length; j++) {
-                                    if (i == 0) {
-                                        var headerName = cells[j].trim().replaceAll(" ", "");
-                                        headers.push(headerName);
-                                    } else {
-                                        var key = headers[j];
-                                        var value = cells[j].trim();
-                                        if (value == "null" || value == "") {
-                                            value == null;
-                                        }
-                                        if (key) {
-                                            rowData[key] = value;
-                                        }
-                                    }
-                                }
-                                if (i != 0) {
-                                    jsonData.push(rowData);
-                                }
-                            }
-                            var data = {};
-                            data["dateAdded"] = new Date();
-                            data["dateUpdated"] = new Date();
-                            var itemList = JSON.stringify(jsonData, null, 0);
-                            data["itemList"] = itemList;
-                            console.log(data);
-                            $.ajax({
-                                url: "/importFromCSV",
-                                data: JSON.stringify(data, null, 0),
-                                type: "POST",
-                                processData: false,
-                                contentType: "application/json; charset=UTF-8",
-
-                                success: async function (data) {
-                                    getAllItems(true);
-                                    $("#import-options-popup").popup("hide");
-                                    $("#import-results-popup").popup("show");
-                                    let errorhtml = "<br>";
-                                    let successhtml = "<br>";
-                                    data.errors.forEach(function (error) {
-                                        //error line + 2 to match the number in the csv
-                                        errorhtml = errorhtml.concat(
-                                            `<p> Error line ${error.line + 2} : ${
-                                                error.message
-                                            } </p> <br>`
-                                        );
-                                    });
-                                    successhtml = successhtml.concat(
-                                        `<p> Number of successful imports: ${data.success.length}`
-                                    );
-                                    $("#import-results-popup #error-span").html(errorhtml);
-                                    $("#import-results-popup #success-span").html(successhtml);
-                                },
-                            });
-                        };
-                    } catch (e) {
-                        console.log(e);
-                    }
-                } else {
-                    console.log("Not a csv file.");
-                }
-            }
-        } catch (error) {
-            console.log(error);
-        }
     });
 
     //hover on image

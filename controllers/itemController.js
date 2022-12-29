@@ -18,7 +18,13 @@ const itemController = {
         res.render("index", {
             title: "Inventory",
             styles: ["pages/index.css", "general/w2ui-overrides.css", "general/popup.css"],
-            scripts: ["index.js", "restockPopup.js", "sellPopup.js", "addPopup.js"],
+            scripts: [
+                "index.js",
+                "restockPopup.js",
+                "sellPopup.js",
+                "addPopup.js",
+                "importPopup.js",
+            ],
             inventory: true,
             user: { isAdmin: req.session.user.isAdmin, username: req.session.user.username },
             error: error,
@@ -72,11 +78,6 @@ const itemController = {
     // Adds item passed in a post request into the database
     addItem: async function (req, res, next) {
         try {
-            console.log(">>FILE<<");
-            console.log(req.file);
-            console.log(">>BODY<<");
-            console.log(req.body);
-
             // Placeholder for price value in global config setting
             var price = 1;
             var image = `${ImageDirectory}/default.png`;
