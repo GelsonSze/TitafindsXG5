@@ -34,6 +34,9 @@ $(function () {
 
                     progressBar[0].value = 100;
                     progressBar.fadeOut(100);
+
+                    //remove files from input
+                    $("#import-csv").val("");
                 } else {
                     console.log("Not a csv file.");
                 }
